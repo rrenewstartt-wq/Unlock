@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One-shot setup on a new machine / account / cloud session — then checks that it reproduces the committed results.
-#   bash scripts/setup.sh            # from the mystery-unlock-style folder (Linux, macOS, Windows: Git Bash or WSL)
+#   bash scripts/setup.sh            # from the repository root (Linux, macOS, Windows: Git Bash or WSL)
 # Safe to run again: it only fetches what is missing.
 set -euo pipefail
 cd "$(dirname "$0")/.."

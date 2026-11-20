@@ -2,7 +2,7 @@
 
 해외 실화 미제사건 롱폼(16:9) 채널 하네스. 벤치마크 [@unlock_kr](https://www.youtube.com/@unlock_kr) 의
 **형식**(제목 공식, 대본 7단계, 3D 재연 + 인포그래픽 + 하단 자막, 단색·그레인 썸네일)을 분석해 가져오고,
-대본·그림·대표색(앰버)은 직접 만든다. 실행: `cd mystery-unlock-style && claude`
+대본·그림·대표색(앰버)은 직접 만든다. 실행: `cd Unlock && claude`
 
 **다른 PC·계정에서 그대로 재현:** `bash scripts/setup.sh` (설치 → 자산 복원 → 결과 비교, `docs/SETUP.md`).
 **이어서 작업:** `STATUS.md` (정해진 것, 결정 대기, 다음 순서).

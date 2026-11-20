@@ -5,10 +5,9 @@
 
 ## 1. 받기
 ```bash
-git clone https://github.com/rrenewstartt-wq/claude-harness.git
-cd claude-harness/mystery-unlock-style
+git clone https://github.com/rrenewstartt-wq/Unlock.git
+cd Unlock
 ```
-(main 에 병합되기 전의 작업은 `git checkout claude/funny-maxwell-8axb0b`)
 
 ## 2. 설치 + 확인 (한 번)
 ```bash
@@ -18,7 +17,7 @@ bash scripts/setup.sh
 마지막에 `결과: 모두 같음 ✓` 가 나오면 이 컴퓨터는 이 저장소와 같은 결과를 낸다.
 
 ## 3. Claude 에서 열기
-- **Claude 데스크톱 앱(Windows/Mac) / Claude Code:** `mystery-unlock-style` 폴더를 작업 폴더로 연다. `CLAUDE.md`, 스킬(`/scout` `/plan` `/thumbnail` …), 에이전트(`.claude/agents/`)가 자동으로 잡힌다.
+- **Claude 데스크톱 앱(Windows/Mac) / Claude Code:** 받은 `Unlock` 폴더를 작업 폴더로 연다. `CLAUDE.md`, 스킬(`/scout` `/plan` `/thumbnail` …), 에이전트(`.claude/agents/`)가 자동으로 잡힌다.
 - **HyperFrames 플러그인**(영상 제작 스킬 `/hyperframes`)은 계정마다 설치해야 한다: Claude Code 플러그인 마켓에서 HyperFrames 를 추가.
   영상 CLI 자체는 `npx --yes hyperframes@0.9.59` 로 버전이 고정돼 있어 플러그인 없이도 렌더된다.
 - 이어서 할 일은 `STATUS.md` 에 있다. 새 세션에 "STATUS.md 읽고 이어서 해줘" 라고 하면 된다.
