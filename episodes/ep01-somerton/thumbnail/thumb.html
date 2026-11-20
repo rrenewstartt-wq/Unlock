@@ -1,0 +1,18 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- Thumbnail still: one symbolic object filling the frame (the rolled 'Tamám Shud' scrap on tweed).
+     make_thumb.py turns the screenshot into the amber duotone. The 3D-scene version is thumb-scene.html. -->
+<style>
+  html,body{margin:0;width:1920px;height:1080px;overflow:hidden}
+  body{background:repeating-linear-gradient(45deg,#2c241e 0 7px,#211b16 7px 14px),#272019;position:relative}
+  body::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 58% 52%,rgba(255,255,255,.10),rgba(0,0,0,.6) 75%)}
+  .seam{position:absolute;left:-40px;right:-40px;top:330px;height:10px;background:repeating-linear-gradient(90deg,#c9b9a3 0 26px,transparent 26px 40px);opacity:.55;transform:rotate(-4deg)}
+  .scrap{position:absolute;left:430px;top:400px;width:1250px;height:400px;background:#efe8da;transform:rotate(-7deg);
+    clip-path:polygon(0 6%,3% 0,97% 3%,100% 12%,99% 92%,96% 100%,2% 96%,0 88%);
+    box-shadow:0 40px 80px rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center}
+  .scrap span{font-family:"Times New Roman",Georgia,serif;font-style:italic;font-size:176px;color:#1b1814;letter-spacing:.01em}
+  .curl{position:absolute;left:1660px;top:345px;width:150px;height:430px;border-radius:75px;transform:rotate(-7deg);
+    background:linear-gradient(90deg,#d9d0c0,#fbf6ec 45%,#bdb3a2);box-shadow:-20px 30px 60px rgba(0,0,0,.5)}
+</style></head>
+<body><div class="seam"></div><div class="scrap"><span>Tamám Shud</span></div><div class="curl"></div>
+<script>window.__done = true;</script></body></html>

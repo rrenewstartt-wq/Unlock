@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- 컨셉 c1 (spot): 바지 안쪽 비밀 주머니에서 나온 돌돌 말린 'Tamám Shud' 종이 한 조각. 근거: facts.md @scrap -->
+<!-- assets: texture:poly_wool_herringbone hdri:brown_photostudio_07 -->
+<!-- grade: --mode spot --glow 0.22 -->
+<!-- text: "끝났다" "주머니 속 마지막 말" -->
+<!-- title: "73년 만에 이름을 찾은 해변의 남자" -->
+<script type="importmap">{"imports":{"three":"/thumbkit/lib/three.module.min.js","three/addons/":"/thumbkit/lib/addons/"}}</script>
+</head><body>
+<script type="module">
+import { Thumb } from '/thumbkit/thumbkit.js';
+const t = await Thumb.create({ hdri: 'brown_photostudio_07', envIntensity: 0.25, exposure: 1.0 });
+t.camera([0.05, 0.19, 0.21], [0.012, 0.0, 0.0], 32);
+// trouser cloth under it
+await t.surface('poly_wool_herringbone', { w: 1.2, h: 1.2, repeat: 6, color: '#6d6a66', normalScale: 1.6 });
+// the scrap: a narrow torn strip, one end rolled up (it was found rolled)
+const scrap = t.sheet({ w: 0.22, h: 0.055, text: 'Tamám Shud', font: 'italic 150px Georgia, "Times New Roman", serif',
+  curl: 0.010, curlStart: 0.87, torn: 0.09, textX: 0.43, pos: [0, 0.003, 0.0], rot: [-Math.PI / 2, 0, 0.18], age: 0.5 });
+t.focus(scrap);
+t.key({ pos: [-0.25, 0.7, 0.12], target: [0, 0, 0], intensity: 9, angle: 0.16, penumbra: 0.85 });
+t.amb(0.02);
+await t.done();
+</script></body></html>

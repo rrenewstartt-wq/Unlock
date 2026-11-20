@@ -1,0 +1,173 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- 컨셉 c6 = v2-c 「새벽 안개 속 단정한 자세」 (flood): 앰버 새벽 안개 속 방파제 밑, 다리를 쭉 뻗고 두 발을 엇갈린 남자 하나만 차가운 색.
+     근거: facts.md "1948년 12월 1일 오전 6시 30분, 서머턴 해변" / "lying back, head against seawall, legs extended, feet crossed" / "no hat".
+     연출(기록에 없음): 안개, 빛의 방향(컨셉 문서대로 오른쪽 뒤 낮은 빛), 방파제 모양. 얼굴·옷 세부는 거리·안개·그늘로 보이지 않게 한다. -->
+<!-- assets: texture:damp_beach_sand_02 texture:concrete_wall_008 texture:poly_wool_herringbone hdri:misty_dawn -->
+<!-- 인물: Quaternius Universal Base Characters (CC0), thumbkit/figures.js -->
+<!-- grade: --mode flood --focus cold --depth 0.5 --lift 0.35 --vignette 0.55 --grain 14 -->
+<!-- text: "자는 줄 알았다" "두 발은 엇갈린 채" -->
+<!-- title: "73년 만에 이름을 찾은 해변의 남자" -->
+<script type="importmap">{"imports":{"three":"/thumbkit/lib/three.module.min.js","three/addons/":"/thumbkit/lib/addons/"}}</script>
+</head><body>
+<script type="module">
+import { Thumb, THREE } from '/thumbkit/thumbkit.js';
+import { loadFigure, poseReclined, settle, setFabric, turn } from '/thumbkit/figures.js';
+
+// ---- look knobs ----
+const CAM = { pos: [-14, 2.3, 4.2], look: [0.5, 0.3, 0.3], fov: 12.5 };
+const FOG = { color: '#c2ab8a', glow: '#fff3dc', density: 1 / 22, height: 1.6 };   // density = 1 / (distance where the mist closes in)
+const SUN = new THREE.Vector3(0.85, 0.18, 0.45).normalize();   // low dawn light from the right rear (concept v2-c key), long shadows toward the camera and onto the wall
+const POST = { bloom: 0.28, bloomPx: 28, soften: 0.7 };
+const MASK_GREY = 0.74;   // how much of the cold colour the man takes: < 1 so the mist still lies over him (grade blends by mask value)
+const RECLINE = 0.85;      // how far the torso leans back against the wall (rad from upright)
+
+// ---- height fog with a glow toward the sun (page-local; patches three's fog chunks before anything compiles) ----
+const C = THREE.ShaderChunk;
+C.fog_pars_vertex = '#ifdef USE_FOG\n varying float vFogDepth;\n varying vec3 vFogWorld;\n#endif';
+C.fog_vertex = '#ifdef USE_FOG\n vFogDepth = - mvPosition.z;\n vFogWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;\n#endif';
+const FOG_GLSL = `
+  uniform vec3 uFogGlow; uniform vec3 uSunDir; uniform float uFogHeight;
+  vec3 fogTint(vec3 base, vec3 dir) {
+    float s = max(dot(normalize(dir), uSunDir), 0.0);
+    return mix(base, uFogGlow, 0.55 * pow(s, 6.0) + 0.25 * pow(s, 1.5));
+  }`;
+C.fog_pars_fragment = '#ifdef USE_FOG\n uniform vec3 fogColor;\n varying float vFogDepth;\n varying vec3 vFogWorld;\n uniform float fogDensity;\n' + FOG_GLSL + '\n#endif';
+C.fog_fragment = `#ifdef USE_FOG
+  float hf = exp(-max(vFogWorld.y, 0.0) / uFogHeight);
+  float fogFactor = 1.0 - exp(-pow(fogDensity * vFogDepth, 2.6) * (0.35 + 0.65 * hf));
+  gl_FragColor.rgb = mix(gl_FragColor.rgb, fogTint(fogColor, vFogWorld - cameraPosition), fogFactor);
+#endif`;
+const fogUniforms = {
+  uFogGlow: { value: new THREE.Color(FOG.glow) }, uSunDir: { value: SUN }, uFogHeight: { value: FOG.height },
+};
+function withFog(m) {
+  const prev = m.onBeforeCompile;
+  m.onBeforeCompile = (sh, r) => { if (prev) prev(sh, r); Object.assign(sh.uniforms, fogUniforms); };
+  m.customProgramCacheKey = () => 'hfog' + (prev ? prev.toString().length : 0);
+  m.needsUpdate = true;
+}
+
+const t = await Thumb.create({ hdri: 'misty_dawn', envIntensity: 0.14, exposure: 0.85, background: FOG.color,
+  fog: { color: FOG.color, density: FOG.density } });
+
+// sky dome = the fog itself at infinity, brighter toward the hidden sun, a little lighter overhead
+const dome = new THREE.Mesh(new THREE.SphereGeometry(180, 48, 24), new THREE.ShaderMaterial({
+  side: THREE.BackSide, depthWrite: false, fog: false,
+  uniforms: { uBase: { value: new THREE.Color(FOG.color) }, ...fogUniforms },
+  vertexShader: 'varying vec3 vDir; void main(){ vDir = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+  fragmentShader: `uniform vec3 uBase; varying vec3 vDir; ${FOG_GLSL}
+    void main(){ vec3 d = normalize(vDir); vec3 c = fogTint(uBase, d); c = mix(c, c * 1.08, smoothstep(0.0, 0.25, d.y));
+      gl_FragColor = vec4(c, 1.0);
+      #include <tonemapping_fragment>
+      #include <colorspace_fragment>
+    }`,
+}));
+dome.renderOrder = -1;
+t.scene.add(dome);
+t.cam.far = 400; t.cam.updateProjectionMatrix();
+
+// beach: a slightly uneven sand plane (low dunes of a few cm, so raking light finds texture), seawall running away into the mist
+const sandMat = await t.material('damp_beach_sand_02', { repeat: 90, normalScale: 1.6 });
+const gG = new THREE.PlaneGeometry(240, 240, 480, 480);
+{
+  const p = gG.attributes.position;
+  const n2 = (x, y) => Math.sin(x * 1.7 + Math.sin(y * 0.9) * 1.3) * 0.5 + Math.sin(x * 0.37 - y * 0.61) * 0.8 + Math.sin(y * 2.9 + x * 0.4) * 0.25;
+  for (let i = 0; i < p.count; i++) {
+    const x = p.getX(i), y = p.getY(i);           // plane y → world -z
+    const near = Math.min(1, Math.hypot(x, y + 0.4) / 2.2);   // flat where the man lies
+    p.setZ(i, 0.025 * n2(x, y) * near);
+  }
+  gG.computeVertexNormals();
+}
+const sand = new THREE.Mesh(gG, sandMat);
+t.add(sand, { rot: [-Math.PI / 2, 0, 0] }); sand.castShadow = false;
+const wall = await t.surface('concrete_wall_008', { w: 300, h: 1.25, repeat: 1, pos: [0, 0.625, -0.32], rot: [0, 0, 0] });
+for (const k of ['map', 'normalMap', 'roughnessMap']) if (wall.material[k]) wall.material[k].repeat.set(120, 0.5);
+wall.material.color.setScalar(0.38);        // weathered, darker concrete in the wall's own shade
+const topMat = await t.material('concrete_wall_008', { repeat: 1 });
+for (const k of ['map', 'normalMap', 'roughnessMap']) if (topMat[k]) topMat[k].repeat.set(150, 0.25);
+t.box({ size: [300, 0.12, 0.5], radius: 0.02, material: topMat, pos: [0, 1.25, -0.57] });
+t.box({ size: [300, 1.3, 2], radius: 0.01, color: '#5d5850', pos: [0, 0.6, -1.8] });   // the wall's body behind its face
+
+// the man: half-lying, head against the seawall, legs out, right ankle over the left
+const fabric = (await t.material('poly_wool_herringbone', { repeat: 6 })).normalMap;
+setFabric(fabric);
+const man = await loadFigure('/thumbkit/cache/figures/Superhero_Male_FullBody.gltf', 'manLight');
+poseReclined(man, RECLINE);
+man.scene.rotation.x = 0;                 // turn() axes are the body's own while upright (as inside poseReclined)
+turn(man, 'thigh_r', [0, 1, 0], 0.05);    // feet crossed clearly (0.11 → 0.16)
+man.scene.rotation.x = -RECLINE;
+turn(man, 'upperarm_l', [1, 0, 0], 0.30); turn(man, 'upperarm_r', [1, 0, 0], 0.30);
+turn(man, 'lowerarm_l', [1, 0, 0], 0.30); turn(man, 'lowerarm_r', [1, 0, 0], 0.30);
+t.scene.add(man.root);
+settle(man, 0.0, -0.32, 0.01);
+man.root.traverse((o) => {
+  if (!o.isMesh) return;
+  o.castShadow = true; o.receiveShadow = true;
+  const m = o.material; m.envMapIntensity = 0.6; m.color.setScalar(0.7);
+  const prev = m.onBeforeCompile;   // no white shirt V / tie at this distance: one dark suit tone
+  m.onBeforeCompile = (sh, r) => { prev(sh, r); sh.uniforms.uShirt.value = new THREE.Color('#5a534b'); sh.uniforms.uTieOn.value = 0; };
+});
+t.focus(man.root);
+
+// contact shadow (ambient occlusion) under seat and legs, so the body rests on the sand instead of hovering
+{
+  const c = document.createElement('canvas'); c.width = c.height = 256;
+  const x = c.getContext('2d');
+  const g = x.createRadialGradient(128, 128, 0, 128, 128, 128);
+  g.addColorStop(0, 'rgba(0,0,0,0.85)'); g.addColorStop(0.5, 'rgba(0,0,0,0.45)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  x.fillStyle = g; x.fillRect(0, 0, 256, 256);
+  const tex = new THREE.CanvasTexture(c);
+  const ao = new THREE.Mesh(new THREE.PlaneGeometry(0.75, 1.9), new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, color: '#000000' }));
+  ao.rotation.x = -Math.PI / 2; ao.position.set(0.02, 0.006, 0.38);
+  t.scene.add(ao);
+  const ao2 = ao.clone(); ao2.scale.set(1.0, 0.35, 1); ao2.position.set(0.0, 0.007, -0.15); t.scene.add(ao2);  // seat against the wall
+}
+
+// low dawn sun behind the mist: one soft directional light + the misty sky
+const sun = new THREE.DirectionalLight('#ffe2b8', 3.6);
+sun.position.copy(SUN).multiplyScalar(40);
+sun.target.position.set(0, 0, 0);
+sun.castShadow = true;
+sun.shadow.mapSize.set(4096, 4096);
+Object.assign(sun.shadow.camera, { left: -16, right: 16, top: 16, bottom: -16, near: 1, far: 90 });
+sun.shadow.bias = -0.0004; sun.shadow.radius = 6;
+t.scene.add(sun, sun.target);
+t.amb(0.01);
+
+t.scene.traverse((o) => { if (o.isMesh && o.material && !o.material.isShaderMaterial) withFog(o.material); });
+t.camera(CAM.pos, CAM.look, CAM.fov);
+
+// ---- photographic finish on top of the beauty pass: light wrap / halation + a hair of softness ----
+const base = t.renderer.domElement;
+const post = document.createElement('canvas');
+post.width = base.width; post.height = base.height;
+Object.assign(post.style, { position: 'absolute', left: '0', top: '0' });
+const origRender = t.render.bind(t);
+t.render = () => {
+  origRender();
+  if (!t.scene.fog) { post.remove(); return; }   // mask pass: plain render
+  const x = post.getContext('2d');
+  x.filter = `blur(${POST.soften}px)`; x.drawImage(base, 0, 0);
+  x.globalCompositeOperation = 'screen'; x.globalAlpha = POST.bloom;
+  x.filter = `blur(${POST.bloomPx}px)`; x.drawImage(base, 0, 0);
+  x.globalCompositeOperation = 'source-over'; x.globalAlpha = 1; x.filter = 'none';
+  if (!post.parentNode) document.body.appendChild(post);
+};
+await t.done();
+// focus mask at partial strength (thumbkit's own mask is pure white): the graded figure keeps some of the mist's amber
+window.__mask = () => {
+  const inFocus = new Set();
+  for (const f of t.focusSet) f.traverse((m) => inFocus.add(m));
+  const grey = new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(MASK_GREY, MASK_GREY, MASK_GREY, THREE.SRGBColorSpace), side: THREE.DoubleSide, fog: false });
+  const black = new THREE.MeshBasicMaterial({ color: '#000000', side: THREE.DoubleSide, fog: false });
+  t.scene.traverse((m) => { if (m.isMesh) m.material = inFocus.has(m) ? grey : black; });
+  t.scene.background = new THREE.Color('#000000');
+  t.scene.fog = null;
+  t.renderer.toneMapping = THREE.NoToneMapping;
+  t.renderer.shadowMap.enabled = false;
+  t.render();
+  window.__maskDone = true;
+};
+</script></body></html>

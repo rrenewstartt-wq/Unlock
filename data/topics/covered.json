@@ -1,0 +1,22 @@
+{
+  "_doc": "이미 다룬 사건(중복 방지). name 은 사건명, keys 는 중복 판단에 쓰는 고유 단어(인명·지명·사건 키워드). 벤치마크 채널 영상의 사건명은 제목·화면에서 추정한 것이며 confident=false 는 확인 필요.",
+  "cases": [
+    {"by": "us", "ep": "ep01-somerton", "name": "서머턴 맨 (1948, 호주)", "keys": ["somerton", "서머턴", "tamam shud", "타맘 슈드", "carl webb"], "confident": true},
+    {"by": "@unlock_kr", "title": "13년만에 풀린 일본 미제사건", "name": "이바라키 대학생 살해사건 (2004, 일본)", "keys": ["茨城大", "이바라키", "아미마치", "미호무라"], "confident": true},
+    {"by": "@unlock_kr", "title": "일본 역사상 가장 기괴하고 역겨운 사건", "name": "기타큐슈 감금 연쇄살인 (일본)", "keys": ["北九州監禁", "기타큐슈", "마츠나가"], "confident": true},
+    {"by": "@unlock_kr", "title": "실제로 존재했던 인간 도살장", "name": "세르비아 축구 훌리건 조직 '고문의 집' (리토페크)", "keys": ["belivuk", "벨리부크", "ritopek", "세르비아"], "confident": false},
+    {"by": "@unlock_kr", "title": "23년만에 풀린 미국 미제사건", "name": "셰리 라스무센 살해사건 (1986, LA)", "keys": ["rasmussen", "라스무센", "lazarus", "라자러스"], "confident": true},
+    {"by": "@미제의끝", "title": "49년 만에 풀린 일본 미제사건", "name": "기리시마 사토시 (동아시아 반일무장전선 수배자)", "keys": ["桐島", "기리시마", "kirishima"], "confident": false},
+    {"by": "@미제의끝", "title": "15년 만에 극적으로 풀린 일본 미제사건", "name": "미상", "keys": [], "confident": false},
+    {"by": "@미제의끝", "title": "26년 만에 풀린 일본 미제사건", "name": "나고야 주부 살해사건 (1999, 2025 체포)", "keys": ["名古屋", "나고야 주부", "西区"], "confident": true},
+    {"by": "@미제의끝", "title": "17년 숨은 옴진리교 수배자 셋이 반년 만에 잡힌 이유", "name": "옴진리교 수배자 3명 (2012 체포)", "keys": ["オウム", "옴진리교", "히라타", "기쿠치", "다카하시"], "confident": true},
+    {"by": "@미제의끝", "title": "19년 동안 수배된 남자가 끝내 잡히지 않은 이유", "name": "전직 교감 수배 (일본, 아내 살해 혐의)", "keys": ["교감", "히로시마"], "confident": false},
+    {"by": "@미제의끝", "title": "현장에 지문을 남긴 범인을 14년 동안 아무도 찾지 못한 이유", "name": "미상", "keys": [], "confident": false},
+    {"by": "@미제의끝", "title": "범죄 현장 40곳에 DNA를 남긴 여자를 아무도 못 잡은 이유", "name": "하일브론의 유령 (독일)", "keys": ["heilbronn", "하일브론", "phantom"], "confident": true},
+    {"by": "@미제의끝", "title": "26년 만에 자백한 살인범을 경찰이 체포하지 못한 이유", "name": "아다치구 여교사 살해사건 (1978, 일본)", "keys": ["足立区", "아다치", "여교사"], "confident": true},
+    {"by": "@미제의끝", "title": "16년 만에 돌아온 이태원 사건의 진범", "name": "이태원 햄버거 가게 살인사건 (1997)", "keys": ["이태원", "패터슨", "patterson"], "confident": true},
+    {"by": "@미제의끝", "title": "경찰 권총을 빼앗은 은행 강도가 21년 만에 잡힌 이유", "name": "대전 둔산동 국민은행 강도살인 (2001)", "keys": ["둔산동", "국민은행", "대전"], "confident": true},
+    {"by": "@미제의끝", "title": "시효가 끝났어야 할 살인범이 법정에 선 이유", "name": "미상 (일본, 금고 159만 엔)", "keys": [], "confident": false},
+    {"by": "@미제의끝", "title": "23년 보관된 면봉 하나로 잡힌 살인범의 뜻밖의 직업", "name": "미상 (냉동 보관 면봉 DNA)", "keys": [], "confident": false}
+  ]
+}

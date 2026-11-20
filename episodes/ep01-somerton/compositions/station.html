@@ -1,0 +1,72 @@
+<template>
+  <style>
+
+    @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+    @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1E2125; color: #E9E5DD; font-family: "Gothic A1", sans-serif; }
+    .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
+      border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
+
+    .stamp { position: absolute; left: 96px; top: 150px; font-size: 110px; line-height: 1; color: #F3F0EA; }
+    .stamp small { display: block; font-family: "Gothic A1"; font-size: 38px; margin-top: 18px; }
+    .ticket { position: absolute; right: 120px; top: 170px; width: 780px; padding: 30px 36px; background: #D8D2C4; color: #1E2125; border-left: 10px solid #F0A23B; }
+    .ticket b { display: block; font-size: 30px; font-weight: 500; opacity: .7; }
+    .ticket span { display: block; font-size: 46px; margin-top: 8px; white-space: nowrap; }
+    .ticket em { display: block; font-style: normal; font-size: 30px; margin-top: 10px; }
+    .match { position: absolute; right: 96px; top: 140px; display: flex; flex-wrap: wrap; align-items: center; gap: 22px; width: 880px;
+      background: rgba(20,22,25,.86); padding: 30px 34px 26px; }
+    .match .m-a, .match .m-b { width: 330px; text-align: center; }
+    .match svg { display: block; margin: 0 auto 12px; }
+    .match b { font-size: 34px; font-weight: 500; color: #F3F0EA; }
+    .m-eq { font-size: 110px; color: #F0A23B; width: 80px; text-align: center; }
+    .m-note { width: 100%; text-align: center; font-size: 34px; color: #F0A23B; margin-top: 6px; }
+    .nametag { position: absolute; right: 120px; top: 170px; text-align: right; }
+    .nametag span { display: inline-block; font-size: 120px; color: #1E2125; background: #E9E5DD; padding: 6px 34px 14px; transform: rotate(-2deg); }
+    .nametag em { display: block; font-style: normal; font-size: 46px; margin-top: 36px; color: #F3F0EA; }
+  </style>
+  <div id="root" data-composition-id="station" data-width="1920" data-height="1080">
+    <div id="station-stage" class="clip" data-start="0" data-duration="23.93" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="station-re" class="clip tag-re" data-start="0.3" data-duration="23.63">재현</div>
+    <div id="st-date" class="clip stamp disp" data-start="0.0" data-duration="6.54">1949.01.14<small>애들레이드 기차역 수하물 보관소</small></div>
+    <div id="st-ticket" class="clip ticket" data-start="6.54" data-duration="3.34"><b>맡긴 시각</b><span class="disp">1948.11.30 오전 11:00 이후</span><em>사망 추정 약 15시간 전</em></div>
+    <div id="st-match" class="clip match" data-start="12.33" data-duration="3.51"><div class="m-a"><svg width="300" height="190" viewBox="0 0 300 190"><path d="M70 20 h160 v40 l-14 10 l14 10 v80 h-160 v-80 l14 -10 l-14 -10 z" fill="#D8D2C4"/><line x1="78" x2="222" y1="78" y2="81" stroke="#F0A23B" stroke-width="7" stroke-linecap="round"/><line x1="78" x2="222" y1="87" y2="90" stroke="#F0A23B" stroke-width="7" stroke-linecap="round"/><line x1="78" x2="222" y1="96" y2="99" stroke="#F0A23B" stroke-width="7" stroke-linecap="round"/><line x1="78" x2="222" y1="105" y2="108" stroke="#F0A23B" stroke-width="7" stroke-linecap="round"/><line x1="78" x2="222" y1="114" y2="117" stroke="#F0A23B" stroke-width="7" stroke-linecap="round"/><line x1="78" x2="222" y1="123" y2="126" stroke="#F0A23B" stroke-width="7" stroke-linecap="round"/></svg><b>가방 속 실타래</b></div><div class="m-eq disp">=</div><div class="m-b"><svg width="300" height="190" viewBox="0 0 300 190"><defs><pattern id="tw" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#4A3D30"/><rect width="5" height="10" fill="#3E3328"/></pattern></defs><rect x="10" y="10" width="280" height="170" fill="url(#tw)"/><path d="M30 120 C 100 60, 200 60, 270 110" fill="none" stroke="#2A2017" stroke-width="10"/><path d="M30 120 C 100 60, 200 60, 270 110" fill="none" stroke="#F0A23B" stroke-width="6" stroke-dasharray="16 10"/></svg><b>바지 주머니 수선 자국</b></div><p class="m-note">같은 주황색 왁스 실 · 호주에서 팔지 않던 종류</p></div>
+    <div id="st-name" class="clip nametag" data-start="15.44" data-duration="8.49"><span class="disp">T. KEANE</span><em id="st-none">실종 신고 일치: 0건</em></div>
+  </div>
+  <script type="module">
+    import { createStation } from "./assets/lib/station.js";
+    const render = createStation(document.getElementById("station-stage"), { camera: [
+      { t: 0, pos: [-5.5, 2.6, 7.5], look: [0, 1.4, 0], fov: 36 },
+      { t: 3.25, pos: [-5.17, 2.528, 7.05], look: [0, 1.4, 0], fov: 36, ease: "linear" },
+      { t: 3.27, pos: [-2.2, 2.0, 3.8], look: [0, 1.15, 0], fov: 34, cut: true },
+      { t: 6.52, pos: [-2.068, 1.949, 3.572], look: [0, 1.15, 0], fov: 34, ease: "linear" },
+      { t: 6.54, pos: [1.6, 2.6, 2.2], look: [0, 1.1, 0], fov: 30, cut: true },
+      { t: 9.66, pos: [1.504, 2.51, 2.068], look: [0, 1.1, 0], fov: 30, ease: "linear" },
+      { t: 9.68, pos: [-1.2, 2.25, 2.0], look: [0, 1.1, 0], fov: 32, cut: true },
+      { t: 12.41, pos: [-1.128, 2.181, 1.88], look: [0, 1.1, 0], fov: 32, ease: "linear" },
+      { t: 12.43, pos: [-0.5, 1.75, 1.1], look: [0.2, 1.15, 0.05], fov: 28, cut: true },
+      { t: 15.42, pos: [-0.458, 1.714, 1.037], look: [0.2, 1.15, 0.05], fov: 28, ease: "linear" },
+      { t: 15.44, pos: [-0.15, 1.6, 0.95], look: [-0.62, 1.07, 0.15], fov: 30, cut: true },
+      { t: 18.04, pos: [-0.178, 1.568, 0.902], look: [-0.62, 1.07, 0.15], fov: 30, ease: "linear" },
+      { t: 18.06, pos: [-3.6, 2.2, 4.2], look: [0, 1.2, 0], fov: 34, cut: true },
+      { t: 23.93, pos: [-3.384, 2.14, 3.948], look: [0, 1.2, 0], fov: 34, ease: "linear" }
+    ], cues: { open: 9.48, thread: 10.08, tie: 15.24 } });
+    const st = { t: 0 };
+    const tl = gsap.timeline({ paused: true });
+    tl.to(st, { t: 23.93, duration: 23.93, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.fromTo("#st-date", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 0.0);
+    tl.to("#st-date", { opacity: 0, duration: 0.3 }, 6.19);
+    tl.fromTo("#st-ticket", { opacity: 0, y: -40, rotation: -3 }, { opacity: 1, y: 0, rotation: 0, duration: 0.6, ease: "power3.out" }, 6.54);
+    tl.to("#st-ticket", { opacity: 0, duration: 0.3 }, 9.53);
+    tl.fromTo("#st-match .m-a", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 12.33);
+    tl.fromTo("#st-match .m-eq", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, 13.03);
+    tl.fromTo("#st-match .m-b", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 12.73);
+    tl.fromTo("#st-match .m-note", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 13.23);
+    tl.to("#st-match", { opacity: 0, duration: 0.25 }, 15.54);
+    tl.fromTo("#st-name span", { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power4.out" }, 15.79);
+    tl.fromTo("#st-none", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 18.06);
+    render(0);
+    window.__timelines["station"] = tl;
+  </script>
+</template>

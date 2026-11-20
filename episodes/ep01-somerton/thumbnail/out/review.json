@@ -1,0 +1,107 @@
+{
+ "thumb-c1.jpg": {
+  "focus_area": 14.5,
+  "focus_center": [
+   0.44,
+   0.48
+  ],
+  "contrast": 159.2,
+  "clutter": 7.9,
+  "bench_hash": 26,
+  "bench_hue": 0.0,
+  "overlap": 0,
+  "title": "73년 만에 이름을 찾은 해변의 남자",
+  "flags": []
+ },
+ "thumb-c2.jpg": {
+  "focus_area": 10.5,
+  "focus_center": [
+   0.51,
+   0.72
+  ],
+  "contrast": 83.1,
+  "clutter": 21.1,
+  "bench_hash": 20,
+  "bench_hue": 0.4,
+  "overlap": 0,
+  "title": "73년 만에 이름을 찾은 해변의 남자",
+  "flags": []
+ },
+ "thumb-c3.jpg": {
+  "focus_area": 25.3,
+  "focus_center": [
+   0.6,
+   0.62
+  ],
+  "contrast": 38.4,
+  "clutter": 5.4,
+  "bench_hash": 23,
+  "bench_hue": 21.5,
+  "overlap": 0,
+  "title": "73년 만에 이름을 찾은 해변의 남자",
+  "flags": [
+   "초점 대비 약함",
+   "빨간 단색에 가까움"
+  ]
+ },
+ "thumb-c4.jpg": {
+  "focus_area": 11.4,
+  "focus_center": [
+   0.31,
+   0.63
+  ],
+  "contrast": 46.4,
+  "clutter": 4.2,
+  "bench_hash": 27,
+  "bench_hue": 8.4,
+  "overlap": 0,
+  "title": "넥타이에 이름까지 적혀 있었는데 73년 동안 신원을 몰랐던 이유",
+  "flags": []
+ },
+ "thumb-c5.jpg": {
+  "focus_area": 14.6,
+  "focus_center": [
+   0.61,
+   0.79
+  ],
+  "contrast": 118.9,
+  "clutter": 6.0,
+  "bench_hash": 28,
+  "bench_hue": 0.6,
+  "overlap": 0,
+  "title": "넥타이에 이름까지 적혀 있었는데 73년 동안 신원을 몰랐던 이유",
+  "flags": []
+ },
+ "thumb-c6.jpg": {
+  "focus_area": 1.9,
+  "focus_center": [
+   0.48,
+   0.53
+  ],
+  "contrast": 54.0,
+  "clutter": 7.4,
+  "bench_hash": 26,
+  "bench_hue": 0.0,
+  "overlap": 0,
+  "title": "73년 만에 이름을 찾은 해변의 남자",
+  "flags": [
+   "초점 크기"
+  ]
+ },
+ "thumb-c7.jpg": {
+  "focus_area": 2.8,
+  "focus_center": [
+   0.59,
+   0.63
+  ],
+  "contrast": 59.5,
+  "clutter": 2.8,
+  "bench_hash": 25,
+  "bench_hue": 0.0,
+  "overlap": 0,
+  "title": "넥타이에 이름까지 적혀 있었는데 73년 동안 신원을 몰랐던 이유",
+  "flags": [
+   "초점 크기"
+  ]
+ }
+}

@@ -1,0 +1,402 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- 컨셉 c7 = v2-d (spot): 누운 남자의 오른쪽 옷깃(모직 재킷 라펠·칼라) 위에 반쯤 피운 필터 없는 담배 한 개비. 접사, 얕은 심도.
+     근거: facts.md @beach "half-smoked cigarette on right collar". 옷 종류·색·무늬, 담배 상표는 기록에 없음 → 어두운 모직 옷깃(연출),
+     필터 없는 흰 종이 + 탄 끝 + 짧은 재만. 연기·불씨 없음. 셔츠·넥타이·목은 어둠 속(그리지 않음). 모래 알갱이 몇 개 = 해변(연출, 컨셉 문서 범위). -->
+<!-- assets: texture:poly_wool_herringbone texture:poly_wool_herringbone@4k texture:coast_sand_04 hdri:misty_dawn -->
+<!-- 접사용 고해상도 원단: thumbkit/cache/textures/poly_wool_herringbone_4k/ (Poly Haven 4k jpg, CC0, 수동으로 받음). 없으면 1k 로 대체. -->
+<!-- grade: --mode spot --glow 0.2 --lift 0.4 --vignette 0.6 -->
+<!-- text: "반쯤 남은 담배" "그날 밤 무슨 일이" -->
+<!-- title: "넥타이에 이름까지 적혀 있었는데 73년 동안 신원을 몰랐던 이유" -->
+<script type="importmap">{"imports":{"three":"/thumbkit/lib/three.module.min.js","three/addons/":"/thumbkit/lib/addons/"}}</script>
+</head><body>
+<script type="module">
+import { Thumb, THREE } from '/thumbkit/thumbkit.js';
+
+// ---------- knobs ----------
+const P = {
+  exposure: 0.95, env: 0.07, amb: 0.01,
+  cam: [-0.115, 0.062, 0.080], look: [0.01, 0.0, -0.03], fov: 30, roll: 0.10,   // relative to the cigarette
+  key: { pos: [-0.18, 0.22, -0.30], intensity: 6 },
+  dof: { K: 70, maxR: 46 },          // circle of confusion in px = K * (z - zf) / z
+};
+
+const t = await Thumb.create({ hdri: 'misty_dawn', envIntensity: P.env, exposure: P.exposure });
+const S = t.scene, R = t.renderer;
+
+// ---------- helpers ----------
+const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+const sm = (a, b, x) => { const k = clamp((x - a) / (b - a), 0, 1); return k * k * (3 - 2 * k); };
+const edge = (d, r) => d <= 0 ? 0 : d >= r ? 1 : Math.sqrt(1 - (1 - d / r) ** 2);   // rounded cloth edge
+function hsh(i, j) { const x = Math.sin(i * 127.1 + j * 311.7) * 43758.5453; return x - Math.floor(x); }
+function vn(x, y) {
+  const i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j, ux = fx * fx * (3 - 2 * fx), uy = fy * fy * (3 - 2 * fy);
+  const a = hsh(i, j), b = hsh(i + 1, j), c = hsh(i, j + 1), d = hsh(i + 1, j + 1);
+  return a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy;
+}
+const fbm = (x, y) => 0.5 * vn(x, y) + 0.3 * vn(x * 2.1 + 7, y * 2.1 + 3) + 0.2 * vn(x * 4.3 + 1, y * 4.3 + 9);
+let seed = 11; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+
+// signed distance to polygon, positive inside (Inigo Quilez)
+function sdPoly(x, y, Pp) {
+  let d = Infinity, s = 1;
+  for (let i = 0, j = Pp.length - 1; i < Pp.length; j = i, i++) {
+    const ex = Pp[j][0] - Pp[i][0], ey = Pp[j][1] - Pp[i][1], wx = x - Pp[i][0], wy = y - Pp[i][1];
+    const h = clamp((wx * ex + wy * ey) / (ex * ex + ey * ey), 0, 1);
+    const bx = wx - ex * h, by = wy - ey * h; d = Math.min(d, bx * bx + by * by);
+    const c1 = y >= Pp[i][1], c2 = y < Pp[j][1], c3 = ex * wy > ey * wx;
+    if ((c1 && c2 && c3) || (!c1 && !c2 && !c3)) s = -s;
+  }
+  return -s * Math.sqrt(d);
+}
+// unsigned distance to polyline + arc length at the nearest point
+function dLine(x, y, L) {
+  let best = Infinity, sBest = 0, acc = 0;
+  for (let i = 0; i < L.length - 1; i++) {
+    const ax = L[i][0], ay = L[i][1], ex = L[i + 1][0] - ax, ey = L[i + 1][1] - ay, len = Math.hypot(ex, ey);
+    const h = clamp(((x - ax) * ex + (y - ay) * ey) / (len * len), 0, 1);
+    const d = Math.hypot(x - ax - ex * h, y - ay - ey * h);
+    if (d < best) { best = d; sBest = acc + h * len; }
+    acc += len;
+  }
+  return [best, sBest];
+}
+
+// ---------- the garment: his right collar + lapel as one wool band swept along its fold (roll) line ----------
+// World: y up, z toward his feet, neck axis along z. His right side is -x, so from his feet (camera) it sits on the image left.
+// Shapes are a generic notch lapel/collar (diagram, not a record: facts only say "collar").
+const NY = -0.015, T = 0.0034;                       // neck axis height, cloth thickness
+const pol = (phi, z, r = 0.068) => new THREE.Vector3(-r * Math.sin(phi), NY + r * Math.cos(phi), z);
+const D2R = Math.PI / 180;
+const spine = new THREE.CatmullRomCurve3([
+  pol(125 * D2R, -0.168), pol(85 * D2R, -0.162), pol(50 * D2R, -0.150), pol(25 * D2R, -0.133),
+  new THREE.Vector3(-0.021, 0.050, -0.100), new THREE.Vector3(-0.012, 0.049, -0.040),
+  new THREE.Vector3(0.000, 0.045, 0.030), new THREE.Vector3(0.013, 0.039, 0.115)], false, 'centripetal');
+const SN = 1400, spts = spine.getSpacedPoints(SN), SL = spine.getLength();
+const sAt = (z) => { let best = 0, bd = 1e9; spts.forEach((q, i) => { const d = Math.abs(q.z - z); if (d < bd) { bd = d; best = i; } }); return best / SN * SL; };
+const SG = sAt(-0.100);                                // gorge (where collar meets lapel)
+function frame(s) {                                    // spine point, tangent, body normal, fall direction, neck-ness
+  const u = clamp(s / SL, 0, 1);
+  const C = spine.getPointAt(u), Tn = spine.getTangentAt(u);
+  const neck = sm(-0.095, -0.140, C.z);
+  const rad = new THREE.Vector3(C.x, C.y - NY, 0).normalize();
+  const Nb = new THREE.Vector3(0, 1, 0).lerp(rad, neck).normalize();
+  const F = new THREE.Vector3().crossVectors(Tn, Nb).normalize();
+  const N = new THREE.Vector3().crossVectors(F, Tn).normalize();
+  return { C, Tn, N, F, neck };
+}
+// outline of the band in (s = along the fold, w = across, out from the fold), metres
+const OUT = [
+  [SL, 0.0], [SL - 0.050, 0.036], [SG + 0.100, 0.062], [SG + 0.045, 0.077], [SG - 0.007, 0.086],   // lapel front edge → lapel point
+  [SG + 0.010, 0.047],                                                                               // notch
+  [SG - 0.021, 0.055], [SG - 0.036, 0.049], [SG - 0.080, 0.044], [0, 0.042]];                        // collar end → collar edge
+const POLY = [...OUT, [0, 0]];
+const GORGE = [[SG, 0], [SG + 0.010, 0.047]];
+const rollR = (f) => 0.0055 + 0.003 * f.neck;
+// height of the cloth above the body surface at (s, w >= 0)
+function layer(s, w, f) {
+  const inside = sdPoly(s, w, POLY) > 0;
+  if (!inside) return { h: 0, region: 0, st: 0 };
+  const [dO, sO] = dLine(s, w, OUT);
+  const rr = rollR(f);
+  const lift = rr * (1 - sm(0.0, 0.030, w));
+  let h = (T + lift) * edge(dO, 0.0018);
+  const st = Math.exp(-(((dO - 0.0055) / 0.00035) ** 2)) * Math.pow(0.5 + 0.5 * Math.cos(sO / 0.0042 * 2 * Math.PI), 6);
+  h -= 0.0003 * st;                                                     // pick stitch along the edge
+  const [dG] = dLine(s, w, GORGE);
+  h -= 0.0007 * Math.exp(-((dG / 0.0006) ** 2));                        // gorge seam
+  h += 0.0009 * (fbm(s * 40, w * 40) - 0.5);                             // the cloth is not pressed flat
+  const collar = s < SG + 0.010 * (w / 0.047);
+  return { h, region: collar ? 2 : 1, st };
+}
+function surf(s, w) {                                  // → point, region, stitch
+  const f = frame(s);
+  const rr = rollR(f);
+  const kap = 2.6 + 2.0 * f.neck;                      // the body curves away from the fold (chest, shoulder)
+  if (w < 0) {                                         // the roll: cloth turns under around a soft curl
+    const th = Math.min(Math.PI * 0.97, -w / rr);
+    return { p: f.C.clone().addScaledVector(f.N, T + rr * Math.cos(th)).addScaledVector(f.F, -rr * Math.sin(th)), region: 1, st: 0, f };
+  }
+  const L = layer(s, w, f);
+  const drape = 0.0012 * Math.sin(s * 90 + w * 40) * sm(0.02, 0.08, w);   // soft wrinkles away from the edge
+  const p = f.C.clone().addScaledVector(f.F, w).addScaledVector(f.N, -kap * w * w + L.h + drape + T * 0 );
+  return { p, region: L.region, st: L.st, f };
+}
+const W0 = -Math.PI * 0.0085, W1 = 0.135, STEP = 0.00045;
+const ns = Math.round(SL / STEP) + 1, nw = Math.round((W1 - W0) / STEP) + 1;
+const tex = (url, srgb) => new Promise((ok) => new THREE.TextureLoader().load(url, (x) => {
+  x.wrapS = x.wrapT = THREE.RepeatWrapping; x.anisotropy = 16; if (srgb) x.colorSpace = THREE.SRGBColorSpace; ok(x);
+}, undefined, () => ok(null)));
+{
+  const pos = new Float32Array(ns * nw * 3), uv = new Float32Array(ns * nw * 2), colr = new Float32Array(ns * nw * 3);
+  const TILE = 0.27;   // the wool scan covers 27 cm
+  const rot = [1.1, 0.0, 0.62];
+  for (let j = 0; j < ns; j++) for (let i = 0; i < nw; i++) {
+    const s = j * STEP, w = W0 + i * STEP, k = j * nw + i;
+    const r = surf(s, w);
+    pos[k * 3] = r.p.x; pos[k * 3 + 1] = r.p.y; pos[k * 3 + 2] = r.p.z;
+    const a = rot[r.region];
+    uv[k * 2] = (Math.cos(a) * w - Math.sin(a) * s) / TILE + (r.region === 2 ? 0.37 : 0);
+    uv[k * 2 + 1] = (Math.sin(a) * w + Math.cos(a) * s) / TILE;
+    const n = (0.92 + 0.16 * fbm(s * 50, w * 50)) * (1 - 0.25 * r.st) * (w < 0 ? 0.9 : 1);
+    colr[k * 3] = colr[k * 3 + 1] = colr[k * 3 + 2] = n;
+  }
+  const idx = new Uint32Array((ns - 1) * (nw - 1) * 6);
+  let q = 0;
+  for (let j = 0; j < ns - 1; j++) for (let i = 0; i < nw - 1; i++) {
+    const a = j * nw + i, b = a + 1, c = a + nw, d = c + 1;
+    idx[q++] = a; idx[q++] = c; idx[q++] = b; idx[q++] = b; idx[q++] = c; idx[q++] = d;
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+  g.setAttribute('color', new THREE.BufferAttribute(colr, 3));
+  g.setIndex(new THREE.BufferAttribute(idx, 1));
+  g.computeVertexNormals();
+  let W = null;
+  for (const id of ['poly_wool_herringbone_4k', 'poly_wool_herringbone']) {
+    const bdir = `/thumbkit/cache/textures/${id}`;
+    const [map, nor, rough, ao] = await Promise.all([tex(bdir + '/diff.jpg', true), tex(bdir + '/nor.jpg'), tex(bdir + '/rough.jpg'), tex(bdir + '/ao.jpg')]);
+    if (map) { W = { map, nor, rough, ao, id }; break; }
+  }
+  console.log('wool texture', W.id, 'verts', ns * nw);
+  const m = new THREE.MeshPhysicalMaterial({
+    map: W.map, normalMap: W.nor, roughnessMap: W.rough, aoMap: W.ao, aoMapIntensity: 0.8, vertexColors: true,
+    color: '#b0a99f', roughness: 1, sheen: 1, sheenRoughness: 0.5, sheenColor: new THREE.Color('#b8b2aa'), side: THREE.DoubleSide,
+  });
+  m.normalScale.set(1.5, 1.5);
+  const mesh = new THREE.Mesh(g, m);
+  mesh.castShadow = mesh.receiveShadow = true;
+  S.add(mesh);
+  window.__garment = mesh;
+}
+// what is under/inside the collar (neck, shirt) stays in darkness: a black stand-in that only blocks light
+{
+  const dark = new THREE.MeshStandardMaterial({ color: '#050505', roughness: 1 });
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.058, 0.058, 0.30, 48), dark);
+  neck.rotation.x = Math.PI / 2; neck.position.set(0, NY, -0.25); S.add(neck);
+  const chest = new THREE.Mesh(new THREE.PlaneGeometry(0.30, 0.40), dark);
+  chest.rotation.x = -Math.PI / 2; chest.position.set(0.10, 0.030, 0.05); S.add(chest);
+  for (const o of [neck, chest]) { o.castShadow = o.receiveShadow = true; }
+}
+
+// sand far below, beyond the shoulder
+// (no ground plane: beyond the collar is darkness)
+
+// ---------- the cigarette (no filter, ~36 mm left of ~70, burnt end with a short ash; no ember, no smoke) ----------
+const CR = 0.0041, CL = 0.036;
+function canvasTex(w, h, draw, srgb = true) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  draw(c.getContext('2d'), w, h);
+  const x = new THREE.CanvasTexture(c); if (srgb) x.colorSpace = THREE.SRGBColorSpace; x.anisotropy = 16;
+  return x;
+}
+// paper: canvas x = around, y = along (top row = burnt end)
+const BURN = 0.11;   // fraction of length that is scorched
+const burnLine = (x) => 0.018 + 0.030 * (0.6 * vn(x * 9, 1) + 0.4 * vn(x * 23, 5));
+const paperMap = canvasTex(1024, 1024, (x, w, h) => {
+  const id = x.createImageData(w, h), d = id.data;
+  for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) {
+    const fy = j / h, fx = i / w, k = (j * w + i) * 4;
+    let r = 238, g = 233, b = 222, a = 255;
+    const fib = (vn(i * 0.35, j * 0.08) - 0.5) * 7 + (hsh(i, j) - 0.5) * 5;
+    const laid = Math.sin(fy * 2 * Math.PI * 64) > 0.92 ? -4 : 0;
+    r += fib + laid; g += fib + laid; b += fib + laid;
+    const seam = Math.abs(fx - 0.25);                                  // glued overlap
+    if (seam < 0.012) { r -= 9; g -= 10; b -= 14; }
+    if (Math.abs(seam - 0.012) < 0.0015) { r -= 18; g -= 18; b -= 20; }
+    const bl = burnLine(fx);
+    if (fy < bl) a = 0;                                              // paper burnt away
+    else if (fy < BURN + bl * 0.5) {                                 // scorch gradient
+      const s = 1 - (fy - bl) / (BURN + bl * 0.5 - bl);
+      const e = Math.pow(s, 1.1);
+      r = r * (1 - e) + (s > 0.8 ? 25 : 95) * e; g = g * (1 - e) + (s > 0.8 ? 20 : 66) * e; b = b * (1 - e) + (s > 0.8 ? 16 : 34) * e;
+    }
+    d[k] = r; d[k + 1] = g; d[k + 2] = b; d[k + 3] = a;
+  }
+  x.putImageData(id, 0, 0);
+});
+// paper relief: fine creases along the length, a few soft crumples (handled / pressed)
+const paperBump = canvasTex(1024, 1024, (x, w, h) => {
+  const id = x.createImageData(w, h), d = id.data;
+  for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) {
+    const k = (j * w + i) * 4;
+    let v = 128 + 40 * (vn(i * 0.6, j * 0.01) - 0.5) + 25 * (fbm(i * 0.012, j * 0.012) - 0.5) + 10 * (hsh(i, j) - 0.5);
+    v += 30 * Math.exp(-(((i - 600 - 120 * Math.sin(j * 0.006)) / 6) ** 2)) * sm(0.9, 0.4, j / h);   // one crease
+    d[k] = d[k + 1] = d[k + 2] = v; d[k + 3] = 255;
+  }
+  x.putImageData(id, 0, 0);
+}, false);
+const cig = new THREE.Group();
+{
+  const g = new THREE.CylinderGeometry(CR, CR, CL, 96, 60, true);
+  const p = g.attributes.position;
+  for (let i = 0; i < p.count; i++) {   // slightly oval, a hint of crumple near the mouth end
+    const y = p.getY(i), a = Math.atan2(p.getZ(i), p.getX(i)), f = (y + CL / 2) / CL;
+    const rr = 1 + 0.015 * (vn(a * 3, f * 9) - 0.5) + 0.04 * (1 - f) ** 6 * (vn(a * 5, 2) - 0.5);
+    p.setX(i, p.getX(i) * rr); p.setZ(i, p.getZ(i) * rr * 0.94);
+  }
+  g.computeVertexNormals();
+  const paper = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ map: paperMap, bumpMap: paperBump, bumpScale: 2.0, roughness: 0.78, alphaTest: 0.5, side: THREE.DoubleSide, color: '#e6e0d5' }));
+  cig.add(paper);
+  // charred tobacco just behind the burn line
+  const charG = new THREE.CylinderGeometry(CR * 0.97, CR * 0.985, 0.0016, 64, 6, false);
+  const cp = charG.attributes.position;
+  for (let i = 0; i < cp.count; i++) { const a = Math.atan2(cp.getZ(i), cp.getX(i)); const k = 1 + 0.04 * (vn(a * 6, cp.getY(i) * 3000) - 0.5); cp.setX(i, cp.getX(i) * k); cp.setZ(i, cp.getZ(i) * k * 0.94); }
+  charG.computeVertexNormals();
+  const ch = new THREE.Mesh(charG, new THREE.MeshStandardMaterial({ color: '#141210', roughness: 1 }));
+  ch.position.y = CL / 2 - 0.0005; cig.add(ch);
+  // ash: grey, layered rings, cracked, slightly narrower and a bit irregular at the tip
+  const AL = 0.0058;
+  const ashMap = canvasTex(512, 256, (x, w, h) => {
+    const id = x.createImageData(w, h), d = id.data;
+    for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) {
+      const k = (j * w + i) * 4, fy = j / h;
+      let v = 120 + 50 * fbm(i * 0.04, j * 0.06) + 30 * (hsh(i, j) - 0.5);
+      if (fbm(i * 0.03 + 5, j * 0.09) > 0.62) v -= 60;                          // irregular cracks
+      if (hsh(i * 3, j * 7) > 0.985) v -= 90;                                   // dark flecks
+      v -= 110 * fy ** 4;   // darker where it meets the char (canvas bottom = base)                                              // darker at the base
+      d[k] = v; d[k + 1] = v * 0.98; d[k + 2] = v * 0.95; d[k + 3] = 255;
+    }
+    x.putImageData(id, 0, 0);
+  });
+  const ashG = new THREE.CylinderGeometry(CR * 0.88, CR * 0.95, AL, 64, 24, false);
+  const ap = ashG.attributes.position;
+  for (let i = 0; i < ap.count; i++) {
+    const y = ap.getY(i), a = Math.atan2(ap.getZ(i), ap.getX(i)), f = (y + AL / 2) / AL;
+    const k = 1 + 0.10 * (fbm(a * 2 + 3, f * 4) - 0.5) + 0.03 * (vn(a * 9, f * 20) - 0.5);
+    ap.setX(i, ap.getX(i) * k + 0.0006 * f * f); ap.setZ(i, ap.getZ(i) * k * 0.94);   // ash sags a little
+    if (y > AL / 2 - 1e-6) ap.setY(i, y - 0.0012 * vn(ap.getX(i) * 900, ap.getZ(i) * 900));   // ragged tip
+  }
+  ashG.computeVertexNormals();
+  const ash = new THREE.Mesh(ashG, new THREE.MeshStandardMaterial({ map: ashMap, roughness: 1 }));
+  ash.position.y = CL / 2 + AL / 2 - 0.0016; cig.add(ash);
+  // mouth end: tobacco shreds, slightly recessed
+  const tobMap = canvasTex(256, 256, (x, w, h) => {
+    x.fillStyle = '#7a5128'; x.fillRect(0, 0, w, h);
+    for (let n = 0; n < 900; n++) {
+      const c = 80 + rnd() * 110;
+      x.strokeStyle = `rgb(${c * 1.25},${c * 0.82},${c * 0.4})`; x.lineWidth = 1 + rnd() * 3;
+      x.beginPath(); const sx = rnd() * w, sy = rnd() * h, a = rnd() * 6.3, l = 6 + rnd() * 30;
+      x.moveTo(sx, sy); x.quadraticCurveTo(sx + Math.cos(a + 0.5) * l * 0.5, sy + Math.sin(a + 0.5) * l * 0.5, sx + Math.cos(a) * l, sy + Math.sin(a) * l); x.stroke();
+    }
+  });
+  const capG = new THREE.CircleGeometry(CR * 0.99, 64);
+  capG.scale(1, 0.94, 1);
+  const cap = new THREE.Mesh(capG, new THREE.MeshStandardMaterial({ map: tobMap, roughness: 0.95 }));
+  cap.rotation.x = Math.PI / 2; cap.position.y = -CL / 2 + 0.0004; cig.add(cap);
+}
+cig.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+
+// lay it on the lapel just under the notch: ends given in (s, w); rest it on the cloth
+const CA = [SG + 0.064, 0.030], CB = [SG + 0.033, 0.049];   // mouth end, ash end
+{
+  const A = surf(...CA).p, B = surf(...CB).p;
+  const nrm = surf((CA[0] + CB[0]) / 2, (CA[1] + CB[1]) / 2).f.N;
+  let raise = 0;
+  for (let k = 0; k <= 20; k++) {
+    const q = surf(CA[0] + (CB[0] - CA[0]) * k / 20, CA[1] + (CB[1] - CA[1]) * k / 20).p;
+    const l = A.clone().lerp(B, k / 20);
+    raise = Math.max(raise, q.clone().sub(l).dot(nrm));
+  }
+  const mid = A.clone().add(B).multiplyScalar(0.5).addScaledVector(nrm, raise + CR * 0.94 - 0.0003);
+  cig.position.copy(mid);
+  const dir = B.clone().sub(A).normalize();
+  cig.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
+  cig.rotateY(-1.2);   // the glued seam runs along the side the camera sees
+  S.add(cig);
+  t.focus(cig);
+  window.__cig = { mid: mid.toArray(), nrm: nrm.toArray() };
+}
+
+// a few grains of sand caught in the wool (beach)
+{
+  const cols = ['#cdb894', '#e3d7bd', '#9c8767', '#d9c9a6', '#b8a07a', '#efe6d2'];
+  const spots = [[SG + 0.040, 0.062], [SG + 0.071, 0.046], [SG + 0.022, 0.028], [SG + 0.052, 0.022]];
+  for (const [ss, ww] of spots) {
+    const r = 0.00025 + rnd() * 0.0002;
+    const g = new THREE.IcosahedronGeometry(r, 1);
+    const p = g.attributes.position;
+    for (let i = 0; i < p.count; i++) p.setXYZ(i, p.getX(i) * (0.8 + 0.4 * hsh(i, 3)), p.getY(i) * (0.7 + 0.3 * hsh(i, 5)), p.getZ(i) * (0.8 + 0.4 * hsh(i, 7)));
+    g.computeVertexNormals();
+    const s = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: cols[Math.floor(rnd() * cols.length)], roughness: 0.55 }));
+    s.position.copy(surf(ss, ww).p).addScaledVector(surf(ss, ww).f.N, r * 0.4); s.rotation.set(rnd() * 3, rnd() * 3, rnd() * 3);
+    s.castShadow = s.receiveShadow = true; S.add(s);
+  }
+}
+
+// ---------- light: one low dawn light raking across the wool from the head/shoulder side ----------
+const M = new THREE.Vector3(...window.__cig.mid);
+const DBG = new URLSearchParams(location.search).get('dbg');   // scratch views only; the shoot uses none
+if (DBG === 'wide') { P.cam = [0.10, 0.30, 0.30]; P.fov = 40; P.dof.K = 0; }
+if (DBG === 'side') { P.cam = [-0.35, 0.10, 0.0]; P.fov = 40; P.dof.K = 0; }
+{ const q = new URLSearchParams(location.search); const v = (k) => q.get(k) && q.get(k).split(',').map(Number);
+  if (v('cam')) P.cam = v('cam'); if (v('look')) P.look = v('look'); if (v('fov')) P.fov = v('fov')[0]; if (v('K')) P.dof.K = v('K')[0]; if (v('key')) P.key.pos = v('key'); }
+t.camera(M.clone().add(new THREE.Vector3(...P.cam)).toArray(), M.clone().add(new THREE.Vector3(...P.look)).toArray(), P.fov);
+t.cam.rotateZ(P.roll || 0);   // slight tilt: the shoulder line slopes like a body, not a table edge
+t.cam.near = 0.02; t.cam.far = 3; t.cam.updateProjectionMatrix();
+const key = t.key({ pos: M.clone().add(new THREE.Vector3(...P.key.pos)).toArray(), target: M.toArray(), intensity: P.key.intensity, angle: 0.32, penumbra: 0.9, color: '#ffeedd', decay: 0 });
+key.shadow.camera.near = 0.05; key.shadow.camera.far = 1.0; key.shadow.mapSize.set(4096, 4096); key.shadow.bias = -0.00004; key.shadow.normalBias = 0.0002; key.shadow.radius = 9; key.shadow.blurSamples = 16;
+t.amb(P.amb);
+
+// ---------- depth of field (thumbkit has none): render to HDR target with depth, then a gather blur ----------
+const w = t.w, h = t.h;
+const depthTex = new THREE.DepthTexture(w, h); depthTex.type = THREE.UnsignedIntType;
+const rt = new THREE.WebGLRenderTarget(w, h, { type: THREE.HalfFloatType, samples: 4, depthTexture: depthTex });
+const rt2 = new THREE.WebGLRenderTarget(w, h, { type: THREE.HalfFloatType });
+const focusZ = t.cam.position.distanceTo(new THREE.Vector3(...window.__cig.mid));
+const vs = 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }';
+const cocMat = new THREE.ShaderMaterial({
+  uniforms: { tColor: { value: rt.texture }, tDepth: { value: depthTex }, near: { value: t.cam.near }, far: { value: t.cam.far },
+    focusZ: { value: focusZ }, K: { value: P.dof.K }, maxR: { value: P.dof.maxR } },
+  vertexShader: vs, toneMapped: false, depthTest: false, depthWrite: false,
+  fragmentShader: `#include <packing>
+    uniform sampler2D tColor; uniform sampler2D tDepth; uniform float near, far, focusZ, K, maxR; varying vec2 vUv;
+    void main(){
+      float d = texture2D(tDepth, vUv).x;
+      float z = -perspectiveDepthToViewZ(d, near, far);
+      float coc = clamp(K * (z - focusZ) / z, -maxR, maxR);
+      gl_FragColor = vec4(texture2D(tColor, vUv).rgb, coc);
+    }`,
+});
+const dofMat = new THREE.ShaderMaterial({
+  uniforms: { tSrc: { value: rt2.texture }, px: { value: new THREE.Vector2(1 / w, 1 / h) }, res: { value: new THREE.Vector2(w, h) } },
+  vertexShader: vs, depthTest: false, depthWrite: false,
+  fragmentShader: `uniform sampler2D tSrc; uniform vec2 px; uniform vec2 res; varying vec2 vUv;
+    const int N = 160; const float GA = 2.39996323;
+    float ign(vec2 p){ return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715)))); }
+    void main(){
+      vec4 c0 = texture2D(tSrc, vUv);
+      float r0 = abs(c0.a);
+      vec3 acc = c0.rgb; float ws = 1.0;
+      if (r0 > 0.7) {
+        float rot = ign(vUv * res) * 6.2831853;
+        for (int i = 1; i < N; i++) {
+          float fi = float(i);
+          float rad = r0 * sqrt(fi / float(N));
+          float th = fi * GA + rot;
+          vec4 s = texture2D(tSrc, vUv + vec2(cos(th), sin(th)) * rad * px);
+          float rs = abs(s.a);
+          if (s.a > c0.a) rs = min(rs, r0);      // farther stuff never bleeds over nearer
+          float wgt = smoothstep(rad - 1.5, rad + 0.5, rs);
+          acc += s.rgb * wgt; ws += wgt;
+        }
+      }
+      // faint lateral chromatic aberration toward the corners (real lens)
+      vec2 q = vUv - 0.5;
+      gl_FragColor = vec4(acc / ws, 1.0);
+      #include <tonemapping_fragment>
+      #include <colorspace_fragment>
+    }`,
+});
+const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), cocMat);
+quad.frustumCulled = false;
+const qScene = new THREE.Scene(); qScene.add(quad);
+const qCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+t.render = () => {
+  R.setRenderTarget(rt); R.render(S, t.cam);
+  quad.material = cocMat; R.setRenderTarget(rt2); R.render(qScene, qCam);
+  quad.material = dofMat; R.setRenderTarget(null); R.render(qScene, qCam);
+};
+await t.done();
+</script></body></html>

@@ -1,0 +1,13 @@
+{
+  "_doc": "내레이션 = 본인 목소리를 VoxCPM2(Apache-2.0)로 복제. docs/voice.md 참고. reference_text 는 레퍼런스 녹음에서 실제로 읽은 문장과 글자 하나까지 같아야 한다.",
+  "engine": "voxcpm2",
+  "consent": "own",
+  "mode": "ultimate_clone",
+  "reference_wav": "voice/my_voice_ref.wav",
+  "reference_text": "1948년 12월 1일 아침, 해변에서 한 남자가 발견됩니다. 그의 이름이 밝혀지기까지는 무려 73년이 걸렸습니다.",
+  "cfg_value": 2.0,
+  "inference_timesteps": 10,
+  "seed": 42,
+  "default_style": "calm, low, measured Korean documentary narration",
+  "scene_styles": {}
+}

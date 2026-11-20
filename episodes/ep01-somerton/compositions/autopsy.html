@@ -1,0 +1,40 @@
+<template>
+  <style>
+
+    @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+    @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1E2125; color: #E9E5DD; font-family: "Gothic A1", sans-serif; }
+    .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
+      border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
+
+    .apwrap { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); }
+    .card { position: absolute; left: 150px; top: 110px; width: 1000px; background: #D9D5CC; color: #1E2125; padding: 50px 60px 30px; box-shadow: 0 30px 60px rgba(0,0,0,.45); }
+    .head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 4px solid #1E2125; padding-bottom: 18px; margin-bottom: 14px; }
+    .head span { font-size: 64px; }
+    .head em { font-style: normal; font-size: 28px; opacity: .7; }
+    .row { display: flex; justify-content: space-between; align-items: baseline; padding: 24px 0; border-bottom: 2px solid rgba(30,33,37,.25); }
+    .row span { font-size: 34px; opacity: .75; }
+    .row b { font-weight: 500; font-size: 50px; }
+    #ap-r3 b { color: #1E2125; background: #F0A23B; padding: 0 14px 4px; }
+    .quote { position: absolute; right: 120px; top: 640px; text-align: right; white-space: nowrap; }
+    .quote p { font-size: 86px; line-height: 1.1; color: #F3F0EA; }
+    .quote small { display: block; font-size: 32px; margin-top: 18px; color: rgba(233,229,221,.8); }
+  </style>
+  <div id="root" data-composition-id="autopsy" data-width="1920" data-height="1080">
+    <div id="ap-wrap" class="clip apwrap" data-start="0" data-duration="13.93">
+      <div id="ap-card" class="card"><div class="head"><span class="disp">검안 소견</span><em>1948 · 남호주</em></div><div id="ap-r1" class="row"><span>사망 추정 시각</span><b>12월 1일 새벽 2시</b></div><div id="ap-r2" class="row"><span>마지막 식사</span><b>고기 파이(패스티) 1개</b></div><div id="ap-r3" class="row"><span>독극물 검사</span><b>검출 없음</b></div></div>
+      <div id="ap-quote" class="quote"><p class="disp">“자연사일 리가 없다”</p><small>병리학자 존 드와이어</small></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ap-card", { opacity: 0, y: 60, rotation: -2 }, { opacity: 1, y: 0, rotation: -1, duration: 0.7, ease: "power3.out" }, 0.1);
+    tl.fromTo("#ap-r1", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.5);
+    tl.fromTo("#ap-r2", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 3.08);
+    tl.fromTo("#ap-r3", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 5.44);
+    tl.to("#ap-card", { x: -40, scale: 0.92, opacity: 0.55, duration: 0.8, ease: "power2.inOut" }, 8.38);
+    tl.fromTo("#ap-quote", { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 11.13);
+    window.__timelines["autopsy"] = tl;
+  </script>
+</template>

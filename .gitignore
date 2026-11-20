@@ -1,0 +1,15 @@
+episodes/*/renders/
+episodes/*/.hyperframes/
+episodes/*/node_modules/
+episodes/*/thumbnail/raw.png
+__pycache__/
+# 벤치마크 원본(채널의 저작물) — 분석용, 커밋하지 않는다
+data/benchmark/*/raw/
+# 내 목소리(개인 정보) — 녹음·생성 음성과 그 길이 기록은 커밋하지 않는다
+episodes/*/assets/voice/
+episodes/*/data/voice.json
+voice/
+# 썸네일 3D 자산 캐시(Poly Haven CC0, scripts/thumb_assets.py 로 다시 받음)와 촬영 원본
+thumbkit/cache/
+episodes/*/thumbnail/out/beauty-*.png
+episodes/*/thumbnail/out/mask-*.png

@@ -1,0 +1,640 @@
+{
+ "_meta": {
+  "verifier": "source-verifier",
+  "date": "2026-11-19",
+  "note": "safe_title_number 는 사건일→해결일 '만으로 채운 햇수'(가장 엄격). years.gap 은 연도 차이. 차이가 나는 경우 verification.gap_note 참고. ⚠️ = 2차·단일 출처."
+ },
+ "candidates": [
+  {
+   "slug": "thelma-gaston-riverside-1981",
+   "name": "텔마 개스턴 — 범인은 잡혔는데 시신의 이름만 몰랐다 (1981, 미국 캘리포니아)",
+   "aliases": [
+    "Thelma Gaston",
+    "Lawrence Remsen"
+   ],
+   "keys": [
+    "thelma gaston",
+    "텔마 개스턴",
+    "remsen",
+    "렘슨",
+    "sugar loaf mountain",
+    "pinyon crest",
+    "riverside jane doe"
+   ],
+   "region": "미국",
+   "years": {
+    "event": 1981,
+    "resolved": 2026,
+    "gap": 45
+   },
+   "logline": "1981년 사라진 80세 LA 부동산 재력가의 동반자는 시신이 확인되지 않은 상태로 살인 유죄·종신형을 받았고, 같은 해 리버사이드 카운티 산속 얕은 무덤에서 나온 신원불명 유골은 45년 만인 2026년 유전자 계보와 치과 기록으로 바로 그 여성으로 확인됐다.",
+   "hook": "범인은 43년 전에 잡혔다, 시신의 이름만 몰랐다 — 45년 만에 이어진 두 사건",
+   "focus_object": "집 문에 붙어 있던 '잃어버린 고양이를 찾으러 간다'는 쪽지",
+   "scenes_hint": [
+    "LA 자택 현관과 문에 붙은 쪽지",
+    "재산 관리권을 넘긴다는 위조 편지(사업 관계자들에게 발송)",
+    "1981년 11월 슈가로프 산·74번 도로 근처, 장작 줍던 사람들이 발견한 얕은 무덤",
+    "1983년 판결(시신 미확인 상태)",
+    "2024년 11월 유골 발굴·재검사",
+    "Othram 유전자 계보 가계도",
+    "2026년 보안관실 신원 확인 발표",
+    "두 개의 사건 파일이 하나로 합쳐지는 도식"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 4,
+    "sources": 3,
+    "visual": 4,
+    "novelty": 5,
+    "audience": 4,
+    "risk": 2
+   },
+   "risk_notes": "유죄 확정자 로런스 렘슨은 생존(가석방 거부, 수감 중) — 판결 범위(살인 유죄·종신형) 안에서만 서술. 언론 표기가 Remsen/Ramsen/Remson 으로 엇갈려 판결문 표기 확인 필요. 피해자 유족 실명은 쓰지 않는다.",
+   "sources": [
+    "https://dnasolves.com/articles/riverside-county-sheriffs-office-thelma-gaston/",
+    "https://www.cbsnews.com/losangeles/news/los-angeles-county-homicide-1981-lawrence-remsen-victim-identified-riverside-county/",
+    "https://www.foxnews.com/us/woman-found-shallow-grave-idd-after-44-years-millionaire-tied-estate-murder-plot",
+    "https://ktla.com/news/california/remainns-identified-missing-socal-millionaire/amp/",
+    "https://www.inkl.com/news/remains-of-la-millionaire-missing-since-1981-identified-after-more-than-40-years",
+    "https://www.thedailybeast.com/mystery-of-missing-multi-millionaire-solved-after-45-years/",
+    "https://genwhypod.com/blogs/the-generation-why-podcast-blog/missing-california-millionaire-thelma-gaston-identified-45-years-after-her-disappearance"
+   ],
+   "open_questions": [
+    "리버사이드 카운티 보안관실 보도자료 원문 미열람(사이트 검색·보도자료 목록에서 찾지 못함, CBS LA 의 직접 인용으로만 확인)",
+    "유죄 죄명 등급: 1급 살인으로 기소, 2급 살인 유죄라는 보도(Guardian·GenWhy)가 다수지만 판결 기록 미확인 ⚠️",
+    "판사 판단(bench) 인지 배심 평결인지 보도 엇갈림(KTLA '판사가 고의·악의로 살해했다고 판단' vs Guardian 계열 '배심') ⚠️",
+    "선고 시점 1983년 5월은 2차 보도뿐 ⚠️",
+    "1981년 9월 22일 텍사스 이글패스 국경 체포는 GenWhy 가 인용한 1981년 Sacramento Union 기사뿐 ⚠️",
+    "피고인 표기: Remsen(Fox·Guardian·GenWhy·CBS URL) vs Ramsen(CBS 본문) — 법원 기록 미확인",
+    "가석방 거부(2025-07)·다음 심리(2028-07)는 Fox 보도뿐, CDCR 기록 미확인 ⚠️",
+    "1981년 발견 당시 사인 판정, LAPD 사건과 45년간 연결되지 않은 이유(공식 설명 없음)",
+    "현장 위치: Sugar Loaf Mountain/Pinyon Crest(Othram·CBS) vs 'Santa Rosa Mountains near Palm Springs'(일부 보도) — 같은 산지 묘사로 보이나 지도 확인 필요"
+   ],
+   "total": 28.3,
+   "status": "후보",
+   "added": "2026-11-18",
+   "verification": {
+    "verdict": "검증됨",
+    "summary": "2026년 신원 확인은 실제로 있었다. Othram 공식 발표(2026-07-10, DNASolves)와 CBS LA(2026-07-15, 보안관실 보도자료 직접 인용)·Fox News·KTLA·Guardian(inkl 경유, 403)·Daily Beast 가 일치: 1981-11-28 슈가로프 산/피니언 크레스트 인근 얕은 무덤 유골(NamUs UP7276)이 2024-11-26 발굴·2026 Othram 유전체 분석+치과 기록으로 2026년 5월 Thelma Gaston 으로 확인, 7월 발표. 다만 보안관실 보도자료 원문은 열지 못했고, 1981~83년 재판 세부(죄명 등급·선고일·판사/배심)는 2차 보도만 있어 ⚠️.",
+    "ending": "공식 신원 확인 발표(리버사이드 카운티 보안관실 검시국, 2026년 7월) + 이미 확정된 살인 유죄·종신형(1983년경, 시신 미확인 상태). 영상에서 단정 가능: '유골이 텔마 개스턴으로 공식 확인됐다', '동반자 로런스 렘슨은 살인으로 유죄·종신형을 받았다'. 단정 금지: 죄명 등급(2급), 판사 단독 판단 여부, 살해 방법·장소(LA 카운티에서 살해됐다는 것만 보안관실 표현).",
+    "safe_title_number": 45,
+    "gap_note": "실종 1981-06-28 → 발표 2026-07(약 45년 0개월)이라 '45년 만에'는 안전. 확인 시점(2026-05)이나 유골 발견(1981-11) 기준이면 44년(Fox 제목 '44 years'). 제목은 '45년 만에 이름을 찾았다'처럼 실종 기준으로. 훅의 '범인은 43년 전에 잡혔다'는 부정확 — 체포는 1981년(45년 전), 43년 전은 유죄 판결(1983, ⚠️) 기준이므로 '43년 전 유죄 판결'로 쓸 것.",
+    "clues": [
+     "피해자: 80세, LA 부동산 투자자, 재산 약 2,000만 달러(SFGATE 인용 보도)",
+     "1981-06-28 무렵 실종, 현관문에 '잃어버린 고양이를 찾으러 나간다'는 쪽지(Fox·KTLA)",
+     "그녀 서명이라는 위임장·편지('인생을 즐기러 떠난다'), 도난 공증 도장·위조 서명(KTLA)",
+     "부동산 매각 시도, 10만 달러 이상 인출 시도 후 도주(KTLA)",
+     "멕시코에서 미국 재입국 중 국경에서 체포 ⚠️(이글패스 TX, 1981-09-22)",
+     "기소: 살인 + 위조 + 중절도(Fox: murder, forgery, grand theft, attempted grand theft)",
+     "피고 주장: 자연사였고 시신을 바다에 버렸다 → 실제 유골은 산속 얕은 무덤(극적 반전 지점)",
+     "1981-11-28 장작 줍던 사람들이 발견, 11-29 수습: 74번 도로 북쪽 약 300야드, 슈가로프 산림소방서 동쪽 약 3/4마일, 마일마커 81.33(Othram)",
+     "NamUs UP7276, 2022 MUHR 보조금 → 2024 재조사 → 2024-11-26 발굴",
+     "2026 Othram(텍사스 우드랜즈) 법의학 등급 게놈 시퀀싱 → 유전 계보 + 치과 기록 → 2026년 5월 확인, Othram 의 캘리포니아 85번째 공개 사례",
+     "렘슨 현재 83세, 치노 캘리포니아 남성교도소 수감 ⚠️(가석방 거부 2025-07)"
+    ],
+    "misconceptions": [
+     "'44년 만' vs '45년 만' 혼재 — 기준일 차이(발견일·확인일 vs 실종일·발표일)",
+     "피고 이름 Ramsen/Remsen/Remson 혼용(CBS 본문 Ramsen)",
+     "'범인이 43년 전에 잡혔다' — 체포는 1981년, 43년은 판결 기준",
+     "일부 보도·요약은 1983년을 '1급 살인 유죄'로 씀 — 기소는 1급, 유죄는 2급이라는 보도가 다수(미확정 ⚠️)",
+     "'팜스프링스 근처 산타로사 산맥'으로 쓰는 보도 있음 — 공식 묘사는 슈가로프 산·피니언 크레스트 인근, 74번 도로"
+    ],
+    "source_types": {
+     "https://dnasolves.com/articles/riverside-county-sheriffs-office-thelma-gaston/": "1차(분석 기관 Othram 공식 발표, 열람함)",
+     "https://www.cbsnews.com/losangeles/news/los-angeles-county-homicide-1981-lawrence-remsen-victim-identified-riverside-county/": "주요 언론(보안관실 보도자료 직접 인용, 열람함)",
+     "https://www.foxnews.com/us/woman-found-shallow-grave-idd-after-44-years-millionaire-tied-estate-murder-plot": "주요 언론(열람함, UPI 1982 아카이브 링크 인용)",
+     "https://ktla.com/news/california/remainns-identified-missing-socal-millionaire/amp/": "주요 언론(열람함, SFGATE·KESQ 인용)",
+     "https://www.inkl.com/news/remains-of-la-millionaire-missing-since-1981-identified-after-more-than-40-years": "주요 언론(Guardian 재게재, 403 차단 — 검색 요약만)",
+     "https://www.thedailybeast.com/mystery-of-missing-multi-millionaire-solved-after-45-years/": "주요 언론(검색 결과만, 미열람)",
+     "https://genwhypod.com/blogs/the-generation-why-podcast-blog/missing-california-millionaire-thelma-gaston-identified-45-years-after-her-disappearance": "2차(팟캐스트 블로그, 1981 Sacramento Union 등 인용, 열람함)"
+    },
+    "blocked": [
+     "riversidesheriff.org 보도자료(목록·검색에서 해당 글 못 찾음)",
+     "inkl/Guardian 403"
+    ]
+   }
+  },
+  {
+   "slug": "carol-park-coniston-1976",
+   "name": "'호수의 여인' 캐럴 파크 (1976, 영국 컴브리아 코니스턴)",
+   "aliases": [
+    "Lady in the Lake",
+    "Carol Ann Park",
+    "Gordon Park",
+    "Park (Deceased) v R [2020] EWCA Crim 589"
+   ],
+   "keys": [
+    "carol park",
+    "캐럴 파크",
+    "coniston",
+    "코니스턴",
+    "gordon park",
+    "고든 파크",
+    "lady in the lake",
+    "호수의 여인"
+   ],
+   "region": "유럽",
+   "years": {
+    "event": 1976,
+    "resolved": 2005,
+    "gap": 29
+   },
+   "logline": "1976년 사라진 교사 캐럴 파크가 21년 뒤 코니스턴 호수 약 75피트 아래에서 아마추어 다이버들에게 꾸러미 상태로 발견됐고, 남편 고든 파크는 한 차례 기소 취하 끝에 2005년 매듭·돌 증거 등으로 살인 유죄를 받았다(2020년 사후 항소도 기각).",
+   "hook": "호수 밑 배낭을 묶은 매듭, 29년 만에 남편을 가리켰다",
+   "focus_object": "시신 꾸러미를 묶은 매듭과 납 파이프",
+   "scenes_hint": [
+    "코니스턴 호수와 1997년 8월 아마추어 다이버",
+    "수심 약 24~27m(75~80피트)의 꾸러미(잠옷·피나포어 원피스 자루·녹색 배낭·비닐봉지·납 파이프 6.4kg)",
+    "꾸러미 매듭 vs 집·보트에서 쓰인 매듭 비교 도식",
+    "호수에서 따로 건진 돌 vs 집 담장 돌(2020년 연결 근거 없다고 정리됨)",
+    "실종 후 6주 늦은 실종 신고(9월 개학)",
+    "1997 체포 → 1998 기소 취하 → 2004 재체포 → 2005 유죄 타임라인",
+    "2008·2020 항소 기각"
+   ],
+   "scores": {
+    "hook": 4,
+    "resolution": 5,
+    "sources": 5,
+    "visual": 5,
+    "novelty": 4,
+    "audience": 3,
+    "risk": 2
+   },
+   "risk_notes": "유죄 확정자 고든 파크는 2010년 교도소에서 사망(자살) — 방법 묘사 금지. 지지자들이 무죄를 주장해 왔고 CCRC 회부·2020 항소 기각이 있었으므로 '다툼이 있었으나 항소법원이 유죄 유지'로 균형. 얼굴 손상 등 잔혹 묘사 금지. 자녀 실명 쓰지 않는다. '흉기=얼음도끼' 보도는 항소심에서 바로잡혔다고 함 — 쓰지 않는다.",
+   "sources": [
+    "https://caselaw.nationalarchives.gov.uk/ewca/crim/2020/589",
+    "https://www.bailii.org/ew/cases/EWCA/Crim/2020/589.html",
+    "https://ccrc.gov.uk/decision/park-gordon/",
+    "https://news.bbc.co.uk/2/hi/uk_news/england/cumbria/4211495.stm",
+    "https://www.bbc.com/news/uk-england-cumbria-52499437",
+    "https://news.bbc.co.uk/2/hi/uk_news/england/cumbria/8478717.stm",
+    "https://en.wikipedia.org/wiki/Lady_in_the_Lake_trial"
+   ],
+   "open_questions": [
+    "1997 기소·1998-01-06 기소 취하·2004-01-13 재체포 날짜는 위키백과 기준 ⚠️(판결문 열람 범위에서 미확인, CCRC 는 '취하 후 2004년 재체포'만)",
+    "실종 신고 정확한 날짜(판결문: 9월 가을학기 개학에 출근하지 않은 뒤에야 신고 — '6주 후'는 위키 표현)",
+    "판결문 [2020] EWCA Crim 589 중 일부(약 10만~18만자 구간)만 요약 열람, 전문 정독 아님",
+    "BBC 기사들은 이 환경에서 접속 불가 — 2005 선고·2010 사망·2020 항소 보도는 검색 요약과 판결문·CCRC 로 대체 확인"
+   ],
+   "total": 27.0,
+   "status": "후보",
+   "added": "2026-11-18",
+   "verification": {
+    "verdict": "검증됨",
+    "summary": "1차 자료 확보: 항소법원 판결 Park (Deceased) v R [2020] EWCA Crim 589(영국 국립기록원 Find Case Law 에서 열람, BAILII 는 403)와 CCRC 결정 페이지. 실종 1976-07-16/17, 1997-08-10 다이버 발견·08-13 인양, 2004-11 맨체스터 형사법원 재판 → 2005-01-28 만장일치 유죄, 종신형(최소 15년), 2008-11-27 항소허가 거부, 2010-01-25 수감 중 사망, 2018-10 CCRC 회부, 2020-05-01 항소 기각('유죄의 안전성에 의심 없음').",
+    "ending": "확정 유죄 판결(2005, 배심 만장일치) + 사후 CCRC 회부 항소 기각(2020). 단정 가능: '남편 고든 파크가 살인 유죄를 받았고, 사후 재심 항소에서도 유죄가 유지됐다'. 균형 필요: 파크는 끝까지 무죄를 주장했고 2020 항소에서 돌 증거가 틀렸다는 점·흉기 관련 미공개 의견이 인정됐으나 유죄는 유지.",
+    "safe_title_number": 28,
+    "gap_note": "실종 1976-07 → 유죄 2005-01-28 은 엄밀히 28년 6개월 → 가장 엄격한 숫자 28. CCRC 공식 문구는 '29 years after she went missing'(연도 차이)이라 '29년 만에'도 1차 기관 표현으로 방어 가능. 대안 숫자: 발견까지 '21년 만에 호수 밑에서'(1976-07 → 1997-08, 21년 1개월로 정확).",
+    "clues": [
+     "집 'Bluestones'(컴브리아 배로인퍼니스 인근 Leece)",
+     "코니스턴 호수 동쪽 기슭 Bailiff Wood 근처 해변에서 약 200m, 수심 약 24~27m(≈75~80피트)",
+     "1997-08-10 아마추어 다이버 발견, 08-13 인양",
+     "꾸러미: 짧은 잠옷 차림, 밧줄·끈으로 태아 자세로 결박, 비닐 쓰레기봉투, 녹색 배낭, 검은 피나포어 원피스를 꿰매 만든 자루, 납작해진 납 파이프 약 6.4kg(추)",
+     "매듭 증거: 전문가가 12종 매듭 식별, 거의 모두 Bluestones·Norland Avenue·피고 보트에서 나온 밧줄에서도 확인(변호인: 호수 지역 선원·등반가에게 흔한 기술)",
+     "호수에서 1997-09-30 경찰이 건진 돌 → 재판에서 Bluestones 담장 돌과 연결 주장 → 2020 항소심에서 그 연결은 근거 없다고 인정",
+     "목재 아이스 액스(2004 압수) — 검찰은 흉기라고 주장하지 않았다고 항소법원 판단",
+     "교도소 수감자 2명의 '자백 들었다' 증언(신빙성 공격받음)",
+     "실종 신고는 9월 개학에 출근하지 않은 뒤에야(판결문 para 236(12))",
+     "2018 CCRC 회부 사유 4가지: 흉기 관련 미공개 의견, 증인 신빙성 미공개 정보, 매듭 DNA 에 피고 기여 없음, 돌 연결 부정",
+     "타임라인: 1997 체포 → 1998 기소 취하 ⚠️ → 2004 재체포 → 2005 유죄 → 2008 항소 거부 → 2010 사망 → 2018 회부 → 2020 기각"
+    ],
+    "misconceptions": [
+     "'흉기는 얼음도끼(아이스 액스)였다' — 항소법원: 검찰은 흉기라고 주장하지 않았다(para 206-207)",
+     "'꾸러미 속 돌이 집 담장 돌과 일치' — 돌은 꾸러미 속이 아니라 1997-09-30 호수에서 따로 건진 것이고, 담장과의 연결은 2020년 근거 없다고 정리됨(후보의 scenes_hint 수정 필요)",
+     "'1998 기소 취하 = 무혐의' — 증거 부족 판단이었을 뿐",
+     "'CCRC 회부 = 무죄 인정' — 2020 항소 기각",
+     "'수심 75피트에서 다이버가 8월 13일 발견' — 판결문: 8월 10일 발견, 13일 인양",
+     "같은 별명 'Lady in the Lake'를 쓰는 다른 영국 사건(와스트 호수 Margaret Hogg 사건 등)과 혼동 가능 ⚠️(본 검증에서 별도 확인 안 함)"
+    ],
+    "source_types": {
+     "https://caselaw.nationalarchives.gov.uk/ewca/crim/2020/589": "1차(항소법원 판결, 열람함)",
+     "https://www.bailii.org/ew/cases/EWCA/Crim/2020/589.html": "1차(같은 판결, 403 차단)",
+     "https://ccrc.gov.uk/decision/park-gordon/": "1차(형사사건재심위원회, 열람함)",
+     "https://news.bbc.co.uk/2/hi/uk_news/england/cumbria/4211495.stm": "주요 언론(이 환경에서 BBC 접속 불가)",
+     "https://www.bbc.com/news/uk-england-cumbria-52499437": "주요 언론(접속 불가)",
+     "https://news.bbc.co.uk/2/hi/uk_news/england/cumbria/8478717.stm": "주요 언론(접속 불가)",
+     "https://en.wikipedia.org/wiki/Lady_in_the_Lake_trial": "2차(열람함; 이전 URL Murder_of_Carol_Park 대신 현 문서명)"
+    },
+    "blocked": [
+     "bailii.org 403",
+     "bbc.co.uk / bbc.com 접속 불가"
+    ]
+   }
+  },
+  {
+   "slug": "lynette-white-cardiff-1988",
+   "name": "린넷 화이트 살해와 '카디프 3인' (1988, 영국 웨일스)",
+   "aliases": [
+    "Murder of Lynette White",
+    "Cardiff Three",
+    "Jeffrey Gafoor"
+   ],
+   "keys": [
+    "lynette white",
+    "린넷 화이트",
+    "cardiff three",
+    "카디프 3인",
+    "gafoor",
+    "가푸어",
+    "james street",
+    "butetown"
+   ],
+   "region": "유럽",
+   "years": {
+    "event": 1988,
+    "resolved": 2003,
+    "gap": 15
+   },
+   "logline": "1988년 카디프 제임스 스트리트 7번지에서 린넷 화이트가 살해된 뒤 무고한 세 남자가 종신형을 받았다가 1992년 풀려났고, 15년 만에 덧칠된 걸레받이 아래 혈흔과 셀로판 포장지에서 얻은 DNA와 가족 DNA 검색으로 진범 제프리 가푸어가 잡혀 유죄를 인정했다.",
+   "hook": "페인트 밑에 15년 숨어 있던 핏자국, 엉뚱한 세 사람을 풀어주고 진범을 불렀다",
+   "focus_object": "페인트로 덧칠된 걸레받이 속 혈흔",
+   "scenes_hint": [
+    "카디프 뷰트타운 제임스 스트리트 7번지 아파트",
+    "덧칠된 걸레받이 단면 도식(페인트층 아래 혈흔)",
+    "셀로판 포장지의 작은 혈흔",
+    "1990 세 명 유죄 → 1992 항소 파기 타임라인",
+    "부분 일치 → 친족 → 삼촌으로 이어지는 가족 DNA 검색 도식",
+    "2003 유죄 인정·종신형",
+    "2008 위증 유죄, 2011 경찰관 재판 붕괴"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 5,
+    "sources": 4,
+    "visual": 5,
+    "novelty": 4,
+    "audience": 3,
+    "risk": 3
+   },
+   "risk_notes": "피해자는 성매매 종사자였고 다수 자상 — 잔혹 묘사 금지, 직업을 선정적으로 쓰지 않는다. 가족 DNA 검색의 단서가 된 14세 친족은 이름·신원을 쓰지 않는다. 경찰관 8명은 2011년 재판 붕괴로 무죄 — 경찰 부정행위를 사실로 단정하지 말고 '항소법원이 신문 과정을 부적절하다고 판단'까지만. 카디프 3인은 생존·무고 — 실명은 공적으로 알려진 범위에서 신중히. 추가: 가푸어는 2024년 가석방위원회 석방 결정 보도(⚠️) — 생존·석방 가능성 있는 확정자이므로 판결 범위 밖 서술 금지. 피해자 상처 수(보고서 '최소 50곳') 등 묘사 금지.",
+   "sources": [
+    "https://www.gov.uk/government/publications/mouncher-investigation-report",
+    "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/629725/mouncher_report_web_accessible_july_2017.pdf",
+    "https://en.wikipedia.org/wiki/Murder_of_Lynette_White",
+    "https://itv.com/news/wales/2023-02-09/lynette-whites-murder-why-it-took-16-years-to-find-her-real-killer",
+    "https://itv.com/news/wales/2024-10-17/lynette-white-murderer-jeffrey-gafoor-to-be-released-from-prison",
+    "https://www.itv.com/news/wales/2021-06-02/lynette-white-killer-jeffrey-gafoor-to-remain-in-prison-after-review"
+   ],
+   "open_questions": [
+    "'페인트로 덧칠된 걸레받이 아래 혈흔' — Mouncher 보고서(1차)는 걸레받이·셀로판 포장지의 '외부 혈흔'만 기술하고 페인트층 언급 없음. 페인트 디테일은 위키·ITV 등 2차 ⚠️",
+    "가푸어 현재 상태: 가석방위원회가 2024-10 석방 결정했다는 ITV 보도(503으로 미열람, 검색 요약만) ⚠️ — 실제 석방 여부 미확인",
+    "1990년 유죄 후 항소 판결 R v Paris, Abdullahi, Miller (1993) 97 Cr App R 99 원문 미열람(Mouncher 보고서 요약으로 대체)",
+    "최소 형기: 위키 '12년 8개월' vs 보도 '13년'",
+    "법원 판결문(2003 양형) 원문 없음 — 1차는 정부 의뢰 Mouncher 조사 보고서(2017, HC 292)"
+   ],
+   "total": 25.8,
+   "status": "후보",
+   "added": "2026-11-18",
+   "verification": {
+    "verdict": "검증됨",
+    "summary": "1차: 영국 정부가 의회에 낸 Mouncher 조사 보고서(Richard Horwell QC, 2017-07, HC 292) PDF 를 직접 내려받아 확인. 1988-02-14 새벽 카디프 뷰트타운 제임스 스트리트 7번지 1호 침실에서 살해, 1990-11-22 세 명 유죄, 1992-12-10 항소 인용·파기, 이후 재수사에서 외부 혈흔(청바지·양말·셀로판 포장지·걸레받이·현관 안쪽 등) DNA 프로필 → 국가 DNA DB 가족 검색으로 14세 소년과 유사 → 삼촌 제프리 가푸어, 2003-02-27 시료 채취, 이튿날 과다복용 후 체포 중 자백('15년 동안 이걸 기다렸다'), 2003-07-04 카디프 형사법원 유죄 인정·종신형(Royce 판사). ITV 의 '2004년 유죄' 표현은 오류.",
+    "ending": "유죄 인정(guilty plea)에 따른 확정 종신형(2003). 단정 가능: '가푸어가 유죄를 인정해 종신형', '앞서 유죄였던 세 사람의 판결은 1992년 항소법원에서 파기'. 단정 금지: 경찰관 부정행위(2011 재판 붕괴로 유죄 없음), '진범이 단독범'은 가푸어 본인 진술·법원 수용 범위로 표현.",
+    "safe_title_number": 15,
+    "gap_note": "1988-02-14 → 2003-02-28 체포·자백(15년 2주) / 2003-07-04 유죄 인정(15년 5개월). '15년 만에'는 정확하며 가푸어 본인 말('15년')과도 일치. ITV 의 '16년'은 부정확.",
+    "clues": [
+     "제임스 스트리트 7번지 1호: 전기·난방 없는 빈 아파트, 열쇠 한 벌",
+     "1988-02-14 저녁 신고 후 21시 직후 문을 강제로 열고 발견(Mouncher)",
+     "시계가 약 1:45 에 멈춤(충격), 약 2시 비명 목격 → 사망 추정 시각",
+     "1988-03-04 '외부 혈흔' 발견: 청바지·양말·걸레받이·벽(Mouncher 2.6)",
+     "외부 혈흔 위치: 셀로판 포장지, 걸레받이, 골판지 상자, 현관 안쪽 등 출구 동선(Mouncher 6.2)",
+     "압수된 피고인 측 물품 수: 26/32/54/214/236점, 어디에도 혈흔 없음(Mouncher 6.3)",
+     "남은 혈흔이 아주 적어 검사 횟수 조절 — 기술 발전 대기",
+     "2001~02 원래 피고인·증인 DNA 모두 불일치",
+     "가족 검색 → 14세 소년(신원 비공개) → 삼촌 가푸어",
+     "2003-02-27 '그녀를 안다…' 선제 진술, 이튿날 파라세타몰 대량 구입 → 강제 진입·체포",
+     "1990 세 명 유죄 → 1992-12 파기 → 2003-07-04 진범 유죄 인정",
+     "2008-12 증인 3명 위증 유죄(각 18개월), 2011-12-01 경찰관 8명 재판 붕괴"
+    ],
+    "misconceptions": [
+     "'가족 DNA 로 살인범을 잡은 세계 최초' — 영국 내에서도 2002년 조 캐펀(사망자) 사건이 앞섬, '최초' 표현 피할 것",
+     "'카디프 3인' vs '카디프 5인' — 5명이 기소, 3명 유죄",
+     "'가푸어는 2004년 유죄' (ITV) — 2003-07-04",
+     "'경찰관들이 유죄를 받았다' — 2011 재판 붕괴로 유죄 없음",
+     "'16년 만에' — 15년",
+     "'페인트 아래 혈흔'은 2차 보도 디테일(1차 보고서는 걸레받이 혈흔만) ⚠️"
+    ],
+    "source_types": {
+     "https://www.gov.uk/government/publications/mouncher-investigation-report": "1차(정부 조사 보고서 페이지)",
+     "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/629725/mouncher_report_web_accessible_july_2017.pdf": "1차(보고서 PDF, 내려받아 열람함)",
+     "https://en.wikipedia.org/wiki/Murder_of_Lynette_White": "2차(열람함)",
+     "https://itv.com/news/wales/2023-02-09/lynette-whites-murder-why-it-took-16-years-to-find-her-real-killer": "주요 언론(미열람, '2004'·'16년' 오류 포함)",
+     "https://itv.com/news/wales/2024-10-17/lynette-white-murderer-jeffrey-gafoor-to-be-released-from-prison": "주요 언론(503, 검색 요약만)",
+     "https://www.itv.com/news/wales/2021-06-02/lynette-white-killer-jeffrey-gafoor-to-remain-in-prison-after-review": "주요 언론(검색 결과만)"
+    },
+    "blocked": [
+     "itv.com 503(2024-10-17 기사)"
+    ]
+   }
+  },
+  {
+   "slug": "lady-of-the-dunes-provincetown-1974",
+   "name": "레이디 오브 더 듄스 — 프로빈스타운 모래언덕의 여인 (1974, 미국 매사추세츠)",
+   "aliases": [
+    "Lady of the Dunes",
+    "Ruth Marie Terry",
+    "Guy Rockwell Muldavin"
+   ],
+   "keys": [
+    "lady of the dunes",
+    "레이디 오브 더 듄스",
+    "provincetown",
+    "프로빈스타운",
+    "ruth marie terry",
+    "루스 마리 테리",
+    "muldavin",
+    "멀대빈",
+    "race point"
+   ],
+   "region": "미국",
+   "years": {
+    "event": 1974,
+    "resolved": 2022,
+    "gap": 48
+   },
+   "logline": "1974년 케이프코드 국립해안 모래언덕에서 손이 없는 상태로 발견돼 지문 확인이 불가능했던 신원불명 여성이 48년 만인 2022년 FBI 유전자 계보 조사로 테네시 출신 루스 마리 테리로 밝혀졌고, 2023년 검찰은 이미 사망한 남편 가이 멀대빈이 범인이라고 결론 내며 사건을 종결했다.",
+   "hook": "지문을 지운 범인, 48년 만에 이름도 범인도 나왔다",
+   "focus_object": "모래언덕 위 해변 담요",
+   "scenes_hint": [
+    "레이스 포인트 레인저 스테이션 근처 모래언덕(1974-07-26)",
+    "해변 담요 위 시신 위치 도식(현장에서 살해됐다는 검찰 판단)",
+    "손이 없어 지문 대조 불가 → 48년간 신원 미상 도식",
+    "테네시·매사추세츠·캘리포니아·미시간 연고 지도",
+    "유전자 계보 가계도",
+    "남편 멀대빈의 이력(1960년 시애틀 전처·의붓딸 실종 사건 용의자)",
+    "2023-08-28 검찰 사건 종결 발표"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 4,
+    "sources": 4,
+    "visual": 4,
+    "novelty": 3,
+    "audience": 4,
+    "risk": 2
+   },
+   "risk_notes": "멀대빈은 2002년 사망, 기소·재판 없음 — '검찰이 범인으로 결론'이라는 공식 발표로만 서술. 시애틀 1960년 실종은 '용의자였다'는 보도 수준이므로 단정 금지. 시신 훼손(손 절단 등) 묘사는 최소화, 사진 사용 금지.",
+   "sources": [
+    "https://capecod.com/cape-wide-news/district-attorney-announces-the-lady-of-the-dunes-case-has-officially-been-closed",
+    "https://www.cbsnews.com/amp/news/lady-of-the-dunes-ruth-marie-terry-identified-victim-1974-homicide-cape-cod",
+    "https://www.wgbh.org/news/local/2022-10-31/lady-of-the-dunes-identified-nearly-50-years-after-she-was-killed",
+    "https://www.boston25news.com/news/local/da-closes-lady-dunes-investigation-after-determining-husband-killed-her-cape-cod/WDTFNU43G5AAPNHDNYX5QSUM4A/?outputType=amp",
+    "https://thedailyrecord.com/2023/08/28/authorities-identify-husband-as-killer-in-lady-of-the-dunes-cold-case/",
+    "https://www.cbsnews.com/amp/boston/news/guy-rockwell-muldavin-husband-lady-of-the-dunes-suspect-1960-seattle-deaths",
+    "https://www.nbcboston.com/investigations/lady-dunes-ruth-marie-terry-husband-guy-muldavin/2891059"
+   ],
+   "open_questions": [
+    "FBI 보스턴 발표(2022-10-31) 원문 URL 미확보(fbi.gov 접속 403) — 내용은 CBS·WGBH 등 다수 언론 인용으로 확인",
+    "케이프·아일랜즈 지검 보도자료(2023-08-28) 원문 미열람 — Cape Cod 지역 매체(capecod.com) 전문 보도로 확인",
+    "발견 위치 표기 차이: FBI 계열 '레이스 포인트 레인저 스테이션 동쪽 약 1마일' vs 지검 '레이스 포인트 로드 서쪽 약 1마일' — 지도 도식 전 확인",
+    "검찰이 멀대빈을 범인으로 판단한 근거는 '여행 후 혼자 테리의 차를 몰고 돌아와 그녀가 죽었다고 말함' 등 정황 수준, 상세 증거 비공개",
+    "Othram 검사 연도: 지검 '2021년 턱뼈 일부 검사' vs FBI 발표 2022 — 검사·확인·발표 시점 구분 필요",
+    "시애틀 1960년대 전처·의붓딸 실종 '주요 용의자'(지검 표현 보도) — 기소된 적 없음",
+    "테리가 1974년 케이프코드에 온 이유, 담요/수건(보도 엇갈림: beach blanket vs beach towel)"
+   ],
+   "total": 25.1,
+   "status": "후보",
+   "added": "2026-11-18",
+   "verification": {
+    "verdict": "검증됨",
+    "summary": "FBI 보스턴 2022-10-31 발표(언론 다수 인용): 1974-07-26 프로빈스타운 레이스 포인트 모래언덕에서 발견된 여성은 테네시 출신 Ruth Marie Terry(당시 37세), 유전 계보(Othram)로 확인, 캘리포니아·매사추세츠·미시간 연고. 케이프·아일랜즈 지검(로버트 갈리보이스) 2023-08-28: 남편 Guy Rockwell Muldavin(2002 사망)이 범인이라고 판단하고 수사 종결, 사인 두부 둔기 외상, 사망진단서 2023-04-05 발급.",
+    "ending": "공식 신원 확인(FBI, 2022) + 검찰의 '사망한 남편이 범인' 결론·수사 종결(2023, 기소·재판 없음). 단정 가능: '신원이 확인됐다', '검찰은 남편을 범인으로 결론 내리고 사건을 종결했다'. 단정 금지: '남편이 죽였다'를 법원 판단처럼, 시애틀 실종 사건 관여.",
+    "safe_title_number": 48,
+    "gap_note": "1974-07-26 → 2022-10-31 신원 발표 = 48년 3개월, '48년 만에 이름을 찾았다' 정확. 범인 결론까지는 1974-07 → 2023-08 = 49년 1개월('49년 만에 범인 지목'도 가능). '50년'은 과장.",
+    "clues": [
+     "1974-07-26 레이스 포인트(케이프코드 국립해안) 모래언덕, 개를 산책시키던 사람 발견(일반 보도 ⚠️)",
+     "시신 아래 해변 담요/수건 — 현장에서 살해됐다는 판단",
+     "두부 둔기 외상(지검), 손이 없어 지문 대조 불가(FBI) — 묘사 최소화",
+     "두개골은 경찰 보관, 나머지만 매장 → 여러 차례 발굴 ⚠️",
+     "1982 프로빈스타운 경찰 → 매사추세츠 주경찰로 이관",
+     "2021 Othram 턱뼈 일부 DNA 프로필 → 근친 DNA 비교 → 2022-10-31 FBI 발표",
+     "결혼 1973 또는 1974, 테네시 가족 방문, 1974년 여름 여행 후 멀대빈 혼자 테리의 차로 귀가·'죽었다'고 말함, 오빠에게는 '신혼여행 중 싸운 뒤 연락 없다'",
+     "2023-04-05 사망진단서, 2023-08-28 수사 종결",
+     "연고 지도: 테네시·매사추세츠·캘리포니아·미시간"
+    ],
+    "misconceptions": [
+     "영화 '죠스' 엑스트라였다는 설 — 근거 없음(신원 확인 후에도 확인된 바 없음)",
+     "화이티 벌저·해든 클라크 등 유명 범죄자 연루설 — 공식 결론은 남편",
+     "'손을 자른 이유는 지문 은폐' — 추정이며 공식 결론 아님",
+     "'50년 만에' — 48년(신원) / 49년(종결)",
+     "'남편이 유죄 판결을 받았다' — 2002년 사망, 기소·재판 없음"
+    ],
+    "source_types": {
+     "https://capecod.com/cape-wide-news/district-attorney-announces-the-lady-of-the-dunes-case-has-officially-been-closed": "주요 언론(지역, 지검 발표 전문 보도, 열람함)",
+     "https://www.cbsnews.com/amp/news/lady-of-the-dunes-ruth-marie-terry-identified-victim-1974-homicide-cape-cod": "주요 언론",
+     "https://www.wgbh.org/news/local/2022-10-31/lady-of-the-dunes-identified-nearly-50-years-after-she-was-killed": "주요 언론",
+     "https://www.boston25news.com/news/local/da-closes-lady-dunes-investigation-after-determining-husband-killed-her-cape-cod/WDTFNU43G5AAPNHDNYX5QSUM4A/?outputType=amp": "주요 언론(검색 요약)",
+     "https://thedailyrecord.com/2023/08/28/authorities-identify-husband-as-killer-in-lady-of-the-dunes-cold-case/": "주요 언론(AP 재게재, 검색 요약)",
+     "https://www.cbsnews.com/amp/boston/news/guy-rockwell-muldavin-husband-lady-of-the-dunes-suspect-1960-seattle-deaths": "주요 언론(미열람)",
+     "https://www.nbcboston.com/investigations/lady-dunes-ruth-marie-terry-husband-guy-muldavin/2891059": "주요 언론(미열람)"
+    },
+    "blocked": [
+     "fbi.gov 403(발표 원문 URL 미확보)"
+    ]
+   }
+  },
+  {
+   "slug": "joseph-newton-chandler-eastlake-2002",
+   "name": "조지프 뉴턴 챈들러 3세 — 죽은 소년의 이름으로 산 남자 (2002, 미국 오하이오)",
+   "aliases": [
+    "Joseph Newton Chandler III",
+    "Robert Ivan Nichols"
+   ],
+   "keys": [
+    "joseph newton chandler",
+    "조지프 뉴턴 챈들러",
+    "robert ivan nichols",
+    "로버트 아이번 니컬스",
+    "eastlake",
+    "이스트레이크"
+   ],
+   "region": "미국",
+   "years": {
+    "event": 2002,
+    "resolved": 2018,
+    "gap": 16
+   },
+   "logline": "2002년 오하이오 이스트레이크에서 숨진 '조지프 뉴턴 챈들러 3세'는 1945년 교통사고로 죽은 8살 소년의 신원을 1978년부터 쓰던 사람이었고, 16년 뒤 US 마셜과 DNA Doe Project가 병원에 남은 조직 샘플로 그를 1964년 가족을 떠난 2차대전 퍼플하트 수훈자 로버트 아이번 니컬스로 밝혀냈다.",
+   "hook": "8살에 죽은 소년의 이름으로 24년을 산 남자 — 16년 만에 본명이 나왔다",
+   "focus_object": "1978년 래피드시티에서 죽은 소년 이름으로 만든 신분(사회보장번호)",
+   "scenes_hint": [
+    "이스트레이크 아파트(통장 잔고 8만 2천 달러, 비상연락처는 직장 동료)",
+    "1945년 텍사스 교통사고(진짜 챈들러 가족)",
+    "1978년 9월 사우스다코타 래피드시티 신분 취득",
+    "병원 보관 조직 샘플 → CODIS 불일치(2014)",
+    "Y-STR 성씨 추정 'Nichols/Nicholas'(2016)",
+    "GEDmatch 가계도·아들과의 CODIS 일치(2018)",
+    "1945년 오키나와 해역 USS 애런 워드 피폭(퍼플하트)",
+    "2018-06-21 클리블랜드 마셜 기자회견"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 4,
+    "sources": 3,
+    "visual": 3,
+    "novelty": 4,
+    "audience": 4,
+    "risk": 2
+   },
+   "risk_notes": "범죄 혐의가 확인된 것이 없다(마셜: 범죄 기록 없음) — 도주 이유를 범죄로 추측하지 않는다. 사인은 자살 — 방법 묘사 금지. 니컬스의 아들·가족, 진짜 챈들러 소년 유족의 사생활 존중. 오키나와 전투 장면은 일본 시청자 감정 고려해 사실 위주.",
+   "sources": [
+    "https://dnadoeproject.org/press-release-for-joseph-newton-chandler-iii/",
+    "https://www.cleveland19.com/story/38477481/us-marshals-release-name-of-man-who-stole-joseph-newton-chandlers-identity?outputType=amp",
+    "https://www.news5cleveland.com/news/local-news/cleveland-metro/cold-case-cracked-the-man-who-lived-with-the-identity-of-a-dead-9-year-old-boy-for-decades",
+    "https://en.wikipedia.org/wiki/Joseph_Newton_Chandler_III"
+   ],
+   "open_questions": [
+    "US 마셜(오하이오 북부지구) 보도자료 원문을 찾지 못함 — 2018-06-21 클리블랜드 기자회견은 DNA Doe Project 발표·Cleveland19 로 확인",
+    "'범죄 기록 없음' 마셜 발언은 이번 검증에서 원문 확인 못 함 ⚠️ — Cleveland19 는 오히려 '적어도 1978년부터 법 집행기관을 피해 도주 중이었다고 수사관들이 봄'이라고 보도, 이유는 미상",
+    "실종 시점: 가족 떠남 1964, 마지막 편지 1965-03(리치먼드·나파, 캘리포니아), 실종 신고 1965 — DNA Doe 는 '1965 실종'",
+    "'군복을 태웠다'(Cleveland19) 등 개인사 디테일은 언론 1곳 ⚠️",
+    "1965~1978 행적, 신원을 바꾼 이유(공식적으로 미상)",
+    "사회보장번호 취득 방식 — 위키는 '1978-09 래피드시티에서 신원 취득'만, SSN 디테일 미확인"
+   ],
+   "total": 25.1,
+   "status": "후보",
+   "added": "2026-11-18",
+   "verification": {
+    "verdict": "검증됨",
+    "summary": "DNA Doe Project 공식 발표(참여 기관)와 Cleveland19(2018-06-21) 일치: 2002년 7월 오하이오 이스트레이크에서 숨진 '조지프 뉴턴 챈들러 3세'는 1945년 텍사스 교통사고로 숨진 8살 소년의 신원을 1978년부터 쓰던 Robert Ivan Nichols(1926-09-12 인디애나 뉴올버니 출생, 전자 제도사)로, US 마셜 피트 엘리엇이 2018-06-21 기자회견에서 확인. 2016 Y-STR 로 성씨 Nicholas/Nichols 추정(Identifinders), 2018-03 DNA Doe 가 게놈 약 7%만 남은 시료로 자가염색체 SNP 분석(약 1,500시간).",
+    "ending": "공식 신원 확인 발표(US 마셜, 2018). 범죄 사건의 해결이 아니라 '신원 도용자 본명 확인'. 단정 가능: '본명은 로버트 아이번 니컬스로 확인됐다'. 단정 금지: 도주·신원 변경의 이유(범죄 연루 등), 조디악·D.B. 쿠퍼 연관.",
+    "safe_title_number": 15,
+    "gap_note": "사망 2002-07-23경(발견 07-30) → 발표 2018-06-21 은 15년 11개월. 연도 차이 16이라 '16년 만에'는 약간 반올림. 엄밀히 안전한 숫자는 15('15년 넘게'), 또는 '16년 가까이'. 다른 축의 정확한 숫자: 1965 실종 → 2018 = 53년(마지막 편지 1965-03 기준), 1978 신원 도용 → 2018 = 39년 9개월(40년 아님), 사망한 소년 1945 → 2018 = 72년.",
+    "clues": [
+     "진짜 챈들러: 1937-03-11 뉴욕 버펄로 출생, 1945-12-21 텍사스 셔먼 인근 가족 차가 트럭과 충돌, 8세 사망(부모도 사망)",
+     "1978-09 사우스다코타 래피드시티에서 챈들러 신원 취득",
+     "이스트레이크 아파트, 은둔형, 비상연락처는 직장 동료, 통장 8만 2천 달러",
+     "2002-07-23경 사망·07-30 발견(사인 자살 — 묘사 금지), 결장암 진단",
+     "2000년 레이크 카운티 병원 결장암 수술 조직 → DNA 원천",
+     "2014 마셜 재조사, CODIS 불일치",
+     "2016 Y-STR → 성씨 Nicholas/Nichols",
+     "2018-03 DNA Doe Project 자가염색체 분석(게놈 약 7%), GEDmatch, 아들과 CODIS 일치",
+     "니컬스: 2차대전 해군, USS 애런 워드(1945-05 오키나와 해역 피폭) 승조원, 파편상·퍼플하트",
+     "1947 결혼, 아들 셋, 1964 가족 떠남·이혼 신청, 1965-03 리치먼드·나파에서 편지",
+     "2018-06-21 클리블랜드 기자회견"
+    ],
+    "misconceptions": [
+     "'9살 소년' — 생몰일로 보면 8세(News5 제목 등 '9-year-old' 오류)",
+     "조디악 킬러·D.B. 쿠퍼설 — 근거 없음",
+     "'40년 동안 남의 이름으로' — 1978~2002 생존 기간은 24년",
+     "'범죄를 저지르고 도망쳤다' — 확인된 범죄 없음, 이유 미상"
+    ],
+    "source_types": {
+     "https://dnadoeproject.org/press-release-for-joseph-newton-chandler-iii/": "1차(신원 확인 참여 기관 공식 발표, 열람함)",
+     "https://www.cleveland19.com/story/38477481/us-marshals-release-name-of-man-who-stole-joseph-newton-chandlers-identity?outputType=amp": "주요 언론(지역 방송, 열람함)",
+     "https://www.news5cleveland.com/news/local-news/cleveland-metro/cold-case-cracked-the-man-who-lived-with-the-identity-of-a-dead-9-year-old-boy-for-decades": "주요 언론(지역 방송, 미열람; 제목의 '9-year-old' 오류)",
+     "https://en.wikipedia.org/wiki/Joseph_Newton_Chandler_III": "2차(열람함)"
+    },
+    "blocked": [
+     "usmarshals.gov 보도자료 검색으로 찾지 못함"
+    ]
+   }
+  },
+  {
+   "slug": "scott-johnson-north-head-1988",
+   "name": "스콧 존슨 — 노스헤드 절벽 아래의 미국인 대학원생 (1988, 호주 시드니)",
+   "aliases": [
+    "Death of Scott Johnson",
+    "Scott Russell Johnson",
+    "Scott Phillip White"
+   ],
+   "keys": [
+    "scott johnson",
+    "스콧 존슨",
+    "north head",
+    "노스헤드",
+    "blue fish point",
+    "블루피시 포인트",
+    "scott white",
+    "manly"
+   ],
+   "region": "호주",
+   "years": {
+    "event": 1988,
+    "resolved": 2023,
+    "gap": 35
+   },
+   "logline": "1988년 시드니 맨리 노스헤드 절벽 아래에서 발견돼 자살로 처리된 미국인 대학원생 스콧 존슨의 죽음은, 가족의 수십 년 재조사 요구·두 차례 검시·현상금 끝에 2020년 체포된 스콧 화이트가 유죄를 인정하면서 2023년 과실치사 징역 9년으로 결론 났다.",
+   "hook": "자살로 덮인 절벽 사건, 35년 만에 법정이 뒤집다",
+   "focus_object": "블루피시 포인트 절벽 가장자리",
+   "scenes_hint": [
+    "노스헤드 블루피시 포인트 절벽과 발견 지점(1988-12-10)",
+    "1989 자살 판정",
+    "2012·2017 검시(2017: 공격에 의한 사망 판단)",
+    "2018 현상금 100만 호주달러 → 2020 가족이 200만으로 증액",
+    "2020-05-12 레인코브 체포(전 부인의 제보로 보도)",
+    "2022 살인 유죄 인정 → 항소로 파기 → 2023 과실치사 유죄 인정",
+    "2023-06-08 징역 9년(가석방 6년) 선고"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 4,
+    "sources": 4,
+    "visual": 4,
+    "novelty": 4,
+    "audience": 3,
+    "risk": 3
+   },
+   "risk_notes": "스콧 화이트는 생존 — 확정된 것은 '과실치사'이며 살인 유죄는 항소로 파기됐다. 2023년 판사는 '동성애 혐오 범죄'를 합리적 의심 없이 인정할 수 없다고 했으므로 동기를 단정하지 않는다(2017 검시 판단과 구분). 시신 상태 묘사 금지. 제보자(전 부인) 실명 쓰지 않는다. 추가: 2025 New Yorker 가 유죄 정당성 의문 제기 — 생존 확정자(가석방 가능)에 대해 판결 범위 밖 단정 금지, 논쟁이 있다는 사실을 균형 있게 언급. 위험도 상향 검토(3→4).",
+   "sources": [
+    "https://www.nbcnews.com/nbc-out/out-news/australian-man-sentenced-9-years-prison-1988-manslaughter-gay-american-rcna88365",
+    "https://www.ksat.com/news/world/2023/06/08/australian-man-sentenced-to-9-years-in-prison-for-gay-americans-1988-manslaughter/",
+    "https://www.nbcnews.com/news/world/american-scott-johnson-s-fatal-fall-sydney-cliff-ruled-gay-n825166",
+    "https://www.sbs.com.au/news/article/scott-johnsons-family-crestfallen-over-appeal-courts-decision-to-quash-murder-conviction/vh298pir7",
+    "https://lgbtiq.specialcommission.nsw.gov.au/assets/lgbtiq/hearings/20221205/exhibits-combined/Exhibit-6/Exhibit-6-Tab-232-SCOI.11064.00018.pdf",
+    "https://www.dnamagazine.com.au/scott-johnson-killer-scott-white-refuses-parole/",
+    "https://www.magzter.com/en/stories/culture/The-New-Yorker/A-BROTHERS-CONVICTION",
+    "https://en.wikipedia.org/wiki/Killing_of_Scott_Johnson"
+   ],
+   "open_questions": [
+    "NSW 대법원 양형 판결(2023-06-08, Beech-Jones J) 원문·인용번호 미확보 — 보도로만 확인",
+    "2017 검시 결정문(2017-11-30, State Coroner Michael Barnes) 원문: 특별조사위 증거물 PDF 링크가 nsw.gov.au 로 리디렉션되어 열람 불가",
+    "White v R [2022] NSWCCA 241(2022-11-18) 원문 미열람 — 보도·법률 매체 요약",
+    "2025-10 New Yorker 'A Brother's Conviction' 이 미공개 경찰 증거를 근거로 유죄의 정당성에 의문 제기(유료, 미열람) ⚠️ — 영상이 '정의 실현' 서사로만 가면 위험",
+    "가석방: 최소형기 만료 2026-05-11 직전 가석방 신청 철회(NSW 가석방청 성명 보도) — 2027년 이후 재신청 가능, 현 수감 상태 재확인 필요",
+    "체포로 이어진 제보 내용, NSW 경찰 전담팀(Strike Force) 명칭"
+   ],
+   "total": 24.8,
+   "status": "후보",
+   "added": "2026-11-18",
+   "verification": {
+    "verdict": "검증됨",
+    "summary": "법적 결말은 확인됨: 1988-12-10 맨리 노스헤드 블루피시 포인트 절벽 아래 발견(사망 12-08~10 사이), 1989 검시 자살 → 2012 검시 '사인 불명(open finding)' → 2017-11-30 3차 검시(바니스 검시관) '동성애 혐오 공격으로 사망' → 2018 현상금 100만 호주달러, 2020 가족이 200만으로 → 2020-05 스콧 화이트 체포 → 2022-01 법정에서 살인 유죄 인정·12년 7개월 → 2022-11-18 항소법원이 유죄 인정 철회 허용·유죄 파기 → 2023-02 과실치사 유죄 인정 → 2023-06-08 징역 9년(가석방 불가 6년). 다만 판결문·검시 결정문 원문을 열지 못해 1차 자료는 미확보이고, 2025 New Yorker 가 유죄의 정당성에 문제 제기.",
+    "ending": "유죄 인정에 따른 과실치사 확정 판결(2023). 단정 가능: '화이트가 과실치사 유죄를 인정해 징역 9년을 선고받았다', '2017 검시는 동성애 혐오 공격으로 판단했다'. 단정 금지: 살인(파기됨), 혐오범죄 동기(2023 판사: 합리적 의심 없이 인정 불가, '악의적 목적' 인정 안 함), '완전히 해결' — 유죄 정당성 논쟁 존재.",
+    "safe_title_number": 34,
+    "gap_note": "1988-12-08~10 → 2023-02 과실치사 유죄 인정(34년 2개월) / 2023-06-08 선고(34년 6개월). 언론은 '35년'을 쓰지만 엄밀히는 34년. 안전한 숫자: 34(또는 '35년 가까이'). 다른 축: 2017 검시까지 28년 11개월(29년 아님), 체포까지 31년 5개월.",
+    "clues": [
+     "피해자: 27세 미국인(LA 카운티 출생), 케임브리지 수학 → 호주국립대(ANU) 박사과정, 캔버라 거주",
+     "노스헤드 블루피시 포인트 절벽, 시신 1988-12-10 아침 발견, 옷과 소지품은 절벽 위",
+     "1989 자살 판정 → 2012 open finding → 2017 혐오 공격 판단(경찰 초동 수사 비판)",
+     "현상금 2018 A$100만 → 2020 가족 A$200만",
+     "2020-05 체포(레인코브 ⚠️), 당시 화이트 18세(1988)",
+     "2022-01 '유죄, 유죄' 발언 → 30분 뒤 혼란 진술서 → 2022-11 항소법원이 '잘못된 법리' 이유로 파기",
+     "2023-02 과실치사 인정, 2023-06-08 9년/6년, 판사 '절벽 위 주먹질이 적대감을 시사', 피해자 '벌거벗고 고립된 특히 취약한 상태'",
+     "2026-04/05 가석방 심리 직전 신청 철회"
+    ],
+    "misconceptions": [
+     "'살인범으로 유죄' — 살인 유죄는 파기, 최종 과실치사",
+     "'법원이 혐오범죄로 인정' — 2017 검시는 그렇게 판단했으나 2022·2023 판사는 형사 기준으로 인정 불가",
+     "'검시가 두 번(2012·2017) 모두 타살' — 2012는 사인 불명(open finding)",
+     "'35년 만에' — 엄밀히 34년 반",
+     "'2026년 가석방됨' — 신청 철회로 수감 유지(2026-05 기준)",
+     "'완전히 해결된 사건' — 2025 New Yorker 등이 유죄 인정 경위·증거에 의문 제기"
+    ],
+    "source_types": {
+     "https://www.nbcnews.com/nbc-out/out-news/australian-man-sentenced-9-years-prison-1988-manslaughter-gay-american-rcna88365": "주요 언론(AP, 검색 요약)",
+     "https://www.ksat.com/news/world/2023/06/08/australian-man-sentenced-to-9-years-in-prison-for-gay-americans-1988-manslaughter/": "주요 언론(AP 재게재, 검색 요약)",
+     "https://www.nbcnews.com/news/world/american-scott-johnson-s-fatal-fall-sydney-cliff-ruled-gay-n825166": "주요 언론(2017 검시 보도, 검색 요약)",
+     "https://www.sbs.com.au/news/article/scott-johnsons-family-crestfallen-over-appeal-courts-decision-to-quash-murder-conviction/vh298pir7": "주요 언론(2022 항소 파기, 검색 요약)",
+     "https://lgbtiq.specialcommission.nsw.gov.au/assets/lgbtiq/hearings/20221205/exhibits-combined/Exhibit-6/Exhibit-6-Tab-232-SCOI.11064.00018.pdf": "1차(2017 검시 결정문 사본, 리디렉션으로 열람 불가)",
+     "https://www.dnamagazine.com.au/scott-johnson-killer-scott-white-refuses-parole/": "2차(2026 가석방 철회, 검색 요약)",
+     "https://www.magzter.com/en/stories/culture/The-New-Yorker/A-BROTHERS-CONVICTION": "주요 언론(New Yorker 2025-10-20 재게재, 유료·미열람)",
+     "https://en.wikipedia.org/wiki/Killing_of_Scott_Johnson": "2차(열람함; 문서명이 Death_of_ → Killing_of_ 로 바뀜)"
+    },
+    "blocked": [
+     "NSW 특별조사위 증거물 PDF(리디렉션)",
+     "caselaw.nsw.gov.au 판결 검색 결과에 나오지 않음"
+    ]
+   }
+  }
+ ]
+}

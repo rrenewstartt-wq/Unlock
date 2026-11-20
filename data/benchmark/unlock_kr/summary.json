@@ -1,0 +1,177 @@
+{
+ "handle": "@unlock_kr",
+ "channel": {
+  "name": "unlock_kr",
+  "followers": 32400,
+  "id": "UCdLuH2ViFGmdAbdcNy7EsQQ"
+ },
+ "count": 4,
+ "views": {
+  "median": 393863.0,
+  "max": 2520800
+ },
+ "duration_s": {
+  "median": 1054.5
+ },
+ "title_pattern_counts": {
+  "N년만에 풀린/밝혀진": 2,
+  "역사상 가장 ~한": 1,
+  "실제로 존재했던": 1,
+  "국가명 포함": 3,
+  "미제/미스터리 단어": 2
+ },
+ "videos": [
+  {
+   "id": "UV4I5My5C0E",
+   "title": "13년만에 풀린 일본 미제사건",
+   "upload_date": "20261020",
+   "duration_s": 656,
+   "views": 2520800,
+   "likes": 14070,
+   "comments": 1400,
+   "tags": [
+    "미제사건",
+    "미스테리",
+    "미스터리"
+   ],
+   "width": 1920,
+   "height": 1080,
+   "title_patterns": [
+    "N년만에 풀린/밝혀진",
+    "국가명 포함",
+    "미제/미스터리 단어"
+   ],
+   "transcript": {
+    "chars": 4169,
+    "chars_per_min": 381,
+    "sentences": 107,
+    "endings": {
+     "~습니다/~ㅂ니다": 39,
+     "~죠": 38,
+     "질문형(~까?)": 5
+    },
+    "opens_with_date": true,
+    "has_rewind_line": true
+   }
+  },
+  {
+   "id": "0pU_k2OUC1I",
+   "title": "실제로 존재했던 인간 도살장",
+   "upload_date": "20261030",
+   "duration_s": 1136,
+   "views": 141172,
+   "likes": 1671,
+   "comments": 139,
+   "tags": [
+    "미스테리",
+    "미스터리",
+    "실화",
+    "세르비아",
+    "ミステリー",
+    "衝撃の実話",
+    "事件の真相",
+    "未解決事件",
+    "미제사건"
+   ],
+   "width": 1920,
+   "height": 1080,
+   "title_patterns": [
+    "실제로 존재했던"
+   ],
+   "transcript": {
+    "chars": 7931,
+    "chars_per_min": 419,
+    "sentences": 159,
+    "endings": {
+     "~습니다/~ㅂ니다": 39,
+     "~죠": 58,
+     "질문형(~까?)": 3
+    },
+    "opens_with_date": false,
+    "has_rewind_line": false
+   }
+  },
+  {
+   "id": "t5BgBYoW_zg",
+   "title": "일본 역사상 가장 기괴하고 역겨운 사건",
+   "upload_date": "20261102",
+   "duration_s": 1116,
+   "views": 646554,
+   "likes": 5459,
+   "comments": 469,
+   "tags": [
+    "기타큐슈",
+    "기타큐슈 감금살인사건",
+    "미제사건",
+    "일본미제사건",
+    "일본사건모음",
+    "가스라이팅",
+    "미스테리",
+    "범죄사건"
+   ],
+   "width": 1920,
+   "height": 1080,
+   "title_patterns": [
+    "역사상 가장 ~한",
+    "국가명 포함"
+   ],
+   "transcript": {
+    "chars": 7802,
+    "chars_per_min": 419,
+    "sentences": 153,
+    "endings": {
+     "~습니다/~ㅂ니다": 59,
+     "~죠": 25,
+     "질문형(~까?)": 9
+    },
+    "opens_with_date": true,
+    "has_rewind_line": false
+   }
+  },
+  {
+   "id": "kXHIhuQLRvY",
+   "title": "23년만에 풀린 미국 미제사건",
+   "upload_date": "20261111",
+   "duration_s": 993,
+   "views": 135184,
+   "likes": 1363,
+   "comments": 82,
+   "tags": [
+    "미제사건",
+    "미스터리",
+    "미스테리",
+    "미제사건 해결",
+    "未解決事件",
+    "海外の事件",
+    "取り調べ",
+    "実話",
+    "衝撃の実話",
+    "ミステリー",
+    "장기미제사건",
+    "사건사고",
+    "해외범죄사건",
+    "범죄사건",
+    "실제사건"
+   ],
+   "width": 1920,
+   "height": 1080,
+   "title_patterns": [
+    "N년만에 풀린/밝혀진",
+    "국가명 포함",
+    "미제/미스터리 단어"
+   ],
+   "transcript": {
+    "chars": 6682,
+    "chars_per_min": 404,
+    "sentences": 174,
+    "endings": {
+     "~습니다/~ㅂ니다": 69,
+     "~죠": 66,
+     "질문형(~까?)": 3
+    },
+    "opens_with_date": true,
+    "has_rewind_line": false
+   }
+  }
+ ]
+}

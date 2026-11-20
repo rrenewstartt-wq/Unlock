@@ -1,0 +1,55 @@
+<template>
+  <style>
+
+    @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+    @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1E2125; color: #E9E5DD; font-family: "Gothic A1", sans-serif; }
+    .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
+      border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
+
+    .scwrap { position: absolute; inset: 0; background: #2A2521; }
+    .cloth { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, #4B4036 0 5px, #3F352D 5px 10px), #45392F; }
+    .pocket { position: absolute; left: 520px; top: 160px; width: 880px; height: 760px; border: 6px dashed rgba(240,162,59,.0); background: rgba(0,0,0,.12);
+      box-shadow: inset 0 0 0 4px rgba(233,229,221,.18); }
+    .fob { position: absolute; left: 260px; top: 70px; width: 360px; height: 300px; background: rgba(0,0,0,.3); box-shadow: inset 0 0 0 3px rgba(233,229,221,.3); outline: 5px dashed #F0A23B; outline-offset: 10px; }
+    .flab { position: absolute; left: 1430px; top: 250px; padding: 14px 24px 18px; background: #1E2125; border-left: 8px solid #F0A23B; }
+    .flab b { display: block; font-family: "Black Han Sans"; font-weight: 400; font-size: 52px; color: #F3F0EA; }
+    .flab span { display: block; font-size: 30px; color: #E9E5DD; margin-top: 4px; }
+    .roll { position: absolute; left: 860px; top: 270px; width: 200px; height: 48px; border-radius: 24px; background: linear-gradient(180deg, #F2EDE2, #BDB6A8); box-shadow: 0 10px 20px rgba(0,0,0,.4); }
+    .paper { position: absolute; left: 560px; top: 380px; width: 800px; height: 220px; background: #EFE9DC; box-shadow: 0 30px 50px rgba(0,0,0,.5);
+      display: flex; align-items: center; justify-content: center; clip-path: polygon(1% 4%, 99% 0, 100% 96%, 0 100%); }
+    .paper span { font-family: "EB Garamond", serif; font-style: italic; font-size: 120px; color: #1E1B18; letter-spacing: .02em; }
+    .bookpage { position: absolute; left: 1130px; top: 150px; width: 640px; height: 800px; background: #E6DFD0; color: #2A2622; padding: 70px 60px; box-shadow: 0 30px 60px rgba(0,0,0,.5); }
+    .bookpage em { font-family: "EB Garamond", serif; font-style: normal; font-size: 30px; letter-spacing: .08em; display: block; text-align: center; margin-bottom: 60px; }
+    .bookpage i { display: block; height: 14px; margin: 26px 0; background: rgba(42,38,34,.25); }
+    .bookpage i.s { width: 60%; }
+    .bookpage span { position: absolute; left: 0; right: 0; bottom: 120px; text-align: center; font-family: "EB Garamond", serif; font-size: 60px; letter-spacing: .1em; color: #2A2622; outline: 4px solid #F0A23B; outline-offset: 16px; margin: 0 120px; }
+    .mean { position: absolute; left: 140px; top: 640px; font-size: 220px; color: #F0A23B; }
+  </style>
+  <div id="root" data-composition-id="scrap" data-width="1920" data-height="1080">
+    <div id="sc-wrap" class="clip scwrap" data-start="0" data-duration="14.97">
+      <div id="sc-cloth" class="cloth"><div class="pocket"><div id="sc-fob" class="fob"></div></div></div>
+      <div id="sc-flab" class="flab"><b>시계 주머니</b><span>바지 안쪽에 덧댄 작은 주머니</span></div>
+      <div id="sc-roll" class="roll"></div>
+      <div id="sc-paper" class="paper"><span>Tamám Shud</span></div>
+      <div id="sc-book" class="bookpage"><em>THE RUBÁIYÁT OF OMAR KHAYYÁM</em><i></i><i></i><i></i><i class="s"></i><span>TAMÁM SHUD</span></div>
+      <div id="sc-mean" class="mean disp">끝났다</div></div>
+    <div id="sc-re" class="clip tag-re" data-start="0.3" data-duration="14.67">재현</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#sc-cloth", { scale: 1.25 }, { scale: 1.0, duration: 2.75, ease: "sine.inOut" }, 0);
+    tl.fromTo("#sc-flab", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.6);
+    tl.to("#sc-flab", { opacity: 0, duration: 0.3 }, 5.17);
+    tl.fromTo("#sc-roll", { opacity: 0, y: -60 }, { opacity: 1, y: 60, duration: 1.0, ease: "power2.out" }, 2.95);
+    tl.to("#sc-roll", { opacity: 0, duration: 0.2 }, 5.32);
+    tl.fromTo("#sc-paper", { opacity: 0, scaleX: 0.25 }, { opacity: 1, scaleX: 1, duration: 0.8, ease: "power3.out" }, 5.37);
+    tl.to("#sc-cloth", { opacity: 0.35, duration: 0.6 }, 5.37);
+    tl.to("#sc-paper", { x: -380, y: -140, scale: 0.7, duration: 0.8, ease: "power2.inOut" }, 8.9);
+    tl.fromTo("#sc-book", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.7, ease: "power3.out" }, 9.1);
+    tl.fromTo("#sc-mean", { opacity: 0, scale: 1.15 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power4.out" }, 12.17);
+    window.__timelines["scrap"] = tl;
+  </script>
+</template>

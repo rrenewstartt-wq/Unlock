@@ -1,0 +1,43 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- 컨셉 c3 (spot): 방파제에 기대 누운 남자 — 쭉 뻗은 다리, 엇갈린 두 발. 얼굴은 화면 밖(어둠).
+     근거: facts.md @beach "lying back, head against seawall, legs extended, feet crossed". 옷 색·광택은 기록에 없으므로 무채색. -->
+<!-- assets: texture:damp_beach_sand texture:concrete_wall_008 texture:poly_wool_herringbone hdri:evening_road_01_puresky -->
+<!-- 인물: Quaternius Universal Base Characters (CC0), thumbkit/figures.js -->
+<!-- grade: --mode tone --glow 0 --vignette 0.6 -->
+<!-- text: "상표가 없다" "누가 잘라냈나" -->
+<!-- title: "73년 만에 이름을 찾은 해변의 남자" -->
+<script type="importmap">{"imports":{"three":"/thumbkit/lib/three.module.min.js","three/addons/":"/thumbkit/lib/addons/"}}</script>
+</head><body>
+<script type="module">
+import { Thumb, THREE } from '/thumbkit/thumbkit.js';
+import { loadFigure, poseReclined, settle, setFabric, turn } from '/thumbkit/figures.js';
+const t = await Thumb.create({ hdri: 'evening_road_01_puresky', envIntensity: 0.12, exposure: 0.9, fog: { color: '#000000', density: 0.35 } });
+
+await t.surface('damp_beach_sand', { w: 8, h: 8, repeat: 5, normalScale: 1.5 });
+await t.surface('concrete_wall_008', { w: 6, h: 1.4, repeat: 2, pos: [0, 0.7, -0.32], rot: [0, 0, 0] });
+const fabric = (await t.material('poly_wool_herringbone', { repeat: 6 })).normalMap;
+setFabric(fabric);
+const man = await loadFigure('/thumbkit/cache/figures/Superhero_Male_FullBody.gltf', 'manLight');
+poseReclined(man, 0.52);
+// arms resting along the body, hands on the sand (not cupped in the lap)
+turn(man, 'upperarm_l', [1, 0, 0], 0.30); turn(man, 'upperarm_r', [1, 0, 0], 0.30);
+turn(man, 'lowerarm_l', [1, 0, 0], 0.30); turn(man, 'lowerarm_r', [1, 0, 0], 0.30);
+t.scene.add(man.root);
+settle(man, 0.0, -0.32, 0.01);
+man.root.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+// half-smoked cigarette on the right collar
+const cig = new THREE.Mesh(new THREE.CylinderGeometry(0.0045, 0.0045, 0.045, 12), new THREE.MeshStandardMaterial({ color: '#e8e2d6', roughness: 0.9 }));
+man.root.updateMatrixWorld(true);
+const nb = man.bone('neck_01').getWorldPosition(new THREE.Vector3());
+cig.position.set(nb.x - 0.09, nb.y - 0.06, nb.z + 0.06); cig.rotation.set(0.3, 0, 1.2);
+t.scene.add(cig);
+t.focus(man.root, cig);
+
+// low, close, beside the feet, looking up the legs toward the wall
+t.camera([2.2, 0.32, 1.05], [0.02, 0.36, 0.42], 23);
+t.key({ pos: [0.9, 3.4, 1.6], target: [0, 0.3, 0.35], intensity: 70, angle: 0.24, penumbra: 0.75 });
+t.key({ pos: [-1.5, 1.2, 2.5], target: [0, 0.6, 0], intensity: 1.5, angle: 0.6, penumbra: 1, shadow: false });
+t.amb(0.02);
+await t.done();
+</script></body></html>

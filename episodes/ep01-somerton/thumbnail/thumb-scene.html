@@ -1,0 +1,13 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#000}#s{position:absolute;inset:0}</style></head>
+<body><div id="s"></div>
+<script type="module">
+import { createBeach } from "../assets/lib/beach.js";
+const render = createBeach(document.getElementById("s"), {
+  mode: "dusk",
+  camera: [{ t: 0, pos: [2.6, 0.75, 2.6], look: [-0.9, 1.2, -2.8], fov: 40 }],
+  cues: { lampsOn: 0 },
+});
+render(30);
+window.__done = true;
+</script></body></html>

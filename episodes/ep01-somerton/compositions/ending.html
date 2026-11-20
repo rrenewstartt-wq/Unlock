@@ -1,0 +1,49 @@
+<template>
+  <style>
+
+    @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+    @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1E2125; color: #E9E5DD; font-family: "Gothic A1", sans-serif; }
+    .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
+      border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
+
+    .qlist { position: absolute; left: 96px; top: 160px; background: rgba(20,22,25,.6); padding: 30px 40px 12px; }
+    .qlist p { font-family: "Black Han Sans"; font-size: 72px; color: #F3F0EA; margin-bottom: 20px; text-shadow: 0 2px 16px rgba(0,0,0,.3); }
+    .qlist p::before { content: "?"; color: #F0A23B; margin-right: 22px; }
+    .title { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding-left: 140px; background: rgba(20,22,25,.55); }
+    .title div { font-size: 128px; line-height: 1.12; color: #F3F0EA; }
+    .title em { font-style: normal; color: #F0A23B; }
+    .title small { font-size: 40px; margin-top: 34px; color: rgba(243,240,234,.8); letter-spacing: .04em; }
+  </style>
+  <div id="root" data-composition-id="ending" data-width="1920" data-height="1080">
+    <div id="ending-stage" class="clip" data-start="0" data-duration="16.69" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="ending-re" class="clip tag-re" data-start="0.3" data-duration="16.39">재현</div>
+    <div id="end-q1" class="clip qlist" data-start="3.14" data-duration="5.56"><p id="end-qa">왜 상표를 잘라냈나</p><p id="end-qb">그날 밤 무슨 일이 있었나</p></div>
+    <div id="end-title" class="clip title" data-start="13.99" data-duration="2.7" data-layout-allow-caption-zone><div class="disp"><em>73년</em> 만에<br/>이름을 찾은 해변의 남자</div><small>서머턴 맨 · 1948</small></div>
+  </div>
+  <script type="module">
+    import { createBeach } from "./assets/lib/beach.js";
+    const render = createBeach(document.getElementById("ending-stage"), { mode: "end", camera: [
+      { t: 0, pos: [0.95, 0.95, -1.75], look: [0.08, 0.58, -2.75], fov: 30 },
+      { t: 3.12, pos: [0.846, 0.906, -1.87], look: [0.08, 0.58, -2.75], fov: 30, ease: "linear" },
+      { t: 3.14, pos: [3.2, 1.2, 1.6], look: [0, 0.6, -2.6], fov: 32, cut: true },
+      { t: 6.0, pos: [2.816, 1.128, 1.096], look: [0, 0.6, -2.6], fov: 32, ease: "linear" },
+      { t: 6.02, pos: [7.0, 0.7, 6.5], look: [0, 0.9, -2.8], fov: 34, cut: true },
+      { t: 8.88, pos: [6.16, 0.724, 5.384], look: [0, 0.9, -2.8], fov: 34, ease: "linear" },
+      { t: 8.9, pos: [14, 9, 22], look: [0, 0.6, -2.6], fov: 34, cut: true },
+      { t: 16.69, pos: [12.32, 7.992, 19.048], look: [0, 0.6, -2.6], fov: 34, ease: "linear" }
+    ] });
+    const st = { t: 0 };
+    const tl = gsap.timeline({ paused: true });
+    tl.to(st, { t: 16.69, duration: 16.69, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.fromTo("#end-qa", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 3.14);
+    tl.fromTo("#end-qb", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 6.02);
+    tl.to("#end-q1", { opacity: 0, duration: 0.3 }, 8.4);
+    tl.fromTo("#end-title", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 13.99);
+    tl.fromTo("#end-title div", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.9, ease: "power3.inOut" }, 14.09);
+    render(0);
+    window.__timelines["ending"] = tl;
+  </script>
+</template>

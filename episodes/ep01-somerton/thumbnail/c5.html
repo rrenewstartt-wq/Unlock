@@ -1,0 +1,175 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- 컨셉 c5 = concepts-v2.md v2-b (spot): 「켜진 가로등, 움직이지 않는 사람」.
+     밤 해변, 방파제 위 가로등 하나가 켜져 있고 그 빛 웅덩이 가장자리에 남자가 방파제에 기대 누워 있다. 역광 윤곽만.
+     근거: facts.md "11월 30일 저녁 7시 … 7시 반 가로등, 모기에 무반응, 취했거나 잠든 줄"(목격자 진술),
+           "방파제에 머리, 다리 뻗고 발 엇갈림", "모자 없음".
+     연출(기록에 없음): 가로등의 모양·위치·개수(옛 주철 가로등 하나), 밤 연무(빛 원뿔이 보일 정도).
+     amber = 가로등 빛: 마스크를 '가로등 빛을 받은 정도'로 직접 그린다(아래 __mask). 빛 밖·그림자·인물의 카메라 쪽 면은 검은 회색.
+     구도(검수 2차 반영): 모래 위 낮은 카메라, 방파제가 대각선. 가로등은 사람 7m 뒤 산책로(역광, 그림자가 카메라 쪽으로).
+     빛 웅덩이가 모래에서 벽으로 되튀기는 빛(bounce)이 사람 뒤 벽을 밝혀, 사람은 앰버 벽 앞 검은 실루엣이 된다. -->
+
+<!-- assets: model:street_lamp_01 texture:damp_beach_sand texture:concrete_wall_008 hdri:evening_road_01_puresky -->
+<!-- 인물: Quaternius Universal Base Characters (CC0), thumbkit/figures.js -->
+<!-- grade: --mode spot --glow 0.45 --lift 0.1 --vignette 0.6 --grain 14 --depth 0.3 --text-at 0.03,0.03 -->
+<!-- text: "불이 켜져도" "그는 움직이지 않았다" -->
+<!-- title: "넥타이에 이름까지 적혀 있었는데 73년 동안 신원을 몰랐던 이유" -->
+<script type="importmap">{"imports":{"three":"/thumbkit/lib/three.module.min.js","three/addons/":"/thumbkit/lib/addons/"}}</script>
+</head><body>
+<script type="module">
+import { Thumb, THREE } from '/thumbkit/thumbkit.js';
+import { loadFigure, poseReclined, settle, turn } from '/thumbkit/figures.js';
+
+const P = {
+  exposure: 0.85, env: 0.05, fog: 0.05,
+  lampX: 7.0, lampZ: -0.5,          // lamp base on the promenade (top of the seawall, y = 1.3)
+  keyI: 1400, keyAngle: 0.45, target: [0.2, 0, 0.6],
+  maskI: 250,
+  bounceI: 150,                        // light thrown back off the lit sand onto the seawall behind him                          // mask-pass copy of the lamp light: how far the amber reaches
+  coneI: 0.35,                        // visible light cone in the haze
+  cam: [-4.5, 0.55, 2.5], look: [0.05, 1.18, 0.43], fov: 31,
+};
+
+const t = await Thumb.create({ hdri: 'evening_road_01_puresky', envIntensity: P.env, exposure: P.exposure,
+  fog: { color: '#000000', density: P.fog } });
+
+// --- set: sand, seawall, promenade
+await t.surface('damp_beach_sand', { w: 160, h: 160, repeat: 64, normalScale: 2.4 });
+const wallMat = await t.material('concrete_wall_008', { repeat: 4 });
+await t.surface('concrete_wall_008', { w: 120, h: 1.25, repeat: 16, pos: [0, 0.62, -0.32], rot: [0, 0, 0] });
+t.box({ size: [120, 0.1, 1.2], pos: [0, 1.25, -0.92], material: wallMat, radius: 0.02 });
+
+// --- the lamp: an ordinary old cast-iron street lamp (shape/position not in the record: staging)
+const LAMP_Y = 1.3;
+const lamp = await t.model('street_lamp_01', { pos: [P.lampX, LAMP_Y, P.lampZ], height: 3.87 });
+const bulbY = LAMP_Y + 3.265;
+lamp.traverse((o) => {
+  if (!o.isMesh) return;
+  o.castShadow = false;   // the key light sits inside the lantern
+  const n = o.material.name || '';
+  if (/bulb/.test(n)) o.material = new THREE.MeshBasicMaterial({ color: new THREE.Color(4, 3.2, 2.2) });
+  else if (/glass/.test(n)) {
+    o.material.emissive = new THREE.Color('#ffd49a'); o.material.emissiveIntensity = 1.4;
+    o.material.transparent = true; o.material.opacity = 0.85; o.material.depthWrite = false;
+  }
+});
+const BULB = [P.lampX, bulbY, P.lampZ];
+t.point({ pos: BULB, intensity: 1.5, color: '#ffd9a0', distance: 2.5 });   // lights the lantern frame from inside
+
+// --- the man: half-lying against the seawall, legs out, ankles crossed. Silhouette only (dark clothes).
+const man = await loadFigure('/thumbkit/cache/figures/Superhero_Male_FullBody.gltf', 'onlooker');
+poseReclined(man, 0.52);
+turn(man, 'upperarm_l', [1, 0, 0], 0.30); turn(man, 'upperarm_r', [1, 0, 0], 0.30);
+turn(man, 'lowerarm_l', [1, 0, 0], 0.30); turn(man, 'lowerarm_r', [1, 0, 0], 0.30);
+t.scene.add(man.root);
+settle(man, 0.0, -0.32, 0.01);
+man.root.traverse((o) => {
+  if (!o.isMesh) return;
+  o.castShadow = true; o.receiveShadow = true; o.material.envMapIntensity = 0;
+  const c = o.geometry.attributes.color;            // darker clothes: a silhouette, not a body
+  if (c) { for (let i = 0; i < c.array.length; i++) c.array[i] *= 0.45; c.needsUpdate = true; }
+});
+// plain dark shoes over the base mesh's bare feet (no shoe detail in the record: generic, unlit)
+man.root.updateMatrixWorld(true);
+const shoeMat = new THREE.MeshStandardMaterial({ color: '#141210', roughness: 0.55 });
+for (const side of ['l', 'r']) {
+  const a = man.bone('foot_' + side).getWorldPosition(new THREE.Vector3());
+  const b = man.bone('ball_' + side).getWorldPosition(new THREE.Vector3());
+  const d = b.clone().sub(a); const toe = b.clone().add(d.clone().normalize().multiplyScalar(0.07));
+  const heel = a.clone().sub(d.clone().normalize().multiplyScalar(0.05));
+  const len = toe.distanceTo(heel);
+  const shoe = new THREE.Mesh(new THREE.CapsuleGeometry(0.048, len - 0.096, 6, 16), shoeMat);
+  shoe.scale.set(1.0, 1, 0.8);
+  shoe.position.copy(heel.clone().add(toe).multiplyScalar(0.5));
+  shoe.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), toe.clone().sub(heel).normalize());
+  shoe.castShadow = shoe.receiveShadow = true;
+  t.scene.add(shoe);
+}
+
+t.focus(lamp, man.root);
+
+// --- light: the lamp is the only light
+const key = t.key({ pos: BULB, target: P.target, intensity: P.keyI, angle: P.keyAngle, penumbra: 0.85, color: '#ffd9a0' });
+key.shadow.camera.near = 0.2;
+// bounce: the bright pool of sand throws a little of the lamp light back onto the wall behind the man (no hard shadow)
+const bounce = new THREE.SpotLight('#ffcf94', P.bounceI, 0, 1.0, 1, 2);   // placed far and wide: no edge on the wall, no hot spot on the sand
+bounce.position.set(4.0, 0.3, 2.6); bounce.target.position.set(-0.5, 0.6, -0.32);
+t.scene.add(bounce, bounce.target);
+t.amb(0.012);
+
+// --- haze: a soft additive light cone from the lantern down to the sand (thumbkit has no volumetrics)
+const apex = new THREE.Vector3(...BULB);
+const tgt = new THREE.Vector3(...P.target);
+const dir = tgt.clone().sub(apex);
+const H = dir.length();
+const R = H * Math.tan(P.keyAngle * 0.92);
+const coneGeo = new THREE.ConeGeometry(R * 1.5, H * 1.5, 96, 24, true);   // runs past the sand; the depth fade ends it
+coneGeo.translate(0, -H * 0.75, 0);            // apex at origin, opening toward -y
+const depthRT = new THREE.WebGLRenderTarget(t.w, t.h, { depthTexture: new THREE.DepthTexture(t.w, t.h) });
+const coneMat = new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+  uniforms: { uI: { value: P.coneI }, uH: { value: H }, uCol: { value: new THREE.Color('#ffd7a0') },
+    uDepth: { value: depthRT.depthTexture }, uRes: { value: new THREE.Vector2(t.w, t.h) },
+    uNear: { value: t.cam.near }, uFar: { value: t.cam.far } },
+  vertexShader: `varying vec3 vN; varying vec3 vV; varying float vD; varying float vY; varying float vZ;
+    void main(){ vec4 w = modelMatrix * vec4(position,1.0); vY = w.y; vD = -position.y;
+      vN = normalize(mat3(modelMatrix) * normal); vV = normalize(cameraPosition - w.xyz);
+      vec4 mv = viewMatrix * w; vZ = -mv.z; gl_Position = projectionMatrix * mv; }`,
+  fragmentShader: `#include <packing>
+    uniform float uI; uniform float uH; uniform vec3 uCol; uniform sampler2D uDepth; uniform vec2 uRes; uniform float uNear; uniform float uFar;
+    varying vec3 vN; varying vec3 vV; varying float vD; varying float vY; varying float vZ;
+    void main(){ float edge = pow(abs(dot(normalize(vN), normalize(vV))), 2.0);
+      float along = 1.0 / (1.0 + 2.0 * vD / uH); float top = smoothstep(0.0, 0.3, vD);
+      float sd = texture2D(uDepth, gl_FragCoord.xy / uRes).x;
+      float sceneZ = -perspectiveDepthToViewZ(sd, uNear, uFar);
+      float soft = clamp((sceneZ - vZ) / 1.2, 0.0, 1.0);
+      gl_FragColor = vec4(uCol * uI * edge * along * top * soft, 1.0); }`,
+});
+const cone = new THREE.Mesh(coneGeo, coneMat);
+cone.castShadow = false; cone.receiveShadow = false;
+cone.position.copy(apex);
+cone.quaternion.setFromUnitVectors(new THREE.Vector3(0, -1, 0), dir.clone().normalize());
+cone.renderOrder = 10;
+t.scene.add(cone);
+
+// glow around the lantern (lens bloom in haze)
+const gc = document.createElement('canvas'); gc.width = gc.height = 256;
+const gx = gc.getContext('2d');
+const grd = gx.createRadialGradient(128, 128, 0, 128, 128, 128);
+grd.addColorStop(0, 'rgba(255,236,200,1)'); grd.addColorStop(0.12, 'rgba(255,214,150,0.55)');
+grd.addColorStop(0.4, 'rgba(255,190,110,0.12)'); grd.addColorStop(1, 'rgba(255,170,80,0)');
+gx.fillStyle = grd; gx.fillRect(0, 0, 256, 256);
+const glowTex = new THREE.CanvasTexture(gc); glowTex.colorSpace = THREE.SRGBColorSpace;
+const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, blending: THREE.AdditiveBlending, depthWrite: false, fog: false, transparent: true }));
+glow.position.copy(apex); glow.scale.setScalar(1.6); glow.renderOrder = 11;
+t.scene.add(glow);
+
+t.camera(P.cam, P.look, P.fov);
+// depth pre-pass (without the haze) so the cone fades softly where it meets sand, wall and the man
+cone.visible = glow.visible = false;
+t.renderer.setRenderTarget(depthRT); t.renderer.render(t.scene, t.cam); t.renderer.setRenderTarget(null);
+cone.visible = glow.visible = true;
+await t.done();
+
+// --- custom mask: amber = lamp light. Every surface is white Lambert lit ONLY by a copy of the key (with shadows),
+// so the pool on the sand, the rims on the man and the man's own shadow come out exactly where the lamp light falls.
+window.__mask = () => {
+  const s = t.scene, r = t.renderer;
+  s.traverse((o) => { if (o.isLight && o !== key && o !== bounce) o.visible = false; });
+  key.intensity = P.maskI; key.color.set('#ffffff');
+  bounce.intensity = P.bounceI * P.maskI / P.keyI; bounce.color.set('#ffffff');
+  const lit = new THREE.MeshLambertMaterial({ color: '#ffffff', side: THREE.DoubleSide });
+  const white = new THREE.MeshBasicMaterial({ color: '#ffffff', side: THREE.DoubleSide });
+  const lampSet = new Set(); lamp.traverse((o) => lampSet.add(o));
+  s.traverse((o) => {
+    if (o === cone || o === glow) return;
+    if (o.isMesh) o.material = lampSet.has(o) ? white : lit;
+  });
+  coneMat.uniforms.uCol.value.set('#ffffff'); coneMat.uniforms.uI.value = P.coneI * 1.6;
+  glow.material.color.set('#ffffff');
+  s.environment = null; s.background = new THREE.Color('#000000'); s.fog = null;
+  r.toneMapping = THREE.NoToneMapping;
+  t.render();
+  window.__maskDone = true;
+};
+</script></body></html>

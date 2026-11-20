@@ -1,0 +1,918 @@
+{
+ "collected": "2026-11-19",
+ "method": "yt-dlp --flat-playlist (공개 목록, 채널당 최근 150편까지, 4분 미만 제외). 채널 중앙값 대비 배수(ratio)로 채널마다 상위 6편(hit)·하위 3편(flop). 썸네일 원본은 raw/img (커밋 안 함).",
+ "caveat": "하위 3편에는 막 올라온 영상(조회수 누적 전)과 장르 밖 영상(브이로그 등)이 섞여 있다. 업로드 날짜는 수집하지 않았다.",
+ "channels": {
+  "unlock_kr": 409500,
+  "미제의끝": 13500,
+  "붉은실": 91000,
+  "디바제시카": 363000,
+  "사건의뢰": 114000,
+  "기묘한밤": 351500,
+  "미스스한이야기": 200500,
+  "시선너머": 330500,
+  "썸머썸머": 520500,
+  "괴미사": 37500,
+  "김원tv": 167500,
+  "테가미": 83500,
+  "안협소": 518000
+ },
+ "videos": [
+  {
+   "ch": "unlock_kr",
+   "group": "hit",
+   "id": "UV4I5My5C0E",
+   "views": 2500000,
+   "ratio": 6.11,
+   "title": "13년만에 풀린 일본 미제사건"
+  },
+  {
+   "ch": "unlock_kr",
+   "group": "hit",
+   "id": "t5BgBYoW_zg",
+   "views": 671000,
+   "ratio": 1.64,
+   "title": "일본 역사상 가장 기괴하고 역겨운 사건"
+  },
+  {
+   "ch": "unlock_kr",
+   "group": "hit",
+   "id": "kXHIhuQLRvY",
+   "views": 148000,
+   "ratio": 0.36,
+   "title": "23년만에 풀린 미국 미제사건"
+  },
+  {
+   "ch": "unlock_kr",
+   "group": "hit",
+   "id": "0pU_k2OUC1I",
+   "views": 142000,
+   "ratio": 0.35,
+   "title": "실제로 존재했던 인간 도살장"
+  },
+  {
+   "ch": "미제의끝",
+   "group": "hit",
+   "id": "PHeF2-3re2Y",
+   "views": 112000,
+   "ratio": 8.3,
+   "title": "49년 만에 풀린 일본 미제사건"
+  },
+  {
+   "ch": "미제의끝",
+   "group": "hit",
+   "id": "tXvxGqu6ZWo",
+   "views": 97000,
+   "ratio": 7.19,
+   "title": "15년 만에 극적으로 풀린 일본 미제사건"
+  },
+  {
+   "ch": "미제의끝",
+   "group": "hit",
+   "id": "4Ju3r0PYpWI",
+   "views": 24000,
+   "ratio": 1.78,
+   "title": "26년 만에 풀린 일본 미제사건"
+  },
+  {
+   "ch": "미제의끝",
+   "group": "hit",
+   "id": "XSKkdMKxsYo",
+   "views": 19000,
+   "ratio": 1.41,
+   "title": "17년 숨은 옴진리교 수배자 셋이 반년 만에 잡힌 이유"
+  },
+  {
+   "ch": "미제의끝",
+   "group": "hit",
+   "id": "QfJI9jPSsg0",
+   "views": 17000,
+   "ratio": 1.26,
+   "title": "19년 동안 수배된 남자가 끝내 잡히지 않은 이유"
+  },
+  {
+   "ch": "미제의끝",
+   "group": "hit",
+   "id": "vzI8tnMn8lE",
+   "views": 14000,
+   "ratio": 1.04,
+   "title": "현장에 지문을 남긴 범인을 14년 동안 아무도 찾지 못한 이유"
+  },
+  {
+   "ch": "미제의끝",
+   "group": "flop",
+   "id": "P1iOV7qNm78",
+   "views": 2100,
+   "ratio": 0.16,
+   "title": "범죄 현장 40곳에 DNA를 남긴 여자를 아무도 못 잡은 이유"
+  },
+  {
+   "ch": "미제의끝",
+   "group": "flop",
+   "id": "rCGJugPNZKw",
+   "views": 1300,
+   "ratio": 0.1,
+   "title": "시효가 끝났어야 할 살인범이 법정에 선 이유"
+  },
+  {
+   "ch": "미제의끝",
+   "group": "flop",
+   "id": "ZGdE4kf_7Rw",
+   "views": 700,
+   "ratio": 0.05,
+   "title": "23년 보관된 면봉 하나로 잡힌 살인범의 뜻밖의 직업"
+  },
+  {
+   "ch": "붉은실",
+   "group": "hit",
+   "id": "w5t7MH-fCmo",
+   "views": 4900000,
+   "ratio": 53.85,
+   "title": "[해외사건사고] 들어가면 살아서 나오지 못하는 섬. 노스 센티널 섬. 세계 유일한 비접촉 원시 부족을 만나러 간 존 앨런 차우 사건."
+  },
+  {
+   "ch": "붉은실",
+   "group": "hit",
+   "id": "YSY5DgoBiKE",
+   "views": 4500000,
+   "ratio": 49.45,
+   "title": "[범죄사건] 혼자 섬으로 여행갔다가 장기가 모두 사라진 텅 빈 시신으로 돌아온 마이크 만스홀트 사건"
+  },
+  {
+   "ch": "붉은실",
+   "group": "hit",
+   "id": "EOqV4-TrNwY",
+   "views": 2000000,
+   "ratio": 21.98,
+   "title": "[Collection] Binge-watch cold cases solved after decades. 50-minute continuous playback"
+  },
+  {
+   "ch": "붉은실",
+   "group": "hit",
+   "id": "5rpyKrZRdHg",
+   "views": 1800000,
+   "ratio": 19.78,
+   "title": "[Global News] The Whitaker Family: Over 100 Years of Inbreeding. A Case Study on the Side Effects..."
+  },
+  {
+   "ch": "붉은실",
+   "group": "hit",
+   "id": "wi2qHrMnC6U",
+   "views": 1800000,
+   "ratio": 19.78,
+   "title": "[모음집] 조회수 높았던 충격적인 사건 몰아보기"
+  },
+  {
+   "ch": "붉은실",
+   "group": "hit",
+   "id": "d3oQG5BF5Ik",
+   "views": 990000,
+   "ratio": 10.88,
+   "title": "[Crime Case] ​​Blanche Monnier found in her own attic 25 years after disappearing. She was impris..."
+  },
+  {
+   "ch": "붉은실",
+   "group": "flop",
+   "id": "ikfFEVqAjtA",
+   "views": 18000,
+   "ratio": 0.2,
+   "title": "[True Crime] What students did to their Spanish teacher: The Nohema Graber case"
+  },
+  {
+   "ch": "붉은실",
+   "group": "flop",
+   "id": "t2eEO6H1_1Y",
+   "views": 17000,
+   "ratio": 0.19,
+   "title": "[True Crime] The German Internet Criminal Whose Life Was Adapted for Netflix: Maximilian Schmidt...."
+  },
+  {
+   "ch": "붉은실",
+   "group": "flop",
+   "id": "8MyqVv2nxic",
+   "views": 15000,
+   "ratio": 0.16,
+   "title": "[Criminal Case] The Legendary Escaped Convict Who Pretended to Jog After Running Into a Cop: Rich..."
+  },
+  {
+   "ch": "디바제시카",
+   "group": "hit",
+   "id": "1S5IKdVRY1c",
+   "views": 1800000,
+   "ratio": 4.96,
+   "title": "How This Notorious Child Predator Walked Free in South Korea, Even Suspected in Unsolved Cases!"
+  },
+  {
+   "ch": "디바제시카",
+   "group": "hit",
+   "id": "rLuY5UT4Yk8",
+   "views": 1500000,
+   "ratio": 4.13,
+   "title": "288 Bones in the Pond, The Horrifying Secret of Thailand's Ted Bundy"
+  },
+  {
+   "ch": "디바제시카",
+   "group": "hit",
+   "id": "0u6WGwY-DaU",
+   "views": 1200000,
+   "ratio": 3.31,
+   "title": "18 Days After Wealthy 40's Woman Disappeared, Someone Found a Blue Tarp in the Mountains in Jeju"
+  },
+  {
+   "ch": "디바제시카",
+   "group": "hit",
+   "id": "vMcQG39INYc",
+   "views": 1100000,
+   "ratio": 3.03,
+   "title": "14 Friends and Lovers Dead After Eating What She GaveThem, Female Serial Killer in Thailand"
+  },
+  {
+   "ch": "디바제시카",
+   "group": "hit",
+   "id": "9cnj3pDmGi0",
+   "views": 1100000,
+   "ratio": 3.03,
+   "title": "Inside the Room of Dolls, How a Cop Father Covered Up Son's Murder"
+  },
+  {
+   "ch": "디바제시카",
+   "group": "hit",
+   "id": "zbQOD_pkaxY",
+   "views": 1100000,
+   "ratio": 3.03,
+   "title": "Sickest Family Ever, Slept With Mom’s Friend, Murdered His Own Dad? Wow Can't Handle This..."
+  },
+  {
+   "ch": "디바제시카",
+   "group": "flop",
+   "id": "7ERyH7Wjb2E",
+   "views": 86000,
+   "ratio": 0.24,
+   "title": "가장 반응이 뜨거웠던 최다조회수 탑 인기영상 모음 (라디오처럼 틀어두기)"
+  },
+  {
+   "ch": "디바제시카",
+   "group": "flop",
+   "id": "kpRcovsjKco",
+   "views": 82000,
+   "ratio": 0.23,
+   "title": "The Perfect Alibi, The Perfect Trap: The Betsy Faria Murder Case"
+  },
+  {
+   "ch": "디바제시카",
+   "group": "flop",
+   "id": "epqis9N7hr4",
+   "views": 171,
+   "ratio": 0.0,
+   "title": "Customers Ate Korean BBQ While Human Remains Were Packed Beside Pork Belly in the Back"
+  },
+  {
+   "ch": "사건의뢰",
+   "group": "hit",
+   "id": "Eaby31fuTBo",
+   "views": 1000000,
+   "ratio": 8.77,
+   "title": "The Masked Killer Who Tried to Destroy Evidence by Removing All Body Parts and Organs [Detective ..."
+  },
+  {
+   "ch": "사건의뢰",
+   "group": "hit",
+   "id": "B1dSf2mY5QE",
+   "views": 854000,
+   "ratio": 7.49,
+   "title": "[South Korean Murder Cases Ep. 406] \"Please, find my son..\" My son found in a septic tank"
+  },
+  {
+   "ch": "사건의뢰",
+   "group": "hit",
+   "id": "SNqGKD4Sf1I",
+   "views": 797000,
+   "ratio": 6.99,
+   "title": "The Tragic Fate of a Daughter Who Witnessed Her Father-in-Law and Daughter-in-Law’s Inappropriate..."
+  },
+  {
+   "ch": "사건의뢰",
+   "group": "hit",
+   "id": "321cbDjE6ZI",
+   "views": 704000,
+   "ratio": 6.18,
+   "title": "The Busan Newlywed Couple Disappearance Case | What Really Happened to the Couple Who Vanished 10..."
+  },
+  {
+   "ch": "사건의뢰",
+   "group": "hit",
+   "id": "SX4k8uJyVL0",
+   "views": 586000,
+   "ratio": 5.14,
+   "title": "[South Korean Murder Cases Ep. 400] The Genius's Meticulous and Brutal Crime Plan That Everyone P..."
+  },
+  {
+   "ch": "사건의뢰",
+   "group": "hit",
+   "id": "-9j4VE9krYw",
+   "views": 575000,
+   "ratio": 5.04,
+   "title": "[South Korean Murder Cases Ep. 398] The killer was on the funeral bus headed to the burial ceremo..."
+  },
+  {
+   "ch": "사건의뢰",
+   "group": "flop",
+   "id": "d7iELqfa6OQ",
+   "views": 16000,
+   "ratio": 0.14,
+   "title": "The Arson Case That Triggered a Serial Killing Spree: Why Wasn't Kang Ho-sun Caught Back Then?"
+  },
+  {
+   "ch": "사건의뢰",
+   "group": "flop",
+   "id": "Fwrnp8eX-oI",
+   "views": 14000,
+   "ratio": 0.12,
+   "title": "The Child I Cannot Show Anyone [International Murder Case]"
+  },
+  {
+   "ch": "사건의뢰",
+   "group": "flop",
+   "id": "yA9qMGaSav8",
+   "views": 7900,
+   "ratio": 0.07,
+   "title": "Why You Can Survive Being Shot in the Head | Firearms Expert Tae Sang-ho [Suspicious Pocha]"
+  },
+  {
+   "ch": "기묘한밤",
+   "group": "hit",
+   "id": "WKTc0z6UJw8",
+   "views": 4700000,
+   "ratio": 13.37,
+   "title": "The Exposed Documentary That a Russian Director Secretly Filmed by Tricking North Korea After Bei..."
+  },
+  {
+   "ch": "기묘한밤",
+   "group": "hit",
+   "id": "ZDDlUjiIDDY",
+   "views": 1500000,
+   "ratio": 4.27,
+   "title": "Bizarre Unsolved Mysteries of the Three Kingdoms Period That Have Lasted for Thousands of Years [..."
+  },
+  {
+   "ch": "기묘한밤",
+   "group": "hit",
+   "id": "lF8hhUrFiSc",
+   "views": 1500000,
+   "ratio": 4.27,
+   "title": "The Hidden Stories of 'Falun Gong,' China's Biggest Taboo Where Practitioners Have Their Organs H..."
+  },
+  {
+   "ch": "기묘한밤",
+   "group": "hit",
+   "id": "Z7Vp4fFQ9RI",
+   "views": 1200000,
+   "ratio": 3.41,
+   "title": "The Decisive Event That Erased the Last Traces of Democracy in North Korea and Consolidated Kim I..."
+  },
+  {
+   "ch": "기묘한밤",
+   "group": "hit",
+   "id": "303gWt8cjXM",
+   "views": 1200000,
+   "ratio": 3.41,
+   "title": "'2009 Currency Reform,' the worst economic policy directly implemented by the North Korean leader..."
+  },
+  {
+   "ch": "기묘한밤",
+   "group": "hit",
+   "id": "RWxQyOCbZX0",
+   "views": 1100000,
+   "ratio": 3.13,
+   "title": "The Hidden Stories of 'Concorde': The Supersonic Jet That Sacrificed Everything for Speed to Make..."
+  },
+  {
+   "ch": "기묘한밤",
+   "group": "flop",
+   "id": "7rd37fGuHKs",
+   "views": 121000,
+   "ratio": 0.34,
+   "title": "The Unprecedented 'Great Sheep Escape' That Paralyzed 1800s England [Mystery]"
+  },
+  {
+   "ch": "기묘한밤",
+   "group": "flop",
+   "id": "LxCjyCLhcJU",
+   "views": 101000,
+   "ratio": 0.29,
+   "title": "The Truth Behind the Shocking Claim that Korea's Most Beloved Poet, Yun Dong-ju, Was a Victim of ..."
+  },
+  {
+   "ch": "기묘한밤",
+   "group": "flop",
+   "id": "TuY3td-nDk4",
+   "views": 88000,
+   "ratio": 0.25,
+   "title": "The Full Story Behind the 'Gostyń Cartel' That Recently Shocked Poland [Crime & Incidents]"
+  },
+  {
+   "ch": "미스스한이야기",
+   "group": "hit",
+   "id": "wmSv6bbJTy4",
+   "views": 1000000,
+   "ratio": 4.99,
+   "title": "A Firefighter by Day, a Killer by Night: The Japanese Dr. Jekyll and Mr. Hyde, Kiyotaka Katsuta"
+  },
+  {
+   "ch": "미스스한이야기",
+   "group": "hit",
+   "id": "XbMpZjNXb0Y",
+   "views": 833000,
+   "ratio": 4.15,
+   "title": "The Mourmelon Serial Disappearances"
+  },
+  {
+   "ch": "미스스한이야기",
+   "group": "hit",
+   "id": "4i2HJb1VoK0",
+   "views": 702000,
+   "ratio": 3.5,
+   "title": "\"The taste is fantastic\": The serial killer who made hamburger patties out of people, \"Hamburger ..."
+  },
+  {
+   "ch": "미스스한이야기",
+   "group": "hit",
+   "id": "8k2-wRk5jyo",
+   "views": 685000,
+   "ratio": 3.42,
+   "title": "'미국 역사상 최악의 괴물' 살인마들의 살인마 '에드워드 게인'"
+  },
+  {
+   "ch": "미스스한이야기",
+   "group": "hit",
+   "id": "5dTFDiQv-w0",
+   "views": 667000,
+   "ratio": 3.33,
+   "title": "'우리에게 내일은 없다'미국이 사랑한 범죄자 '보니&클라이드'"
+  },
+  {
+   "ch": "미스스한이야기",
+   "group": "hit",
+   "id": "zHuwp6nRLO4",
+   "views": 650000,
+   "ratio": 3.24,
+   "title": "'아시아 최악의 연쇄살인마' 67명을 살해한 악마 '양신하이'"
+  },
+  {
+   "ch": "미스스한이야기",
+   "group": "flop",
+   "id": "rU9wx4tgcnc",
+   "views": 74000,
+   "ratio": 0.37,
+   "title": "33 Miners Trapped 800m Underground: The Chile Mine Collapse Incident"
+  },
+  {
+   "ch": "미스스한이야기",
+   "group": "flop",
+   "id": "OWBoscpqsgk",
+   "views": 69000,
+   "ratio": 0.34,
+   "title": "\"Guilty or Judicial Miscarriage?\" People Died After Drinking Wine: The 'Nabari Poisoned Wine Case'"
+  },
+  {
+   "ch": "미스스한이야기",
+   "group": "flop",
+   "id": "xvSKdq2XngE",
+   "views": 64000,
+   "ratio": 0.32,
+   "title": "Fukui Junior High School Student Murder Case"
+  },
+  {
+   "ch": "시선너머",
+   "group": "hit",
+   "id": "7JePOz4Fc2Y",
+   "views": 814000,
+   "ratio": 2.46,
+   "title": "무당이 본 가장 역대급 귀접썰 (귀신과의 불륜을 즐기다 나락간 여자 후일담...) | 괴담을 보다 EP.78"
+  },
+  {
+   "ch": "시선너머",
+   "group": "hit",
+   "id": "qnm6RuV3lEE",
+   "views": 744000,
+   "ratio": 2.25,
+   "title": "눈 감고 들으면 더 무서운 미스터리 괴담 실화 모음 (괴담 ASMR 몰아보기)"
+  },
+  {
+   "ch": "시선너머",
+   "group": "hit",
+   "id": "58QjArvkIdQ",
+   "views": 730000,
+   "ratio": 2.21,
+   "title": "\"귀신이 정말 없다고 생각해?\" 내가 귀신을 믿게 된 이유 (공포실화) | 괴담을 보다 EP.57"
+  },
+  {
+   "ch": "시선너머",
+   "group": "hit",
+   "id": "wMhl3jHhYGE",
+   "views": 686000,
+   "ratio": 2.08,
+   "title": "어른이 된 후에 보면 다르게 보인다는 아동용 동화들 (곳곳에 가득한 묘한..성적 묘사들…)"
+  },
+  {
+   "ch": "시선너머",
+   "group": "hit",
+   "id": "TsJe6D32MjQ",
+   "views": 682000,
+   "ratio": 2.06,
+   "title": "무당도 몸서리치는 꿈에서 보면 큰일나는 얼굴 (저승사자의 경고...) | 괴담을 보다 EP.81"
+  },
+  {
+   "ch": "시선너머",
+   "group": "hit",
+   "id": "q0J0xpJxYe4",
+   "views": 641000,
+   "ratio": 1.94,
+   "title": "※소름주의※ 40년 차 만신 무당을 공포에 빠뜨린 귀신 목소리 실제 녹음본 (이어폰 필수..) | 괴담을 보다 EP.85"
+  },
+  {
+   "ch": "시선너머",
+   "group": "flop",
+   "id": "0QIrHVO0REU",
+   "views": 80000,
+   "ratio": 0.24,
+   "title": "일본인들을 멘붕시킨 책 한 권📕 미쓰다 신조 『죽은 자의 녹취록』 오디오북 | 괴담을 읽다 EP.2"
+  },
+  {
+   "ch": "시선너머",
+   "group": "flop",
+   "id": "zfcxZvts2mg",
+   "views": 67000,
+   "ratio": 0.2,
+   "title": "‼️꿀잠 예정자 시청 금지‼️ 괴담 마니아도 잠 못 들게 할 공포 괴담 모음집 (괴담 ASMR 몰아보기)"
+  },
+  {
+   "ch": "시선너머",
+   "group": "flop",
+   "id": "QjCfIl5uDxs",
+   "views": 49000,
+   "ratio": 0.15,
+   "title": "【시선너머 멤버십 권장 영상】 거기 지나가는 당신, 멤버십 한 입 하실래요?"
+  },
+  {
+   "ch": "썸머썸머",
+   "group": "hit",
+   "id": "8fUAkgMyjss",
+   "views": 3000000,
+   "ratio": 5.76,
+   "title": "A Complete Wrap-up of Puff Daddy Gate Shocking America, The Secret of the Thousand Bottles of Bab..."
+  },
+  {
+   "ch": "썸머썸머",
+   "group": "hit",
+   "id": "WRWQC99j0SE",
+   "views": 2600000,
+   "ratio": 5.0,
+   "title": "The Seemingly Happy International Couple Living in the US, The \"Where Is Mengqi?\" Case"
+  },
+  {
+   "ch": "썸머썸머",
+   "group": "hit",
+   "id": "ViRpEZ4HgPU",
+   "views": 2200000,
+   "ratio": 4.23,
+   "title": "넷플릭스로도 제작될만큼 충격적인 미국실화 이웃집 살인사건"
+  },
+  {
+   "ch": "썸머썸머",
+   "group": "hit",
+   "id": "pkJHDFjMHlA",
+   "views": 2200000,
+   "ratio": 4.23,
+   "title": "The dangerous love affair between a blonde flirting queen and a middle-aged man that shocked Amer..."
+  },
+  {
+   "ch": "썸머썸머",
+   "group": "hit",
+   "id": "BotzDdbB1Go",
+   "views": 1900000,
+   "ratio": 3.65,
+   "title": "A Shocking True Story from the U.S. That Became a Netflix Documentary: The Death of the Perfect P..."
+  },
+  {
+   "ch": "썸머썸머",
+   "group": "hit",
+   "id": "zTi8BrWzQqU",
+   "views": 1900000,
+   "ratio": 3.65,
+   "title": "The American Scandal That Outraged Everyone: The Brazilian Nanny Who Wanted to be the Lady of the..."
+  },
+  {
+   "ch": "썸머썸머",
+   "group": "flop",
+   "id": "oODztcmeLoc",
+   "views": 131000,
+   "ratio": 0.25,
+   "title": "Diet and workout routine to lose fat and build muscle while eating🍓+Y-zone essentials🩵"
+  },
+  {
+   "ch": "썸머썸머",
+   "group": "flop",
+   "id": "EXKjsTCTjwI",
+   "views": 110000,
+   "ratio": 0.21,
+   "title": "I came all the way from New York to Daejeon to eat Sungsimdang bread!🥖 18 recommended breads that..."
+  },
+  {
+   "ch": "썸머썸머",
+   "group": "flop",
+   "id": "2AnbRSNSd9k",
+   "views": 66000,
+   "ratio": 0.13,
+   "title": "TikTok's trending tone-deaf self-diagnosis challenge"
+  },
+  {
+   "ch": "괴미사",
+   "group": "hit",
+   "id": "p0wAYNONb0g",
+   "views": 240000,
+   "ratio": 6.4,
+   "title": "[Incidents & Accidents] Incidents that shocked Japan... Goemisa Incident Collection 29"
+  },
+  {
+   "ch": "괴미사",
+   "group": "hit",
+   "id": "DFREu4DgUeU",
+   "views": 163000,
+   "ratio": 4.35,
+   "title": "[사건사고] 실제로 벌어졌던 일본 사건사고 2시간 몰아보기 - 23 -"
+  },
+  {
+   "ch": "괴미사",
+   "group": "hit",
+   "id": "3zl67sR6HZc",
+   "views": 156000,
+   "ratio": 4.16,
+   "title": "[Crime & Incident] 7 Cases That Shook Japan... 1-Hour Compilation by Gyeomisa"
+  },
+  {
+   "ch": "괴미사",
+   "group": "hit",
+   "id": "rFSLSSSHnm8",
+   "views": 151000,
+   "ratio": 4.03,
+   "title": "[Incidents and Accidents] The first tragedy caused by an active actress in Japan... The Mori Ikuk..."
+  },
+  {
+   "ch": "괴미사",
+   "group": "hit",
+   "id": "-p1xvhfVdx8",
+   "views": 134000,
+   "ratio": 3.57,
+   "title": "[True Crime] The Fall of a Koshien-Winning Baseball Elite: The Tsuyoshi Chimaru Case"
+  },
+  {
+   "ch": "괴미사",
+   "group": "hit",
+   "id": "VOU5pFMN5vs",
+   "views": 133000,
+   "ratio": 3.55,
+   "title": "[Solved Cold Case] The Truth Revealed from the Lakebed After 14 Years: The Case of Tadayoshi Kubota"
+  },
+  {
+   "ch": "괴미사",
+   "group": "flop",
+   "id": "5cd8dC9ftfE",
+   "views": 17000,
+   "ratio": 0.45,
+   "title": "[True Crime] He Smirked When Arrested? But His Sentence Was Only... The Case of Tatsumi Tateyama"
+  },
+  {
+   "ch": "괴미사",
+   "group": "flop",
+   "id": "83BYI88vUcE",
+   "views": 17000,
+   "ratio": 0.45,
+   "title": "[Incident] Daughter because she wouldn't watch fireworks together... The Kaga Toshiaki Incident"
+  },
+  {
+   "ch": "괴미사",
+   "group": "flop",
+   "id": "txTRjAS5Es4",
+   "views": 13000,
+   "ratio": 0.35,
+   "title": "[True Crime & History] A Single Man’s Decision That Saved 300 Lives..."
+  },
+  {
+   "ch": "김원tv",
+   "group": "hit",
+   "id": "1FXbf4u0KCM",
+   "views": 553000,
+   "ratio": 3.3,
+   "title": "【X(트위터)에 나타난 2052년 시간여행자 미스터리】"
+  },
+  {
+   "ch": "김원tv",
+   "group": "hit",
+   "id": "uLXrhPBPaSo",
+   "views": 539000,
+   "ratio": 3.22,
+   "title": "【The Cruel Secrets Hidden in the Crime Scene Audio and Photos】 24-Year-Old Murderer Jung Jae-wan ..."
+  },
+  {
+   "ch": "김원tv",
+   "group": "hit",
+   "id": "lTv7Qf8mYA4",
+   "views": 492000,
+   "ratio": 2.94,
+   "title": "【2025 ver. Unsolved Case of the Missing Busan Newlywed Couple】Questions about the '4-Hour' Deviat..."
+  },
+  {
+   "ch": "김원tv",
+   "group": "hit",
+   "id": "9h-Njc-FdNE",
+   "views": 491000,
+   "ratio": 2.93,
+   "title": "【Mystery】"
+  },
+  {
+   "ch": "김원tv",
+   "group": "hit",
+   "id": "eQmiU2n2z8I",
+   "views": 473000,
+   "ratio": 2.82,
+   "title": "【KW】"
+  },
+  {
+   "ch": "김원tv",
+   "group": "hit",
+   "id": "HULMJMvqUUQ",
+   "views": 444000,
+   "ratio": 2.65,
+   "title": "【2026 Catastrophe Prophecy】The Truth Behind the Mystery of Baba Vanga's Prophecy | Sunday Mystery..."
+  },
+  {
+   "ch": "김원tv",
+   "group": "flop",
+   "id": "Hjk51xckubk",
+   "views": 74000,
+   "ratio": 0.44,
+   "title": "I had an acting showdown with Kang Ha-neul.. | Streaming Part 2"
+  },
+  {
+   "ch": "김원tv",
+   "group": "flop",
+   "id": "qoQEo9HFeWc",
+   "views": 70000,
+   "ratio": 0.42,
+   "title": "[SKT Hacking Incident: Possibility of Personal Information Leakage?] Interview with an Informatio..."
+  },
+  {
+   "ch": "김원tv",
+   "group": "flop",
+   "id": "RWpvWm-wKEU",
+   "views": 45000,
+   "ratio": 0.27,
+   "title": "【My first YouTube vlog, Q&A... Thank you so much for the 10th anniversary and 700,000 subscribers!】"
+  },
+  {
+   "ch": "테가미",
+   "group": "hit",
+   "id": "AY7hpFf58AU",
+   "views": 1000000,
+   "ratio": 11.98,
+   "title": "Why Did North Korea Kidnap 13-Year-Old Megumi Yokota?【Japan Case Files】"
+  },
+  {
+   "ch": "테가미",
+   "group": "hit",
+   "id": "EHb81Gl-ge8",
+   "views": 791000,
+   "ratio": 9.47,
+   "title": "7 Years After a 19-Year-Old College Student Went Missing... The Suspect Was Already Dead【Unsolved..."
+  },
+  {
+   "ch": "테가미",
+   "group": "hit",
+   "id": "2_JqovyBydY",
+   "views": 651000,
+   "ratio": 7.8,
+   "title": "\"There are 9 of them\": The Secret of the Icebox That Shook Japan【Japanese Case Files】"
+  },
+  {
+   "ch": "테가미",
+   "group": "hit",
+   "id": "BNLHFYPeiT4",
+   "views": 535000,
+   "ratio": 6.41,
+   "title": "사망 당시 20kg… 일본을 뒤흔든 16세 소녀의 죽음"
+  },
+  {
+   "ch": "테가미",
+   "group": "hit",
+   "id": "a3EpxJLlkz4",
+   "views": 469000,
+   "ratio": 5.62,
+   "title": "Japan's First Death Sentence for a Yakuza Boss… The Full Story of the Kudo-kai's Downfall【Dark Ja..."
+  },
+  {
+   "ch": "테가미",
+   "group": "hit",
+   "id": "re2rN6Cqg4I",
+   "views": 319000,
+   "ratio": 3.82,
+   "title": "26년만에 풀린 일본 미제사건"
+  },
+  {
+   "ch": "테가미",
+   "group": "flop",
+   "id": "57PwA9h-tRE",
+   "views": 17000,
+   "ratio": 0.2,
+   "title": "일본 이누나키 마을은 진짜 존재할까?"
+  },
+  {
+   "ch": "테가미",
+   "group": "flop",
+   "id": "LPRCiCz65FY",
+   "views": 12000,
+   "ratio": 0.14,
+   "title": "The Man Who Walked to the Station Wearing the Victim's Clothes and Shoes… The Man in the CCTV Tha..."
+  },
+  {
+   "ch": "테가미",
+   "group": "flop",
+   "id": "wnv731XUxso",
+   "views": 11000,
+   "ratio": 0.13,
+   "title": "(No Ads) The Full Story of the Kobe Child Murders 【Japan Case Files】"
+  },
+  {
+   "ch": "안협소",
+   "group": "hit",
+   "id": "khE1zU2GtL0",
+   "views": 4500000,
+   "ratio": 8.69,
+   "title": "Japan's worst broadcasting accident"
+  },
+  {
+   "ch": "안협소",
+   "group": "hit",
+   "id": "9IpO2yKG_sk",
+   "views": 2200000,
+   "ratio": 4.25,
+   "title": "Street vendors in Japan are causing a stir"
+  },
+  {
+   "ch": "안협소",
+   "group": "hit",
+   "id": "zkXP8pnOZu8",
+   "views": 2200000,
+   "ratio": 4.25,
+   "title": "Why you shouldn't touch children in Japan"
+  },
+  {
+   "ch": "안협소",
+   "group": "hit",
+   "id": "KT8PNtq4_rk",
+   "views": 1800000,
+   "ratio": 3.47,
+   "title": "Live fall accident at Mount Fuji in Japan"
+  },
+  {
+   "ch": "안협소",
+   "group": "hit",
+   "id": "LxCjo3cApTI",
+   "views": 1800000,
+   "ratio": 3.47,
+   "title": "Another Foreigner Disappears in Wakayama, Japan"
+  },
+  {
+   "ch": "안협소",
+   "group": "hit",
+   "id": "Kix2xOQxotE",
+   "views": 1700000,
+   "ratio": 3.28,
+   "title": "Why this one dashcam video caused an uproar in Japan"
+  },
+  {
+   "ch": "안협소",
+   "group": "flop",
+   "id": "9IZE3SsFRJo",
+   "views": 104000,
+   "ratio": 0.2,
+   "title": "Why there is a production committee in Japan"
+  },
+  {
+   "ch": "안협소",
+   "group": "flop",
+   "id": "y6u9Q9IyKMQ",
+   "views": 74000,
+   "ratio": 0.14,
+   "title": "Nagoya is boring? Hidden gems only the locals know about"
+  },
+  {
+   "ch": "안협소",
+   "group": "flop",
+   "id": "Ge58xIdYXhU",
+   "views": 52000,
+   "ratio": 0.1,
+   "title": "Exciting & Shining Byeolbit Nammun Market"
+  }
+ ]
+}

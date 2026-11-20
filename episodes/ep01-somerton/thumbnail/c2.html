@@ -1,0 +1,31 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- 컨셉 c2 (flood): 마지막 장이 찢겨 나간 『루바이야트』와, 그 빈칸에 맞는 종이 한 조각. 근거: facts.md @book -->
+<!-- 본문은 회색 막대로만(실제 책 문장을 지어내지 않는다) -->
+<!-- assets: texture:dark_wood texture:brown_leather hdri:brown_photostudio_07 -->
+<!-- grade: --mode flood --focus pale --lift 0.15 --depth 0.2 -->
+<!-- text: "찢긴 한 줄" "책 주인은 누구였나" -->
+<!-- title: "73년 만에 이름을 찾은 해변의 남자" -->
+<script type="importmap">{"imports":{"three":"/thumbkit/lib/three.module.min.js","three/addons/":"/thumbkit/lib/addons/"}}</script>
+</head><body>
+<script type="module">
+import { Thumb } from '/thumbkit/thumbkit.js';
+const t = await Thumb.create({ hdri: 'brown_photostudio_07', envIntensity: 0.3, exposure: 0.62 });
+t.camera([0.074, 0.145, 0.175], [0.066, 0.0, 0.074], 34);
+await t.surface('dark_wood', { w: 2, h: 2, repeat: 2 });
+const leather = await t.material('brown_leather', { repeat: 1 });
+// open book at its last page: covers, a thick left block, a thin right block
+t.box({ size: [0.25, 0.006, 0.175], radius: 0.002, material: leather, pos: [0, 0.003, 0] });
+t.box({ size: [0.118, 0.014, 0.165], radius: 0.003, color: '#e2d8c6', pos: [-0.062, 0.013, 0] });
+t.box({ size: [0.118, 0.003, 0.165], radius: 0.001, color: '#3a3128', pos: [0.062, 0.0075, 0] });
+t.sheet({ w: 0.116, h: 0.163, lines: 14, torn: 0, age: 0.6, pos: [-0.062, 0.0205, 0], rot: [-Math.PI / 2, 0, 0], paper: '#ece4d4' });
+t.sheet({ w: 0.116, h: 0.163, lines: 9, torn: 0, age: 0.6, cut: [0.08, 0.60, 0.94, 0.80], pos: [0.062, 0.0095, 0],
+  rot: [-Math.PI / 2, 0, 0], paper: '#ece4d4' });
+// the scrap, lying just below the page it came from
+const scrap = t.sheet({ w: 0.095, h: 0.026, text: 'Tamám Shud', font: 'italic 170px Georgia, "Times New Roman", serif',
+  torn: 0.12, curl: 0.004, curlStart: 0.9, textX: 0.46, age: 0.5, pos: [0.07, 0.0016, 0.1], rot: [-Math.PI / 2, 0, -0.12] });
+t.focus(scrap);
+t.key({ pos: [-0.2, 0.5, 0.25], target: [0.07, 0, 0.06], intensity: 7, angle: 0.3, penumbra: 0.9 });
+t.amb(0.03);
+await t.done();
+</script></body></html>

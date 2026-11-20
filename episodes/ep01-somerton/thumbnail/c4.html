@@ -1,0 +1,237 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- 컨셉 c4 = concepts-v2.md v2-a 「바다로 뻗은 팔」 (tone): 해 질 녘 바다 쪽 빛을 등지고(역광) 모래에 누운 남자가
+     오른팔을 바다 쪽으로 쭉 뻗는다. 남자는 검은 실루엣, 하늘과 바다만 빛난다.
+     근거: facts.md "11월 30일 저녁 7시, 오른팔 뻗었다 떨어뜨림"(목격자), "방파제에 머리, 다리 뻗음", "모자 없음".
+     연출: 팔 방향은 기록에 없음 → 누운 사람이 앞으로 뻗는 높이(수평에서 약 35°), 손가락은 힘을 뺀 채.
+           바다 쪽 하늘빛은 조명 연출(해·노을 모양은 그리지 않음).
+     카메라: 컨셉 문서의 '방파제 위 어깨 너머'(높이 1.45m)에서는 남자가 수평선 아래 모래에 겹쳐 실루엣이 안 생긴다 →
+           방파제 밑 모래 높이(0.4m)로 낮춰 남자 오른쪽 옆뒤에서 찍는다. 머리·팔이 하늘에 겹치는 것이 이 컷의 전부. -->
+<!-- assets: texture:damp_beach_sand_02 texture:concrete_wall_008 hdri:qwantani_dusk_2_puresky -->
+<!-- 인물: Quaternius Universal Base Characters (CC0), thumbkit/figures.js -->
+<!-- grade: --mode tone --vignette 0.9 --grain 15 --text-at 0.4,0.05 -->
+<!-- text: "팔을 뻗었다" "다들 취한 줄 알았다" -->
+<!-- title: "넥타이에 이름까지 적혀 있었는데 73년 동안 신원을 몰랐던 이유" -->
+<script type="importmap">{"imports":{"three":"/thumbkit/lib/three.module.min.js","three/addons/":"/thumbkit/lib/addons/"}}</script>
+</head><body>
+<script type="module">
+import { Thumb, THREE } from '/thumbkit/thumbkit.js';
+import { loadFigure, poseReclined, settle, turn } from '/thumbkit/figures.js';
+
+const P = {
+  skyRot: 0.64,          // rotate the dusk HDRI about y so its glow (the last light) sits behind the hand
+  env: 0.45, bg: 0.1,     // light from the sky vs the sky's own brightness in frame: top of the sky near black
+  exposure: 0.6,
+  cam: [-3.0, 0.4, -0.285], look: [0.0, 0.5, 0.75], fov: 26,
+  armDir: [-0.12, 0.42, 0.81],   // right arm: forward to the sea, ~27° above horizontal
+  curl: 0.8, wrist: 0.55,        // a hand losing its strength, about to drop (not an open waving palm)
+  sun: [14.8, 2.5, 2.6],         // low light from behind the man, same direction as the sky glow
+  seaEnv: 0.35, seaRough: 0.45, sunI: 1.25, sandEnv: 0.7,   // keep the sea's reflection darker than the sky behind the hand
+  couple: true, coupleX: 38,
+  dome: 0.85,                    // graduated dark sky: top of the sky near black, light only in a thin band at the horizon                  // two small far figures at the waterline (facts: a couple saw him that evening)
+  figEnv: 0.08, halo: 0.35, contact: 0.85, wallColor: '#6a645c', tilt: 0.95, headTurn: 0.7, headBack: -0.25,
+};
+
+const t = await Thumb.create({ hdri: 'qwantani_dusk_2_puresky', envBackground: true, envIntensity: P.env, exposure: P.exposure });
+t.scene.backgroundIntensity = P.bg;
+t.scene.backgroundRotation.set(0, P.skyRot, 0);
+t.scene.environmentRotation.set(0, P.skyRot, 0);
+// per-material environment strength (scene.environmentIntensity ignores material.envMapIntensity unless envMap is set)
+const envOn = (m, k) => { m.envMap = t.scene.environment; m.envMapIntensity = k * P.env; m.envMapRotation.copy(t.scene.environmentRotation); };
+
+// --- sand (dry, then a wet reflective band before the water line) ---
+const sandM = await t.material('damp_beach_sand_02', { repeat: 14, normalScale: 1.4, color: '#9a948e' });
+envOn(sandM, P.sandEnv);
+const sand = new THREE.Mesh(new THREE.PlaneGeometry(80, 14), sandM);
+t.add(sand, { pos: [0, 0, -3.5], rot: [-Math.PI / 2, 0, 0] }); sand.castShadow = false;
+const wetM = await t.material('damp_beach_sand_02', { repeat: 14, normalScale: 1.0, roughness: 0.95, color: '#4a4744' });
+const wet = new THREE.Mesh(new THREE.PlaneGeometry(80, 3), wetM);
+t.add(wet, { pos: [0, 0.002, 5], rot: [-Math.PI / 2, 0, 0] }); wet.castShadow = false;
+
+// --- sea: a flat reflective plane with a procedural, tileable wave normal map ---
+function waveNormals(n = 512) {
+  const c = document.createElement('canvas'); c.width = c.height = n;
+  const x = c.getContext('2d'); const img = x.createImageData(n, n);
+  let s = 11; const rnd = () => ((s = (s * 16807) % 2147483647) / 2147483647);
+  const W = [];
+  for (let i = 0; i < 28; i++) {
+    const ky = 1 + Math.floor(rnd() * 22), kx = Math.round((rnd() - 0.5) * ky * 0.7);   // crests mostly parallel to shore
+    W.push({ kx, ky, a: 1 / (ky * 0.6 + 1), p: rnd() * 6.283 });
+  }
+  for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+    let dx = 0, dy = 0; const u = i / n, v = j / n;
+    for (const w of W) { const ph = 6.283 * (w.kx * u + w.ky * v) + w.p; const cs = Math.cos(ph) * w.a; dx += cs * w.kx; dy += cs * w.ky; }
+    const k = 0.045; const nx = -dx * k, ny = -dy * k, nz = 1; const l = Math.hypot(nx, ny, nz);
+    const o = (j * n + i) * 4;
+    img.data[o] = (nx / l * 0.5 + 0.5) * 255; img.data[o + 1] = (ny / l * 0.5 + 0.5) * 255; img.data[o + 2] = (nz / l * 0.5 + 0.5) * 255; img.data[o + 3] = 255;
+  }
+  x.putImageData(img, 0, 0);
+  const tx = new THREE.CanvasTexture(c); tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.anisotropy = 8;
+  return tx;
+}
+const wn = waveNormals(); wn.repeat.set(150, 70);
+const seaM = new THREE.MeshStandardMaterial({ color: '#141a1f', roughness: P.seaRough, metalness: 0.0, normalMap: wn });
+envOn(seaM, P.seaEnv);
+const sea = new THREE.Mesh(new THREE.PlaneGeometry(700, 340), seaM);
+t.add(sea, { pos: [0, 0.006, 6.4 + 170], rot: [-Math.PI / 2, 0, 0] }); sea.castShadow = false;
+
+// --- seawall behind the man (Lambert: no grazing-angle sheen; the camera looks almost along its face) ---
+const wallTex = await t.material('concrete_wall_008', { repeat: 3 });
+const wallM = new THREE.MeshLambertMaterial({ map: wallTex.map, normalMap: wallTex.normalMap, color: P.wallColor });
+const wall = new THREE.Mesh(new THREE.PlaneGeometry(24, 1.25), wallM);
+t.add(wall, { pos: [0, 0.625, -0.32] });
+t.add(new THREE.Mesh(new THREE.BoxGeometry(24, 0.1, 0.45), wallM), { pos: [0, 1.25, -0.55] });
+
+// --- the man: reclined, right arm fully extended toward the sea ---
+const man = await loadFigure('/thumbkit/cache/figures/Superhero_Male_FullBody.gltf', 'man');
+poseReclined(man, P.tilt);
+turn(man, 'neck_01', [0, 1, 0], P.headTurn);
+// a slumped back and soft knees instead of a ruler-straight body
+turn(man, 'spine_03', [1, 0, 0], 0.16); turn(man, 'spine_01', [1, 0, 0], 0.06);
+turn(man, 'calf_l', [1, 0, 0], 0.14); turn(man, 'calf_r', [1, 0, 0], 0.10);
+turn(man, 'thigh_l', [1, 0, 0], -0.07); turn(man, 'thigh_r', [1, 0, 0], -0.05);
+turn(man, 'thigh_l', [0, 0, 1], -0.45); turn(man, 'thigh_r', [0, 0, 1], 0.35);   // legs rolled outward, feet fallen sideways
+turn(man, 'neck_01', [1, 0, 0], P.headBack);   // head resting back against the wall (face turned away above: no profile)
+t.scene.add(man.root);
+settle(man, 0.0, -0.32, 0.01);
+function aim(fig, name, child, dir) {
+  fig.root.updateMatrixWorld(true);
+  const b = fig.bone(name), c = fig.bone(child);
+  const p = b.getWorldPosition(new THREE.Vector3()), q = c.getWorldPosition(new THREE.Vector3());
+  const qw = new THREE.Quaternion().setFromUnitVectors(q.sub(p).normalize(), new THREE.Vector3(...dir).normalize());
+  const bw = b.getWorldQuaternion(new THREE.Quaternion()), pw = b.parent.getWorldQuaternion(new THREE.Quaternion());
+  b.quaternion.copy(pw.invert().multiply(qw.multiply(bw)));
+  fig.root.updateMatrixWorld(true);
+}
+aim(man, 'upperarm_r', 'lowerarm_r', P.armDir);
+aim(man, 'lowerarm_r', 'hand_r', P.armDir);
+const hd = P.armDir.slice(); hd[1] -= P.wrist;    // the wrist lets the hand hang
+aim(man, 'hand_r', 'middle_01_r', hd);
+for (const f of ['index', 'middle', 'ring', 'pinky']) for (const k of ['01', '02', '03']) man.bone(`${f}_${k}_r`).rotateZ(P.curl * (k === '01' ? 0.6 : 1));   // +Z curls toward the palm
+// left arm down on the sand beside him
+turn(man, 'upperarm_l', [1, 0, 0], 0.30); turn(man, 'lowerarm_l', [1, 0, 0], 0.30);
+man.root.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; envOn(o.material, P.figEnv); } });
+// plain dark shoes over the base mesh's bare feet (no shoe detail in the record: generic), as in c5
+man.root.updateMatrixWorld(true);
+const shoeMat = new THREE.MeshStandardMaterial({ color: '#141210', roughness: 0.55 });
+envOn(shoeMat, P.figEnv);
+const shoes = [];
+for (const side of ['l', 'r']) {
+  const a = man.bone('foot_' + side).getWorldPosition(new THREE.Vector3());
+  const b = man.bone('ball_' + side).getWorldPosition(new THREE.Vector3());
+  const d = b.clone().sub(a); const toe = b.clone().add(d.clone().normalize().multiplyScalar(0.07));
+  const heel = a.clone().sub(d.clone().normalize().multiplyScalar(0.05));
+  const len = toe.distanceTo(heel);
+  const shoe = new THREE.Mesh(new THREE.CapsuleGeometry(0.042, len - 0.084, 6, 16), shoeMat);
+  shoe.scale.set(1.0, 1, 0.8);
+  shoe.position.copy(heel.clone().add(toe).multiplyScalar(0.5));
+  shoe.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), toe.clone().sub(heel).normalize());
+  shoe.castShadow = shoe.receiveShadow = true;
+  t.scene.add(shoe); shoes.push(shoe);
+}
+t.focus(man.root, ...shoes);
+
+// two small, hazy figures far down the waterline (the evening witnesses who saw him and took him for drunk or asleep;
+// not a crowd, only two; they stand off and do not come)
+if (P.couple) {
+  const hazeM = new THREE.MeshBasicMaterial({ color: '#000000', transparent: true, opacity: 0.6 });
+  for (const [k, x, z, turnY] of [[0, P.coupleX, 5.2, -1.5], [1, P.coupleX + 0.6, 6.15, -1.45]]) {
+    const w = await loadFigure('/thumbkit/cache/figures/Superhero_Male_FullBody.gltf', 'onlooker');
+    turn(w, 'upperarm_l', [0, 0, 1], -1.38); turn(w, 'upperarm_r', [0, 0, 1], 1.38);
+    turn(w, 'thigh_l', [1, 0, 0], -0.25); turn(w, 'thigh_r', [1, 0, 0], 0.2);   // mid-stride
+    w.root.rotation.y = turnY;   // walking along the shore, away from him
+    t.scene.add(w.root); settle(w, 0.0);
+    w.root.position.x = x; w.root.position.z = z;
+    w.root.traverse((o) => { if (o.isMesh) { o.material = hazeM; o.castShadow = false; } });
+  }
+}
+
+// Contact shadow: the sky light (unshadowed environment) still reaches the sand right under the body, which reads as
+// floating. Bake a soft occlusion decal from the vertices close to the ground.
+{
+  const X0 = -1.2, X1 = 1.2, Z0 = -0.6, Z1 = 1.8, N = 512;
+  const c = document.createElement('canvas'); c.width = c.height = N;
+  const x = c.getContext('2d'); x.fillStyle = '#000'; x.fillRect(0, 0, N, N);
+  const v = new THREE.Vector3();
+  man.root.updateMatrixWorld(true);
+  man.scene.traverse((o) => {
+    if (!o.isSkinnedMesh || !o.visible) return;
+    const pp = o.geometry.attributes.position;
+    for (let i = 0; i < pp.count; i += 2) {
+      o.getVertexPosition(i, v); v.applyMatrix4(o.matrixWorld);
+      if (v.y > 0.16) continue;
+      const a = Math.min(1, (0.16 - v.y) / 0.16);
+      x.fillStyle = `rgba(255,255,255,${0.03 * a})`;
+      const px = (v.x - X0) / (X1 - X0) * N, pz = (v.z - Z0) / (Z1 - Z0) * N;
+      x.beginPath(); x.arc(px, pz, 14 + 26 * (1 - a), 0, 6.283); x.fill();
+    }
+  });
+  const c2 = document.createElement('canvas'); c2.width = c2.height = N;
+  const x2 = c2.getContext('2d'); x2.filter = 'blur(16px)'; x2.drawImage(c, 0, 0);
+  const tex = new THREE.CanvasTexture(c2);
+  const m = new THREE.MeshBasicMaterial({ color: '#000000', alphaMap: tex, transparent: true, opacity: P.contact, depthWrite: false });
+  const g = new THREE.PlaneGeometry(X1 - X0, Z1 - Z0);
+  const decal = new THREE.Mesh(g, m);
+  decal.rotation.x = -Math.PI / 2;           // canvas top row (Z0) → world -z, facing up
+  decal.position.set((X0 + X1) / 2, 0.004, (Z0 + Z1) / 2);
+  decal.renderOrder = 1;
+  t.scene.add(decal);
+}
+
+t.camera(P.cam, P.look, P.fov);
+
+// Graduated dark sky (like an ND grad filter): darkens the sky from just above the horizon upward.
+{
+  const m = new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, side: THREE.BackSide,
+    uniforms: { uA: { value: P.dome } },
+    vertexShader: 'varying vec3 vW; void main(){ vec4 w = modelMatrix * vec4(position,1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }',
+    fragmentShader: 'uniform float uA; varying vec3 vW; void main(){ vec3 d = normalize(vW - cameraPosition); float a = uA * smoothstep(0.035, 0.3, d.y); gl_FragColor = vec4(0.0, 0.0, 0.0, a); }',
+  });
+  const dome = new THREE.Mesh(new THREE.SphereGeometry(180, 48, 24), m);
+  dome.position.copy(t.cam.position); dome.renderOrder = 2;
+  t.scene.add(dome);
+}
+if (new URLSearchParams(location.search).has('dbg')) { // where things land on screen
+  t.cam.updateMatrixWorld(true);
+  { const v = new THREE.Vector3(); const bins = {};
+    man.scene.traverse((o) => { if (!o.isSkinnedMesh || !o.visible) return; const pp = o.geometry.attributes.position;
+      for (let i = 0; i < pp.count; i += 2) { o.getVertexPosition(i, v); v.applyMatrix4(o.matrixWorld); const k = Math.round(v.z * 5) / 5; bins[k] = Math.min(bins[k] ?? 9, v.y); } });
+    console.log('DBG miny by z', Object.entries(bins).sort((a, b) => a[0] - b[0]).map(([k, y]) => k + ':' + y.toFixed(3)).join(' ')); }
+  for (const cx of [20, 30, 45, 60, 80]) { const c = new THREE.Vector3(cx, 0.9, 5.6).project(t.cam); console.log('DBG couple x', cx, 'screen', ((c.x + 1) / 2).toFixed(2), ((1 - c.y) / 2).toFixed(2)); }
+  for (const n of ['Head', 'pelvis', 'hand_r', 'middle_04_leaf_r', 'foot_l', 'upperarm_r']) {
+    const w = man.bone(n).getWorldPosition(new THREE.Vector3()); const s = w.clone().project(t.cam);
+    console.log('DBG', n, w.toArray().map((v) => v.toFixed(2)).join(','), 'screen', ((s.x + 1) / 2).toFixed(2), ((1 - s.y) / 2).toFixed(2));
+  }
+}
+// low light from behind the man: rim on the shoulder and arm edge, long shadow toward the camera
+const sun = new THREE.DirectionalLight('#ffd7a8', P.sunI);
+sun.position.set(...P.sun); sun.target.position.set(0, 0.4, 0.3);
+sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096); sun.shadow.bias = -0.0003; sun.shadow.normalBias = 0.02;
+Object.assign(sun.shadow.camera, { left: -12, right: 12, top: 8, bottom: -8, near: 1, far: 60 });
+t.scene.add(sun, sun.target);
+t.amb(0.0);
+await t.done();
+
+// Lens halation (photographic backlight): bright sky/sea bleed softly over the silhouette's edges.
+// A 2D canvas over the WebGL one; removed before the focus-mask pass so the mask stays clean.
+{
+  const src = t.renderer.domElement, W = src.width, H = src.height;
+  const out = document.createElement('canvas'); out.width = W; out.height = H;
+  Object.assign(out.style, { position: 'absolute', left: '0', top: '0' });
+  const o = out.getContext('2d');
+  o.drawImage(src, 0, 0);
+  const b = document.createElement('canvas'); b.width = W / 4; b.height = H / 4;
+  const bx = b.getContext('2d');
+  bx.filter = 'brightness(0.8) contrast(3.2) blur(9px)';   // keep only the highlights, spread them
+  bx.drawImage(src, 0, 0, W / 4, H / 4);
+  o.globalCompositeOperation = 'screen'; o.globalAlpha = P.halo;
+  o.drawImage(b, 0, 0, W, H);
+  const b2 = document.createElement('canvas'); b2.width = W / 8; b2.height = H / 8;
+  const b2x = b2.getContext('2d'); b2x.filter = 'brightness(0.75) contrast(3.5) blur(14px)'; b2x.drawImage(src, 0, 0, W / 8, H / 8);
+  o.globalAlpha = P.halo * 0.6; o.drawImage(b2, 0, 0, W, H);
+  document.body.appendChild(out);
+  const mask = window.__mask;
+  window.__mask = () => { out.remove(); mask(); };
+}
+</script></body></html>

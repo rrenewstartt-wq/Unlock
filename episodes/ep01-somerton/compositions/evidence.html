@@ -1,0 +1,76 @@
+<template>
+  <style>
+
+    @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+    @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1E2125; color: #E9E5DD; font-family: "Gothic A1", sans-serif; }
+    .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
+      border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
+
+    .table { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); }
+    .phase-a, .phase-b { position: absolute; inset: 0; }
+    .jacket { position: absolute; left: 230px; top: 110px; width: 760px; height: 820px; }
+    .jacket svg { position: absolute; left: 0; top: 0; filter: drop-shadow(0 24px 30px rgba(0,0,0,.45)); }
+    .label { position: absolute; left: 320px; top: 92px; width: 120px; height: 52px; background: #E5DFD2; color: #3A342E; font-size: 30px; display: flex; align-items: center; justify-content: center; }
+    .cut { position: absolute; left: 306px; top: 80px; width: 148px; height: 76px; border: 5px dashed #F0A23B; opacity: 0; }
+    .callout { position: absolute; left: 720px; top: 150px; padding: 14px 24px 18px; background: #1E2125; border-left: 8px solid #F0A23B; }
+    .callout b { display: block; font-family: "Black Han Sans"; font-weight: 400; font-size: 52px; color: #F3F0EA; }
+    .callout span { display: block; font-size: 32px; color: #E9E5DD; margin-top: 4px; }
+    .missing { position: absolute; left: 1220px; top: 330px; }
+    .miss { width: 560px; height: 150px; border: 3px dashed rgba(233,229,221,.45); margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
+    .miss b { font-family: "Black Han Sans"; font-weight: 400; font-size: 72px; }
+    .miss s { text-decoration: none; font-size: 40px; color: #F3F0EA; border: 3px solid #F3F0EA; padding: 4px 18px 8px; transform: rotate(-6deg); display: inline-block; }
+    .item { position: absolute; display: flex; align-items: flex-end; justify-content: flex-start; padding: 16px 20px; box-shadow: 0 18px 30px rgba(0,0,0,.45); }
+    .item span { font-size: 34px; font-weight: 500; line-height: 1.15; }
+    .item small { display: block; font-size: 28px; opacity: .8; margin-top: 4px; }
+    .ticket { background: #CFC6B2; color: #2A2622; border-left: 6px dotted #2A2622; }
+    .ticket.bus { background: #B9C2B5; }
+    .comb { background: linear-gradient(180deg, #C9CDD2 0 40%, transparent 40%); color: #1E2125; padding: 0; box-shadow: none; }
+    .comb::after { content: ""; position: absolute; left: 0; right: 0; top: 40%; height: 60%; background: repeating-linear-gradient(90deg, #A9AEB4 0 6px, transparent 6px 12px); }
+    .comb span { position: absolute; left: 0; top: 124px; color: #E9E5DD; white-space: nowrap; }
+    .gum { background: #D9C34A; color: #2A2622; }
+    .cigbox { background: linear-gradient(180deg, #7C2E2A 0 30%, #E5DFD2 30%); color: #2A2622; }
+    .match { background: #E5DFD2; color: #2A2622; border-top: 40px solid #3C5A7A; }
+    .pocket-title { position: absolute; left: 96px; bottom: 210px; font-size: 64px; color: rgba(233,229,221,.9); }
+  </style>
+  <div id="root" data-composition-id="evidence" data-width="1920" data-height="1080">
+    <div id="ev-table" class="clip table" data-start="0" data-duration="19.21"></div>
+    <div id="ev-a" class="clip phase-a" data-start="0" data-duration="8.87">
+      <div id="ev-jacket" class="jacket"><svg width="760" height="820" viewBox="0 0 760 820"><path d="M40 150 L150 110 L172 770 L62 790 Z" fill="#463F37"/><path d="M720 150 L610 110 L588 770 L698 790 Z" fill="#463F37"/><path d="M150 110 L300 58 L380 120 L460 58 L610 110 L600 800 L160 800 Z" fill="#564E45"/><path d="M300 58 L380 120 L460 58 L446 430 L380 480 L314 430 Z" fill="#8C7A62"/><path d="M300 58 L314 430 L246 300 L236 150 Z" fill="#3E3832"/><path d="M460 58 L446 430 L514 300 L524 150 Z" fill="#3E3832"/><circle cx="380" cy="540" r="11" fill="#2A2622"/><circle cx="380" cy="620" r="11" fill="#2A2622"/><rect x="200" y="610" width="120" height="22" fill="#3E3832"/><rect x="440" y="610" width="120" height="22" fill="#3E3832"/><rect x="470" y="250" width="90" height="14" fill="#3E3832"/></svg><div id="ev-label" class="label"><span>상표</span></div><div id="ev-cut" class="cut"></div></div>
+      <div id="ev-callout" class="callout"><b>상표 제거</b><span>입고 있던 모든 옷</span></div>
+      <div class="missing">
+        <div id="ev-m1" class="miss"><b>지갑</b><s>없음</s></div>
+        <div id="ev-m2" class="miss"><b>신분증</b><s>없음</s></div>
+        <div id="ev-m3" class="miss"><b>모자</b><s>없음</s></div>
+      </div></div>
+    <div id="ev-b" class="clip phase-b" data-start="8.77" data-duration="10.44">
+      <div id="ev-rail" class="item ticket" style="left:160px;top:170px;width:500px;height:210px"><span>기차표<small>애들레이드→헨리 비치 · 미사용</small></span></div>
+      <div id="ev-bus" class="item ticket bus" style="left:690px;top:150px;width:300px;height:150px"><span>버스표</span></div>
+      <div id="ev-comb" class="item comb" style="left:1100px;top:210px;width:520px;height:110px"><span>알루미늄 빗</span></div>
+      <div id="ev-gum" class="item gum" style="left:260px;top:520px;width:320px;height:200px"><span>껌 반 통</span></div>
+      <div id="ev-cig" class="item cigbox" style="left:700px;top:430px;width:330px;height:420px"><span>담배갑<small>다른 상표 담배 7개비</small></span></div>
+      <div id="ev-match" class="item match" style="left:1150px;top:500px;width:300px;height:230px"><span>성냥</span></div>
+      <div class="pocket-title disp">주머니 속 물건</div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ev-jacket", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0.1);
+    tl.fromTo("#ev-m1", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, 3.24);
+    tl.fromTo("#ev-m2", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, 3.9400000000000004);
+    tl.fromTo("#ev-m3", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, 4.74);
+    tl.fromTo("#ev-cut", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 6.09);
+    tl.to("#ev-label", { x: 260, y: -220, rotation: 38, opacity: 0, duration: 0.8, ease: "power2.in" }, 6.79);
+    tl.fromTo("#ev-callout", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 7.1899999999999995);
+    tl.to("#ev-a", { opacity: 0, duration: 0.25 }, 8.62);
+    tl.fromTo("#ev-b .pocket-title", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 8.87);
+    tl.fromTo("#ev-rail", { opacity: 0, y: -60, rotation: -16, scale: 1.08 }, { opacity: 1, y: 0, rotation: -6, scale: 1, duration: 0.45, ease: "power3.out" }, 8.72);
+    tl.fromTo("#ev-bus", { opacity: 0, y: -60, rotation: -5, scale: 1.08 }, { opacity: 1, y: 0, rotation: 5, scale: 1, duration: 0.45, ease: "power3.out" }, 9.77);
+    tl.fromTo("#ev-comb", { opacity: 0, y: -60, rotation: -13, scale: 1.08 }, { opacity: 1, y: 0, rotation: -3, scale: 1, duration: 0.45, ease: "power3.out" }, 12.4);
+    tl.fromTo("#ev-gum", { opacity: 0, y: -60, rotation: -2, scale: 1.08 }, { opacity: 1, y: 0, rotation: 8, scale: 1, duration: 0.45, ease: "power3.out" }, 13.2);
+    tl.fromTo("#ev-cig", { opacity: 0, y: -60, rotation: -14, scale: 1.08 }, { opacity: 1, y: 0, rotation: -4, scale: 1, duration: 0.45, ease: "power3.out" }, 14.0);
+    tl.fromTo("#ev-match", { opacity: 0, y: -60, rotation: -4, scale: 1.08 }, { opacity: 1, y: 0, rotation: 6, scale: 1, duration: 0.45, ease: "power3.out" }, 14.8);
+    window.__timelines["evidence"] = tl;
+  </script>
+</template>
