@@ -1,0 +1,150 @@
+{
+ "note": "경쟁 채널 목록(scripts/competitors.py). group(인기 영상 썸네일을 보고 분류, 2026-11-20): ai3d = 얼굴 없는 내레이션 + AI·3D 그림(우리와 같은 형식), photo = 내레이션 + 실제 사진·보도 화면 + 큰 글자, footage = 보디캠 등 실제 영상, host = 진행자·출연자가 나옴, other = 장르 밖(분석에서 뺌). 방송사·팟캐스트는 처음부터 뺐다.",
+ "channels": [
+  {
+   "handle": "unlock_kr",
+   "group": "ai3d",
+   "name": "unlock_kr (레퍼런스)"
+  },
+  {
+   "handle": "미제의끝",
+   "group": "ai3d"
+  },
+  {
+   "handle": "사건재연실",
+   "url": "https://www.youtube.com/@unfold-c4r",
+   "group": "ai3d"
+  },
+  {
+   "handle": "미스터리큐브",
+   "url": "https://www.youtube.com/@MY-CU",
+   "group": "photo"
+  },
+  {
+   "handle": "사미자",
+   "url": "https://www.youtube.com/@32zaa",
+   "group": "photo"
+  },
+  {
+   "handle": "붉은실",
+   "url": "https://www.youtube.com/@붉은실_official",
+   "group": "photo"
+  },
+  {
+   "handle": "괴미사",
+   "url": "https://www.youtube.com/@goemisa",
+   "group": "photo"
+  },
+  {
+   "handle": "테가미",
+   "url": "https://www.youtube.com/@ttegami",
+   "group": "photo"
+  },
+  {
+   "handle": "안협소",
+   "group": "photo"
+  },
+  {
+   "handle": "델피",
+   "url": "https://www.youtube.com/@delpy116",
+   "group": "photo"
+  },
+  {
+   "handle": "로건의현장기록",
+   "group": "photo"
+  },
+  {
+   "handle": "유팬더",
+   "url": "https://www.youtube.com/@유팬더-j6u",
+   "group": "photo"
+  },
+  {
+   "handle": "주간악당",
+   "url": "https://www.youtube.com/@weekly_villain",
+   "group": "photo"
+  },
+  {
+   "handle": "사건대장",
+   "group": "photo"
+  },
+  {
+   "handle": "미제사건재발굴",
+   "group": "photo"
+  },
+  {
+   "handle": "검은등대",
+   "group": "photo"
+  },
+  {
+   "handle": "아메리카X파일",
+   "group": "footage"
+  },
+  {
+   "handle": "증거물1호",
+   "group": "photo"
+  },
+  {
+   "handle": "사건디코드",
+   "group": "photo"
+  },
+  {
+   "handle": "제니의사건기록",
+   "group": "ai3d"
+  },
+  {
+   "handle": "미제사건해독",
+   "group": "photo"
+  },
+  {
+   "handle": "한국실제사건",
+   "group": "ai3d"
+  },
+  {
+   "handle": "유PD의충격실화파일",
+   "url": "https://www.youtube.com/@realhorror1234",
+   "group": "photo"
+  },
+  {
+   "handle": "다크모드",
+   "url": "https://www.youtube.com/channel/UCIZDSvnYWG5nsUFNpntOtZw",
+   "group": "other"
+  },
+  {
+   "handle": "미스스한이야기",
+   "group": "host"
+  },
+  {
+   "handle": "기묘한밤",
+   "group": "host"
+  },
+  {
+   "handle": "디바제시카",
+   "url": "https://www.youtube.com/@deevajessica",
+   "group": "host"
+  },
+  {
+   "handle": "사건의뢰",
+   "url": "https://www.youtube.com/@112case",
+   "group": "host"
+  },
+  {
+   "handle": "김원tv",
+   "url": "https://www.youtube.com/@kimwontvtv",
+   "group": "host"
+  },
+  {
+   "handle": "썸머썸머",
+   "url": "https://www.youtube.com/@summerinNY",
+   "group": "host"
+  },
+  {
+   "handle": "김복준의사건속으로",
+   "group": "host"
+  },
+  {
+   "handle": "바라신TV",
+   "url": "https://www.youtube.com/@barasintv",
+   "group": "host"
+  }
+ ]
+}

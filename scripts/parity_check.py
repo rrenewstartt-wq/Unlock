@@ -96,8 +96,8 @@ def main():
                      "ok": ok, "note": note})
 
     # ---------------- 대본
-    lo, hi = (150, 240) if test else (600, 1140)
-    row("대본", "길이", f"{lo // 60}~{hi // 60}분" + (" (시험편)" if test else " (레퍼런스 11~19분)"), f"{total / 60:.1f}분", lo <= total <= hi)
+    lo, hi = (150, 240) if test else (720, 1200)
+    row("대본", "길이", f"{lo // 60}~{hi // 60}분" + (" (시험편)" if test else " (기본 16~20분, docs/competitor-report.md)"), f"{total / 60:.1f}분", lo <= total <= hi)
     cpm = len(text) / (total / 60)
     row("대본", "분당 글자", "380~420", f"{cpm:.0f}", 370 <= cpm <= 430 if data.get("voice") else None,
         "" if data.get("voice") else "읽기 속도 추정값 — 내레이션을 넣은 뒤 판정")

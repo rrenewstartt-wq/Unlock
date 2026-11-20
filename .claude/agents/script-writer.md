@@ -1,6 +1,6 @@
 ---
 name: script-writer
-description: 대본 담당. 기획안과 facts.md 로 레퍼런스 분량(10~19분)의 대본 data/script.txt 를 7단계 공식대로 쓴다. /make-episode 의 대본 단계. script-critic 이 고칠 점을 주면 다시 쓴다.
+description: 대본 담당. 기획안과 facts.md 로 기본 16~20분의 대본 data/script.txt 를 7단계 공식대로 쓴다. /make-episode 의 대본 단계. script-critic 이 고칠 점을 주면 다시 쓴다.
 tools: Bash, Read, Write, Edit, Grep, Glob
 ---
 
@@ -11,7 +11,7 @@ tools: Bash, Read, Write, Edit, Grep, Glob
 기획안 `data/topics/plans/<slug>.md`, `episodes/<ep>/data/facts.md`. 참고 구현 `episodes/ep01-somerton/data/script.txt`(3분 시험편).
 
 ## 쓰는 법
-1. **뼈대 먼저:** 7단계별 장면 id 와 줄 수를 표로 정한다. 롱폼 12분이면 약 250~280줄, 장면 25~32개(장면당 자막 7줄 이하).
+1. **뼈대 먼저:** 7단계별 장면 id 와 줄 수를 표로 정한다. 18분이면 약 380~420줄, 장면 35~45개(장면당 자막 7줄 이하).
    수사 단계는 단서 6~10개, 단서 하나 = 장면 하나.
 2. **도입 30초:** 연·월·일·시각 → 장소 → 발견된 것 → 감각 디테일 하나 → "그런데 이상한 점이…" → 60초 안에 "무려 N년".
 3. **질문:** 첫 질문은 8~20% 지점, 그 뒤 단서 묶음이 끝날 때마다 하나(편당 5~9개). 질문은 다음 장면이 답하는 것만.

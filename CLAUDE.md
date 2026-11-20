@@ -11,7 +11,7 @@
 [2 소재]     기획·소재 발굴 팀: case-scout → source-verifier + risk-reviewer → data/topics/backlog.json   (/scout)
 [2.5 기획]   episode-planner → data/topics/plans/<slug>.md (관점·제목·7단계·장면 계획)                    (/plan)
 [2.7 사실]   1차 자료 조사 → episodes/<ep>/data/facts.md (자막별 근거, ✅/⚠️)
-[3 대본]     script-writer → script-critic → episodes/<ep>/data/script.txt (7단계, 롱폼 11~13분)              (/make-episode)
+[3 대본]     script-writer → script-critic → episodes/<ep>/data/script.txt (7단계, 기본 16~20분)              (/make-episode)
 [3.5 설계]   storyboard-director → SPEC.md SHOTS 표(3D/도식/실제 자료 배분, 자막마다 컷) + archive-researcher → assets/archive/
 [4 장면]     scripts/new_episode.py → set-builder(film 키트 3D 세트, assets/lib/*.js) + scenes.py(도식) → build.py
 [5 검수]     npx hyperframes check + parity_check + visual-critic(P0/P1)                                    (/review)

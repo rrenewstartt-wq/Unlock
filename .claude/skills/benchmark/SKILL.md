@@ -3,6 +3,8 @@ name: benchmark
 description: 벤치마크 채널(기본 @unlock_kr)의 공개 데이터를 다시 수집해 제목·대본·화면·썸네일 형식 분석을 갱신한다. "벤치마크 다시", "채널 분석 업데이트", 다른 채널을 벤치마크로 바꿀 때 사용.
 ---
 
+경쟁 채널 전체(제목·길이·조회수 배수)는 `python3 scripts/competitors.py` → `docs/competitor-report.md` 를 갱신한다(채널 목록 `config/competitors.json`).
+
 # /benchmark [@handle]
 
 1. 수집 + 요약:

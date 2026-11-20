@@ -8,7 +8,7 @@ description: 해외 실화 미제사건 한 편을 레퍼런스(@unlock_kr) 동�
 목표는 `docs/quality-bar.md` 다. 각 단계는 **만드는 팀원 → 검수 팀원 → 관문** 순서이고, 관문을 못 넘으면 다음 단계로 가지 않는다.
 기준 문서: `docs/quality-bar.md`, `docs/script-formula.md`, `docs/visual-style.md`, `docs/originality.md`, HyperFrames `/hyperframes` 스킬(렌더 계약).
 참고 구현: `episodes/ep01-somerton`(3분 시험편, 해변 세트는 film 키트).
-기본 길이는 **롱폼 11~13분**. 사용자가 시험편을 원하면 3분, 그때는 검사에 `--test`.
+기본 길이는 **16~20분**(`docs/competitor-report.md`). 사용자가 시험편을 원하면 3분, 그때는 검사에 `--test`.
 
 | 단계 | 만드는 팀원 | 검수 | 관문 |
 |---|---|---|---|
@@ -30,7 +30,7 @@ description: 해외 실화 미제사건 한 편을 레퍼런스(@unlock_kr) 동�
 ```bash
 python3 scripts/new_episode.py ep0N-<slug> "<제목>"
 ```
-`data/facts.md` 에 1차 자료(판결문, 공식 발표, 당시 보도, 기관 기록)로 사실을 모은다. 롱폼은 단서 6~10개 분량이 필요하다: 사실이 모자라면 길이를 줄이자고 사용자에게 말한다(지어내지 않는다).
+`data/facts.md` 에 1차 자료(판결문, 공식 발표, 당시 보도, 기관 기록)로 사실을 모은다. 16~20분은 단서 8~12개 분량이 필요하다: 사실이 모자라면 길이를 줄이자고 사용자에게 말한다(지어내지 않는다).
 
 ## 2. 대본
 `script-writer` 에게 slug·기획안·길이를 넘긴다 → `script-critic` 에게 검수 → 수정 반복(최대 3회).

@@ -1,13 +1,13 @@
 {
  "episode": "ep01-somerton",
- "test": true,
+ "test": false,
  "rows": [
   {
    "area": "대본",
    "item": "길이",
-   "target": "2~4분 (시험편)",
+   "target": "12~20분 (기본 16~20분, docs/competitor-report.md)",
    "value": "3.0분",
-   "ok": true,
+   "ok": false,
    "note": ""
   },
   {
@@ -45,7 +45,7 @@
   {
    "area": "대본",
    "item": "질문형 문장 수",
-   "target": "3~6",
+   "target": "5~9",
    "value": 5,
    "ok": true,
    "note": ""
@@ -93,9 +93,9 @@
   {
    "area": "대본",
    "item": "장면 수",
-   "target": "10개 이상",
+   "target": "18개 이상",
    "value": 10,
-   "ok": true,
+   "ok": false,
    "note": ""
   },
   {

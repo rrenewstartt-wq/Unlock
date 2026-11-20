@@ -12,6 +12,12 @@
   실제 자료 0, 내레이션·음악 없음, ⚠️ 사실 2개, upload.json 없음.
 - **ep01 남은 화면 문제:** 담배가 흰 셔츠에 묻혀 안 보인다 → 담배만 찍는 인서트 컷이 필요. 해변 아침 조명이 평평하다.
 
+## 2026-11-20: 경쟁 채널 27곳 분석 (`docs/competitor-report.md`)
+- 16~30분 단일 사건 영상이 8~12분보다 잘 된다(7개 채널 모두) → 기본 길이 16~20분으로 바꿈.
+- 제목: "N년 만에" 히트율 44%로 최강, "~한 이유"·제목 물음은 효과 없음 → 공식 순위 조정.
+- 같은 형식(얼굴 없는 AI·3D)에서 잘 되는 채널은 그림이 사진처럼 보인다 → 사진 같은 생성 이미지 사용 여부(결정 대기 2번)가 중요해짐.
+- 단일 편이 4편 이상 쌓이면 "몰아보기" 모음 편을 만든다(모음 lift 1.53).
+
 ## 지금까지 정해진 것
 | 항목 | 결정 | 근거 문서 |
 |---|---|---|
@@ -37,7 +43,7 @@
 3. 다음 편 사건: 소재 백로그 1위 **텔마 개스턴(1981, 2026 신원 확인)** 추천 — `python3 scripts/topics.py list --top 10`.
 
 ## 다음 순서 (사건이 정해지면)
-`/plan <slug>` → `/make-episode`(롱폼 11~13분): 사실 → 대본(script-writer/critic) → 설계(storyboard-director) → 실제 자료(archive-researcher) → 장면(set-builder + 도식) → `/review` → 소리(sound-designer) → 렌더 → `/thumbnail` → parity-judge → 사람이 업로드.
+`/plan <slug>` → `/make-episode`(기본 16~20분): 사실 → 대본(script-writer/critic) → 설계(storyboard-director) → 실제 자료(archive-researcher) → 장면(set-builder + 도식) → `/review` → 소리(sound-designer) → 렌더 → `/thumbnail` → parity-judge → 사람이 업로드.
 
 ## 알아 둘 것
 - 클라우드 세션은 재시작되면 커밋하지 않은 파일이 사라진다. 결과물은 만들 때마다 커밋한다. 캐시는 `bash scripts/setup.sh` 로 복구된다.

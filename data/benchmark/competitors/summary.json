@@ -1,0 +1,2107 @@
+{
+ "collected": "2026-11-20",
+ "method": "- 채널마다 최근 순 목록에서 4분 미만(쇼츠)과 가장 최근 5편(조회수가 아직 쌓이는 중)을 뺀다.\n- 배수 = 조회수 / 그 채널 중앙값. 채널 크기 차이를 지우고 \"그 채널 평소 대비 얼마나 터졌나\"를 본다. 히트 = 배수 2 이상.\n- 제목 특징·길이·소재마다: 해당 영상 수, 배수 중앙값, 히트율, 그리고 없는 쪽과의 비(lift).",
+ "channels": {
+  "unlock_kr": {
+   "group": "ai3d",
+   "channel": "unlock_kr",
+   "followers": 33100,
+   "videos": 5,
+   "median_views": 157000,
+   "max_views": 2500000,
+   "median_minutes": 16.6,
+   "top": [
+    {
+     "title": "13년만에 풀린 일본 미제사건",
+     "views": 2500000,
+     "ratio": 15.9,
+     "id": "UV4I5My5C0E"
+    },
+    {
+     "title": "일본 역사상 가장 기괴하고 역겨운 사건",
+     "views": 693000,
+     "ratio": 4.4,
+     "id": "t5BgBYoW_zg"
+    },
+    {
+     "title": "23년만에 풀린 미국 미제사건",
+     "views": 157000,
+     "ratio": 1.0,
+     "id": "kXHIhuQLRvY"
+    },
+    {
+     "title": "실제로 존재했던 인간 도살장",
+     "views": 144000,
+     "ratio": 0.9,
+     "id": "0pU_k2OUC1I"
+    },
+    {
+     "title": "하츠카이치 여고생 살O사건",
+     "views": 16000,
+     "ratio": 0.1,
+     "id": "TpyIVmDYd3k"
+    }
+   ]
+  },
+  "미제의끝": {
+   "group": "ai3d",
+   "channel": "미제의 끝",
+   "followers": 2790,
+   "videos": 9,
+   "median_views": 18000,
+   "max_views": 112000,
+   "median_minutes": 10.7,
+   "top": [
+    {
+     "title": "49년 만에 풀린 일본 미제사건",
+     "views": 112000,
+     "ratio": 6.2,
+     "id": "PHeF2-3re2Y"
+    },
+    {
+     "title": "15년 만에 극적으로 풀린 일본 미제사건",
+     "views": 98000,
+     "ratio": 5.4,
+     "id": "tXvxGqu6ZWo"
+    },
+    {
+     "title": "26년 만에 풀린 일본 미제사건",
+     "views": 24000,
+     "ratio": 1.3,
+     "id": "4Ju3r0PYpWI"
+    },
+    {
+     "title": "17년 숨은 옴진리교 수배자 셋이 반년 만에 잡힌 이유",
+     "views": 19000,
+     "ratio": 1.1,
+     "id": "XSKkdMKxsYo"
+    },
+    {
+     "title": "19년 동안 수배된 남자가 끝내 잡히지 않은 이유",
+     "views": 18000,
+     "ratio": 1.0,
+     "id": "QfJI9jPSsg0"
+    }
+   ]
+  },
+  "사건재연실": {
+   "group": "ai3d",
+   "channel": "사건재연실",
+   "followers": 142,
+   "videos": 21,
+   "median_views": 455,
+   "max_views": 20000,
+   "median_minutes": 9.2,
+   "top": [
+    {
+     "title": "경찰이 테이프를 뜯자 나온 것.. | 인천 화평동 토막살인",
+     "views": 20000,
+     "ratio": 44.0,
+     "id": "VdcdCQ_TisM"
+    },
+    {
+     "title": "일본 미제 사건 | 13년 동안 수사선 밖에 있던 남자",
+     "views": 1700,
+     "ratio": 3.7,
+     "id": "GV-R2W0Xb74"
+    },
+    {
+     "title": "여섯 명이 숨진 외딴 농가 | 힌터카이펙 미제사건",
+     "views": 1200,
+     "ratio": 2.6,
+     "id": "l1lm4KFwX4s"
+    },
+    {
+     "title": "\"숨겨 줄게\" 그 말을 믿은 뒤 | 일본 여고생 콘크리트 사건",
+     "views": 1100,
+     "ratio": 2.4,
+     "id": "NcaPU8IZ0BM"
+    },
+    {
+     "title": "다 버리고 왔는데, 목사는 없었다 | 다미선교회 휴거 사건",
+     "views": 1000,
+     "ratio": 2.2,
+     "id": "2jXRDxlsGtw"
+    }
+   ]
+  },
+  "미스터리큐브": {
+   "group": "photo",
+   "channel": "미스터리큐브",
+   "followers": 97300,
+   "videos": 145,
+   "median_views": 15000,
+   "max_views": 140000,
+   "median_minutes": 15.1,
+   "top": [
+    {
+     "title": "미스터리 만화리뷰- 의자 안에 들어가 당신과 하나가 되고픈 기묘한 욕망, '인간의자'",
+     "views": 140000,
+     "ratio": 9.3,
+     "id": "Vb1mF34JIrE"
+    },
+    {
+     "title": "기막힌 속임수로 퀴즈쇼 상금 100만 파운드를 따낸 남자, 찰스 잉그램 사건 [미스터리]",
+     "views": 127000,
+     "ratio": 8.5,
+     "id": "kTwfMTzjs1c"
+    },
+    {
+     "title": "기묘한 미스터리와 실제 사건들..2026년 6월 미스터리 영상 몰아보기 [미스터리]",
+     "views": 112000,
+     "ratio": 7.5,
+     "id": "cuAUBtwMpfQ"
+    },
+    {
+     "title": "1972년, 로스차일드 가에서 열린 어느 기묘한 파티 [미스터리]",
+     "views": 100000,
+     "ratio": 6.7,
+     "id": "up06sL11jMA"
+    },
+    {
+     "title": "한국의 기괴사건- 대한민국 군대에서 벌어진 기괴한 사건들 [미스터리]",
+     "views": 90000,
+     "ratio": 6.0,
+     "id": "jci3eBmTDk0"
+    }
+   ]
+  },
+  "사미자": {
+   "group": "photo",
+   "channel": "사미자",
+   "followers": 14200,
+   "videos": 61,
+   "median_views": 16000,
+   "max_views": 759000,
+   "median_minutes": 10.3,
+   "top": [
+    {
+     "title": "와카야마현에서 외국인 여행자들이 사라졌다",
+     "views": 759000,
+     "ratio": 47.4,
+     "id": "feksmYoy1XY"
+    },
+    {
+     "title": "【노딱】두바이 왕족에게 초대 받고 사라진 일본인 인플루언서.  두바이안건",
+     "views": 364000,
+     "ratio": 22.8,
+     "id": "79rqY1lXkmM"
+    },
+    {
+     "title": "【일본사건사고】 FBI와 CSI가 추적한 17년 미제사건｜효고현 초2 여아 살O사건",
+     "views": 172000,
+     "ratio": 10.8,
+     "id": "usbo_atl304"
+    },
+    {
+     "title": "【일본미제사건】 실종 4년 만에 도착한 메시지 \" 살려줘! \" 아사히카와 중학생 실종 사건",
+     "views": 91000,
+     "ratio": 5.7,
+     "id": "ZHQgysysets"
+    },
+    {
+     "title": "【일본미제사건】 물속에서 꼿꼿이 선 채 굳어버린 시신... '  오사카 니시나리구 여의사 의문사 '",
+     "views": 84000,
+     "ratio": 5.2,
+     "id": "cg2IgqyNy6Q"
+    }
+   ]
+  },
+  "붉은실": {
+   "group": "photo",
+   "channel": "붉은실",
+   "followers": 166000,
+   "videos": 144,
+   "median_views": 90500,
+   "max_views": 4900000,
+   "median_minutes": 11.5,
+   "top": [
+    {
+     "title": "[해외사건사고] 들어가면 살아서 나오지 못하는 섬. 노스 센티널 섬. 세계 유일한 비접촉 원시 부족을 만나러 간 존 앨런 차우 사건.",
+     "views": 4900000,
+     "ratio": 54.1,
+     "id": "w5t7MH-fCmo"
+    },
+    {
+     "title": "[범죄사건] 혼자 섬으로 여행갔다가 장기가 모두 사라진 텅 빈 시신으로 돌아온 마이크 만스홀트 사건",
+     "views": 4500000,
+     "ratio": 49.7,
+     "id": "YSY5DgoBiKE"
+    },
+    {
+     "title": "[모음집] 수십년만에 해결된 미제사건 몰아보기. 50분 연속재생",
+     "views": 2000000,
+     "ratio": 22.1,
+     "id": "EOqV4-TrNwY"
+    },
+    {
+     "title": "[해외사건사고] 100년 넘게 근친혼 휘태커 가족. 짖는 소리와 끙끙거리는 소리로만 소통하는 근친상간의 부작용을 보여주는 사례",
+     "views": 1800000,
+     "ratio": 19.9,
+     "id": "5rpyKrZRdHg"
+    },
+    {
+     "title": "[모음집] 조회수 높았던 충격적인 사건 몰아보기",
+     "views": 1800000,
+     "ratio": 19.9,
+     "id": "wi2qHrMnC6U"
+    }
+   ]
+  },
+  "괴미사": {
+   "group": "photo",
+   "channel": "괴미사",
+   "followers": 59100,
+   "videos": 145,
+   "median_views": 34000,
+   "max_views": 241000,
+   "median_minutes": 10.8,
+   "top": [
+    {
+     "title": "[사건사고] 일본을 경악케한 사건사고들... 괴미사 사건사고 모음집 29",
+     "views": 241000,
+     "ratio": 7.1,
+     "id": "p0wAYNONb0g"
+    },
+    {
+     "title": "[사건사고] 일본을 뒤흔든 충격 범죄 11건, 괴미사 사건사고 몰아보기",
+     "views": 191000,
+     "ratio": 5.6,
+     "id": "or5gT4-5nmo"
+    },
+    {
+     "title": "[사건사고] 실제로 벌어졌던 일본 사건사고 2시간 몰아보기 - 23 -",
+     "views": 164000,
+     "ratio": 4.8,
+     "id": "DFREu4DgUeU"
+    },
+    {
+     "title": "[사건사고] 일본을 뒤흔든 7개의 사건들... 괴미사 1시간 모음집",
+     "views": 157000,
+     "ratio": 4.6,
+     "id": "3zl67sR6HZc"
+    },
+    {
+     "title": "[사건사고] 일본 최초로 현직 여배우가 벌인 참극... 모리 이쿠코 사건",
+     "views": 151000,
+     "ratio": 4.4,
+     "id": "rFSLSSSHnm8"
+    }
+   ]
+  },
+  "테가미": {
+   "group": "photo",
+   "channel": "테가미",
+   "followers": 26200,
+   "videos": 34,
+   "median_views": 91000,
+   "max_views": 1000000,
+   "median_minutes": 16.2,
+   "top": [
+    {
+     "title": "북한이 13살 요코타 메구미를 납치한 진짜 이유",
+     "views": 1000000,
+     "ratio": 11.0,
+     "id": "AY7hpFf58AU"
+    },
+    {
+     "title": "7년 만에 풀린 일본 미제사건",
+     "views": 802000,
+     "ratio": 8.8,
+     "id": "EHb81Gl-ge8"
+    },
+    {
+     "title": "\"9명입니다\" 원룸 아이스박스에 시신 숨긴 트위터 살인마",
+     "views": 655000,
+     "ratio": 7.2,
+     "id": "2_JqovyBydY"
+    },
+    {
+     "title": "사망 당시 20kg… 일본을 뒤흔든 16세 소녀의 죽음",
+     "views": 538000,
+     "ratio": 5.9,
+     "id": "BNLHFYPeiT4"
+    },
+    {
+     "title": "일본 최초로 야쿠자 두목이 사형 선고를 받은 최악의 폭력단 쿠도회",
+     "views": 474000,
+     "ratio": 5.2,
+     "id": "a3EpxJLlkz4"
+    }
+   ]
+  },
+  "안협소": {
+   "group": "photo",
+   "channel": "안협소",
+   "followers": 579000,
+   "videos": 145,
+   "median_views": 518000,
+   "max_views": 4500000,
+   "median_minutes": 11.9,
+   "top": [
+    {
+     "title": "일본 최악의 방송사고",
+     "views": 4500000,
+     "ratio": 8.7,
+     "id": "khE1zU2GtL0"
+    },
+    {
+     "title": "일본에서 난리난 길거리 라방 지켄",
+     "views": 2200000,
+     "ratio": 4.2,
+     "id": "9IpO2yKG_sk"
+    },
+    {
+     "title": "일본에서 아이를 만지면 안되는 이유",
+     "views": 2200000,
+     "ratio": 4.2,
+     "id": "zkXP8pnOZu8"
+    },
+    {
+     "title": "일본 후지산 라이브 추락사고",
+     "views": 1800000,
+     "ratio": 3.5,
+     "id": "KT8PNtq4_rk"
+    },
+    {
+     "title": "일본 와카야마에서 또 사라진 외국인",
+     "views": 1800000,
+     "ratio": 3.5,
+     "id": "LxCjo3cApTI"
+    }
+   ]
+  },
+  "델피": {
+   "group": "photo",
+   "channel": "델피",
+   "followers": 6370,
+   "videos": 46,
+   "median_views": 19000,
+   "max_views": 92000,
+   "median_minutes": 22.1,
+   "top": [
+    {
+     "title": "미국 부촌을 뒤흔든 다섯아이 엄마, 제니퍼 파버 둘로스 실종사건",
+     "views": 92000,
+     "ratio": 4.8,
+     "id": "u4FgsUfjWIw"
+    },
+    {
+     "title": "3년 동안 행방불명됐던 엄마는 사실 아주 가까운 곳에 있었다, 디 워너 사건",
+     "views": 64000,
+     "ratio": 3.4,
+     "id": "c8eFxU9JrSM"
+    },
+    {
+     "title": "미국을 뒤흔든 프롬 파티날 밤 살인사건의 전말",
+     "views": 63000,
+     "ratio": 3.3,
+     "id": "6T1d_0WvNqQ"
+    },
+    {
+     "title": "혼자 떠난 스페인 여행의 충격적인 결말, 애나 크네즈비치 사건",
+     "views": 61000,
+     "ratio": 3.2,
+     "id": "2S4KjnfV4do"
+    },
+    {
+     "title": "[미국 실화] 대학가 한복판에서 사라진 여대생, 인디애나대학생 실종사건",
+     "views": 54000,
+     "ratio": 2.8,
+     "id": "XkcA8RSUWxU"
+    }
+   ]
+  },
+  "유팬더": {
+   "group": "photo",
+   "channel": "유팬더",
+   "followers": 16100,
+   "videos": 113,
+   "median_views": 39000,
+   "max_views": 798000,
+   "median_minutes": 14.3,
+   "top": [
+    {
+     "title": "사건실화 | 40대 대머리가 대머리 배달기사가 20명이 넘는 여성과... 방법 알고 보니",
+     "views": 798000,
+     "ratio": 20.5,
+     "id": "n6eNZF8Xtxc"
+    },
+    {
+     "title": "사건실화 | 집에만 있던 장애 딸이 임신 5개월... 누가 범인인가?",
+     "views": 747000,
+     "ratio": 19.2,
+     "id": "-HR5KMRpYq4"
+    },
+    {
+     "title": "사건실화 | \"뒷문으로 할게\"..남편의 기괴한 요구, 과연 아내의 선택은?",
+     "views": 585000,
+     "ratio": 15.0,
+     "id": "VtoqiqF5_Nc"
+    },
+    {
+     "title": "사건실화 | \"매일 밤 형의 아내를..\" 결국 형한테 걸린 동생.. 형의 선택은?",
+     "views": 517000,
+     "ratio": 13.3,
+     "id": "q9zuLwEVdBM"
+    },
+    {
+     "title": "사건실화 | 차 안에서 성관계를 가진 직후 6년 사귄 남자친구를 살해한 이유",
+     "views": 469000,
+     "ratio": 12.0,
+     "id": "Wl34-to54kk"
+    }
+   ]
+  },
+  "주간악당": {
+   "group": "photo",
+   "channel": "주간악당 :: 사건사고미스터리",
+   "followers": 49800,
+   "videos": 145,
+   "median_views": 40000,
+   "max_views": 604000,
+   "median_minutes": 29.9,
+   "top": [
+    {
+     "title": "13살부터 길러진 S파트너, 이게 바로 '완전한 사육' #미스터리 #충격실화 #해외사건",
+     "views": 604000,
+     "ratio": 15.1,
+     "id": "2nWXeYYO5jc"
+    },
+    {
+     "title": "【범죄사건몰아보기】 악마보다 더 악마 같은 사형수 모음집 #충격실화 #crimestory #해외사건",
+     "views": 458000,
+     "ratio": 11.4,
+     "id": "ZeMG_SD81Po"
+    },
+    {
+     "title": "【해외사건】 54세 골드미스와 27세 알파메일의 잘못된 만남",
+     "views": 422000,
+     "ratio": 10.6,
+     "id": "uvB_Tr7M-p8"
+    },
+    {
+     "title": "체포되자 씨익 웃었다는 18세 살ㅇ범 #미스테리 #해외사건",
+     "views": 343000,
+     "ratio": 8.6,
+     "id": "ZliBqM3xOpk"
+    },
+    {
+     "title": "[소름주의] 무기수가 된 살인자가 감옥을 탈출하는 기막힌 방법 #국내사건 #미스터리 #충격실화",
+     "views": 323000,
+     "ratio": 8.1,
+     "id": "x8ayURJPDd4"
+    }
+   ]
+  },
+  "사건대장": {
+   "group": "photo",
+   "channel": "사건대장",
+   "followers": 52900,
+   "videos": 145,
+   "median_views": 25000,
+   "max_views": 1100000,
+   "median_minutes": 18.1,
+   "top": [
+    {
+     "title": "[해외사건] [미국] 범인의 DNA는 여경과 일치하게 되는데",
+     "views": 1100000,
+     "ratio": 44.0,
+     "id": "N_Al_dlkVeI"
+    },
+    {
+     "title": "[해외사건] [일본] 경찰 7명의 포위망을 뚫은 뒤 무인도에서 도피생활을 시작한 '이치하시 타츠야'",
+     "views": 1100000,
+     "ratio": 44.0,
+     "id": "Pd3DZwNouAs"
+    },
+    {
+     "title": "[해외사건] [체코] \"옆집에서 이상한 게 보여요\" 신고 전화 한 통으로 밝혀진 '공포의 집'의 실체",
+     "views": 266000,
+     "ratio": 10.6,
+     "id": "7KBq7zpn3dY"
+    },
+    {
+     "title": "[해외사건] [미국] 납치 18년 후 중년 남성이 두 딸을 데리고 대학교를 방문하게 되는데",
+     "views": 224000,
+     "ratio": 9.0,
+     "id": "unifSTn5O_M"
+    },
+    {
+     "title": "[해외사건] [엘살바도르] 전직 경찰관의 충격과 공포의 집",
+     "views": 182000,
+     "ratio": 7.3,
+     "id": "bRBf50rW1f8"
+    }
+   ]
+  },
+  "미제사건재발굴": {
+   "group": "photo",
+   "channel": "미제사건재발굴",
+   "followers": 55100,
+   "videos": 60,
+   "median_views": 29500,
+   "max_views": 788000,
+   "median_minutes": 60.4,
+   "top": [
+    {
+     "title": "1995년 압구정 노부부 실종, 80억 유산 상속한 세 자녀, 25년 만에 은행 금고가 폭로한 진실",
+     "views": 788000,
+     "ratio": 26.7,
+     "id": "lnQfPwWgJ-w"
+    },
+    {
+     "title": "1992년 강남 서울대  며느리 실종,, 14년 후 지하실 벽 속에서 발견된 시어머니의 충격적 범행",
+     "views": 434000,
+     "ratio": 14.7,
+     "id": "FXEY2w0iZDI"
+    },
+    {
+     "title": "2000년 남대문시장 '10억 계주' 실종, 20년 만에 친구집 텃밭 김장독에서 나온 곗돈 장부",
+     "views": 399000,
+     "ratio": 13.5,
+     "id": "ztB8l7nVUi0"
+    },
+    {
+     "title": "2001년 카이스트 교수 부부 피살 사건, 18년 만에 셋째 아들의 완벽한 알리바이가 무너진 이유",
+     "views": 362000,
+     "ratio": 12.3,
+     "id": "WyZM6e9Hj0w"
+    },
+    {
+     "title": "1995년 강남 복부인 추락사, 15년 후 발견된 가사도우미 일기장 \"큰아들 차가 새벽까지",
+     "views": 346000,
+     "ratio": 11.7,
+     "id": "Uh1rMjyDThs"
+    }
+   ]
+  },
+  "아메리카X파일": {
+   "group": "footage",
+   "channel": "아메리카 X파일",
+   "followers": 30400,
+   "videos": 127,
+   "median_views": 53000,
+   "max_views": 1100000,
+   "median_minutes": 13.6,
+   "top": [
+    {
+     "title": "[바디캠] 미국 경찰에게 깝치다 인생 첫 수갑까지 찬 역대급 진상녀",
+     "views": 1100000,
+     "ratio": 20.8,
+     "id": "d_72sTJ_JPE"
+    },
+    {
+     "title": "[바디캠] 용의자는 경찰에게 자신이 한국인이라고 주장하지만... 알고 보니 중국인?!",
+     "views": 1100000,
+     "ratio": 20.8,
+     "id": "5u-IwiS2I8s"
+    },
+    {
+     "title": "[바디캠] 중국계 여성의 차량에서 수상한 악취를 맡은 미국 경찰",
+     "views": 1000000,
+     "ratio": 18.9,
+     "id": "p2UG6AjWmC4"
+    },
+    {
+     "title": "[바디캠] 수상한 악취에 출동한 경찰, 그곳엔 중국인 9명이 있었다...",
+     "views": 660000,
+     "ratio": 12.5,
+     "id": "t-f8pOrdfDc"
+    },
+    {
+     "title": "사라진 딸을 찾던 중국인 부부, 그런데 딸이 발견되자 부부는 오히려...",
+     "views": 550000,
+     "ratio": 10.4,
+     "id": "tbi0LYjmQXA"
+    }
+   ]
+  },
+  "제니의사건기록": {
+   "group": "ai3d",
+   "channel": "제니의 사건기록",
+   "followers": 21700,
+   "videos": 28,
+   "median_views": 135000,
+   "max_views": 980000,
+   "median_minutes": 27.1,
+   "top": [
+    {
+     "title": "살x되기 1시간 전, 그녀는 누군가와 식사를 하고 있었다 -FBI까지 나선 국제 추적(바디캠)",
+     "views": 980000,
+     "ratio": 7.3,
+     "id": "DacCDOWimbI"
+    },
+    {
+     "title": "대낮에 살x된 우편배달부… 아무도 예상하지 못한 범인의 정체(미국실화 바디캠)",
+     "views": 493000,
+     "ratio": 3.7,
+     "id": "P7yQBembmqM"
+    },
+    {
+     "title": "트레일러 안에서 토막난 시x이 발견됐다(미국 실화 바디캠) ",
+     "views": 417000,
+     "ratio": 3.1,
+     "id": "H1PiQBBs9bU"
+    },
+    {
+     "title": "엄마가 욕실 문을 연 순간... 실종된 16세 딸이 발견됐다(바디캠)",
+     "views": 387000,
+     "ratio": 2.9,
+     "id": "7b3C8fND7wg"
+    },
+    {
+     "title": "아들이 살x 용의자라는 사실을 알게된 순간(미국 실화 바디캠)",
+     "views": 360000,
+     "ratio": 2.7,
+     "id": "xaQJXzHOXyk"
+    }
+   ]
+  },
+  "한국실제사건": {
+   "group": "ai3d",
+   "channel": "한국실제사건",
+   "followers": 4330,
+   "videos": 32,
+   "median_views": 2400,
+   "max_views": 115000,
+   "median_minutes": 77.9,
+   "top": [
+    {
+     "title": "한해로 물 빠진 화천댐에서 발견된 콘크리트 시신… ‘돈 들고 도망쳤다’던 감독관의 40년 만의 진실 [충격 실화]",
+     "views": 115000,
+     "ratio": 47.9,
+     "id": "NpdrFZbOnnA"
+    },
+    {
+     "title": "[충격 실화] 2014 인천을 뒤흔든 여행가방 할머니 시신 사건 | 범인의 충격적인 동기와 전말",
+     "views": 47000,
+     "ratio": 19.6,
+     "id": "pu0TPGrx1uI"
+    },
+    {
+     "title": "고립된 욕지섬 참극.. 섬 주민을 잔인하게 죽인 살인마 | 2024 통영 충격 실화",
+     "views": 44000,
+     "ratio": 18.3,
+     "id": "OAHIxF6fSNA"
+    },
+    {
+     "title": "패륜 완전범죄를 꿈꾼 아들.. 막걸리에 농약 타 친아버지 독살! DNA 장갑+트랙터 블랙박스+다크웹으로 무너진 충격 의령 사건",
+     "views": 42000,
+     "ratio": 17.5,
+     "id": "HG_-8PDNYhU"
+    },
+    {
+     "title": "[충격 실화] 김포공항 근처 납치살인.. 2000년대 한국을 공포로 몰아넣은 최악의 실제 사건",
+     "views": 40000,
+     "ratio": 16.7,
+     "id": "GBXT6HlMa-M"
+    }
+   ]
+  },
+  "유PD의충격실화파일": {
+   "group": "photo",
+   "channel": "유PD의 충격실화파일",
+   "followers": 47900,
+   "videos": 70,
+   "median_views": 60000,
+   "max_views": 894000,
+   "median_minutes": 29.9,
+   "top": [
+    {
+     "title": "[실제영상공개] 영국 런던 벽장에서 발견된 송인혜씨에게 벌어진 끔찍한 일의 전말.",
+     "views": 894000,
+     "ratio": 14.9,
+     "id": "YrKW6e7ae_Q"
+    },
+    {
+     "title": "[실제경찰바디캠] 안면이 함몰된 엄마의 마지막 순간을 지켜본 찰리는 과연 알고 있었을까?",
+     "views": 585000,
+     "ratio": 9.8,
+     "id": "Q9mTJHGRxm4"
+    },
+    {
+     "title": "[직접촬영본] LA한인타운, 세명이 모두 사망한 현장으로 직접 가보았습니다, 미라클 마일 살인사건.",
+     "views": 404000,
+     "ratio": 6.7,
+     "id": "StlLnQJpoBQ"
+    },
+    {
+     "title": "[실제영상-모든자료] 미국 어린이 뷰티퀸, 존베넷 아동 살인사건 완전판, 크리스마스 에 생긴일, 미국역대 최고의 미제사건, 완벽분석 미국범죄사건, 충격실화, 실제 음성",
+     "views": 275000,
+     "ratio": 4.6,
+     "id": "E-TrIKo0Ur8"
+    },
+    {
+     "title": "[실제자백영상] 그녀가 8등분으로 살해된 이유는? 16세 베키의 마지막 날을 추적하다.",
+     "views": 257000,
+     "ratio": 4.3,
+     "id": "pUM0Mn4pPhE"
+    }
+   ]
+  },
+  "다크모드": {
+   "group": "other",
+   "channel": "다크모드",
+   "followers": 97400,
+   "videos": 36,
+   "median_views": 215500,
+   "max_views": 1800000,
+   "median_minutes": 9.4,
+   "top": [
+    {
+     "title": "모든 수면 자세 정리",
+     "views": 1800000,
+     "ratio": 8.4,
+     "id": "9o4hsVV352A"
+    },
+    {
+     "title": "모든 수면 오류 정리",
+     "views": 1600000,
+     "ratio": 7.4,
+     "id": "lHuhf5mDqBk"
+    },
+    {
+     "title": "역사상 최악의 형벌들 정리",
+     "views": 795000,
+     "ratio": 3.7,
+     "id": "XD7JmXi_kM8"
+    },
+    {
+     "title": "무서운 감염병 1분 정리",
+     "views": 767000,
+     "ratio": 3.6,
+     "id": "3GqmibxCZ1k"
+    },
+    {
+     "title": "당신은 절대로 들어갈 수 없는 장소들 1분 요약",
+     "views": 731000,
+     "ratio": 3.4,
+     "id": "0ukP0bRrDD4"
+    }
+   ]
+  },
+  "미스스한이야기": {
+   "group": "host",
+   "channel": "미스스한 이야기",
+   "followers": 366000,
+   "videos": 145,
+   "median_views": 200000,
+   "max_views": 1000000,
+   "median_minutes": 13.6,
+   "top": [
+    {
+     "title": "낮에는 소방관 밤에는 살인마 일본판 지킬 앤 하이드 '카츠타 키요타카'",
+     "views": 1000000,
+     "ratio": 5.0,
+     "id": "wmSv6bbJTy4"
+    },
+    {
+     "title": "'프랑스 사법 역사상 최악의 오점' 실종된 젊은 남성들이 게이에게 납치됐다 '무르멜롱 사건'",
+     "views": 836000,
+     "ratio": 4.2,
+     "id": "XbMpZjNXb0Y"
+    },
+    {
+     "title": "'맛은 환상적이다' 사람으로 햄버거 패티를 만든 살인마 '햄버거 살인마 조 메서니'",
+     "views": 703000,
+     "ratio": 3.5,
+     "id": "4i2HJb1VoK0"
+    },
+    {
+     "title": "'미국 역사상 최악의 괴물' 살인마들의 살인마 '에드워드 게인'",
+     "views": 687000,
+     "ratio": 3.4,
+     "id": "8k2-wRk5jyo"
+    },
+    {
+     "title": "'우리에게 내일은 없다'미국이 사랑한 범죄자 '보니&클라이드'",
+     "views": 668000,
+     "ratio": 3.3,
+     "id": "5dTFDiQv-w0"
+    }
+   ]
+  },
+  "기묘한밤": {
+   "group": "host",
+   "channel": "기묘한 밤",
+   "followers": 1150000,
+   "videos": 143,
+   "median_views": 343000,
+   "max_views": 4700000,
+   "median_minutes": 14.6,
+   "top": [
+    {
+     "title": "북한의 거짓말에 분노한 러시아 명감독이 현지에서 모두를 속이고 비밀리 제작에 성공한 폭로 다큐멘터리, '태양 아래' [리뷰]",
+     "views": 4700000,
+     "ratio": 13.7,
+     "id": "WKTc0z6UJw8"
+    },
+    {
+     "title": "수천 년 넘게 풀리지 않고 있는 삼국시대의 기이한 미스터리들 [합본]",
+     "views": 1500000,
+     "ratio": 4.4,
+     "id": "ZDDlUjiIDDY"
+    },
+    {
+     "title": "수련하는 순간 산 채로 장기가 적출당하는 중국의 최대 금기, '파룬궁'의 숨겨진 이야기들 [사건사고]",
+     "views": 1500000,
+     "ratio": 4.4,
+     "id": "lF8hhUrFiSc"
+    },
+    {
+     "title": "북한에 그나마 남아 있었던 민주주의가 완전히 삭제되고 김일성이 권력을 잡게 된 결정적인 사건, '8월 종파 사건' [역사]",
+     "views": 1200000,
+     "ratio": 3.5,
+     "id": "Z7Vp4fFQ9RI"
+    },
+    {
+     "title": "북한 수뇌부가 직접 화폐 가치를 회복 불가능한 수준으로 망쳐버린 최악의 경제 정책 '2009년 화폐개혁' [사건사고]",
+     "views": 1200000,
+     "ratio": 3.5,
+     "id": "303gWt8cjXM"
+    }
+   ]
+  },
+  "디바제시카": {
+   "group": "host",
+   "channel": "DeevaJessica",
+   "followers": 2690000,
+   "videos": 145,
+   "median_views": 368000,
+   "max_views": 1900000,
+   "median_minutes": 44.9,
+   "top": [
+    {
+     "title": "조두순보다 더 쎄한 '아동 성범죄자' 등장, 현시점 유력한 미제사건 용의자 마재필 총정리",
+     "views": 1900000,
+     "ratio": 5.2,
+     "id": "1S5IKdVRY1c"
+    },
+    {
+     "title": "연못에서 288개 뼛조각 발견, 300억 상속남의 뒤틀린 욕망",
+     "views": 1500000,
+     "ratio": 4.1,
+     "id": "rLuY5UT4Yk8"
+    },
+    {
+     "title": "14명의 친구와 애인까지 줄줄이 사망한 채 발견, 태국 최악의 여성 연쇄살인마",
+     "views": 1200000,
+     "ratio": 3.3,
+     "id": "vMcQG39INYc"
+    },
+    {
+     "title": "성폭행도 모자라 27차례 찌르고 대충 암매장된 여성, 범인은 외지인? (제주도 한경면 강간살인)",
+     "views": 1200000,
+     "ratio": 3.3,
+     "id": "0u6WGwY-DaU"
+    },
+    {
+     "title": "*장윤기 옥중생활 폭로 \"빨간명찰 받고싶어\" 경찰아버지는 무죄인 이유",
+     "views": 1100000,
+     "ratio": 3.0,
+     "id": "9cnj3pDmGi0"
+    }
+   ]
+  },
+  "사건의뢰": {
+   "group": "host",
+   "channel": "사건의뢰",
+   "followers": 907000,
+   "videos": 144,
+   "median_views": 120500,
+   "max_views": 1000000,
+   "median_minutes": 27.6,
+   "top": [
+    {
+     "title": "모든 신체와 장기를 적출해 증거를 인멸하려 한 가면살인마 [강형사의 해외사건]",
+     "views": 1000000,
+     "ratio": 8.3,
+     "id": "Eaby31fuTBo"
+    },
+    {
+     "title": "[대한민국 살인사건 406화] \"제발 우리 아들 좀 찾아주세요..\" 똥통에서 발견된 우리아들",
+     "views": 856000,
+     "ratio": 7.1,
+     "id": "B1dSf2mY5QE"
+    },
+    {
+     "title": "시아버지와 며느리의 부적절한 모습을 봐버린 딸의 최후 [양소영의 삐사랑]",
+     "views": 801000,
+     "ratio": 6.6,
+     "id": "SNqGKD4Sf1I"
+    },
+    {
+     "title": "부산 신혼부부 실종사건ㅣ10년동안 사라진 신혼부부 도대체 무슨 일이 일어났던걸까? [해외살인사건]",
+     "views": 704000,
+     "ratio": 5.8,
+     "id": "321cbDjE6ZI"
+    },
+    {
+     "title": "[대한민국 살인사건 400화] 모두가 칭찬한 천재의 치밀하고 잔인한 범행계획ㅣ화성시 토막살인사건",
+     "views": 587000,
+     "ratio": 4.9,
+     "id": "SX4k8uJyVL0"
+    }
+   ]
+  },
+  "김원tv": {
+   "group": "host",
+   "channel": "KimwonTV",
+   "followers": 744000,
+   "videos": 145,
+   "median_views": 167000,
+   "max_views": 553000,
+   "median_minutes": 34.5,
+   "top": [
+    {
+     "title": "【X(트위터)에 나타난 2052년 시간여행자 미스터리】",
+     "views": 553000,
+     "ratio": 3.3,
+     "id": "1FXbf4u0KCM"
+    },
+    {
+     "title": "【범행 현장 음성과 사진에 숨겨진 잔혹 비밀】살인마 24세 정재환 ㅣ경산 친구 살인, 훼손 시도 사건ㅣ김원사건파일",
+     "views": 539000,
+     "ratio": 3.2,
+     "id": "uLXrhPBPaSo"
+    },
+    {
+     "title": "【일루미나티, 프리메이슨 그리고 또 다른 조직 미스터리】300년의 비밀 \"코피알레 암호문\" 해독 ㅣ일요미스테리극장",
+     "views": 493000,
+     "ratio": 3.0,
+     "id": "9h-Njc-FdNE"
+    },
+    {
+     "title": "【2025ver. 부산신혼부부 실종 미제사건】'4시간' 편차의 의문점 + 심리적 반응 ㅣ김원사건파일",
+     "views": 493000,
+     "ratio": 3.0,
+     "id": "lTv7Qf8mYA4"
+    },
+    {
+     "title": "【여장을 한 살인마 정창성 사건】경산 중국인 유학생 살인사건 전말 ㅣ 김원사건파",
+     "views": 473000,
+     "ratio": 2.8,
+     "id": "eQmiU2n2z8I"
+    }
+   ]
+  },
+  "썸머썸머": {
+   "group": "host",
+   "channel": "썸머썸머",
+   "followers": 1100000,
+   "videos": 145,
+   "median_views": 519000,
+   "max_views": 3000000,
+   "median_minutes": 29.9,
+   "top": [
+    {
+     "title": "지금 미국을 충격에 빠트린 퍼프대디 게이트 총정리, 베이비오일 천 통의 비밀, 의문의 죽음들",
+     "views": 3000000,
+     "ratio": 5.8,
+     "id": "8fUAkgMyjss"
+    },
+    {
+     "title": "행복해보였던 미국 사는 국제커플, \"멍치는 어딨어?\" 사건",
+     "views": 2600000,
+     "ratio": 5.0,
+     "id": "WRWQC99j0SE"
+    },
+    {
+     "title": "넷플릭스로도 제작될만큼 충격적인 미국실화 이웃집 살인사건",
+     "views": 2200000,
+     "ratio": 4.2,
+     "id": "ViRpEZ4HgPU"
+    },
+    {
+     "title": "미국인들을 충격에 빠트린 플러팅퀸 금발과 중년아저씨의 위험한 사랑사건",
+     "views": 2200000,
+     "ratio": 4.2,
+     "id": "pkJHDFjMHlA"
+    },
+    {
+     "title": "미국인들이 대분노한 사건, 안방마님이 되고싶은 브라질 보모와 연방요원 미국인남편",
+     "views": 1900000,
+     "ratio": 3.7,
+     "id": "zTi8BrWzQqU"
+    }
+   ]
+  },
+  "김복준의사건속으로": {
+   "group": "host",
+   "channel": "김복준의 사건속으로",
+   "followers": 245000,
+   "videos": 145,
+   "median_views": 234000,
+   "max_views": 642000,
+   "median_minutes": 65.5,
+   "top": [
+    {
+     "title": "[긴급 이슈] - 장미란 씨 추정 시신 발견, 장미란 실종 사건에 대하여",
+     "views": 642000,
+     "ratio": 2.7,
+     "id": "4YulFVyg5zk"
+    },
+    {
+     "title": "[국내 살인사건 분석 68화] - 영암 공무원 부부 살인사건",
+     "views": 595000,
+     "ratio": 2.5,
+     "id": "rpewGegl1ZY"
+    },
+    {
+     "title": "[새로보는 대한민국살인사건 120화] - 광주 조폭 아내 살인사건",
+     "views": 578000,
+     "ratio": 2.5,
+     "id": "KCWNj_4gxBE"
+    },
+    {
+     "title": "[국내 살인사건 분석 69화] -  홍은동 등산로 살인사건",
+     "views": 485000,
+     "ratio": 2.1,
+     "id": "UFIWIOMGJ00"
+    },
+    {
+     "title": "[국내 살인사건 분석 67화] - 서울 성동구 여관 애인 살인사건",
+     "views": 447000,
+     "ratio": 1.9,
+     "id": "bvLzrvTO47s"
+    }
+   ]
+  },
+  "바라신TV": {
+   "group": "host",
+   "channel": "Barasin True Crime TV",
+   "followers": 172000,
+   "videos": 145,
+   "median_views": 283000,
+   "max_views": 2200000,
+   "median_minutes": 21.0,
+   "top": [
+    {
+     "title": "나무상자 속에 감금되어 7년간 노예 교육을 받은 소녀",
+     "views": 2200000,
+     "ratio": 7.8,
+     "id": "A9hmsK7Rycg"
+    },
+    {
+     "title": "살기 위해 짐승과 잠자리까지 했지만, 결국 시신이 되어 돌아온 남학생",
+     "views": 1500000,
+     "ratio": 5.3,
+     "id": "5IcJjyY4NiU"
+    },
+    {
+     "title": "사우디 왕자가 10조를 국가에 헌납하고도 사형을 면치 못한 이유",
+     "views": 1400000,
+     "ratio": 4.9,
+     "id": "gGiLANuq3wE"
+    },
+    {
+     "title": "그녀는 23년 동안 땅속에 숨어 있었다. 26년 만에 밝혀진 캠퍼스에서 사라진 여대생의 비밀",
+     "views": 1300000,
+     "ratio": 4.6,
+     "id": "r_KrOsUNuXg"
+    },
+    {
+     "title": "산채로 땅속에 매장되었으나 손가락에 낀 반지 덕분에 극적으로 생존한 여자 “미켈리나 레반도프스카\" 이야기",
+     "views": 1300000,
+     "ratio": 4.6,
+     "id": "wlLUVcRzAv4"
+    }
+   ]
+  }
+ },
+ "all": {
+  "videos": 2627,
+  "features": {
+   "N년 만에": {
+    "with": {
+     "n": 82,
+     "median_ratio": 1.17,
+     "hit_rate": 0.293
+    },
+    "without": {
+     "n": 2545,
+     "median_ratio": 1.0,
+     "hit_rate": 0.195
+    },
+    "lift": 1.17
+   },
+   "풀린·잡힌·밝혀진": {
+    "with": {
+     "n": 121,
+     "median_ratio": 1.06,
+     "hit_rate": 0.198
+    },
+    "without": {
+     "n": 2506,
+     "median_ratio": 1.0,
+     "hit_rate": 0.198
+    },
+    "lift": 1.06
+   },
+   "미제·미스터리": {
+    "with": {
+     "n": 561,
+     "median_ratio": 1.04,
+     "hit_rate": 0.209
+    },
+    "without": {
+     "n": 2066,
+     "median_ratio": 1.0,
+     "hit_rate": 0.196
+    },
+    "lift": 1.04
+   },
+   "국가명": {
+    "with": {
+     "n": 742,
+     "median_ratio": 1.04,
+     "hit_rate": 0.247
+    },
+    "without": {
+     "n": 1885,
+     "median_ratio": 0.99,
+     "hit_rate": 0.179
+    },
+    "lift": 1.05
+   },
+   "한국 사건": {
+    "with": {
+     "n": 181,
+     "median_ratio": 1.15,
+     "hit_rate": 0.215
+    },
+    "without": {
+     "n": 2446,
+     "median_ratio": 1.0,
+     "hit_rate": 0.197
+    },
+    "lift": 1.15
+   },
+   "최상급(역사상·가장·최악)": {
+    "with": {
+     "n": 123,
+     "median_ratio": 1.12,
+     "hit_rate": 0.187
+    },
+    "without": {
+     "n": 2504,
+     "median_ratio": 1.0,
+     "hit_rate": 0.199
+    },
+    "lift": 1.12
+   },
+   "~한 이유": {
+    "with": {
+     "n": 204,
+     "median_ratio": 0.97,
+     "hit_rate": 0.152
+    },
+    "without": {
+     "n": 2423,
+     "median_ratio": 1.0,
+     "hit_rate": 0.202
+    },
+    "lift": 0.97
+   },
+   "최후·정체·진실": {
+    "with": {
+     "n": 268,
+     "median_ratio": 1.0,
+     "hit_rate": 0.224
+    },
+    "without": {
+     "n": 2359,
+     "median_ratio": 1.0,
+     "hit_rate": 0.195
+    },
+    "lift": 1.0
+   },
+   "실화·실제로": {
+    "with": {
+     "n": 283,
+     "median_ratio": 1.07,
+     "hit_rate": 0.261
+    },
+    "without": {
+     "n": 2344,
+     "median_ratio": 1.0,
+     "hit_rate": 0.191
+    },
+    "lift": 1.07
+   },
+   "숫자": {
+    "with": {
+     "n": 1068,
+     "median_ratio": 1.03,
+     "hit_rate": 0.212
+    },
+    "without": {
+     "n": 1559,
+     "median_ratio": 0.97,
+     "hit_rate": 0.189
+    },
+    "lift": 1.06
+   },
+   "물음": {
+    "with": {
+     "n": 321,
+     "median_ratio": 0.96,
+     "hit_rate": 0.156
+    },
+    "without": {
+     "n": 2306,
+     "median_ratio": 1.0,
+     "hit_rate": 0.204
+    },
+    "lift": 0.96
+   },
+   "인용 “…”": {
+    "with": {
+     "n": 631,
+     "median_ratio": 1.0,
+     "hit_rate": 0.179
+    },
+    "without": {
+     "n": 1996,
+     "median_ratio": 1.0,
+     "hit_rate": 0.204
+    },
+    "lift": 1.0
+   },
+   "신체·시신": {
+    "with": {
+     "n": 139,
+     "median_ratio": 1.11,
+     "hit_rate": 0.209
+    },
+    "without": {
+     "n": 2488,
+     "median_ratio": 1.0,
+     "hit_rate": 0.198
+    },
+    "lift": 1.11
+   },
+   "살해·살인": {
+    "with": {
+     "n": 634,
+     "median_ratio": 1.03,
+     "hit_rate": 0.199
+    },
+    "without": {
+     "n": 1993,
+     "median_ratio": 1.0,
+     "hit_rate": 0.198
+    },
+    "lift": 1.03
+   },
+   "실종·사라진": {
+    "with": {
+     "n": 220,
+     "median_ratio": 1.15,
+     "hit_rate": 0.3
+    },
+    "without": {
+     "n": 2407,
+     "median_ratio": 0.99,
+     "hit_rate": 0.189
+    },
+    "lift": 1.16
+   },
+   "감금·학대": {
+    "with": {
+     "n": 23,
+     "median_ratio": 0.93,
+     "hit_rate": 0.261
+    },
+    "without": {
+     "n": 2604,
+     "median_ratio": 1.0,
+     "hit_rate": 0.198
+    },
+    "lift": 0.93
+   },
+   "가족": {
+    "with": {
+     "n": 479,
+     "median_ratio": 1.08,
+     "hit_rate": 0.244
+    },
+    "without": {
+     "n": 2148,
+     "median_ratio": 0.99,
+     "hit_rate": 0.188
+    },
+    "lift": 1.09
+   },
+   "아이·학생": {
+    "with": {
+     "n": 192,
+     "median_ratio": 1.0,
+     "hit_rate": 0.24
+    },
+    "without": {
+     "n": 2435,
+     "median_ratio": 1.0,
+     "hit_rate": 0.195
+    },
+    "lift": 1.0
+   },
+   "모음·몰아보기": {
+    "with": {
+     "n": 218,
+     "median_ratio": 1.11,
+     "hit_rate": 0.234
+    },
+    "without": {
+     "n": 2409,
+     "median_ratio": 1.0,
+     "hit_rate": 0.195
+    },
+    "lift": 1.11
+   },
+   "시리즈 표기(1부·EP)": {
+    "with": {
+     "n": 134,
+     "median_ratio": 1.14,
+     "hit_rate": 0.194
+    },
+    "without": {
+     "n": 2493,
+     "median_ratio": 1.0,
+     "hit_rate": 0.199
+    },
+    "lift": 1.14
+   },
+   "말머리 【】[]": {
+    "with": {
+     "n": 1104,
+     "median_ratio": 1.02,
+     "hit_rate": 0.214
+    },
+    "without": {
+     "n": 1523,
+     "median_ratio": 0.99,
+     "hit_rate": 0.187
+    },
+    "lift": 1.03
+   },
+   "사건명 꼬리표(｜사건)": {
+    "with": {
+     "n": 34,
+     "median_ratio": 1.2,
+     "hit_rate": 0.353
+    },
+    "without": {
+     "n": 2593,
+     "median_ratio": 1.0,
+     "hit_rate": 0.196
+    },
+    "lift": 1.2
+   },
+   "말줄임(...)": {
+    "with": {
+     "n": 516,
+     "median_ratio": 1.03,
+     "hit_rate": 0.231
+    },
+    "without": {
+     "n": 2111,
+     "median_ratio": 1.0,
+     "hit_rate": 0.19
+    },
+    "lift": 1.03
+   }
+  },
+  "duration": {
+   "4~8분": {
+    "n": 61,
+    "median_ratio": 0.67,
+    "hit_rate": 0.246
+   },
+   "8~12분": {
+    "n": 462,
+    "median_ratio": 0.82,
+    "hit_rate": 0.136
+   },
+   "12~16분": {
+    "n": 459,
+    "median_ratio": 0.94,
+    "hit_rate": 0.174
+   },
+   "16~20분": {
+    "n": 329,
+    "median_ratio": 1.06,
+    "hit_rate": 0.216
+   },
+   "20~30분": {
+    "n": 447,
+    "median_ratio": 1.01,
+    "hit_rate": 0.206
+   },
+   "30~분": {
+    "n": 869,
+    "median_ratio": 1.12,
+    "hit_rate": 0.23
+   }
+  }
+ },
+ "core": {
+  "videos": 1343,
+  "features": {
+   "N년 만에": {
+    "with": {
+     "n": 41,
+     "median_ratio": 1.33,
+     "hit_rate": 0.439
+    },
+    "without": {
+     "n": 1302,
+     "median_ratio": 1.0,
+     "hit_rate": 0.226
+    },
+    "lift": 1.33
+   },
+   "풀린·잡힌·밝혀진": {
+    "with": {
+     "n": 66,
+     "median_ratio": 1.11,
+     "hit_rate": 0.273
+    },
+    "without": {
+     "n": 1277,
+     "median_ratio": 1.0,
+     "hit_rate": 0.23
+    },
+    "lift": 1.11
+   },
+   "미제·미스터리": {
+    "with": {
+     "n": 356,
+     "median_ratio": 1.08,
+     "hit_rate": 0.27
+    },
+    "without": {
+     "n": 987,
+     "median_ratio": 0.99,
+     "hit_rate": 0.219
+    },
+    "lift": 1.09
+   },
+   "국가명": {
+    "with": {
+     "n": 442,
+     "median_ratio": 1.13,
+     "hit_rate": 0.276
+    },
+    "without": {
+     "n": 901,
+     "median_ratio": 0.95,
+     "hit_rate": 0.211
+    },
+    "lift": 1.19
+   },
+   "한국 사건": {
+    "with": {
+     "n": 70,
+     "median_ratio": 1.2,
+     "hit_rate": 0.343
+    },
+    "without": {
+     "n": 1273,
+     "median_ratio": 1.0,
+     "hit_rate": 0.226
+    },
+    "lift": 1.2
+   },
+   "최상급(역사상·가장·최악)": {
+    "with": {
+     "n": 54,
+     "median_ratio": 1.2,
+     "hit_rate": 0.315
+    },
+    "without": {
+     "n": 1289,
+     "median_ratio": 1.0,
+     "hit_rate": 0.229
+    },
+    "lift": 1.2
+   },
+   "~한 이유": {
+    "with": {
+     "n": 128,
+     "median_ratio": 1.01,
+     "hit_rate": 0.195
+    },
+    "without": {
+     "n": 1215,
+     "median_ratio": 1.0,
+     "hit_rate": 0.236
+    },
+    "lift": 1.01
+   },
+   "최후·정체·진실": {
+    "with": {
+     "n": 114,
+     "median_ratio": 0.95,
+     "hit_rate": 0.237
+    },
+    "without": {
+     "n": 1229,
+     "median_ratio": 1.0,
+     "hit_rate": 0.232
+    },
+    "lift": 0.95
+   },
+   "실화·실제로": {
+    "with": {
+     "n": 248,
+     "median_ratio": 1.07,
+     "hit_rate": 0.274
+    },
+    "without": {
+     "n": 1095,
+     "median_ratio": 1.0,
+     "hit_rate": 0.223
+    },
+    "lift": 1.07
+   },
+   "숫자": {
+    "with": {
+     "n": 500,
+     "median_ratio": 1.05,
+     "hit_rate": 0.268
+    },
+    "without": {
+     "n": 843,
+     "median_ratio": 0.98,
+     "hit_rate": 0.211
+    },
+    "lift": 1.07
+   },
+   "물음": {
+    "with": {
+     "n": 146,
+     "median_ratio": 0.96,
+     "hit_rate": 0.205
+    },
+    "without": {
+     "n": 1197,
+     "median_ratio": 1.0,
+     "hit_rate": 0.236
+    },
+    "lift": 0.96
+   },
+   "인용 “…”": {
+    "with": {
+     "n": 177,
+     "median_ratio": 0.97,
+     "hit_rate": 0.266
+    },
+    "without": {
+     "n": 1166,
+     "median_ratio": 1.0,
+     "hit_rate": 0.227
+    },
+    "lift": 0.97
+   },
+   "신체·시신": {
+    "with": {
+     "n": 47,
+     "median_ratio": 1.07,
+     "hit_rate": 0.255
+    },
+    "without": {
+     "n": 1296,
+     "median_ratio": 1.0,
+     "hit_rate": 0.231
+    },
+    "lift": 1.07
+   },
+   "살해·살인": {
+    "with": {
+     "n": 251,
+     "median_ratio": 1.0,
+     "hit_rate": 0.239
+    },
+    "without": {
+     "n": 1092,
+     "median_ratio": 1.0,
+     "hit_rate": 0.231
+    },
+    "lift": 1.0
+   },
+   "실종·사라진": {
+    "with": {
+     "n": 141,
+     "median_ratio": 1.18,
+     "hit_rate": 0.326
+    },
+    "without": {
+     "n": 1202,
+     "median_ratio": 1.0,
+     "hit_rate": 0.221
+    },
+    "lift": 1.18
+   },
+   "감금·학대": {
+    "with": {
+     "n": 14,
+     "median_ratio": 0.66,
+     "hit_rate": 0.143
+    },
+    "without": {
+     "n": 1329,
+     "median_ratio": 1.0,
+     "hit_rate": 0.233
+    },
+    "lift": 0.66
+   },
+   "가족": {
+    "with": {
+     "n": 269,
+     "median_ratio": 1.08,
+     "hit_rate": 0.268
+    },
+    "without": {
+     "n": 1074,
+     "median_ratio": 1.0,
+     "hit_rate": 0.223
+    },
+    "lift": 1.08
+   },
+   "아이·학생": {
+    "with": {
+     "n": 91,
+     "median_ratio": 1.02,
+     "hit_rate": 0.264
+    },
+    "without": {
+     "n": 1252,
+     "median_ratio": 1.0,
+     "hit_rate": 0.23
+    },
+    "lift": 1.02
+   },
+   "모음·몰아보기": {
+    "with": {
+     "n": 112,
+     "median_ratio": 1.5,
+     "hit_rate": 0.321
+    },
+    "without": {
+     "n": 1231,
+     "median_ratio": 0.98,
+     "hit_rate": 0.224
+    },
+    "lift": 1.53
+   },
+   "시리즈 표기(1부·EP)": {
+    "with": {
+     "n": 4,
+     "median_ratio": 2.2,
+     "hit_rate": 0.75
+    },
+    "without": {
+     "n": 1339,
+     "median_ratio": 1.0,
+     "hit_rate": 0.231
+    },
+    "lift": 2.2
+   },
+   "말머리 【】[]": {
+    "with": {
+     "n": 686,
+     "median_ratio": 1.0,
+     "hit_rate": 0.233
+    },
+    "without": {
+     "n": 657,
+     "median_ratio": 1.0,
+     "hit_rate": 0.231
+    },
+    "lift": 1.0
+   },
+   "사건명 꼬리표(｜사건)": {
+    "with": {
+     "n": 31,
+     "median_ratio": 1.25,
+     "hit_rate": 0.355
+    },
+    "without": {
+     "n": 1312,
+     "median_ratio": 1.0,
+     "hit_rate": 0.229
+    },
+    "lift": 1.25
+   },
+   "말줄임(...)": {
+    "with": {
+     "n": 321,
+     "median_ratio": 1.08,
+     "hit_rate": 0.24
+    },
+    "without": {
+     "n": 1022,
+     "median_ratio": 1.0,
+     "hit_rate": 0.23
+    },
+    "lift": 1.08
+   }
+  },
+  "duration": {
+   "4~8분": {
+    "n": 55,
+    "median_ratio": 0.62,
+    "hit_rate": 0.255
+   },
+   "8~12분": {
+    "n": 332,
+    "median_ratio": 0.83,
+    "hit_rate": 0.148
+   },
+   "12~16분": {
+    "n": 285,
+    "median_ratio": 0.97,
+    "hit_rate": 0.204
+   },
+   "16~20분": {
+    "n": 180,
+    "median_ratio": 1.13,
+    "hit_rate": 0.267
+   },
+   "20~30분": {
+    "n": 200,
+    "median_ratio": 1.1,
+    "hit_rate": 0.265
+   },
+   "30~분": {
+    "n": 291,
+    "median_ratio": 1.27,
+    "hit_rate": 0.309
+   }
+  }
+ },
+ "core_top40": [
+  {
+   "ch": "붉은실",
+   "title": "[해외사건사고] 들어가면 살아서 나오지 못하는 섬. 노스 센티널 섬. 세계 유일한 비접촉 원시 부족을 만나러 간 존 앨런 차우 사건.",
+   "views": 4900000,
+   "ratio": 54.1,
+   "minutes": 12.2,
+   "id": "w5t7MH-fCmo"
+  },
+  {
+   "ch": "붉은실",
+   "title": "[범죄사건] 혼자 섬으로 여행갔다가 장기가 모두 사라진 텅 빈 시신으로 돌아온 마이크 만스홀트 사건",
+   "views": 4500000,
+   "ratio": 49.7,
+   "minutes": 15.6,
+   "id": "YSY5DgoBiKE"
+  },
+  {
+   "ch": "한국실제사건",
+   "title": "한해로 물 빠진 화천댐에서 발견된 콘크리트 시신… ‘돈 들고 도망쳤다’던 감독관의 40년 만의 진실 [충격 실화]",
+   "views": 115000,
+   "ratio": 47.9,
+   "minutes": 78.4,
+   "id": "NpdrFZbOnnA"
+  },
+  {
+   "ch": "사미자",
+   "title": "와카야마현에서 외국인 여행자들이 사라졌다",
+   "views": 759000,
+   "ratio": 47.4,
+   "minutes": 8.5,
+   "id": "feksmYoy1XY"
+  },
+  {
+   "ch": "사건대장",
+   "title": "[해외사건] [미국] 범인의 DNA는 여경과 일치하게 되는데",
+   "views": 1100000,
+   "ratio": 44.0,
+   "minutes": 20.9,
+   "id": "N_Al_dlkVeI"
+  },
+  {
+   "ch": "사건대장",
+   "title": "[해외사건] [일본] 경찰 7명의 포위망을 뚫은 뒤 무인도에서 도피생활을 시작한 '이치하시 타츠야'",
+   "views": 1100000,
+   "ratio": 44.0,
+   "minutes": 28.0,
+   "id": "Pd3DZwNouAs"
+  },
+  {
+   "ch": "사건재연실",
+   "title": "경찰이 테이프를 뜯자 나온 것.. | 인천 화평동 토막살인",
+   "views": 20000,
+   "ratio": 44.0,
+   "minutes": 15.7,
+   "id": "VdcdCQ_TisM"
+  },
+  {
+   "ch": "미제사건재발굴",
+   "title": "1995년 압구정 노부부 실종, 80억 유산 상속한 세 자녀, 25년 만에 은행 금고가 폭로한 진실",
+   "views": 788000,
+   "ratio": 26.7,
+   "minutes": 67.3,
+   "id": "lnQfPwWgJ-w"
+  },
+  {
+   "ch": "사미자",
+   "title": "【노딱】두바이 왕족에게 초대 받고 사라진 일본인 인플루언서.  두바이안건",
+   "views": 364000,
+   "ratio": 22.8,
+   "minutes": 9.2,
+   "id": "79rqY1lXkmM"
+  },
+  {
+   "ch": "붉은실",
+   "title": "[모음집] 수십년만에 해결된 미제사건 몰아보기. 50분 연속재생",
+   "views": 2000000,
+   "ratio": 22.1,
+   "minutes": 51.4,
+   "id": "EOqV4-TrNwY"
+  },
+  {
+   "ch": "유팬더",
+   "title": "사건실화 | 40대 대머리가 대머리 배달기사가 20명이 넘는 여성과... 방법 알고 보니",
+   "views": 798000,
+   "ratio": 20.5,
+   "minutes": 21.9,
+   "id": "n6eNZF8Xtxc"
+  },
+  {
+   "ch": "붉은실",
+   "title": "[해외사건사고] 100년 넘게 근친혼 휘태커 가족. 짖는 소리와 끙끙거리는 소리로만 소통하는 근친상간의 부작용을 보여주는 사례",
+   "views": 1800000,
+   "ratio": 19.9,
+   "minutes": 6.9,
+   "id": "5rpyKrZRdHg"
+  },
+  {
+   "ch": "붉은실",
+   "title": "[모음집] 조회수 높았던 충격적인 사건 몰아보기",
+   "views": 1800000,
+   "ratio": 19.9,
+   "minutes": 47.9,
+   "id": "wi2qHrMnC6U"
+  },
+  {
+   "ch": "한국실제사건",
+   "title": "[충격 실화] 2014 인천을 뒤흔든 여행가방 할머니 시신 사건 | 범인의 충격적인 동기와 전말",
+   "views": 47000,
+   "ratio": 19.6,
+   "minutes": 71.9,
+   "id": "pu0TPGrx1uI"
+  },
+  {
+   "ch": "유팬더",
+   "title": "사건실화 | 집에만 있던 장애 딸이 임신 5개월... 누가 범인인가?",
+   "views": 747000,
+   "ratio": 19.2,
+   "minutes": 12.3,
+   "id": "-HR5KMRpYq4"
+  },
+  {
+   "ch": "한국실제사건",
+   "title": "고립된 욕지섬 참극.. 섬 주민을 잔인하게 죽인 살인마 | 2024 통영 충격 실화",
+   "views": 44000,
+   "ratio": 18.3,
+   "minutes": 69.3,
+   "id": "OAHIxF6fSNA"
+  },
+  {
+   "ch": "한국실제사건",
+   "title": "패륜 완전범죄를 꿈꾼 아들.. 막걸리에 농약 타 친아버지 독살! DNA 장갑+트랙터 블랙박스+다크웹으로 무너진 충격 의령 사건",
+   "views": 42000,
+   "ratio": 17.5,
+   "minutes": 81.0,
+   "id": "HG_-8PDNYhU"
+  },
+  {
+   "ch": "한국실제사건",
+   "title": "[충격 실화] 김포공항 근처 납치살인.. 2000년대 한국을 공포로 몰아넣은 최악의 실제 사건",
+   "views": 40000,
+   "ratio": 16.7,
+   "minutes": 88.5,
+   "id": "GBXT6HlMa-M"
+  },
+  {
+   "ch": "주간악당",
+   "title": "13살부터 길러진 S파트너, 이게 바로 '완전한 사육' #미스터리 #충격실화 #해외사건",
+   "views": 604000,
+   "ratio": 15.1,
+   "minutes": 29.1,
+   "id": "2nWXeYYO5jc"
+  },
+  {
+   "ch": "유팬더",
+   "title": "사건실화 | \"뒷문으로 할게\"..남편의 기괴한 요구, 과연 아내의 선택은?",
+   "views": 585000,
+   "ratio": 15.0,
+   "minutes": 15.3,
+   "id": "VtoqiqF5_Nc"
+  },
+  {
+   "ch": "유PD의충격실화파일",
+   "title": "[실제영상공개] 영국 런던 벽장에서 발견된 송인혜씨에게 벌어진 끔찍한 일의 전말.",
+   "views": 894000,
+   "ratio": 14.9,
+   "minutes": 27.2,
+   "id": "YrKW6e7ae_Q"
+  },
+  {
+   "ch": "미제사건재발굴",
+   "title": "1992년 강남 서울대  며느리 실종,, 14년 후 지하실 벽 속에서 발견된 시어머니의 충격적 범행",
+   "views": 434000,
+   "ratio": 14.7,
+   "minutes": 53.5,
+   "id": "FXEY2w0iZDI"
+  },
+  {
+   "ch": "미제사건재발굴",
+   "title": "2000년 남대문시장 '10억 계주' 실종, 20년 만에 친구집 텃밭 김장독에서 나온 곗돈 장부",
+   "views": 399000,
+   "ratio": 13.5,
+   "minutes": 58.4,
+   "id": "ztB8l7nVUi0"
+  },
+  {
+   "ch": "유팬더",
+   "title": "사건실화 | \"매일 밤 형의 아내를..\" 결국 형한테 걸린 동생.. 형의 선택은?",
+   "views": 517000,
+   "ratio": 13.3,
+   "minutes": 16.4,
+   "id": "q9zuLwEVdBM"
+  },
+  {
+   "ch": "미제사건재발굴",
+   "title": "2001년 카이스트 교수 부부 피살 사건, 18년 만에 셋째 아들의 완벽한 알리바이가 무너진 이유",
+   "views": 362000,
+   "ratio": 12.3,
+   "minutes": 51.4,
+   "id": "WyZM6e9Hj0w"
+  },
+  {
+   "ch": "유팬더",
+   "title": "사건실화 | 차 안에서 성관계를 가진 직후 6년 사귄 남자친구를 살해한 이유",
+   "views": 469000,
+   "ratio": 12.0,
+   "minutes": 15.2,
+   "id": "Wl34-to54kk"
+  },
+  {
+   "ch": "미제사건재발굴",
+   "title": "1995년 강남 복부인 추락사, 15년 후 발견된 가사도우미 일기장 \"큰아들 차가 새벽까지",
+   "views": 346000,
+   "ratio": 11.7,
+   "minutes": 69.3,
+   "id": "Uh1rMjyDThs"
+  },
+  {
+   "ch": "주간악당",
+   "title": "【범죄사건몰아보기】 악마보다 더 악마 같은 사형수 모음집 #충격실화 #crimestory #해외사건",
+   "views": 458000,
+   "ratio": 11.4,
+   "minutes": 86.6,
+   "id": "ZeMG_SD81Po"
+  },
+  {
+   "ch": "테가미",
+   "title": "북한이 13살 요코타 메구미를 납치한 진짜 이유",
+   "views": 1000000,
+   "ratio": 11.0,
+   "minutes": 21.8,
+   "id": "AY7hpFf58AU"
+  },
+  {
+   "ch": "붉은실",
+   "title": "[범죄사건] 실종 25년만에 자신의 집 다락방에서 발견된 블랑쉬 모니에. 다락방 감금 25년",
+   "views": 993000,
+   "ratio": 11.0,
+   "minutes": 11.5,
+   "id": "d3oQG5BF5Ik"
+  },
+  {
+   "ch": "미제사건재발굴",
+   "title": "2002년 강남 기러기아빠 의문사, 18년 뒤 딸이 발견한 '캠코더 테이프' 속 엄마의 목소리",
+   "views": 321000,
+   "ratio": 10.9,
+   "minutes": 57.6,
+   "id": "QOnN5dg-nRg"
+  },
+  {
+   "ch": "사미자",
+   "title": "【일본사건사고】 FBI와 CSI가 추적한 17년 미제사건｜효고현 초2 여아 살O사건",
+   "views": 172000,
+   "ratio": 10.8,
+   "minutes": 22.7,
+   "id": "usbo_atl304"
+  },
+  {
+   "ch": "사건대장",
+   "title": "[해외사건] [체코] \"옆집에서 이상한 게 보여요\" 신고 전화 한 통으로 밝혀진 '공포의 집'의 실체",
+   "views": 266000,
+   "ratio": 10.6,
+   "minutes": 28.4,
+   "id": "7KBq7zpn3dY"
+  },
+  {
+   "ch": "주간악당",
+   "title": "【해외사건】 54세 골드미스와 27세 알파메일의 잘못된 만남",
+   "views": 422000,
+   "ratio": 10.6,
+   "minutes": 27.3,
+   "id": "uvB_Tr7M-p8"
+  },
+  {
+   "ch": "유팬더",
+   "title": "사건실화 | 출산한 아내의 오른쪽 눈을 남편이....",
+   "views": 409000,
+   "ratio": 10.5,
+   "minutes": 14.0,
+   "id": "YGiFcr5zrSQ"
+  },
+  {
+   "ch": "유팬더",
+   "title": "사건실화 | 자신을 짓밟은 남자를 다시 초대한 아내.. 그리고 남편 앞에서 벌어진 복수극",
+   "views": 405000,
+   "ratio": 10.4,
+   "minutes": 12.4,
+   "id": "Cj0DWchtoq8"
+  },
+  {
+   "ch": "붉은실",
+   "title": "[생존자이야기] 알고보면 무서운 사진. 인터넷 최초의 연쇄살인범 존 로빈슨",
+   "views": 898000,
+   "ratio": 9.9,
+   "minutes": 19.4,
+   "id": "V4_3UIFGV-8"
+  },
+  {
+   "ch": "유PD의충격실화파일",
+   "title": "[실제경찰바디캠] 안면이 함몰된 엄마의 마지막 순간을 지켜본 찰리는 과연 알고 있었을까?",
+   "views": 585000,
+   "ratio": 9.8,
+   "minutes": 32.7,
+   "id": "Q9mTJHGRxm4"
+  },
+  {
+   "ch": "미제사건재발굴",
+   "title": "1994년 서울대 형제 실종 사건, 14년간 동생이 구들장속 형 위에서 잠든 이유",
+   "views": 276000,
+   "ratio": 9.4,
+   "minutes": 50.0,
+   "id": "VPxpOL0NwhQ"
+  },
+  {
+   "ch": "미스터리큐브",
+   "title": "미스터리 만화리뷰- 의자 안에 들어가 당신과 하나가 되고픈 기묘한 욕망, '인간의자'",
+   "views": 140000,
+   "ratio": 9.3,
+   "minutes": 19.0,
+   "id": "Vb1mF34JIrE"
+  }
+ ]
+}
