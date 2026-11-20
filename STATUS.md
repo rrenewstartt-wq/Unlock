@@ -1,6 +1,16 @@
-# 현재 상태와 다음 할 일 (2026-11-19 기준)
+# 현재 상태와 다음 할 일 (2026-11-20 기준)
 
 새 세션·다른 계정에서 이어 갈 때 이 파일부터 읽는다. 설치는 `docs/SETUP.md` (`bash scripts/setup.sh`).
+
+## 2026-11-20: 레퍼런스 동급을 목표로 팀 개선
+- **기준:** `docs/quality-bar.md`(대본·화면·소리·사실·썸네일·메타의 숫자 기준) + `scripts/parity_check.py`(자동 측정, `--strict` 관문).
+- **새 팀원 8명:** script-writer, script-critic, storyboard-director, set-builder, archive-researcher, sound-designer, visual-critic, parity-judge.
+  `/make-episode` 는 단계마다 "만드는 팀원 → 검수 팀원 → 관문", 마지막에 parity-judge 가 전 영역 동급일 때만 "완성".
+- **3D 엔진:** 영상 3D 를 기본 도형 마네킹에서 **film 키트**(`thumbkit/film.js`: 사실적 인물 남녀 + Poly Haven 실사 질감·하늘·소품 모델)로 바꿨다.
+  `python3 scripts/kit3d.py episodes/<ep>`. ep01 해변 세트 3장면(beach, dusk, ending)을 이 키트로 다시 지었다.
+- **ep01 동급 검사(시험편 기준 아님):** 통과 12 · 실패 10. 실패: 길이(3분), 장면 수, 자막 4줄 28자 초과, 소품 회수, 보관소 장면이 아직 마네킹,
+  실제 자료 0, 내레이션·음악 없음, ⚠️ 사실 2개, upload.json 없음.
+- **ep01 남은 화면 문제:** 담배가 흰 셔츠에 묻혀 안 보인다 → 담배만 찍는 인서트 컷이 필요. 해변 아침 조명이 평평하다.
 
 ## 지금까지 정해진 것
 | 항목 | 결정 | 근거 문서 |
@@ -21,12 +31,13 @@
 - 남은 지적: 제목 「73년 만에 이름을 찾은 해변의 남자」는 신원이 경찰 공식 확인 전이라 단정처럼 읽힐 수 있다(대안 T3 「여행가방에 이름까지 남아 있었는데 73년 동안 신원을 몰랐던 이유」).
 
 ## 사용자 결정을 기다리는 것
+0. **동급에 꼭 필요한 사람 결정:** 내레이션 녹음(본인 목소리, Colab), 음악 출처(본인 소유 곡 또는 사용 허가가 명확한 라이브러리).
 1. ep01 썸네일 문구 3안 중 선택(또는 A/B 테스트).
 2. 사진이 없는 사건의 썸네일 이미지: AI 생성 이미지(HeyGen, 유료 크레딧) 사용 여부.
 3. 다음 편 사건: 소재 백로그 1위 **텔마 개스턴(1981, 2026 신원 확인)** 추천 — `python3 scripts/topics.py list --top 10`.
 
 ## 다음 순서 (사건이 정해지면)
-`/plan <slug>` → facts.md(1차 자료) → 대본 → 장면(3D 섞기 + 2D 도식) → `/review` → 렌더 → `/thumbnail`(문구 먼저) → 음성(본인) → 사람이 업로드.
+`/plan <slug>` → `/make-episode`(롱폼 11~13분): 사실 → 대본(script-writer/critic) → 설계(storyboard-director) → 실제 자료(archive-researcher) → 장면(set-builder + 도식) → `/review` → 소리(sound-designer) → 렌더 → `/thumbnail` → parity-judge → 사람이 업로드.
 
 ## 알아 둘 것
 - 클라우드 세션은 재시작되면 커밋하지 않은 파일이 사라진다. 결과물은 만들 때마다 커밋한다. 캐시는 `bash scripts/setup.sh` 로 복구된다.

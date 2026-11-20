@@ -7,9 +7,16 @@
 - 글꼴: 제목·핵심 단어 Black Han Sans, 본문·자막 Gothic A1 Medium(둘 다 OFL, `assets/fonts`).
 - 자막: 40px, 아래에서 74px, **박스 없이** 그림자(0 0 3px + 0 2px 10px 검정)로 읽히게. 화면을 덜 가린다(벤치마크와 같은 방식).
 
-## 3D 재연 (Three.js, `assets/lib/world.js`)
-- `makeFigure(mat, {top, bottom, shoe})`: 얼굴 없는 관절 마네킹. 옷 재질을 주면 소품(담배 등)이 대비로 읽힌다.
-- `poseStanding`, `poseLying`, `cameraAt(keys, t)`: 카메라 키에 `cut: true` 를 주면 그 시각에 **하드 컷**.
+## 3D 재연 (film 키트: `thumbkit/film.js` → `python3 scripts/kit3d.py episodes/<ep>`)
+- **레퍼런스 급의 기본값:** 옷·머리·손이 있는 사실적 얼굴 없는 인물(Quaternius CC0, `f.figure("film" | "filmWoman" | "onlooker")`),
+  Poly Haven CC0 실사 질감(`f.material`, `f.surface`)·실제 하늘(HDRI)·실사 소품 모델(`f.model`). 자산은 `episodes/<ep>/kit3d.json` 에 적는다.
+- 세트 파일은 `film(stage, key, opts, async (f) => {...; return (t) => {...}})` 한 함수(참고: ep01 `assets/lib/beach.js`).
+  무거운 준비는 `window.__hf.buildReady` 약속으로 끝내고 render(t)는 t 의 순수 함수.
+- 공유 질감은 반복 설정도 공유한다: 한 재질을 여러 곳에 다른 반복으로 쓰면 질감을 복제한다(ep01 `tile()`).
+- **인물 가슴 위 클로즈업 금지**(저해상도 얼굴·목 이음새가 드러난다). 담배·쪽지 같은 작은 소품은 소품만 찍는 인서트 컷으로.
+- 조명: 키 하나 + 림 또는 배경 분리 + 앰버 초점 하나. 평평한 회색은 실패.
+- `world.js` 의 기본 도형 마네킹(`makeFigure`)은 옛 방식이다. 새 장면에는 쓰지 않는다(ep01 보관소 장면이 아직 이 방식).
+- `cameraAt(keys, t)`: 카메라 키에 `cut: true` 를 주면 그 시각에 **하드 컷**.
 - **컷 속도:** 3D 장면은 `scenes_kit.cam_shots([(t, pos, look, fov), ...], dur)` 로 자막마다 한 컷(3~5초), 컷마다 느린 푸시인.
   한 장면을 카메라 이동 한 번으로 15초 넘게 끌지 않는다(벤치마크 컷 간격 약 4~8초).
 - 세트는 사건마다 새로 만든다(ep01: `beach.js` 해변 3모드, `station.js` 보관소). 모든 프레임은 시간 t 의 순수 함수.

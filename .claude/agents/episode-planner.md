@@ -8,7 +8,7 @@ tools: Bash, Read, Write, Edit, WebSearch, WebFetch, Grep, Glob
 
 ## 먼저 읽기
 `docs/script-formula.md`(7단계, 질문으로 막 넘기기), `docs/visual-style.md`(3D 섞기 스타일, 도식 원칙, 앰버 초점),
-`docs/benchmark-report.md`(제목 공식), `docs/originality.md`, 후보 JSON(`python3 scripts/topics.py show <slug>`).
+`docs/benchmark-report.md`(제목 공식), `docs/originality.md`, `docs/quality-bar.md`(레퍼런스 동급 기준), 후보 JSON(`python3 scripts/topics.py show <slug>`).
 
 ## 기획안 `data/topics/plans/<slug>.md`
 1. **한 줄 요약**과 **우리가 덧붙이는 관점**(왜 지금, 무엇을 새로 보여주나)
@@ -16,8 +16,9 @@ tools: Bash, Read, Write, Edit, WebSearch, WebFetch, Grep, Glob
 3. **썸네일 방향 2안:** 기록에 있는 상징물 하나 + 모드(spot/flood, `docs/thumbnail-formula.md`). 자세한 컨셉·제작은 /thumbnail 팀이 한다
 4. **7단계 구성:** 단계마다 장면 2~4개, 들어갈 사실(출처 번호), 막 넘기는 질문 위치(첫 질문 10~20%)
 5. **장면 계획 표:** 장면 | 3D 재연 / 2D 도식 | 앰버 초점(인물 또는 증거물) | 필요한 세트·소품 | 길이
-6. **길이:** 3분 시험편 / 10~12분 롱폼 중 무엇, 자막 줄 수 추정
+6. **길이:** 기본은 롱폼 11~13분(레퍼런스 10분 56초~18분 56초). 수사 단계 단서가 6개 미만이면 롱폼이 안 된다고 적고 길이를 줄인다. 자막 줄 수·장면 수 추정
+6.5 **실제 자료 후보:** 공개 기록 사진·지도·신문 중 쓸 수 있을 것 같은 것(`archive-researcher` 가 확인)
 7. **필요한 자료:** 지도·장소 참고, 확인할 사실(⚠️), 위험 회피(실명 생략 등)
-8. **이미 있는 엔진으로 되는가:** 새로 만들 3D 세트·도식 목록과 대략의 작업량
+8. **이미 있는 엔진으로 되는가:** 새로 만들 3D 세트(film 키트: 사실적 인물 + Poly Haven 질감·HDRI·모델)·도식 목록과 대략의 작업량
 
 끝나면 `python3 scripts/topics.py set <slug> 기획됨` 하고, 메인 세션에 제목 후보·구성 요약·작업량을 보고한다.

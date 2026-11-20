@@ -18,6 +18,9 @@ const PAL = {
   manLight: { skin: "#c9b6a3", hair: "#3b3027", jacket: "#7d7266", trousers: "#6f655b", shoes: "#3a3029", shirt: "#e5ddd0", tie: "#7a4a3a" },
   // Clay world: everyone matte grey, a few values apart so clothes still read.
   clay: { skin: "#d3d0ca", hair: "#76736e", jacket: "#9b9892", trousers: "#8d8a85", shoes: "#6b6863", shirt: "#e2dfd9", tie: "#7f7c77" },
+  // Episode reconstructions (thumbkit/film.js): darker matte skin so the featureless face does not glow in daylight.
+  film: { skin: "#7f7368", hair: "#24201c", jacket: "#3a3733", trousers: "#45403a", shoes: "#1c1a18", shirt: "#c9c4bb", tie: "#3f3a36" },
+  filmWoman: { skin: "#84776c", hair: "#2e2620", jacket: "#4f4a45", trousers: "#4f4a45", shoes: "#211e1b", shirt: "#c4bfb6", tie: "#4f4a45", skirt: true },
   // The subject: the one figure in the channel's amber.
   subject: { skin: "#b9813c", hair: "#6e4818", jacket: "#a8692a", trousers: "#9c6226", shoes: "#5e3c17", shirt: "#c08a46", tie: "#8a5520" },
 };

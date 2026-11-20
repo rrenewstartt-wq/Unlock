@@ -1,0 +1,198 @@
+{
+ "episode": "ep01-somerton",
+ "test": true,
+ "rows": [
+  {
+   "area": "대본",
+   "item": "길이",
+   "target": "2~4분 (시험편)",
+   "value": "3.0분",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "분당 글자",
+   "target": "380~420",
+   "value": "408",
+   "ok": null,
+   "note": "읽기 속도 추정값 — 내레이션을 넣은 뒤 판정"
+  },
+  {
+   "area": "대본",
+   "item": "날짜로 시작",
+   "target": "첫 자막이 연·월·일",
+   "value": "1948년 12월 1일 오전 6시 30분",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "떡밥(걸린 햇수)",
+   "target": "60초 안",
+   "value": "37초 \"무려 73년이 걸렸습니다\"",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "되감기",
+   "target": "\"~전으로 되돌려 보겠습니다\"",
+   "value": "45초",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "질문형 문장 수",
+   "target": "3~6",
+   "value": 5,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "첫 질문 위치",
+   "target": "8~20%",
+   "value": "17%",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "어미 ~죠 비율",
+   "target": "30~60% (~습니다와 섞기)",
+   "value": "33% (습니다 18, 죠 9)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "같은 어미 연속",
+   "target": "3번 미만",
+   "value": "최대 2번",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "자막 길이",
+   "target": "28자 이하",
+   "value": "4줄 초과 예: \"주머니에서 나온 건 쓰지 않은 기차표, 버스표 한 장\"",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "소품 회수",
+   "target": "마지막 장면이 도입의 물건을 다시 꺼냄",
+   "value": "겹치는 말 없음",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "장면 수",
+   "target": "10개 이상",
+   "value": 10,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "화면",
+   "item": "3D 재연 비중",
+   "target": "35~65% 길이",
+   "value": "42%",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "화면",
+   "item": "사실적 3D(film 키트)",
+   "target": "3D 장면 100%",
+   "value": "3/4",
+   "ok": false,
+   "note": "나머지는 기본 도형 마네킹(world.js)"
+  },
+  {
+   "area": "화면",
+   "item": "실제 자료(기록 사진·지도·문서)",
+   "target": "3장면 이상 + 출처 대장",
+   "value": "0장면, 대장 없음",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "화면",
+   "item": "3D 에 '재현' 표기",
+   "target": "모든 3D 장면",
+   "value": "누락 없음",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "화면",
+   "item": "컷 길이(추정)",
+   "target": "중앙값 3~8초, 최대 12초",
+   "value": "중앙값 3.1초, 최대 4.2초",
+   "ok": true,
+   "note": "장면 파일로 추정. 렌더가 있으면 아래 실측을 본다"
+  },
+  {
+   "area": "소리",
+   "item": "내레이션",
+   "target": "본인 목소리 복제(docs/voice.md)",
+   "value": "없음",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "소리",
+   "item": "음악 베드",
+   "target": "있음 + 라이선스 기록",
+   "value": "없음",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "소리",
+   "item": "효과음",
+   "target": "화면 원인 있는 것만",
+   "value": "38개",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "사실",
+   "item": "⚠️ 남은 사실",
+   "target": "업로드 전 0",
+   "value": 2,
+   "ok": false,
+   "note": "1차 자료로 확인하거나 자막에서 뺀다"
+  },
+  {
+   "area": "썸네일",
+   "item": "완성 썸네일",
+   "target": "문구 검수 통과안 2~3개",
+   "value": "3개",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "메타",
+   "item": "업로드 정보(upload.json)",
+   "target": "제목(공식) + 한·일 태그 8개 이상",
+   "value": "제목 없음, 태그 0개",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "렌더",
+   "item": "렌더 실측",
+   "target": "화면 변화율·컷 길이·음량",
+   "value": "렌더 없음",
+   "ok": null,
+   "note": "npm run render 뒤 다시 실행"
+  }
+ ]
+}

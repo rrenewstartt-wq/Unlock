@@ -33,6 +33,8 @@ fi
 say "4/6 썸네일 3D 자산 (Poly Haven CC0 + Quaternius CC0) — thumbkit/assets.lock.json 대로 받고 sha256 검증"
 python3 scripts/thumb_assets.py restore
 
+python3 scripts/kit3d.py --all   # 영상 3D 장면용 자산을 각 에피소드 assets/kit3d/cache 로
+
 say "5/6 벤치마크 썸네일 (분석용, 커밋 안 함)"
 python3 scripts/fetch_benchmark.py
 

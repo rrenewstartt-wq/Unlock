@@ -17,7 +17,7 @@ import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
 export { THREE };
-const CACHE = '/thumbkit/cache';
+export const CACHE = '/thumbkit/cache';
 const texLoader = new THREE.TextureLoader();
 
 function loadTex(url, srgb) {

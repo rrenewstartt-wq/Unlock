@@ -101,6 +101,12 @@ def main():
             "transcript": transcript_stats(text, minutes) if text else None,
         })
     videos.sort(key=lambda v: v["upload_date"] or "")
+    out = base / "summary.json"
+    if out.exists():
+        prev = json.loads(out.read_text(encoding="utf-8")).get("count") or 0
+        if len(videos) < prev:
+            print(f"수집된 영상 {len(videos)}편 < 기존 요약 {prev}편 — 기존 summary.json 을 덮어쓰지 않습니다(봇 확인·네트워크 문제일 수 있음).")
+            return
     views = [v["views"] for v in videos if v["views"]]
     summary = {
         "handle": "@" + handle, "channel": channel, "count": len(videos),
@@ -109,7 +115,7 @@ def main():
         "title_pattern_counts": {k: sum(k in v["title_patterns"] for v in videos) for k in TITLE_PATTERNS},
         "videos": videos,
     }
-    (base / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
+    out.write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
     # Contact sheets for a person or Claude to look at (raw, not committed).
     thumbs = sorted(t for t in raw.glob("*.jpg") if not t.name.startswith(("UC", "thumbs-sheet")))
     if thumbs and shutil.which("ffmpeg"):

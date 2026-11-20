@@ -5,7 +5,8 @@
 Copies the engine (fonts, sound effects, grain, Three.js kit, build scripts, scene kit) and writes
 templates for the script, facts, SPEC and a placeholder scene per @scene in data/script.txt, so
 `python3 data/build_script.py && python3 build.py && npx hyperframes check` works right away.
-Case-specific 3D sets (beach.js, station.js) are not copied: build new ones from world.js.
+Case-specific 3D sets (beach.js, station.js) are not copied: build new ones with the film kit
+(thumbkit/film.js, copied by scripts/kit3d.py; see beach.js).
 """
 import json
 import pathlib
@@ -70,7 +71,14 @@ def main():
     (dst / "SPEC.md").write_text(
         f"# SPEC — {slug} 「{name}」\n\nGOAL / OUTPUT / TIME / LOOK / OBJECTS / MOTION / SHOTS / BANNED / QA 를 ep01 SPEC.md 처럼 채운다.\n"
         "룩·도식 원칙은 ../../docs/visual-style.md 를 따른다.\n", encoding="utf-8")
-    print(f"만들었습니다: {dst}\n다음: data/script.txt 와 data/facts.md 를 쓰고 → python3 data/build_script.py && python3 build.py")
+    (dst / "kit3d.json").write_text(json.dumps({"assets": ["figure:quaternius"]}) + "\n", encoding="utf-8")
+    import subprocess
+    subprocess.run([sys.executable, str(HERE / "scripts" / "kit3d.py"), str(dst)], check=True)
+    for d, readme in [("assets/archive", "# 실제 자료 출처 대장\n\n| 파일 | 무엇 | 출처 URL | 라이선스(근거) | 표기 문구 | 쓸 장면 | 주의 |\n|---|---|---|---|---|---|---|\n"),
+                      ("assets/music", "# 음악 라이선스\n\n| 파일 | 곡 | 출처 | 허가 근거 |\n|---|---|---|---|\n")]:
+        (dst / d).mkdir(parents=True, exist_ok=True)
+        (dst / d / ("SOURCES.md" if "archive" in d else "LICENSE.md")).write_text(readme, encoding="utf-8")
+    print(f"만들었습니다: {dst}\n다음: /make-episode 2단계(script-writer) — 기준 docs/quality-bar.md")
 
 
 if __name__ == "__main__":

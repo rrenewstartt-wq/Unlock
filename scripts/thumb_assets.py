@@ -100,10 +100,11 @@ def need(folder):
 
 
 def figures():
-    """Public free-download flow of quaternius.itch.io (no login). Keeps only the base male, textures stripped."""
+    """Public free-download flow of quaternius.itch.io (no login). Keeps the base male and female, textures stripped."""
     import tempfile, zipfile
     dst = CACHE / "figures"
-    if (dst / "Superhero_Male_FullBody.gltf").exists():
+    bodies = ["Superhero_Male_FullBody", "Superhero_Female_FullBody"]
+    if all((dst / f"{b}.gltf").exists() for b in bodies):
         print("✓ figures (이미 있음)"); return
     dst.mkdir(parents=True, exist_ok=True)
     tmp = pathlib.Path(tempfile.mkdtemp()); jar = str(tmp / "c.txt"); page = "https://quaternius.itch.io/universal-base-characters"
@@ -115,14 +116,15 @@ def figures():
     zpath = tmp / "ubc.zip"
     subprocess.run(["curl", "-sSfL", "--max-time", "900", "-o", str(zpath), f], check=True)
     z = zipfile.ZipFile(zpath); base = "Universal Base Characters[Standard]/Base Characters/Godot - UE/"
-    for n in ["Superhero_Male_FullBody.gltf", "Superhero_Male_FullBody.bin"]:
-        (dst / n).write_bytes(z.read(base + n))
-    g = json.loads((dst / "Superhero_Male_FullBody.gltf").read_text())
-    for k in ("images", "textures", "samplers"):
-        g.pop(k, None)
-    for m in g.get("materials", []):
-        p = m.get("pbrMetallicRoughness", {}); p.pop("baseColorTexture", None); p.pop("metallicRoughnessTexture", None); m.pop("normalTexture", None)
-    (dst / "Superhero_Male_FullBody.gltf").write_text(json.dumps(g))
+    for b in bodies:
+        for n in [f"{b}.gltf", f"{b}.bin"]:
+            (dst / n).write_bytes(z.read(base + n))
+        g = json.loads((dst / f"{b}.gltf").read_text())
+        for k in ("images", "textures", "samplers"):
+            g.pop(k, None)
+        for m in g.get("materials", []):
+            p = m.get("pbrMetallicRoughness", {}); p.pop("baseColorTexture", None); p.pop("metallicRoughnessTexture", None); m.pop("normalTexture", None)
+        (dst / f"{b}.gltf").write_text(json.dumps(g))
     (dst / "LICENSE_Quaternius.txt").write_bytes(z.read("Universal Base Characters[Standard]/License_Standard.txt"))
     zpath.unlink()
     credit("figure", "quaternius-universal-base-characters")
@@ -148,6 +150,8 @@ def lock():
     for page in (HERE / "episodes").glob("*/thumbnail/*.html"):
         for m in re.finditer(r"<!--\s*assets:(.*?)-->", page.read_text(encoding="utf-8"), re.S):
             wanted |= {x for x in m.group(1).split() if ":" in x}
+    for k in (HERE / "episodes").glob("*/kit3d.json"):   # 영상 3D 장면이 쓰는 자산 (scripts/kit3d.py)
+        wanted |= {x for x in json.loads(k.read_text(encoding="utf-8")).get("assets", []) if not x.startswith("figure:")}
     LOCK.write_text(json.dumps({"assets": sorted(wanted | {"figure:quaternius"}), "files": files}, indent=1) + "\n")
     print(f"{len(files)}개 파일 → {LOCK.relative_to(HERE)}")
 
