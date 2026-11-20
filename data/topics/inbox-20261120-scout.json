@@ -1,0 +1,939 @@
+{
+ "_meta": {
+  "scout": "case-scout",
+  "date": "2026-11-20",
+  "note": "경쟁 채널 분석(docs/competitor-report.md) 반영: 16~20분용 단서 8개 이상(scenes_hint 번호), 여행·섬·실종 hook +1, N년 만에(10년 이상), 국내 제외. 경쟁 채널 중복은 data/benchmark/competitors/raw/*.json 제목 grep(한국어 표기 여러 개). 403 등으로 막힌 페이지는 우회하지 않고 open_questions 에 적음. 유튜브는 접속하지 않음.",
+  "rejected": [
+   "펨브룩셔 해안길 부부 살인(존 쿠퍼, 1989→2011): 여행 부합하나 미스스한이야기가 다룸(51.6만) — 중복",
+   "크리스틴 스마트(1996→2022): 붉은실(7.6만)·바라신TV(130만)·썸머썸머가 다룸",
+   "나탈리 할러웨이(아루바): 붉은실이 다룸",
+   "후쿠이 여중생 사건(1986→2025): 피해자 미성년 + 미스스한이야기가 다룸",
+   "아시카가 사건(1990→2010): 피해자 4세 미성년",
+   "나고야 주부(1999→2025): 이미 covered, 재판 진행 중",
+   "가와사키 회사원 실종(2003→2025 체포): 재판 진행 중",
+   "린셰핑 이중살인(스웨덴, 2004→2020): 피해자 8세 포함 + 사건디코드가 다룸",
+   "토마스 크비크/아포야우레 텐트 살인: 미스스한이야기가 다룸",
+   "피터 팔코니오(호주 오지): 간격 4년 + 붉은실이 다룸",
+   "아자리아 체임벌린(딩고): 피해자 영아(미성년)"
+  ]
+ },
+ "candidates": [
+  {
+   "slug": "palmyra-atoll-graham-1974",
+   "name": "팔미라 환초 요트 부부 실종 — 무인도의 'Sea Wind' (1974, 미국령 팔미라)",
+   "aliases": [
+    "Palmyra Atoll murders",
+    "Mac and Muff Graham",
+    "And the Sea Will Tell",
+    "Sea Wind"
+   ],
+   "keys": [
+    "palmyra",
+    "팔미라",
+    "muff graham",
+    "mac graham",
+    "그레이엄",
+    "buck walker",
+    "벅 워커",
+    "sea wind",
+    "stephanie stearns"
+   ],
+   "region": "미국",
+   "years": {
+    "event": 1974,
+    "resolved": 1985,
+    "gap": 11
+   },
+   "logline": "1974년 하와이 남쪽 무인 환초 팔미라에서 요트 부부가 사라지고 이웃 배의 두 사람이 부부의 요트를 몰고 호놀룰루에 나타났지만 도난죄로만 처벌됐는데, 1981년 1월(실종 약 6년 반 뒤) 해변에서 아내의 두개골과 뼈가 발견돼 치과 기록으로 확인되고 남자는 아내 살해로 유죄를 받았다(남편 시신은 끝내 못 찾음).",
+   "hook": "무인도로 떠난 요트 부부, 6년 뒤 해변에서 뼈가 나왔다 — 11년 만에 풀린 미국 미제사건",
+   "focus_object": "뒤집힌 채 발견된 부부의 고무보트(Zodiac)와, 페인트를 덧칠하고 이름을 바꾼 요트 Sea Wind",
+   "scenes_hint": [
+    "1. 1974년 부부가 요트 Sea Wind 로 팔미라 환초 도착(호놀룰루 남쪽 약 1,200마일, 출처마다 거리 다름)",
+    "2. 워커·스턴스가 낡은 슬루프 Iola 로 도착, 배가 환초 근처에서 좌초",
+    "3. 1974년 8월 28~30일 부부 실종(스턴스 진술), 부부의 고무보트가 뒤집힌 채 발견",
+    "4. 9월 11일 Iola 를 침몰시키고 Sea Wind 를 몰고 하와이로",
+    "5. 하와이에서 요트를 다시 칠하고 이름을 바꿨지만 부부의 지인이 알아봄",
+    "6. 하와이 요트클럽에서 스턴스 체포, 워커는 알라와이 항에서 모터보트로 도주했다가 잡힘",
+    "7. 도난죄만 유죄(워커 10년, 스턴스 2년) — 실종은 기소 못 함",
+    "8. 1979년 7월 워커, 맥닐섬 연방교도소 탈옥",
+    "9. 1981년 1월 남아공 출신 관광객 부부가 해변에서 두개골·뼈 발견 → 치과 기록으로 아내 확인",
+    "10. 1981년 살인 기소, 애리조나에서 워커 재체포",
+    "11. 워커 살인 유죄(1985년 보도), 스턴스는 샌프란시스코 별도 재판에서 무죄(변호인 빈센트 부글리오시)",
+    "12. 2007년 가석방, 2010년 사망 / 남편은 끝내 못 찾음"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 4,
+    "sources": 4,
+    "visual": 5,
+    "novelty": 5,
+    "audience": 4,
+    "risk": 2
+   },
+   "risk_notes": "스테퍼니 스턴스는 살인 무죄 — 공범·관여를 암시하는 서술 금지, 도난죄 유죄 범위만. 워커는 아내(머프) 살해로만 유죄, 남편(맥) 살해는 판결 없음 → '부부를 살해'로 쓰지 않는다. 워커는 2010년 사망. 유골·화상 흔적 묘사는 도식으로 최소화. 경쟁 채널 27곳 제목에 '팔미라' 없음. 섬·여행 +1 반영.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/And_the_Sea_Will_Tell",
+    "https://archives.starbulletin.com/2007/07/13/news/story04.html",
+    "https://honoluluadvertiser.com/article/2010/Jun/02/ln/hawaii6020337.html",
+    "https://latitude38.com/lectronic/notorious-palmyra-murderer-freed",
+    "https://www.cruisingworld.com/destinations/scene-crime"
+   ],
+   "open_questions": [
+    "워커 살인 유죄 연도 1985 vs 1986, 스턴스 무죄 연도 — 판결문(9th Cir. 항소 기록) 확인",
+    "뼈와 함께 '알루미늄 상자'가 나왔다는 서술은 블로그 출처뿐 — 1차 확인 전 사용 금지",
+    "발견자 신원(남아공 관광객 부부 vs 다른 이름)이 출처마다 다름",
+    "팔미라까지 거리 1,200마일 vs 970마일",
+    "스턴스 현재 생존 여부",
+    "1981년 유골 발견 지점과 상태에 대한 공식 기록"
+   ]
+  },
+  {
+   "slug": "japan-1978-beach-couples",
+   "name": "1978년 여름 일본 해변 연인 실종 — 오바마·가시와자키·후키아게 (1978, 일본)",
+   "aliases": [
+    "北朝鮮による拉致",
+    "地村保志・浜本富貴恵",
+    "蓮池薫・奥土祐木子",
+    "市川修一・増元るみ子"
+   ],
+   "keys": [
+    "拉致",
+    "납치",
+    "지무라",
+    "地村",
+    "하스이케",
+    "蓮池",
+    "오바마",
+    "小浜",
+    "가시와자키",
+    "柏崎",
+    "후키아게",
+    "吹上",
+    "신광수",
+    "辛光洙"
+   ],
+   "region": "일본",
+   "years": {
+    "event": 1978,
+    "resolved": 2002,
+    "gap": 24
+   },
+   "logline": "1978년 7~8월 일본 해안 세 곳에서 데이트하러 나간 연인 세 쌍이 차 열쇠와 자전거만 남기고 사라졌고, 24년 뒤인 2002년 10월 15일 그중 두 쌍이 북한에서 돌아오면서 북한 공작원에 의한 납치였음이 공식 확인됐다(세 번째 쌍은 돌아오지 못함).",
+   "hook": "데이트하러 해변에 간 연인들이 사라졌다 — 24년 만에 돌아와 밝힌 일본 실종사건",
+   "focus_object": "해안 전망대에 열쇠가 꽂힌 채 남은 경트럭 / 도서관 앞에 세워진 자전거",
+   "scenes_hint": [
+    "1. 1978년 7월 7일 후쿠이현 오바마: 23세 남성이 약혼녀를 만나러 경트럭을 몰고 나감",
+    "2. 해안 전망대에서 열쇠가 꽂힌 채 발견된 트럭",
+    "3. 7월 31일 니가타현 가시와자키: 20세 남성이 '금방 온다'며 자전거로 외출, 22세 여성은 퇴근 후 그를 만난다고 말함",
+    "4. 해변에서 수백 m 떨어진 공공도서관 앞의 자전거",
+    "5. 8월 12일 가고시마현 후키아게 해변으로 간 또 한 쌍 — 지금까지 행방불명",
+    "6. 경찰이 비슷한 사건들을 서로 비교한 수사(경찰청 페이지 문구)",
+    "7. 2002년 10월 15일 다섯 명이 24년 만에 귀국",
+    "8. 귀국 후 혼인신고로 성이 바뀐 두 여성(공식 기록)",
+    "9. 실행범으로 지목된 공작원들에 대한 체포영장·인터폴 수배, 북한에 인도 요청",
+    "10. 북한 측 주장: 후키아게 두 사람은 심장마비로 사망 — 일본은 인정 안 함",
+    "11. 해안 지도 위 세 지점과 날짜 — 5주 사이"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 4,
+    "sources": 5,
+    "visual": 5,
+    "novelty": 4,
+    "audience": 5,
+    "risk": 3
+   },
+   "risk_notes": "국가 범죄·외교 현안이라 정치적 논평을 넣지 않고 경찰청·외무성 공식 기록 범위로만. 귀국자 4명은 생존 공인에 가까우나 사생활(북한 생활)은 본인 공개 발언·공식 기록만. 체포영장 대상 공작원은 일본 법원 판결이 없으므로 '경찰이 체포영장을 발부한 인물'로만. 미귀국 피해자 가족 감정 배려, 사망 주장은 '북한 측 주장'으로 명시. 경쟁 채널 27곳 제목에서 이 연인 사건은 찾지 못함('납치' 제목 34건 모두 다른 사건). 해변·데이트·실종 +1 반영.",
+   "sources": [
+    "https://www.npa.go.jp/keibi/gaiji1/abd_e/fukui_e.html",
+    "https://www.npa.go.jp/keibi/gaiji1/abd_e/niigata_e.html",
+    "https://www.npa.go.jp/keibi/gaiji1/abd_e/kagoshima_e.html",
+    "https://www.mofa.go.jp/region/asia-paci/n_korea/abduct.html",
+    "https://www.japantimes.co.jp/news/2013/10/16/national/ex-abductees-mark-11th-anniversary-of-return-from-n-korea/",
+    "https://rachi.go.jp/en/2024english.pdf"
+   ],
+   "open_questions": [
+    "가시와자키 실종일: 경찰청 7월 31일 vs 영어 위키 7월 19일",
+    "2002년 9월 정상회담에서 북한이 납치를 인정한 정확한 문구 — 외무성 원문 확인",
+    "신광수의 한국 내 판결 이력과 일본 영장 발부일",
+    "한 편에 세 쌍을 다 다룰지, 한 쌍(오바마)에 집중할지 — 기획 결정",
+    "실행 경로(배·상륙 지점)는 공식 기록 확인 전 재연 금지"
+   ]
+  },
+  {
+   "slug": "orange-socks-georgetown-1979",
+   "name": "'오렌지 양말' 데브라 잭슨 — I-35 배수로의 여인 (1979, 미국 텍사스)",
+   "aliases": [
+    "Orange Socks",
+    "Debra Louise Jackson"
+   ],
+   "keys": [
+    "orange socks",
+    "오렌지 양말",
+    "오렌지삭스",
+    "debra jackson",
+    "데브라 잭슨",
+    "henry lee lucas",
+    "헨리 리 루카스",
+    "georgetown",
+    "조지타운"
+   ],
+   "region": "미국",
+   "years": {
+    "event": 1979,
+    "resolved": 2019,
+    "gap": 40
+   },
+   "logline": "1979년 10월 텍사스 I-35 고속도로 배수로에서 주황색 양말만 신은 채 발견된 여성은 연쇄 '자백범' 헨리 리 루카스가 자백해 사형 선고까지 받았지만 그 자백은 의심받았고, 40년 만인 2019년 8월 DNA 계보와 동생의 DNA로 실종 신고조차 안 된 23세 데브라 잭슨으로 확인됐다.",
+   "hook": "주황색 양말만 남은 여인, 사형수는 거짓 자백을 했다 — 40년 만에 이름을 찾은 미국 미제사건",
+   "focus_object": "주황색 양말 한 켤레와 오클라호마 헨리에타 모텔 성냥갑",
+   "scenes_hint": [
+    "1. 1979년 10월 31일 무렵 텍사스 조지타운 I-35 배수로 발견",
+    "2. 현장의 오클라호마 헨리에타 호텔 성냥갑 → 히치하이커·떠돌이 가설",
+    "3. 은반지(전복·자개 장식), 턱 아래 흉터, 빠진 치아 두 개 — 신원 단서",
+    "4. 1983년 헨리 리 루카스 자백, 물증 없음 → 1984년 사형 선고",
+    "5. 루카스 철회, '당시 플로리다에서 일하고 있었다'는 보도 — 이동하려면 평균 시속 70마일 무정차",
+    "6. 1998년 주지사 조지 W. 부시가 사형을 종신형으로 감형(유죄 의심)",
+    "7. 2001년 루카스 옥중 사망",
+    "8. 2001·2015년 다른 실종자와의 대조 실패(DNA로 배제)",
+    "9. 2016년 10월 31일 NCMEC 새 몽타주, America's Most Wanted 방송",
+    "10. 2018~2019년 반지·양말 출처 조사, 양말·손톱에서 DNA",
+    "11. DNA Doe Project 가 사촌 후보를 찾고, 수정 몽타주를 본 동생이 DNA 제출",
+    "12. 2019년 8월 6일 공식 확인 — 실종 신고된 적 없음, 애머릴로 라마다 호텔 근무 이력"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 3,
+    "sources": 4,
+    "visual": 4,
+    "novelty": 5,
+    "audience": 5,
+    "risk": 2
+   },
+   "risk_notes": "루카스(2001년 사망)의 유죄는 형식상 유지되지만 의심이 크다 — '범인'이라 단정하지도, '무고'라 단정하지도 않고 '자백했고 유죄 판결이 남아 있으나 의심받는다'로. 살해 범인은 미확정(보안관실 수사 중) → 다른 인물 추측 금지. 성폭행 흔적은 언급만, 묘사 금지. 동생 등 유족 실명 쓰지 않음. 경쟁 채널 27곳 제목에 '오렌지·루카스' 없음. 히치하이크·여행 맥락 +1 반영.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Murder_of_Debra_Jackson",
+    "https://dnadoeproject.org/?p=1013",
+    "https://www.ajc.com/news/national/texas-orange-socks-murder-victim-identified-after-years-anonymity/9tTEYbI4UzBAPAQT8IEHyH/",
+    "https://fox7austin.com/news/orange-socks-cold-case-murder-debra-jackson-williamson-county-missing-in-texas",
+    "https://www.ksl.com/article/46612753/texas-police-identify-orange-socks-woman-dead-for-40-years"
+   ],
+   "open_questions": [
+    "윌리엄슨 카운티 보안관실 2019년 발표 원문 미확인(언론 인용만)",
+    "루카스 '플로리다 근무' 근거 문서(1986년 텍사스 법무장관 보고서?) 원문 미확인",
+    "신원 확인 계기: 동생의 제보 vs DNA Doe Project 계보 — 순서 확인",
+    "자백 연도 1982 vs 1983 보도 엇갈림"
+   ]
+  },
+  {
+   "slug": "matsubase-kumamoto-1985",
+   "name": "마쓰바세 사건 — '태웠다'던 셔츠 소매 (1985, 일본 구마모토)",
+   "aliases": [
+    "松橋事件"
+   ],
+   "keys": [
+    "松橋",
+    "마쓰바세",
+    "마츠바세",
+    "matsubase",
+    "宮田浩喜",
+    "宇城"
+   ],
+   "region": "일본",
+   "years": {
+    "event": 1985,
+    "resolved": 2019,
+    "gap": 34
+   },
+   "logline": "1985년 구마모토 마쓰바세에서 남성이 살해되자 장기 친구가 '칼에 셔츠 소매를 감아 찌르고 태웠다'고 자백해 징역 13년이 확정됐지만, 검찰 창고에 그 '태운' 천이 멀쩡히 보관돼 있었다는 사실이 드러나 34년 만인 2019년 3월 28일 재심 무죄가 확정됐다.",
+   "hook": "태워 버렸다던 셔츠 소매가 검찰 창고에 있었다 — 34년 만에 뒤집힌 일본 살인사건",
+   "focus_object": "자백에서 '불태웠다'던 셔츠 왼쪽 소매 천 조각",
+   "scenes_hint": [
+    "1. 1985년 1월 5일 밤 장기 모임에서 피해자와 A의 말다툼",
+    "2. 1월 8일 피해자(59) 자택에서 목에 자상을 입은 시신 발견",
+    "3. 장기간의 임의 조사 끝에 1월 20일 자백·체포: 작은 칼에 셔츠 소매 천을 감고, 천과 목장갑은 태웠다",
+    "4. 첫 공판에서 인정 → 이후 전면 부인",
+    "5. 1986년 12월 징역 13년, 1990년 2월 확정, 1999년 가석방",
+    "6. 1997년 변호인단이 검찰 보관 증거에서 '태웠다던' 천 조각 발견 — 기소 직후부터 압수돼 있었음",
+    "7. 법의학 감정: 흉기로 지목된 칼로는 상처 일부가 만들어질 수 없다",
+    "8. 2012년 치매가 진행된 A를 대신해 성년후견인이 재심 청구",
+    "9. 2016년 6월 재심 개시 → 2017년 후쿠오카고법, 2018년 최고재판소가 검찰 항고 기각",
+    "10. 2019년 2월 재심 첫 공판, 검찰 구형 포기, 자백조서 등 142점 증거 신청 각하",
+    "11. 2019년 3월 28일 무죄, 쌍방 상소 포기로 확정 — 누워서 소식을 들은 A",
+    "12. 2020년 10월 A 사망 / 국가배상(2025 1심, 2026년 7월 2심 현 책임 인정)"
+   ],
+   "scores": {
+    "hook": 4,
+    "resolution": 5,
+    "sources": 4,
+    "visual": 4,
+    "novelty": 5,
+    "audience": 4,
+    "risk": 2
+   },
+   "risk_notes": "재심 무죄 확정 사건. A의 실명은 보도에 나오지만 기본은 'A' 또는 '미야타 씨'로 최소화하고 유족 실명은 쓰지 않음. 피해자 실명 불필요. 진범은 미확정 — 다른 인물 추측 금지. 수사관 개인 실명 비판 금지(판결이 지적한 '조사 방식'으로). 경쟁 채널 27곳 제목에 '마쓰바세' 없음. 여행·섬 요소 없음(가산 없음).",
+   "sources": [
+    "https://ja.wikipedia.org/wiki/松橋事件",
+    "https://kumanichi.com/articles/2018348",
+    "https://kumanichi.com/articles/1556332",
+    "https://ryukyushimpo.jp/editorial/entry-896937.html",
+    "https://niben.jp/niben/pdf/nf202503_18.pdf"
+   ],
+   "open_questions": [
+    "재심 판결문 원문(구마모토지법 2019.3.28) 확인",
+    "천 조각 발견 경위(검찰 증거 열람의 구체 날짜·누가) 1차 확인",
+    "자백에서 칼을 버린 장소 등 세부 — 재연 전 판결문 대조",
+    "장면 수: 실내·법정 위주라 3D 세트가 단조로울 수 있음"
+   ]
+  },
+  {
+   "slug": "breckenridge-hitchhikers-1982",
+   "name": "브레켄리지 히치하이커 두 여성 — 눈보라 속 주황색 덧신 한 짝 (1982, 미국 콜로라도)",
+   "aliases": [
+    "Annette Schnee",
+    "Barbara 'Bobbie Jo' Oberholtzer",
+    "Alan Lee Phillips"
+   ],
+   "keys": [
+    "breckenridge",
+    "브레켄리지",
+    "hoosier pass",
+    "후지어 고개",
+    "oberholtzer",
+    "오버홀처",
+    "annette schnee",
+    "아네트 슈니",
+    "alan phillips",
+    "앨런 필립스"
+   ],
+   "region": "미국",
+   "years": {
+    "event": 1982,
+    "resolved": 2022,
+    "gap": 40
+   },
+   "logline": "1982년 1월 6일 콜로라도 스키 마을 브레켄리지에서 서로 모르는 두 여성이 같은 날 히치하이크를 하다 사라져 해발 11,542피트 고개와 개울에서 총에 맞은 채 발견됐고, 둘을 잇는 주황색 덧신 한 짝과 장갑의 혈흔이 40년 만에 유전자 계보와 버려진 냅킨으로 한 남자를 지목해 2022년 9월 유죄 평결이 나왔다.",
+   "hook": "같은 날 사라진 두 히치하이커, 고개 위 주황색 양말 한 짝 — 39년 만에 잡힌 미국 미제사건",
+   "focus_object": "두 사건을 이어 준 주황색 덧신(bootie) 한 짝",
+   "scenes_hint": [
+    "1. 1982년 1월 6일 오후 4시 30분 21세 여성이 약국 근처에서 마지막 목격",
+    "2. 같은 날 오후 7시 30분 승진 축하 후 29세 여성이 퇴근길 히치하이크",
+    "3. 목장에서 면허증·지갑, 눈 속에서 배낭과 피 묻은 장갑·휴지",
+    "4. 그날 밤 과넬라 고개에서 SOS 불빛 — 소방대장이 눈에 갇힌 남자(눈썹 위 상처)를 구조",
+    "5. 1월 7일 후지어 고개(11,542피트) 정상 눈더미에서 29세 여성 발견, 근처에 주인 없는 주황 덧신",
+    "6. 1월 8일 두 번째 실종 신고 — 같은 날 사라졌다는 걸 알게 됨",
+    "7. 7월 3일 새크라멘토 개울에서 21세 여성 발견, 남은 주황 덧신이 짝으로 맞음",
+    "8. 덧신 DNA: 안쪽 한 사람, 바깥쪽 다른 사람 — 같은 차에 있었다는 가설",
+    "9. 1973년 히치하이크 여성 폭행 자백 기록(6개월 복역), 2005년 크라임스토퍼스 제보는 묻힘",
+    "10. 2021년 1월 유전자 계보 회사가 형제 두 명을 후보로",
+    "11. 우체국 쓰레기통의 패스트푸드 봉투, 냅킨 침 DNA가 장갑 혈흔과 일치 → 2021년 2월 24일 체포",
+    "12. 2022년 9월 15일 8개 혐의 유죄, 종신형 두 번 / 2023년 2월 27일 옥중 사망"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 3,
+    "sources": 4,
+    "visual": 5,
+    "novelty": 5,
+    "audience": 5,
+    "risk": 3
+   },
+   "risk_notes": "필립스는 선고 약 4개월 뒤인 2023년 2월 27일 옥중 사망. 항소를 예고했고, 콜로라도는 직접 항소 중 피고인이 사망하면 유죄가 처음부터 소멸하는 'abatement ab initio' 원칙을 써 왔다 → 유죄가 법적으로 남아 있는지 확인 전에는 '배심이 유죄 평결'까지만 단정. 재판에서 변호인이 피해자 남편을 지목했음 — 남편을 의심하는 연출 금지, 유족 실명 최소화. 성폭행 의심 언급 금지 수준. 경쟁 채널 27곳 제목에 '브레켄리지' 없음(델피 '콜로라도' 1건은 다른 사건). 히치하이크·스키 마을 +1 반영.",
+   "sources": [
+    "https://www.cbsnews.com/news/annette-schnee-bobbie-jo-oberholtzer-colorado-murders-orange-socks-connected-1982-cold-cases/",
+    "https://www.cbsnews.com/colorado/news/alan-lee-phillips-dies-murdered-annette-schnee-barbara-bobbi-jo-oberholtzer-colorado-near-breckenridge-cold-case",
+    "https://coloradosun.com/2022/09/16/alan-lee-phillips-convicted/",
+    "https://denvergazette.com/news/crime/alan-lee-phillips-convicted-of-cold-case-killings-near-breckenridge/article_4c464d84-3612-11ed-af29-03a00e4f582f.html",
+    "https://www.nbcnews.com/news/us-news/colorado-man-71-convicted-1982-slayings-2-women-rcna48114"
+   ],
+   "open_questions": [
+    "항소 제기 여부와 사망 후 유죄의 법적 상태(abatement 적용 여부) — 파크 카운티 법원 기록 확인 필수",
+    "두 여성이 모두 히치하이크였는지(출처 엇갈림)",
+    "SOS 구조 남자의 상처·트럭 진술은 CBS 보도 기준 — 재판 증언 기록 확인",
+    "hook 의 '39년 만에'는 체포(2021) 기준, years.gap 40 은 유죄 평결(2022) 기준"
+   ]
+  },
+  {
+   "slug": "otzi-iceman-1991",
+   "name": "아이스맨 외치 — 5,300년 된 살인사건 (1991 발견, 이탈리아·오스트리아 국경 알프스)",
+   "aliases": [
+    "Ötzi",
+    "Similaun Man",
+    "Der Mann aus dem Eis"
+   ],
+   "keys": [
+    "otzi",
+    "ötzi",
+    "외치",
+    "아이스맨",
+    "iceman",
+    "similaun",
+    "tisenjoch",
+    "외츠탈"
+   ],
+   "region": "유럽",
+   "years": {
+    "event": 1991,
+    "resolved": 2001,
+    "gap": 10
+   },
+   "logline": "1991년 9월 알프스 해발 3,210m에서 독일인 등산객 부부가 발견한 얼음 속 남자는 약 5,300년 전 사람으로 밝혀졌고, 발견 10년 뒤인 2001년 X선에서 왼쪽 어깨에 박힌 화살촉이 나와 '사고사'가 아닌 살인이었음이 드러났다(범인은 영원히 미상).",
+   "hook": "등산객이 빙하에서 찾은 남자, 어깨에 화살촉이 있었다 — 5,300년 만에 밝혀진 살인",
+   "focus_object": "X선에 찍힌 왼쪽 어깨의 돌 화살촉",
+   "scenes_hint": [
+    "1. 1991년 9월 19일 티젠요흐 고개 3,210m, 등산객 부부가 얼음 밖으로 나온 시신 발견",
+    "2. 9월 23일 고고학자 없이 얼음에서 꺼냄(장비 훼손)",
+    "3. 국경 문제: 10월 2일 측량, 이탈리아 쪽으로 92.56m",
+    "4. 9월 24일 구리 도끼 형태로 '최소 4천 년' 추정 → 약 5,300년 전",
+    "5. 2001년 X선·CT에서 왼쪽 어깨 화살촉, 옷에 같은 자리 구멍",
+    "6. 오른손 엄지 밑 뼈까지 닿은 아물지 않은 상처 — 죽기 직전 싸움",
+    "7. 머리 외상",
+    "8. 2009·2018년 위 내용물: 죽기 두 시간 안쪽에 아이벡스 고기·밀 식사 → 쫓기던 중이 아니었다",
+    "9. 신선한 꽃가루 → 봄~초여름에 사망",
+    "10. 값비싼 구리 도끼(2017년 남부 토스카나산 구리)가 그대로 남음 → 강도 아님",
+    "11. 2014년 박물관 의뢰로 뮌헨 경찰 수사관 알렉산더 호른의 프로파일: 쉬던 중 뒤에서 원거리 사격, 개인적 갈등",
+    "12. 61개 문신, 2003년 '다른 사람들의 혈흔' 주장(논쟁)",
+    "13. 발견자 보상금 분쟁, 2004년 헬무트 지몬 사망, 2008년 합의"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 3,
+    "sources": 4,
+    "visual": 5,
+    "novelty": 3,
+    "audience": 4,
+    "risk": 1
+   },
+   "risk_notes": "생존 관련자·판결 없음 — 법적 위험 거의 없음. '저주' 이야기는 근거 없는 괴담이라 쓰지 않거나 괴담으로 명시. 호른의 프로파일은 한 수사관의 분석이지 확정 결론이 아님을 밝힐 것. 2003년 타인 혈흔 주장은 논쟁 중으로. 경쟁 채널 27곳 제목엔 없지만(‘아이스맨’ 1건은 마피아 쿠클린스키) 과학·역사 채널에서 널리 다룬 소재라 novelty 3. 형식상 '미제사건'과 거리가 있어 채널 톤과 맞는지 기획 판단 필요. 등산·산 +1 반영.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/%C3%96tzi",
+    "https://www.history.com/news/cracking-the-worlds-oldest-cold-case",
+    "https://www.ctvnews.ca/sci-tech/detective-discusses-iceman-murder-clues-in-coldest-case-of-all-1.3352502",
+    "https://www.livescience.com/56199-otzi-iceman-killed-by-sneak-attack.html",
+    "https://archaeology.org/news/2016/09/26/160926-otzi-murder-theory/"
+   ],
+   "open_questions": [
+    "사우스티롤 고고학박물관 공식 자료(iceman.it) 직접 확인",
+    "화살촉 발견자(Paul Gostner 등) 이름·날짜를 논문으로 확인",
+    "'N년 만에' 숫자를 10년(발견→화살촉)으로 쓸지 5,300년으로 쓸지 — 제목 공식과 사실의 균형",
+    "한국 유튜브(경쟁 27곳 밖) 중복 정도 미확인"
+   ]
+  },
+  {
+   "slug": "iceland-gudmundur-geirfinnur-1974",
+   "name": "아이슬란드 두 남자 실종과 '레이캬비크 6인' (1974, 아이슬란드)",
+   "aliases": [
+    "Guðmundar- og Geirfinnsmálið",
+    "Guðmundur and Geirfinnur case",
+    "Reykjavík Six"
+   ],
+   "keys": [
+    "gudmundur",
+    "guðmundur",
+    "geirfinnur",
+    "게이르핀누르",
+    "구드뮌뒤르",
+    "reykjavik six",
+    "레이캬비크",
+    "keflavik",
+    "케플라비크",
+    "erla bolladottir"
+   ],
+   "region": "유럽",
+   "years": {
+    "event": 1974,
+    "resolved": 2018,
+    "gap": 44
+   },
+   "logline": "1974년 아이슬란드에서 18세 청년이 밤길에, 32세 남성이 전화 한 통을 받고 항구 카페로 나간 뒤 사라졌고, 시신도 물증도 없이 기억이 없다는 젊은이 여섯 명이 장기 독방 조사 끝에 자백해 유죄를 받았지만, 44년 만인 2018년 9월 27일 대법원이 다섯 명에게 무죄를 선고했다.",
+   "hook": "시신도 기억도 없이 자백한 여섯 명 — 44년 만에 무죄가 나온 아이슬란드 실종사건",
+   "focus_object": "시동 열쇠가 꽂힌 채 케플라비크 항구 카페 앞에 남은 차",
+   "scenes_hint": [
+    "1. 1974년 1월 26일 18세 청년이 하프나르피외르뒤르까지 약 10km를 걸어서 귀가하다 실종 — 차에 치일 뻔한 모습이 마지막",
+    "2. 11월 19일 32세 남성이 집에서 전화를 받고 케플라비크 항구 카페로 운전",
+    "3. 열쇠를 꽂아 둔 차만 남음, 수색으로 시신 못 찾음",
+    "4. 언론·여론 압박 속 살인 수사 개시",
+    "5. 여섯 명의 자백 — 범행 기억이 없는 채로 서명, 독방·진정제·수면 박탈 보고",
+    "6. 독방 기간 숫자 카운터: 242일, 600일 이상, 655일, 총 1,533일(구금)",
+    "7. 1976년 무고한 남성 등 4명이 진술 때문에 105일 독방",
+    "8. 유죄 판결(살해·은닉·위증)",
+    "9. 2014년 BBC 라디오, 심리학자 기슬리 구드욘손의 '기억 불신 증후군'",
+    "10. 2013 경찰 보고서, 2016년 '세 남자가 케플라비크에서 배에 탔다'는 새 진술",
+    "11. 2017년 2월 24일 재심위원회 권고 → 2018년 2월 검찰이 무죄 요청",
+    "12. 2018년 9월 27일 대법원 5명 무죄, 정부 사과 / 2020년 보상, 2022년 위증 유죄 여성에게도 배상·사과"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 4,
+    "sources": 4,
+    "visual": 4,
+    "novelty": 5,
+    "audience": 3,
+    "risk": 2
+   },
+   "risk_notes": "무죄가 확정된 다섯 명과 위증 유죄가 남은 에를라는 실명 공인에 가깝지만 '범인 같았다'는 연출 금지. 두 실종의 진상은 여전히 미상 — 2016년 새 진술의 '세 남자'는 이름·추측 금지. 고문 서술은 보고된 표현(독방·진정제·수면 박탈) 그대로만. 경쟁 채널 27곳 제목에 없음. 실종 +1 반영, 아이슬란드라 audience 3.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Gu%C3%B0mundur_and_Geirfinnur_case",
+    "https://icelandmonitor.mbl.is/news/news/2018/09/27/all_found_innocent_in_gudmundur_and_geirfinns_case_",
+    "https://www.icelandreview.com/news/politics/compensation-awarded-in-gudmundur-and-geirfinnur-case/",
+    "https://www.icelandreview.com/news/society/erla-receives-compensation-and-apology-over-70s-murder-investigation/",
+    "https://iacsi.hi.is/issues/2018_volume_12/3_article_vol_12.pdf"
+   ],
+   "open_questions": [
+    "대법원 2018년 판결문 원문(아이슬란드어) 확인",
+    "보상 총액: 815백만 ISK(위키) vs 774백만 ISK(다른 출처) 엇갈림",
+    "점토 두상('Leirfinnur'), 독일 수사관 칼 쉬츠 관여 — 이번 출처에서 확인 못 함",
+    "원 유죄 판결 연도(1977 지법, 1980 대법원으로 알려짐) 미확인",
+    "1,533일이 독방인지 전체 구금인지"
+   ]
+  },
+  {
+   "slug": "van-cuylenborg-cook-1987",
+   "name": "캐나다 연인 시애틀행 심부름 — 페리 표와 커피컵 (1987, 미국 워싱턴주)",
+   "aliases": [
+    "Tanya Van Cuylenborg",
+    "Jay Cook",
+    "William Earl Talbott II"
+   ],
+   "keys": [
+    "van cuylenborg",
+    "반 카일런보그",
+    "jay cook",
+    "제이 쿡",
+    "talbott",
+    "탤벗",
+    "high bridge",
+    "bellingham",
+    "벨링엄"
+   ],
+   "region": "미국",
+   "years": {
+    "event": 1987,
+    "resolved": 2019,
+    "gap": 32
+   },
+   "logline": "1987년 11월 캐나다 밴쿠버섬의 18세·20세 연인이 가족 심부름으로 밴을 몰고 시애틀로 갔다가 각각 시신으로 발견됐고, 31년 뒤 유전자 계보 분석이 하루 만에 한 트럭 운전사를 지목해 그가 떨어뜨린 커피컵 DNA로 체포, 2019년 6월 유죄 평결이 났다.",
+   "hook": "심부름 가던 캐나다 연인이 사라졌다 — 31년 만에 커피컵 하나로 잡힌 미국 미제사건",
+   "focus_object": "트럭에서 떨어진 종이 커피컵 / 모든 현장에 있던 케이블타이",
+   "scenes_hint": [
+    "1. 1987년 11월 18일 밴쿠버섬에서 부모의 밴으로 출발, 시애틀에서 보일러 부품 받아 오기(밴에서 잘 계획)",
+    "2. 브레머턴-시애틀 페리 표(11월 18일 오후 10시 16분 찍힘)가 밴에서 발견",
+    "3. 11월 19일 두 가족 실종 신고",
+    "4. 11월 24일 스캐짓 카운티 도랑에서 여성 발견",
+    "5. 11월 25일 벨링엄 주점 현관 밑에서 지갑·밴 열쇠·탄약·수술용 장갑·케이블타이",
+    "6. 같은 날 벨링엄 시내 주차장에서 밴 — 바지(핵심 증거)와 케이블타이",
+    "7. 11월 26일 약 70마일 떨어진 하이브리지 아래 남성 발견",
+    "8. 12월 범인을 자처한 협박 편지(나중에 무관으로 배제)",
+    "9. 1995년 미제팀, 2003년 DNA 'Individual A' CODIS 등록 무응답",
+    "10. 2018년 4월 골든스테이트 킬러 체포에 자극 → 파라본·CeCe Moore 가계도, 하루 만에 후보",
+    "11. 5월 8일 미행 중 트럭에서 떨어진 커피컵 → 5월 9일 일치, 체포",
+    "12. 2019년 6월 28일 유죄 → 2021년 항소법원 파기 → 2022년 12월 주대법원 9:0 복원 → 2024년 2월 항소법원 유지"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 4,
+    "sources": 5,
+    "visual": 5,
+    "novelty": 2,
+    "audience": 5,
+    "risk": 3
+   },
+   "risk_notes": "경쟁 채널 사건대장이 다룸('아버지의 심부름으로 시애틀로 향해 살해된 커플…', 조회수 2.7만) → novelty 2. 탤벗은 무죄 주장, 2024년 항소법원 판결 뒤 주대법원 재심리 청원 결과 미확인 → '진행 중 절차 없음' 확인 전엔 판결 단계까지만 서술. 성폭행 요소(바지의 DNA)는 사실만 짧게, 남성 피해자 시신 상태 묘사 금지. 여행·이동 +1 반영.",
+   "sources": [
+    "https://www.cbsnews.com/news/tanya-van-cuylenborg-jay-cook-cold-case-timeline/",
+    "https://www.heraldnet.com/news/high-court-reinstates-guilty-verdicts-in-1987-murders-of-canadian-pair/",
+    "https://vancouverisland.ctvnews.ca/u-s-court-reinstates-guilty-verdicts-in-1987-killings-of-vancouver-island-couple-1.6208022",
+    "https://globalnews.ca/news/8429510/murder-conviction-reversed-cold-case-bc-couple-washington-state-william-talbott/",
+    "https://www.courts.wa.gov/content/petitions/102876-8 Petition for Review.pdf"
+   ],
+   "open_questions": [
+    "2024년 항소법원 판결 후 주대법원 재심리 청원(102876-8) 결과",
+    "페리 표 시각은 HeraldNet 기준 — 재판 기록 확인",
+    "탤벗 현재 수감·생존 상태",
+    "hook 의 '31년 만에'는 체포(2018) 기준, years.gap 32 는 유죄 평결(2019) 기준"
+   ]
+  },
+  {
+   "slug": "fukawa-ibaraki-1967",
+   "name": "후카와 사건 — 자백만으로 29년 옥살이 (1967, 일본 이바라키)",
+   "aliases": [
+    "布川事件"
+   ],
+   "keys": [
+    "布川",
+    "후카와",
+    "fukawa",
+    "桜井昌司",
+    "杉山卓男",
+    "利根町"
+   ],
+   "region": "일본",
+   "years": {
+    "event": 1967,
+    "resolved": 2011,
+    "gap": 44
+   },
+   "logline": "1967년 이바라키현 후카와에서 혼자 살던 62세 목수가 살해되자 근처에서 목격된 20대 두 남자가 별건으로 체포돼 자백, 물증 없이 무기징역이 확정돼 29년을 복역했지만, 숨겨졌던 편집 흔적의 자백 녹음과 현장 모발 감정 등이 드러나 44년 만인 2011년 5월 24일 재심 무죄가 났다.",
+   "hook": "물증 하나 없이 29년을 감옥에서 — 44년 만에 무죄가 난 일본 살인사건",
+   "focus_object": "여러 군데 편집된 흔적이 있는 자백 녹음테이프",
+   "scenes_hint": [
+    "1. 1967년 8월 30일 도네마치 후카와, 혼자 살던 목수(62) 교살체 발견, 집이 뒤져졌으나 도난 확인 안 됨",
+    "2. 그날 밤 집 근처 '수상한 두 사람' 목격 진술",
+    "3. 1967년 10월 별건 체포 → 10월 15~17일 한 사람의 자백이 다른 사람을 끌어들임",
+    "4. 1970년 무기징역 → 1973 항소 기각 → 1978년 7월 3일 최고재판소 확정",
+    "5. 1983년 1차 재심 청구 기각",
+    "6. 1996년 11월 두 사람 가석방(29년 복역)",
+    "7. 2001년 2차 재심 청구 — 검찰이 숨겨 온 자백 녹음테이프(편집 흔적)",
+    "8. '현장에서 본 것은 그 두 사람이 아니다'라는 미공개 진술",
+    "9. 현장 모발 감정: 두 사람 누구와도 불일치",
+    "10. 2005년 재심 개시 → 2008 고법 → 2009년 최고재판소 확정",
+    "11. 2011년 5월 24일 무죄, 검찰 상소 포기",
+    "12. 국가배상 2019년 1심 약 7,600만 엔 → 2021년 고법 약 7,400만 엔 확정 / 2025년 무죄 판결 관보 누락 발견"
+   ],
+   "scores": {
+    "hook": 4,
+    "resolution": 5,
+    "sources": 4,
+    "visual": 3,
+    "novelty": 4,
+    "audience": 4,
+    "risk": 2
+   },
+   "risk_notes": "재심 무죄·국가배상 확정. 두 사람 모두 사망(2015, 2023)했고 사쿠라이 씨는 생전 공개 활동을 했다. 피해자 실명 불필요. 진범 미확정 — 다른 인물 추측 금지. 수사관·검사 개인 실명 비판 대신 판결이 인정한 '위법'만. 경쟁 채널 27곳 제목에 '후카와' 없음. 다만 안협소 '일본 검찰 최악의 흑역사인 미제사건'(58만)이 어떤 사건인지 제목만으로 판별 못 함 → novelty 4. 여행 요소 없음.",
+   "sources": [
+    "https://ja.wikipedia.org/wiki/布川事件",
+    "https://scienceportal.jst.go.jp/stories/20110526_01/",
+    "https://www.jcp.or.jp/akahata/aik11/2011-05-25/2011052501_05_1.html",
+    "https://www.bengo4.com/c_1009/n_9688/",
+    "https://sp.m.jiji.com/english/show/14471"
+   ],
+   "open_questions": [
+    "재심 판결문(미토지법 쓰치우라지부 2011.5.24) 원문",
+    "녹음테이프 편집 위치·횟수 구체 내용",
+    "무죄 판결일 5월 24일 vs 25일 보도",
+    "안협소 '일본 검찰 최악의 흑역사' 영상이 이 사건인지 확인",
+    "장면이 실내·법정 중심 — 3D 장면 10개 확보 여부"
+   ]
+  },
+  {
+   "slug": "dana-ireland-hawaii-1991",
+   "name": "데이나 아일랜드 — 하와이 섬 크리스마스이브 (1991, 미국 하와이)",
+   "aliases": [
+    "Dana Ireland",
+    "Unknown Male #1",
+    "Albert Lauro Jr."
+   ],
+   "keys": [
+    "dana ireland",
+    "데이나 아일랜드",
+    "kapoho",
+    "카포호",
+    "unknown male #1",
+    "schweitzer",
+    "슈바이처",
+    "frank pauline",
+    "lauro"
+   ],
+   "region": "미국",
+   "years": {
+    "event": 1991,
+    "resolved": 2024,
+    "gap": 33
+   },
+   "logline": "1991년 크리스마스이브 하와이섬 카포호에서 버지니아 출신 23세 여성이 습격당해 이튿날 숨졌고 세 남자가 유죄를 받았지만, 현장의 신원불명 DNA 'Unknown Male #1'은 끝내 그들과 맞지 않았다 — 2023년 두 형제의 유죄가 무효화된 뒤, 2024년 7월 경찰은 유전자 계보와 버려진 식기로 이 DNA의 주인을 특정했다고 발표했다(그는 체포 전 숨졌다).",
+   "hook": "세 남자가 감옥에 갔다, 33년 만에 DNA가 가리킨 건 다른 남자였다 — 하와이 미제사건",
+   "focus_object": "30여 년 이름 없이 남아 있던 DNA 'Unknown Male #1'",
+   "scenes_hint": [
+    "1. 1991년 12월 24일 하와이섬 카포호 일대에서 피습",
+    "2. 12월 25일 힐로 메디컬센터에서 사망",
+    "3. 세 남자 유죄 — 현장 DNA 'Unknown Male #1'은 불일치",
+    "4. 2008년 이노센스 프로젝트 협약으로 캘리포니아 연구소에 DNA 송부",
+    "5. 2023년 1월 24일 슈바이처 유죄 무효·석방, 같은 해 형제 모두 무죄",
+    "6. 2024년 초 FBI 호놀룰루 지부가 가계도 분석 후보 명단 제공",
+    "7. 골든스테이트 킬러 수사 경험자의 계보 작업 — 후보 한 명",
+    "8. 2024년 7월 초 버려진 식기 DNA 일치 → 법원 명령 구강 면봉으로 확인",
+    "9. 2024년 7월 29일 경찰 발표: 당시 카포호 주민, 57세",
+    "10. 체포 전 사망, 강간죄는 공소시효 만료 / 단독범 여부 미상",
+    "11. 섬 지도: 카포호, 힐로"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 3,
+    "sources": 5,
+    "visual": 4,
+    "novelty": 5,
+    "audience": 4,
+    "risk": 4
+   },
+   "risk_notes": "성범죄가 범행의 핵심(공식 발표 '납치·강간·살해') → hard_exclude '성범죄 묘사 중심'에 걸리지 않게 사건 묘사는 한 줄로, 이야기 중심은 오판과 DNA. 경찰이 지목한 인물은 기소·재판 없이 사망 — '경찰이 DNA 주인으로 특정'까지만, 유족 실명 금지. 무죄가 된 세 사람에 대해 의심을 되살리는 연출 금지(경찰이 '네 번째 공범' 가능성을 유지한다는 법원 문서 비판 있음). 잔혹성이 높아 risk 4. 경쟁 채널 27곳 제목에 없음. 섬·방문객 +1 반영.",
+   "sources": [
+    "https://www.hawaiipolice.gov/7-29-24-police-identify-suspect-in-dana-ireland-murder-investigation/",
+    "https://www.nbcnews.com/news/us-news/dana-ireland-rape-murder-suspect-hawaii-kills-himself-police-rcna164212",
+    "https://www.cbsnews.com/news/dana-ireland-murder-1991-hawaii-albert-lauro-dna-possible-suspect-dies-by-suicide",
+    "https://www.hawaiinewsnow.com/2024/07/29/32-years-3-wrongful-convictions-later-dna-identifies-man-who-brutally-killed-dana-ireland/",
+    "https://hawaiitribune-herald.com/2024/07/30/hawaii-news/dna-helps-solve-mystery-in-1991-dana-ireland-murder/"
+   ],
+   "open_questions": [
+    "세 번째 유죄자(프랭크 폴린 주니어)의 무죄 처리 여부·시점",
+    "'병원 침대 시트가 사건을 끝냈다'는 보도 제목의 의미(DNA 출처) 미확인",
+    "식기 vs 법원 명령 면봉 — 확인 순서 보도 엇갈림",
+    "피해자가 섬을 방문 중이었는지(버지니아 출신) 1차 확인"
+   ]
+  },
+  {
+   "slug": "los-giwaku-miura-1981",
+   "name": "로스 의혹 — LA 총격과 27년 뒤 사이판 체포 (1981, 미국 LA·일본)",
+   "aliases": [
+    "ロス疑惑",
+    "三浦和義",
+    "Kazuyoshi Miura"
+   ],
+   "keys": [
+    "ロス疑惑",
+    "로스 의혹",
+    "三浦和義",
+    "미우라 가즈요시",
+    "kazuyoshi miura",
+    "saipan",
+    "사이판",
+    "疑惑の銃弾"
+   ],
+   "region": "일본",
+   "years": {
+    "event": 1981,
+    "resolved": 2008,
+    "gap": 27
+   },
+   "logline": "1981년 11월 18일 LA 여행 중 일본인 부부가 주차장에서 총에 맞아 아내가 숨지고 거액 보험금 때문에 남편이 의심받았지만 일본 최고재판소는 2003년 무죄를 확정했고, 27년 뒤인 2008년 2월 사이판 공항에서 LA 경찰 영장으로 체포된 그는 LA 이송 첫날 밤 유치장에서 숨져 사건은 끝내 법정에서 풀리지 않았다.",
+   "hook": "LA 여행길의 총성, 27년 뒤 사이판 공항에서 체포 — 끝내 풀리지 않은 일본·미국 사건",
+   "focus_object": "사이판 공항에서 집행된 LA 경찰 영장",
+   "scenes_hint": [
+    "1. 1981년 8월 아내 구타 사건(일본에서 살인미수 징역 6년 확정)",
+    "2. 11월 18일 LA 주차장 총격: 남편 다리, 아내 머리",
+    "3. 아내는 의식을 찾지 못하고 사망(날짜는 확인 필요)",
+    "4. 보험금 합계 1억 5,500만 엔 수령(일본어 위키), 약 140만 달러(영어 위키, 1984 주간문춘)",
+    "5. 1984년 주간문춘 보도와 과열 취재 — '극장형 범죄'",
+    "6. 1985·1988년 체포 → 1994년 1심 무기징역",
+    "7. 2심 무죄(저격범 미특정·공모 입증 불가) → 2003년 최고재판소 무죄 확정",
+    "8. LAPD 미제팀의 재수사",
+    "9. 2008년 2월 22일 정오 사이판 공항 체포",
+    "10. 법원: 살인죄 영장은 이중위험 금지로 무효, 공모죄는 유효",
+    "11. 송환 거부 철회 → 10월 10일 LA 도착, 그날 밤 유치장에서 사망(검시관 자살 판정, 변호측 반론)",
+    "12. 2009년 LAPD가 1979년 다른 여성 사망 사건 수사 결과 발표 — 일본에선 입건 안 됨",
+    "13. 수갑 사진 소송 → 일본 보도의 수갑 모자이크 관행"
+   ],
+   "scores": {
+    "hook": 5,
+    "resolution": 2,
+    "sources": 5,
+    "visual": 4,
+    "novelty": 5,
+    "audience": 5,
+    "risk": 4
+   },
+   "risk_notes": "중심 인물은 살인 무죄가 확정된 채 사망 — '범인'으로 그리면 사자 명예훼손·유족 문제. 확정된 것은 1981년 8월 구타 사건 살인미수 유죄뿐. 1979년 사건은 LAPD 발표일 뿐 법원 판단 없음 → 언급 시 '미국 경찰의 발표'로 한정하거나 빼는 편이 안전. 과열 보도 자체가 사건의 일부라 언론 비판 관점 권장. 아내 쪽 유족 실명 금지. 경쟁 채널 27곳 제목에 '로스 의혹·미우라' 없음. 여행(LA)·섬(사이판) +1 반영.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Kazuyoshi_Miura_(businessman)",
+    "https://ja.wikipedia.org/wiki/ロス疑惑",
+    "https://www.lapdonline.org/newsroom/miura-implicated-in-second-murder/",
+    "https://www.nbcnews.com/id/wbna23308906",
+    "https://japantimes.co.jp/news/2008/03/11/national/crime-legal/media-now-gun-shy-in-miura-reportage"
+   ],
+   "open_questions": [
+    "아내 사망일: 1982년 11월 30일로 알려졌으나 이번 요약에서 1981년으로 나옴 — 원문 확인",
+    "2심 무죄 날짜(1998년 7월 1일 석방 사진 설명)",
+    "구타 사건 판결 확정 연도",
+    "보험금 액수 엔화·달러 표기 통일",
+    "LAPD 보도자료 원문(2008·2009) 직접 열람"
+   ]
+  },
+  {
+   "slug": "claremont-perth-1996",
+   "name": "클레어몬트 연쇄 실종 — 택시를 기다리던 밤 (1996~97, 호주 퍼스)",
+   "aliases": [
+    "Claremont serial killings",
+    "Bradley Robert Edwards",
+    "Taskforce Macro"
+   ],
+   "keys": [
+    "claremont",
+    "클레어몬트",
+    "bradley edwards",
+    "브래들리 에드워즈",
+    "jane rimmer",
+    "ciara glennon",
+    "sarah spiers",
+    "macro",
+    "퍼스"
+   ],
+   "region": "호주",
+   "years": {
+    "event": 1996,
+    "resolved": 2020,
+    "gap": 24
+   },
+   "logline": "1996~97년 퍼스 클레어몬트 유흥가에서 귀갓길 여성 세 명이 차례로 사라지고 택시 기사 전원이 조사받았지만 풀리지 않던 사건은, 2016년 손톱 밑 DNA와 회사 차량 카펫 섬유로 전화회사 기술자가 체포돼 24년 만인 2020년 9월 두 건 살인 유죄(한 건 무죄)가 선고됐다.",
+   "hook": "택시를 기다리던 여성들이 사라졌다 — 24년 만에 유죄, 범인은 전화회사 직원",
+   "focus_object": "1988년 범인이 도망치며 떨어뜨린 기모노(첫 DNA)와 회사 차량 카펫 섬유",
+   "scenes_hint": [
+    "1. 1996년 1월 27일 오전 2시 6분 공중전화로 택시 호출, 2시 9분 택시 도착 때 이미 없음",
+    "2. 6월 9일 0시 4분 호텔 앞 CCTV 마지막 모습 → 8월 3일 남쪽 40km 덤불",
+    "3. 1997년 3월 15일 0시 30분 스털링 하이웨이, 버스정류장 세 남자가 본 밝은색 차 → 4월 3일 북쪽 40km",
+    "4. 특별수사팀 Macro, 당시 서호주 최대 현상금 25만 달러",
+    "5. 택시 기사 지문·DNA 대량 채취, 78명 면허 취소",
+    "6. 엉뚱한 용의자에 쏠린 10년(공무원, 2008년 혐의 해소)",
+    "7. 1988년 헌팅데일 주택 침입 — 도망치며 떨어뜨린 기모노",
+    "8. 1995년 카라카타 묘지 사건 DNA가 2009년 세 번째 피해자 손톱 DNA와 연결",
+    "9. 2015년 섬유: 홀든 코모도어 VS 시리즈 1",
+    "10. 2016년 12월 22일 체포 — 텔스트라 기술자, 업무 차량을 퇴근 후 사용",
+    "11. 배심 없는 재판, 증인 200명 이상, 실험실 오염 공방",
+    "12. 2020년 9월 24일 두 건 유죄·첫 실종자 무죄(시신 미발견), 12월 종신·최소 40년"
+   ],
+   "scores": {
+    "hook": 4,
+    "resolution": 4,
+    "sources": 4,
+    "visual": 5,
+    "novelty": 4,
+    "audience": 3,
+    "risk": 3
+   },
+   "risk_notes": "한때 용의자로 지목됐던 공무원(2008년 혐의 해소, 2018년 사망)은 이름·암시 모두 금지. 첫 실종자 살인은 무죄 — '범인'으로 연결 금지('판사는 관여 가능성이 더 높다고 봤으나 증거 부족'까지만). 1995년 피해자는 당시 17세 미성년자 — 신원·묘사 금지, 성범죄 서술 최소화. 에드워즈 항소 안 함(AAP 보도) — 확정 여부 확인. 경쟁 채널 '증거물1호'의 '24년만에 잡힌 호주 연쇄살인범'(조회수 4)이 같은 사건으로 보임 → novelty 4. 여행 아닌 귀갓길이라 가산 없음.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Claremont_serial_killings",
+    "https://www.sbs.com.au/news/article/a-trial-like-no-other-bradley-robert-edwards-found-guilty-of-two-claremont-murders-not-guilty-of-third/z9cot3fr3",
+    "https://www.irishtimes.com/news/crime-and-law/man-found-guilty-of-murder-of-ciara-glennon-and-second-woman-in-1990s-1.4364058",
+    "https://www.ruleoflaw.org.au/case-note-the-claremont-killings",
+    "https://www.inkl.com/news/no-appeal-from-claremont-killer-edwards"
+   ],
+   "open_questions": [
+    "서호주 대법원 판결문(Justice Hall, 2020) 원문",
+    "항소 기한 경과·불항소 공식 확인",
+    "증거물1호 영상이 같은 사건인지(제목만 봄)",
+    "피해자 실명 사용 범위(유족 공개 활동 여부)"
+   ]
+  },
+  {
+   "slug": "edward-tait-clifton-beach-1999",
+   "name": "에드워드 테이트 — 아무도 찾지 않은 남자의 두개골 (1999, 호주 태즈메이니아)",
+   "aliases": [
+    "Edward Harold Tait",
+    "Clifton Beach skull"
+   ],
+   "keys": [
+    "edward tait",
+    "에드워드 테이트",
+    "clifton beach",
+    "클리프턴 비치",
+    "태즈메이니아 두개골"
+   ],
+   "region": "호주",
+   "years": {
+    "event": 1999,
+    "resolved": 2024,
+    "gap": 25
+   },
+   "logline": "2023년 7월 태즈메이니아 클리프턴 비치 근처 덤불에서 농부가 찾은 두개골은 실종자 35명과도 맞지 않았지만, 2024년 유전자 계보로 1999년 11월 이후 아무도 실종 신고하지 않았던 남자 에드워드 테이트로 특정됐고 2026년 검시관이 이를 인정했다(사인 미상).",
+   "hook": "실종 신고조차 없던 남자, 해변 숲의 두개골과 깔창 신발 — 25년 만에 이름을 찾았다",
+   "focus_object": "오른쪽에만 교정 깔창이 든 갈색 남성 구두 한 켤레",
+   "scenes_hint": [
+    "1. 2023년 7월 5일 농부가 잡초를 베다 협곡에서 '돌'을 걷어참",
+    "2. 해안에서 270m 덤불, 녹슨 함석판으로 덮은 얕은 구덩이 — 임시 야영지",
+    "3. 유류품: 갈색 남성 구두 두 짝, 셔츠, 열쇠, 지포 라이터, 명함 두 장",
+    "4. 오른쪽 구두에만 교정 깔창",
+    "5. 첫 DNA·치과 대조 실패, 태즈메이니아 실종자 35명 모두 불일치",
+    "6. 남성 후보 11명 DNA 검사도 실패",
+    "7. 2024년 유전자 계보: 3촌 관계 친척 → 1971년 1월 11일생 남성",
+    "8. 누나의 DNA로 확인 — 그녀는 동생이 태즈메이니아에 간 줄도 몰랐다",
+    "9. 한쪽 다리가 짧게 태어남 = 깔창",
+    "10. 호주·스코틀랜드·인도를 오간 은둔 생활",
+    "11. 1999년 11월 30일 복지사무소 방문이 마지막 기록, 2000년 3월 뉴타운 셋집 방치로 계약 해지",
+    "12. 검시관: 1999년 11월 30일 이후 그 은신처 근처에서 사망, 사인·경위 판단 불가"
+   ],
+   "scores": {
+    "hook": 4,
+    "resolution": 4,
+    "sources": 3,
+    "visual": 3,
+    "novelty": 5,
+    "audience": 2,
+    "risk": 1
+   },
+   "risk_notes": "범죄 아님(사인 미상) — 타살·자살 어느 쪽도 암시 금지. 은둔·이동 생활을 정신 건강 추측으로 연결 금지. 누나 실명은 보도에 있으나 쓰지 않음. 명함 두 장의 주인은 미공개 — 추측 금지. 경쟁 채널 27곳 제목에 없음. 해변 +1 반영(범죄 사건이 아니라 hook 4). 기록이 적어 16~20분 분량은 빠듯할 수 있음.",
+   "sources": [
+    "https://pulsetasmania.com.au/news/human-skull-found-at-clifton-beach-identified-after-more-than-20-years/",
+    "https://www.newcastleherald.com.au/story/9337135/skull-found-near-beach-identified-but-questions-persist/",
+    "https://www.thenewdaily.com.au/news/state/tas/2026/08/25/edward-tait-tasmania-skull"
+   ],
+   "open_questions": [
+    "검시관 결정문(Coroner Madeleine Wilson) 원문 — 태즈메이니아 검시법원 사이트에서 미확인",
+    "실종 기간 27년 vs 28년 보도 엇갈림, 신원 확정 시점(2024 계보 vs 2026 검시관)",
+    "Newcastle Herald·The New Daily 는 403 으로 본문 못 읽음(우회 안 함) — 검색 요약만",
+    "단서 부족: 장면 단서 12개지만 수사 전환점은 5~6개 — 16분 이상 분량 확보 불확실"
+   ]
+  },
+  {
+   "slug": "isdal-woman-bergen-1970",
+   "name": "이스달 여인 — 라벨을 모두 뗀 여행자 (1970, 노르웨이 베르겐)",
+   "aliases": [
+    "Isdalskvinnen",
+    "Isdal Woman",
+    "Death in Ice Valley"
+   ],
+   "keys": [
+    "isdal",
+    "이스달",
+    "isdalskvinnen",
+    "bergen",
+    "베르겐",
+    "ice valley",
+    "hordaheimen"
+   ],
+   "region": "유럽",
+   "years": {
+    "event": 1970,
+    "resolved": null,
+    "gap": null
+   },
+   "logline": "1970년 11월 29일 노르웨이 베르겐 이스달 계곡에서 불에 탄 채 발견된 여성은 가발과 여권 여덟 개 이상의 가명으로 유럽을 돌아다녔고 소지품의 라벨이 모두 떼어져 있었는데, 2017년 치아 동위원소 분석으로 1930년 무렵 독일 쪽 출생이라는 단서까지 나왔지만 56년째 이름을 찾지 못했다.",
+   "hook": "모든 라벨을 떼어 낸 여행자, 가명만 여덟 개 — 56년째 이름이 없는 노르웨이 미제사건",
+   "focus_object": "베르겐역 보관함의 여행가방 두 개(라벨 제거, 안감 속 100마르크 지폐 5장)",
+   "scenes_hint": [
+    "1. 1970년 11월 29일 아버지와 두 딸이 이스달 계곡 돌무더기에서 발견",
+    "2. 반듯하게 누운 자세, 움켜쥔 손, 근처 모닥불·타다 남은 종이",
+    "3. 사흘 뒤 베르겐역에서 여행가방 두 개 — 안감에 100마르크 지폐 5장",
+    "4. 가발, 화장품, 여러 나라 동전, 지도·시간표, 지문 묻은 선글라스 — 신원 정보는 전부 제거",
+    "5. 부검: 수면제 50~70알 + 일산화탄소, 옆에 12알 더, 폐의 그을음 = 불탈 때 살아 있었음",
+    "6. 특이한 치과 치료 → 턱을 보존",
+    "7. 11월 23일 호텔 407호 현금 체크아웃 후 택시 — 이후 행적 불명",
+    "8. 메모장 암호 해독: 방문 날짜·장소, 가명 여권 최소 8개, 늘 '벨기에인'",
+    "9. 방을 바꾸고 경계하던 투숙객(직원 증언), '골동품상'이라 소개",
+    "10. 1971년 2월 5일 무덤 표시 없는 가톨릭 장례, 경찰 16명 참석",
+    "11. 미사일 시험 일정과 겹친 동선 → 스파이 설(추측)",
+    "12. 2017년 동위원소: 1930±4년생, 어린 시절 프랑스·독일 국경 쪽 이동",
+    "13. 2018 NRK·BBC 'Death in Ice Valley' 팟캐스트와 제보, 유전자 계보 제안"
+   ],
+   "scores": {
+    "hook": 4,
+    "resolution": 1,
+    "sources": 3,
+    "visual": 5,
+    "novelty": 5,
+    "audience": 3,
+    "risk": 1
+   },
+   "risk_notes": "미해결이라 '끝까지 풀리지 않은' 공식으로만 가능(N년 만에 공식 불가 → hook 기본 3 + 여행 +1). 경찰 공식 판단은 자살 쪽 — 살인·스파이 설은 '추측'으로 명시. 2023년 특정 인물 연결설(익명 출처) 쓰지 않음. 생존 관련자 없음. 경쟁 채널 27곳 제목에 없음. resolution 1 이라 순위는 낮지만 장면·단서는 가장 풍부.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Isdal_Woman",
+    "https://www.mentalfloss.com/crime/new-evidence-emerges-isdal-woman-case-norways-most-famous-unsolved-murder-mystery",
+    "https://ki.se/en/research/they-solve-cold-cases",
+    "https://www.newser.com/story/243061/teeth-may-provide-big-break-in-grisly-norwegian-mystery.html"
+   ],
+   "open_questions": [
+    "NRK 원 보도·베르겐 경찰 기록 직접 확인 못 함",
+    "동위원소 결과 '뉘른베르크 근처'는 위키에만 — 다른 출처는 '프랑스·독일 국경'",
+    "결말이 없어 16~20분 마무리 구조(도입 물건 회수)를 어떻게 할지 기획 판단"
+   ]
+  }
+ ]
+}
