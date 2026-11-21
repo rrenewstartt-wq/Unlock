@@ -2,10 +2,13 @@
 
 새 세션·다른 계정에서 이어 갈 때 이 파일부터 읽는다. 설치는 `docs/SETUP.md` (`bash scripts/setup.sh`, 끝에 "결과: 모두 같음 ✓").
 
+> **ep02 는 한 세션에서만 만든다(사람 결정 2026-11-21).** 다른 세션은 ep02 파일을 고치지 않는다 — 공용 도구만 고치고 main 에 합칠 때 ep02 는 최신 진행 쪽을 유지한다.
+
 ## 바로 다음 할 일 (ep02 마쓰바세 제작 중 — 관문 `python3 scripts/gates.py episodes/ep02-matsubase`)
 회고 두 편(2026-11-21, 같은 날 두 세션): `docs/retros/2026-11-21-harness.md`(팀 7개, 렌더 부담: 18분 편 약 8~9시간 추정 → 그 회고 6번), `docs/retros/2026-11-21-teams-gates.md`(관문 장부·파일럿·블라인드 비교). 팀 `docs/teams.md`.
 
-현재: plan ✅ · facts ✅ · script ✅(사람 승인) · **design: 1차 미달 → SPEC v3 로 지적 전부 반영, visual-critic 재검토 대기** · 나머지 대기.
+현재: plan ✅ · facts ✅ · script ✅(사람 승인) · design ✅(3차) · archive 자료 40장(Commons 사진 5개는 429 로 보류) · **pilot 진행 중** — 처음 38초 샘플 렌더 완료(화면 변화율 100%, 컷 중앙값 3.4초; 귤 망·지도 자막 고칠 것).
+장면 파일은 담당별로 나눈다: `scenes_archive.py`(기록), `scenes_<세트>.py`(3D), `scenes_diagram.py`(도식) → `scenes.py` 끝에서 import. 렌더는 CPU 라 38초에 43분 → 긴 구간은 `scripts/render_chunks.py`.
 1. **design 다시:** storyboard-director 에게 `episodes/ep02-matsubase/data/review-design-1.md`(visual-critic P0 1·P1 24)대로
    `SPEC.md`·`data/shots.json` 을 고치게 하고 → visual-critic(설계 검토 모드) 재검토 → P0 0 이면
    `gates.py ... pass design --by visual-critic --evidence "..."`. (2026-11-21 storyboard-director 가 고치던 중 사용량 제한으로 멈춤 — SPEC.md 는 일부만 반영된 상태로 커밋됨. 이어서 고칠 때 review-design-1.md 항목마다 반영 여부부터 확인한다.)
