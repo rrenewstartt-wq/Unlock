@@ -117,12 +117,14 @@ MOTION:  진입 power3.out 0.6초, 이동 power2.inOut, 퇴장 power2.in 0.3초.
 | 52 | ending ★ | 7줄 · 23.8 | 3D | 맞춰진 셔츠, 클로즈 → 와이드 풀백. c1 D 왼소매 매크로 / c2 M 왼소매 + 꼬리표 "1985.2.14 · 모퉁이" / c3 D 체크 저조도, "아궁이에서 타 버렸어야 할 천" / c4 D 천 위 빛(얼룩 없음), "혈액 확인 안 됨" / c5 W 다섯 조각 셔츠 전체, "재심의 문을 연 근거 가운데 하나" / c6 기록 3초 @c6 [2] 16쪽 6행 「風呂の焚き口で燃やしてしまった」 종이 띠(hook 의 그 줄을 다시) / c7 W 끝까지 풀백, 왼소매만 앰버 → 제목 카드 "마쓰바세 사건" | 왼소매 | vault/ending + archive: kousai-p16-l6 | F207 F111 F114 F01 F117 |
 
 **검산(▶ 간격, 읽기 속도):** 도식 20장면의 ▶ 사이 최대 간격은 아래와 같다. 모두 6.7초 이하이고, 내레이션이 20% 길어져도 8초 이하다.
-counter34 4.7 · calendar 6.5 · mikan_question 6.0 · confession_day 6.3 · first_story 6.4 · feb5_change 5.8 · cloth_story 6.6 · verdict_basis 6.1 · prison_years 5.5 ·
-seizure_dates 3.7 · no_blood 6.4 · cloth_origin 6.1 · autopsy_memo 6.0 · second_wound 6.1 · cloth_holes 6.1 · not_requested 5.7 · verdict_order 6.4 · after 6.3 · appeal 6.3 · open_ledger 3.8.
+counter34 4.7 · calendar 6.5 · mikan_question 6.1 · confession_day 3.6 · first_story 6.4 · feb5_change 5.8 · cloth_story 6.5 · verdict_basis 6.2 · prison_years 5.5 ·
+seizure_dates 3.8 · no_blood 6.4 · cloth_origin 6.1 · autopsy_memo 6.0 · second_wound 6.1 · cloth_holes 6.1 · not_requested 5.8 · verdict_order 6.4 · after 6.3 · appeal 6.3 · open_ledger 3.8.
+(SPEC 표의 ▶·기록 컷 자막 번호를 `data/script.json` 시각에 대어 스크립트로 잰 값. v2 첫 판의 손 계산값 6개를 이 값으로 바로잡음.)
 
 **기록 컷 간격(읽기 속도):** hook 0~10.6 · place 10.6~25.7 · empty_room 50.1 · polygraph 165.5 · tv_day 238.9 · cloth_story 338.1 · trial_1986 385.2 · vault_open 459.0 · five_pieces 482.1 · feb14 529.1 ·
 blade_width 646.1 · polygraph_ruling 738.6~755.2 · kaishi_2016 755.2~778.6 · not_requested 800.4 · verdict_2019 812.6~830.2 · damages 868.5~892.4 · appeal 901.4 · ending 965.8.
 가장 긴 공백은 529.1 → 646.1(117초)이다. v1 에서 몰려 있던 five_pieces → feb14 → no_blood 셋 가운데 no_blood 컷을 빼고 cloth_story c1(338초)로 옮겼다. 그래서 tv_day~trial_1986 사이 146초 공백이 99초와 47초로 나뉘었다.
+no_blood 는 핵심 장면에서 뺐다. 그 원문 줄([1] 3쪽 5~6행)은 hook c3 에서 이미 보여 주고, no_blood 는 인용 카드로 받는다. 핵심 장면은 11개, 그중 사진 예정은 10개(91%)다.
 
 ## PILOT — 콜드 오픈부터 첫 질문 직후까지
 

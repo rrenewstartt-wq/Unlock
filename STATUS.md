@@ -3,7 +3,7 @@
 새 세션·다른 계정에서 이어 갈 때 이 파일부터 읽는다. 설치는 `docs/SETUP.md` (`bash scripts/setup.sh`, 끝에 "결과: 모두 같음 ✓").
 
 ## 바로 다음 할 일 (ep02 마쓰바세 제작 중 — 관문 `python3 scripts/gates.py episodes/ep02-matsubase`)
-현재: plan ✅ · facts ✅ · script ✅(사람 승인) · **design ❌ 1차 미달 → 고치는 중** · 나머지 대기.
+현재: plan ✅ · facts ✅ · script ✅(사람 승인) · **design: 1차 미달 → SPEC v3 로 지적 전부 반영, visual-critic 재검토 대기** · 나머지 대기.
 1. **design 다시:** storyboard-director 에게 `episodes/ep02-matsubase/data/review-design-1.md`(visual-critic P0 1·P1 24)대로
    `SPEC.md`·`data/shots.json` 을 고치게 하고 → visual-critic(설계 검토 모드) 재검토 → P0 0 이면
    `gates.py ... pass design --by visual-critic --evidence "..."`. (2026-11-21 storyboard-director 가 고치던 중 사용량 제한으로 멈춤 — SPEC.md 는 일부만 반영된 상태로 커밋됨. 이어서 고칠 때 review-design-1.md 항목마다 반영 여부부터 확인한다.)
