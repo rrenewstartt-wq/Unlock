@@ -16,7 +16,7 @@ tools: Bash, Read, Write, Edit, Grep, Glob
    다 지은 뒤 `python3 scripts/thumb_assets.py lock`). 자산 찾기: `python3 scripts/thumb_assets.py search <단어>`.
 2. 세트 파일 `assets/lib/<세트>.js` 는 `film(stage, key, opts, async (f) => { ...build...; return (t) => {...} })` 한 함수.
    - 바닥·벽은 PBR 질감, 하늘·배경은 HDRI(실내면 스튜디오/실내 HDRI + 창 밖), 소품은 Poly Haven 모델 우선, 없으면 `f.box`·`f.sheet` 로.
-   - 한 재질을 여러 곳에 반복 설정할 때는 질감을 복제한다(ep01 `tile()`): 공유 질감은 반복 설정을 공유한다.
+   - 한 재질을 여러 곳에 다른 반복으로 쓸 때는 `f.tiled(mat, rx, ry)`(질감 복제). 공유 질감은 반복 설정을 공유해 다른 면이 늘어난다.
    - 인물: `f.figure("film" | "filmWoman" | "onlooker")`, 포즈는 bone 회전. 움직임은 `f.hold(fig)` 후 프레임마다 `f.rest(fig)` → 다시 포즈.
    - 모든 프레임은 t 의 순수 함수. `Math.random`·시계·타이머 금지(시드 해시).
 3. 카메라는 `scenes_kit.cam_shots` 로 자막마다 컷. 와이드·미디엄·디테일을 섞고, **인물 가슴 위 클로즈업 금지**.

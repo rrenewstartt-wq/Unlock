@@ -22,7 +22,7 @@
   Poly Haven CC0 실사 질감(`f.material`, `f.surface`)·실제 하늘(HDRI)·실사 소품 모델(`f.model`). 자산은 `episodes/<ep>/kit3d.json` 에 적는다.
 - 세트 파일은 `film(stage, key, opts, async (f) => {...; return (t) => {...}})` 한 함수(참고: ep01 `assets/lib/beach.js`).
   무거운 준비는 `window.__hf.buildReady` 약속으로 끝내고 render(t)는 t 의 순수 함수.
-- 공유 질감은 반복 설정도 공유한다: 한 재질을 여러 곳에 다른 반복으로 쓰면 질감을 복제한다(ep01 `tile()`).
+- 공유 질감은 반복 설정도 공유한다: 한 재질을 여러 곳에 다른 반복으로 쓰면 `f.tiled(mat, rx, ry)`.
 - **인물 가슴 위 클로즈업 금지**(저해상도 얼굴·목 이음새가 드러난다). 담배·쪽지 같은 작은 소품은 소품만 찍는 인서트 컷으로.
 - 조명: 키 하나 + 림 또는 배경 분리 + 앰버 초점 하나. 평평한 회색은 실패.
 - `world.js` 의 기본 도형 마네킹(`makeFigure`)은 옛 방식이다. 새 장면에는 쓰지 않는다(ep01 보관소 장면이 아직 이 방식).
