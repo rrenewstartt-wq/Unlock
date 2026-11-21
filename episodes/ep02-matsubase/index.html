@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+      @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+      :root { --ground: #1E2125; --ink: #E9E5DD; --amber: #F0A23B; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      #grain { position: absolute; inset: -200px; z-index: 50; pointer-events: none; opacity: 0.07;
+        background-image: url("assets/grain.png"); background-size: 512px 512px; mix-blend-mode: overlay; }
+      #vignette { position: absolute; inset: 0; z-index: 51; pointer-events: none;
+        background: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.42) 100%); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="974.6" data-width="1920" data-height="1080">
+      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0.0" data-duration="10.58" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="place" data-composition-id="place" data-composition-src="compositions/place.html" data-start="10.58" data-duration="15.16" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="room_morning" data-composition-id="room_morning" data-composition-src="compositions/room_morning.html" data-start="25.74" data-duration="12.54" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="empty_room" data-composition-id="empty_room" data-composition-src="compositions/empty_room.html" data-start="38.28" data-duration="15.55" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="counter34" data-composition-id="counter34" data-composition-src="compositions/counter34.html" data-start="53.83" data-duration="11.44" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="rewind_party" data-composition-id="rewind_party" data-composition-src="compositions/rewind_party.html" data-start="65.27" data-duration="18.37" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="night_road" data-composition-id="night_road" data-composition-src="compositions/night_road.html" data-start="83.64" data-duration="15.49" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="workshop_intro" data-composition-id="workshop_intro" data-composition-src="compositions/workshop_intro.html" data-start="99.13" data-duration="15.23" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="calendar" data-composition-id="calendar" data-composition-src="compositions/calendar.html" data-start="114.36" data-duration="22.87" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="interrogation" data-composition-id="interrogation" data-composition-src="compositions/interrogation.html" data-start="137.23" data-duration="15.55" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="polygraph" data-composition-id="polygraph" data-composition-src="compositions/polygraph.html" data-start="152.78" data-duration="22.87" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="mikan_question" data-composition-id="mikan_question" data-composition-src="compositions/mikan_question.html" data-start="175.65" data-duration="19.43" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="mikan_table" data-composition-id="mikan_table" data-composition-src="compositions/mikan_table.html" data-start="195.08" data-duration="18.63" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="arrest_wish" data-composition-id="arrest_wish" data-composition-src="compositions/arrest_wish.html" data-start="213.71" data-duration="21.83" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="tv_day" data-composition-id="tv_day" data-composition-src="compositions/tv_day.html" data-start="235.54" data-duration="19.73" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="confession_day" data-composition-id="confession_day" data-composition-src="compositions/confession_day.html" data-start="255.27" data-duration="18.69" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="knife_insert" data-composition-id="knife_insert" data-composition-src="compositions/knife_insert.html" data-start="273.96" data-duration="13.28" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="first_story" data-composition-id="first_story" data-composition-src="compositions/first_story.html" data-start="287.24" data-duration="14.84" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="river_search" data-composition-id="river_search" data-composition-src="compositions/river_search.html" data-start="302.08" data-duration="15.1" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="feb5_change" data-composition-id="feb5_change" data-composition-src="compositions/feb5_change.html" data-start="317.18" data-duration="20.92" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="cloth_story" data-composition-id="cloth_story" data-composition-src="compositions/cloth_story.html" data-start="338.1" data-duration="22.48" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="shoe_can" data-composition-id="shoe_can" data-composition-src="compositions/shoe_can.html" data-start="360.58" data-duration="21.18" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="trial_1986" data-composition-id="trial_1986" data-composition-src="compositions/trial_1986.html" data-start="381.76" data-duration="18.56" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="verdict_basis" data-composition-id="verdict_basis" data-composition-src="compositions/verdict_basis.html" data-start="400.32" data-duration="22.09" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="sentence" data-composition-id="sentence" data-composition-src="compositions/sentence.html" data-start="422.41" data-duration="19.02" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="prison_years" data-composition-id="prison_years" data-composition-src="compositions/prison_years.html" data-start="441.43" data-duration="14.38" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="vault_open" data-composition-id="vault_open" data-composition-src="compositions/vault_open.html" data-start="455.81" data-duration="23.39" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="five_pieces" data-composition-id="five_pieces" data-composition-src="compositions/five_pieces.html" data-start="479.2" data-duration="18.3" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="seizure_dates" data-composition-id="seizure_dates" data-composition-src="compositions/seizure_dates.html" data-start="497.5" data-duration="20.12" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="feb14" data-composition-id="feb14" data-composition-src="compositions/feb14.html" data-start="517.62" data-duration="18.04" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="no_blood" data-composition-id="no_blood" data-composition-src="compositions/no_blood.html" data-start="535.66" data-duration="18.37" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="other_rags" data-composition-id="other_rags" data-composition-src="compositions/other_rags.html" data-start="554.03" data-duration="22.87" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="cloth_origin" data-composition-id="cloth_origin" data-composition-src="compositions/cloth_origin.html" data-start="576.9" data-duration="21.44" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="handle_wood" data-composition-id="handle_wood" data-composition-src="compositions/handle_wood.html" data-start="598.34" data-duration="20.79" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="autopsy_memo" data-composition-id="autopsy_memo" data-composition-src="compositions/autopsy_memo.html" data-start="619.13" data-duration="18.63" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="blade_width" data-composition-id="blade_width" data-composition-src="compositions/blade_width.html" data-start="637.76" data-duration="22.29" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="second_wound" data-composition-id="second_wound" data-composition-src="compositions/second_wound.html" data-start="660.05" data-duration="20.79" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="cloth_holes" data-composition-id="cloth_holes" data-composition-src="compositions/cloth_holes.html" data-start="680.84" data-duration="20.99" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="golf_wear" data-composition-id="golf_wear" data-composition-src="compositions/golf_wear.html" data-start="701.83" data-duration="18.56" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="polygraph_again" data-composition-id="polygraph_again" data-composition-src="compositions/polygraph_again.html" data-start="720.39" data-duration="18.24" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="polygraph_ruling" data-composition-id="polygraph_ruling" data-composition-src="compositions/polygraph_ruling.html" data-start="738.63" data-duration="16.62" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="kaishi_2016" data-composition-id="kaishi_2016" data-composition-src="compositions/kaishi_2016.html" data-start="755.25" data-duration="23.39" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="retrial_court" data-composition-id="retrial_court" data-composition-src="compositions/retrial_court.html" data-start="778.64" data-duration="15.88" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="not_requested" data-composition-id="not_requested" data-composition-src="compositions/not_requested.html" data-start="794.52" data-duration="18.04" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="verdict_2019" data-composition-id="verdict_2019" data-composition-src="compositions/verdict_2019.html" data-start="812.56" data-duration="17.65" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="verdict_order" data-composition-id="verdict_order" data-composition-src="compositions/verdict_order.html" data-start="830.21" data-duration="21.7" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="after" data-composition-id="after" data-composition-src="compositions/after.html" data-start="851.91" data-duration="16.59" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="damages" data-composition-id="damages" data-composition-src="compositions/damages.html" data-start="868.5" data-duration="23.91" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="appeal" data-composition-id="appeal" data-composition-src="compositions/appeal.html" data-start="892.41" data-duration="20.93" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="room_dusk" data-composition-id="room_dusk" data-composition-src="compositions/room_dusk.html" data-start="913.34" data-duration="18.43" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="open_ledger" data-composition-id="open_ledger" data-composition-src="compositions/open_ledger.html" data-start="931.77" data-duration="19.08" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="ending" data-composition-id="ending" data-composition-src="compositions/ending.html" data-start="950.85" data-duration="23.75" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="974.6" data-track-index="2" data-track-kind="captions" data-width="1920" data-height="1080" style="z-index:60"></div>
+      <audio id="sfx-0" class="clip" src="assets/sfx/whoosh.mp3" data-start="10.47" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-1" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="25.63" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-2" class="clip" src="assets/sfx/whoosh.mp3" data-start="38.17" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-3" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="53.72" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-4" class="clip" src="assets/sfx/whoosh.mp3" data-start="65.16" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-5" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="83.53" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-6" class="clip" src="assets/sfx/whoosh.mp3" data-start="99.02" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-7" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="114.25" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-8" class="clip" src="assets/sfx/whoosh.mp3" data-start="137.12" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-9" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="152.67" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-10" class="clip" src="assets/sfx/whoosh.mp3" data-start="175.54" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-11" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="194.97" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-12" class="clip" src="assets/sfx/whoosh.mp3" data-start="213.6" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-13" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="235.43" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-14" class="clip" src="assets/sfx/whoosh.mp3" data-start="255.16" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-15" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="273.85" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-16" class="clip" src="assets/sfx/whoosh.mp3" data-start="287.13" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-17" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="301.97" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-18" class="clip" src="assets/sfx/whoosh.mp3" data-start="317.07" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-19" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="337.99" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-20" class="clip" src="assets/sfx/whoosh.mp3" data-start="360.47" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-21" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="381.65" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-22" class="clip" src="assets/sfx/whoosh.mp3" data-start="400.21" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-23" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="422.3" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-24" class="clip" src="assets/sfx/whoosh.mp3" data-start="441.32" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-25" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="455.7" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-26" class="clip" src="assets/sfx/whoosh.mp3" data-start="479.09" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-27" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="497.39" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-28" class="clip" src="assets/sfx/whoosh.mp3" data-start="517.51" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-29" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="535.55" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-30" class="clip" src="assets/sfx/whoosh.mp3" data-start="553.92" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-31" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="576.79" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-32" class="clip" src="assets/sfx/whoosh.mp3" data-start="598.23" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-33" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="619.02" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-34" class="clip" src="assets/sfx/whoosh.mp3" data-start="637.65" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-35" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="659.94" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-36" class="clip" src="assets/sfx/whoosh.mp3" data-start="680.73" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-37" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="701.72" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-38" class="clip" src="assets/sfx/whoosh.mp3" data-start="720.28" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-39" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="738.52" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-40" class="clip" src="assets/sfx/whoosh.mp3" data-start="755.14" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-41" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="778.53" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-42" class="clip" src="assets/sfx/whoosh.mp3" data-start="794.41" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-43" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="812.45" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-44" class="clip" src="assets/sfx/whoosh.mp3" data-start="830.1" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-45" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="851.8" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-46" class="clip" src="assets/sfx/whoosh.mp3" data-start="868.39" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-47" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="892.3" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-48" class="clip" src="assets/sfx/whoosh.mp3" data-start="913.23" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-49" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="931.66" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-50" class="clip" src="assets/sfx/whoosh.mp3" data-start="950.74" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+
+      <div id="grain-wrap" data-layout-ignore style="position:absolute;inset:0;overflow:hidden;z-index:50;pointer-events:none"><div id="grain"></div></div>
+      <div id="vignette" data-layout-ignore></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#grain", { backgroundPosition: "0px 0px" }, { backgroundPosition: "-1602215px 1040855px", duration: 974.6, ease: "steps(11695)" }, 0);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
