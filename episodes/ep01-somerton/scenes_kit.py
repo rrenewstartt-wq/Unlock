@@ -87,3 +87,79 @@ def person_card(w, h, color="#E9E5DD", sw=3, dashed=False, fill="#0E0F11", cls="
             f'<path d="M {round(w * 0.2, 1)} {round(h * 0.84, 1)} Q {round(w * 0.2, 1)} {round(h * 0.58, 1)} {w / 2} {round(h * 0.58, 1)} '
             f'Q {round(w * 0.8, 1)} {round(h * 0.58, 1)} {round(w * 0.8, 1)} {round(h * 0.84, 1)}" fill="none" stroke="{color}" stroke-width="{sw}" stroke-linecap="round"/>'
             f'</svg>')
+
+
+# ---------------------------------------------------------------- archive photos (real records)
+
+# Archive look: HyperFrames media treatment (mono, faded, deterministic grain) — one look for every record photo.
+ARCHIVE_GRADE = '{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'
+
+
+def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens=""):
+    """A scene built from real archive photos (assets/archive/, licensed in assets/archive/SOURCES.md).
+
+    shots: list of dicts, one per photo, cut hard from one to the next:
+      src     "assets/archive/<file>.jpg"
+      at      start: caption index (int) or seconds (float). The first shot starts at 0.
+      size    (w, h) pixel size of the source file — used for layout
+      mode    "print" (default; small/old photos: a print on the board, max ~2.6x upscale) or "cover" (≥1600px wide)
+      tilt    print rotation in degrees (default alternates ±1.2)
+      push    (scale_from, scale_to) slow camera push (default 1.0 → 1.07)
+      pan     (dx, dy) px drift over the shot (default 0, 0)
+      focus   [(caption index, cx, cy, r)] amber rings drawn on the photo at that caption; cx, cy, r in 0..1 of photo width/height
+      caption small line under the print, e.g. "1948년 12월, 남호주 경찰 사진"
+      credit  licence line, bottom right, e.g. "South Australia Police · 퍼블릭 도메인"
+    """
+    def t_of(v):
+        return q[v] if isinstance(v, int) else float(v)
+
+    starts = [0.0] + [t_of(s["at"]) - 0.05 for s in shots[1:]]
+    ends = starts[1:] + [dur]
+    markup, tw = [], []
+    for k, (s, t0, t1) in enumerate(zip(shots, starts, ends)):
+        w, h = s.get("size", (1200, 900))
+        mode = s.get("mode", "print")
+        if mode == "cover":
+            pw, ph = 1920, 1080
+            fig = (f'<figure class="ar-cover"><img class="ar-img" src="{s["src"]}" alt="" '
+                   f"data-color-grading='{ARCHIVE_GRADE}'/>")
+        else:
+            k_fit = min(1300 / w, 760 / h, 2.6)
+            pw, ph = round(w * k_fit), round(h * k_fit)
+            tilt = s.get("tilt", 1.2 if k % 2 else -1.2)
+            fig = (f'<figure class="ar-print" style="width:{pw}px;height:{ph}px;transform:translate(-50%,-50%) rotate({tilt}deg)">'
+                   f'<img class="ar-img" src="{s["src"]}" alt="" style="width:{pw}px;height:{ph}px" '
+                   f"data-color-grading='{ARCHIVE_GRADE}'/>")
+        rings = ""
+        for j, (ci, cx, cy, r) in enumerate(s.get("focus", [])):
+            rid = f"{sid}-r{k}-{j}"
+            rings += (f'<svg class="ar-ring" viewBox="0 0 {pw} {ph}" width="{pw}" height="{ph}">'
+                      f'<ellipse id="{rid}" cx="{round(cx * pw)}" cy="{round(cy * ph)}" rx="{round(r * pw)}" ry="{round(r * pw * 0.82)}" '
+                      f'pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100"/></svg>')
+            tw.append(f'    tl.to("#{rid}", {{ strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }}, {round(max(t0, t_of(ci)) + 0.15, 2)});')
+        fig += rings + "</figure>"
+        cap = f'<div class="ar-cap">{s["caption"]}</div>' if s.get("caption") else ""
+        cred = f'<div class="ar-credit">{s["credit"]}</div>' if s.get("credit") else ""
+        cam = f'<div id="{sid}-cam{k}" class="ar-cam">{fig}</div>'
+        markup.append(clip(f"{sid}-ph{k}", round(t0, 2), t1 - t0, "ar-shot", cam + cap + cred))
+        s0, s1 = s.get("push", (1.0, 1.07))
+        dx, dy = s.get("pan", (0, 0))
+        tw.append(f'    tl.fromTo("#{sid}-cam{k}", {{ scale: {s0}, x: 0, y: 0 }}, '
+                  f'{{ scale: {s1}, x: {dx}, y: {dy}, duration: {round(t1 - t0, 2)}, ease: "none" }}, {round(t0, 2)});')
+    tag = clip(f"{sid}-tag", 0.3, dur - 0.3, "tag-re tag-ar", label)
+    base_css = f"""
+    .ar-shot {{ position: absolute; inset: 0; background: {BOARD}; overflow: hidden; }}
+    .ar-cam {{ position: absolute; inset: 0; transform-origin: 50% 46%; }}
+    .ar-print {{ position: absolute; left: 50%; top: 46%; margin: 0; padding: 0; background: #EDE8DE;
+      outline: 18px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }}
+    .ar-cover {{ position: absolute; inset: 0; margin: 0; }}
+    .ar-cover .ar-img {{ width: 1920px; height: 1080px; object-fit: cover; }}
+    .ar-img {{ display: block; }}
+    .ar-ring {{ position: absolute; left: 0; top: 0; overflow: visible; }}
+    .ar-ring ellipse {{ fill: none; stroke: {AMBER}; stroke-width: 7; stroke-linecap: round; }}
+    .ar-cap {{ position: absolute; left: 0; right: 0; bottom: 176px; text-align: center; font-size: 32px; color: rgba(233,229,221,.9); }}
+    .ar-credit {{ position: absolute; right: 64px; bottom: 30px; font-size: 22px; color: rgba(233,229,221,.62); }}
+    .tag-ar {{ border-color: {AMBER}; }}"""
+    script = ("    const tl = gsap.timeline({ paused: true });\n" + "\n".join(tw) + "\n" + tweens +
+              f'\n    window.__timelines["{sid}"] = tl;')
+    return wrap(sid, dur, base_css + css, "\n".join(["    " + m for m in markup]) + "\n    " + tag + "\n" + overlay, script)

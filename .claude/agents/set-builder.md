@@ -11,6 +11,7 @@ tools: Bash, Read, Write, Edit, Grep, Glob
 참고 구현 `episodes/ep01-somerton/assets/lib/beach.js`(film 키트 세트), `scenes.py` 의 `beach()`(cam_shots), SPEC.md 의 SHOTS 표.
 
 ## 짓는 법
+0. 핵심 장면(`data/shots.json`)에 실제 사진이 있으면 3D 는 그 앞의 상황 재연까지만 짓고, 결정적 순간은 사진 컷(`archive_scene`)에 넘긴다.
 1. 필요한 자산을 `episodes/<ep>/kit3d.json` 에 적고 `python3 scripts/kit3d.py episodes/<ep>` (없는 자산은 Poly Haven 에서 받고 잠금에 남는다:
    다 지은 뒤 `python3 scripts/thumb_assets.py lock`). 자산 찾기: `python3 scripts/thumb_assets.py search <단어>`.
 2. 세트 파일 `assets/lib/<세트>.js` 는 `film(stage, key, opts, async (f) => { ...build...; return (t) => {...} })` 한 함수.

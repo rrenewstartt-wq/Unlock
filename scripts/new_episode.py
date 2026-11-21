@@ -71,6 +71,7 @@ def main():
     (dst / "SPEC.md").write_text(
         f"# SPEC — {slug} 「{name}」\n\nGOAL / OUTPUT / TIME / LOOK / OBJECTS / MOTION / SHOTS / BANNED / QA 를 ep01 SPEC.md 처럼 채운다.\n"
         "룩·도식 원칙은 ../../docs/visual-style.md 를 따른다.\n", encoding="utf-8")
+    (dst / "data" / "shots.json").write_text(json.dumps({"key_scenes": [], "_doc": "핵심 장면마다 {scene, why, want, photo, no_photo_reason} — docs/quality-bar.md 핵심 장면"}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     (dst / "kit3d.json").write_text(json.dumps({"assets": ["figure:quaternius"]}) + "\n", encoding="utf-8")
     import subprocess
     subprocess.run([sys.executable, str(HERE / "scripts" / "kit3d.py"), str(dst)], check=True)

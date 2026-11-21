@@ -151,6 +151,26 @@ def main():
     ledger = ep / "assets" / "archive" / "SOURCES.md"
     row("화면", "실제 자료(기록 사진·지도·문서)", "3장면 이상 + 출처 대장", f"{len(arch)}장면, 대장 {'있음' if ledger.exists() else '없음'}",
         len(arch) >= (1 if test else 3) and ledger.exists())
+    # 핵심 장면 = 실제 사진 (docs/quality-bar.md "핵심 장면"): data/shots.json
+    shots_f = ep / "data" / "shots.json"
+    keys = json.loads(shots_f.read_text(encoding="utf-8")).get("key_scenes", []) if shots_f.exists() else []
+    ledger_txt = ledger.read_text(encoding="utf-8") if ledger.exists() else ""
+    with_photo, bad = 0, []
+    for k in keys:
+        ph = k.get("photo")
+        if ph:
+            name = pathlib.Path(ph).name
+            ok = (ep / ph).exists() and ph in comp.get(k["scene"], "") and name in ledger_txt
+            with_photo += ok
+            if not ok:
+                bad.append(f'{k["scene"]}(사진 지정했지만 파일·장면·대장 중 빠짐)')
+        elif not (k.get("no_photo_reason") or "").strip():
+            bad.append(f'{k["scene"]}(사진도 이유도 없음)')
+    need = 2 if test else 5
+    share = with_photo / len(keys) if keys else 0
+    row("화면", "핵심 장면 실제 사진", f"핵심 장면 {need}개 이상, 사진 60% 이상, 못 쓴 장면은 이유",
+        f"{len(keys)}개 중 사진 {with_photo}" + (f", 문제: {', '.join(bad)}" if bad else "") if keys else "data/shots.json 없음",
+        len(keys) >= need and share >= 0.6 and not bad)
     missing_tag = [sid for sid in real if "tag-re" not in comp[sid]]
     row("화면", "3D 에 '재현' 표기", "모든 3D 장면", "누락 " + (", ".join(missing_tag) if missing_tag else "없음"), not missing_tag)
     # Static shot estimate: 3D = camera cuts, 2D = one beat per caption.

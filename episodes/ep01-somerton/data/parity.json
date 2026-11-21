@@ -1,13 +1,13 @@
 {
  "episode": "ep01-somerton",
- "test": false,
+ "test": true,
  "rows": [
   {
    "area": "대본",
    "item": "길이",
-   "target": "12~20분 (기본 16~20분, docs/competitor-report.md)",
+   "target": "2~4분 (시험편)",
    "value": "3.0분",
-   "ok": false,
+   "ok": true,
    "note": ""
   },
   {
@@ -45,7 +45,7 @@
   {
    "area": "대본",
    "item": "질문형 문장 수",
-   "target": "5~9",
+   "target": "3~6",
    "value": 5,
    "ok": true,
    "note": ""
@@ -93,9 +93,9 @@
   {
    "area": "대본",
    "item": "장면 수",
-   "target": "18개 이상",
+   "target": "10개 이상",
    "value": 10,
-   "ok": false,
+   "ok": true,
    "note": ""
   },
   {
@@ -119,6 +119,14 @@
    "item": "실제 자료(기록 사진·지도·문서)",
    "target": "3장면 이상 + 출처 대장",
    "value": "0장면, 대장 없음",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "화면",
+   "item": "핵심 장면 실제 사진",
+   "target": "핵심 장면 2개 이상, 사진 60% 이상, 못 쓴 장면은 이유",
+   "value": "data/shots.json 없음",
    "ok": false,
    "note": ""
   },

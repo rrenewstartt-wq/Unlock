@@ -16,7 +16,7 @@ description: 해외 실화 미제사건 한 편을 레퍼런스(@unlock_kr) 동�
 | 1 사실 | 메인 세션 (+ `source-verifier`) | `source-verifier` | facts.md 에 자막이 될 사실마다 출처·상태 |
 | 2 대본 | `script-writer` | `script-critic` | parity 대본 영역 ✅ + critic 합격 + **사용자 승인** |
 | 3 설계 | `storyboard-director` | 메인 세션 | SPEC.md SHOTS 표, 배분·컷 기준 충족 |
-| 4 자료 | `archive-researcher` | `risk-reviewer`(인물 사진만) | SOURCES.md, 라이선스 근거 |
+| 4 자료 | `archive-researcher` | `risk-reviewer`(인물 사진만) | SOURCES.md, 라이선스 근거, `data/shots.json` 핵심 장면마다 사진 또는 못 쓴 이유 |
 | 5 장면 | `set-builder`(3D) + 메인 세션(도식) | `visual-critic` | check 오류 0 + P0 0개 |
 | 6 소리 | `sound-designer` | 메인 세션 | 내레이션 반영, 큐 시트, 음악 출처 결정 |
 | 7 렌더 | 메인 세션 | `sound-designer`(측정) | parity 렌더 실측 ✅ |
@@ -43,11 +43,12 @@ cd episodes/<ep> && python3 data/build_script.py && python3 ../../scripts/parity
 `storyboard-director` → `SPEC.md` 의 SHOTS 표. 확인: 3D 35~65%, 도식 25~45%, 실제 자료 3장면 이상, 한 화면 12초 이하, 장면당 앰버 초점 하나.
 
 ## 4. 실제 자료
-`archive-researcher` 에게 SHOTS 의 요청 목록. 결과 `assets/archive/` + `SOURCES.md`. 못 찾은 것은 도식으로 바꾸도록 SHOTS 를 고친다.
+**핵심 장면은 실제 사진이 먼저다**(`docs/quality-bar.md` "핵심 장면"). `archive-researcher` 에게 `data/shots.json` 의 핵심 장면과 SHOTS 의 요청 목록. 결과 `assets/archive/` + `SOURCES.md`. 못 찾은 것은 도식으로 바꾸도록 SHOTS 를 고친다.
 
 ## 5. 장면
 - 3D: `set-builder` 가 세트별로 film 키트 세트를 짓는다(세트가 여러 개면 세트마다 따로 맡겨 동시에). 기본 도형 마네킹(`world.js makeFigure`) 금지.
-- 도식: 메인 세션이 `scenes.py` 에 쓴다(`wrap` + GSAP, 보드 바탕 + 사람 카드, 도식 원칙 7개). 실제 자료는 `assets/archive/` 를 `<img>` 로.
+- 도식: 메인 세션이 `scenes.py` 에 쓴다(`wrap` + GSAP, 보드 바탕 + 사람 카드, 도식 원칙 7개).
+- 실제 사진: 핵심 장면은 `archive_scene(sid, dur, q, shots)`(scenes_kit) — 기록 룩·느린 밀기·앰버 동그라미·`기록` 표기·출처 한 줄.
 - 효과음은 `sfx_events(DATA)` 에 화면 원인 있는 것만.
 - `python3 build.py` → `npx hyperframes check` 오류 0 → `visual-critic` → P0 를 고치고 다시(같은 장면 3번 실패면 멈추고 보고).
 

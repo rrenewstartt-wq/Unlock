@@ -7,6 +7,15 @@
 - 글꼴: 제목·핵심 단어 Black Han Sans, 본문·자막 Gothic A1 Medium(둘 다 OFL, `assets/fonts`).
 - 자막: 40px, 아래에서 74px, **박스 없이** 그림자(0 0 3px + 0 2px 10px 검정)로 읽히게. 화면을 덜 가린다(벤치마크와 같은 방식).
 
+## 실제 사진 (핵심 장면은 사진이 먼저)
+- 핵심 장면(발견, 결정적 증거, 인물, 장소, 반전, 엔딩 — `docs/quality-bar.md`)은 **실제 기록 사진을 먼저** 쓴다. 3D·도식은 사진을 쓸 수 없을 때만.
+- `scenes_kit.archive_scene(sid, dur, q, shots)`: 사진마다 한 컷, `기록` 표기(앰버 테두리), 출처 한 줄, 흑백·바랜 톤·그레인
+  (HyperFrames `data-color-grading` `mono-fade` — 모든 기록 사진에 같은 룩, CSS 필터로 흉내 내지 않는다).
+- 작은 옛 사진은 보드 위 인화 사진(흰 테두리, ±1.2° 기울기, 그림자), 큰 사진(긴 변 1600px 이상)만 `mode: "cover"`.
+- 강조는 앰버 동그라미 하나(`focus`), 자막이 그 부분을 말하는 순간에 그려진다. 화살표·빨간 동그라미 여러 개는 쓰지 않는다.
+- 출처·라이선스는 `assets/archive/SOURCES.md` 에 먼저 적고, 화면의 출처 문구는 그 대장의 "표기 문구"를 그대로 쓴다.
+- 금지: 시신·피·부상 사진, 피해자·유족의 사적 사진, 미성년자 얼굴, 확정 판결 없는 관련자 얼굴, 언론사·방송 화면.
+
 ## 3D 재연 (film 키트: `thumbkit/film.js` → `python3 scripts/kit3d.py episodes/<ep>`)
 - **레퍼런스 급의 기본값:** 옷·머리·손이 있는 사실적 얼굴 없는 인물(Quaternius CC0, `f.figure("film" | "filmWoman" | "onlooker")`),
   Poly Haven CC0 실사 질감(`f.material`, `f.surface`)·실제 하늘(HDRI)·실사 소품 모델(`f.model`). 자산은 `episodes/<ep>/kit3d.json` 에 적는다.
