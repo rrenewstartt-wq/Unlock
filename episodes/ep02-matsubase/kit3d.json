@@ -10,6 +10,27 @@
   "texture:japanese_cedar_planks",
   "texture:rough_linen",
   "model:pull_chain_light_socket",
-  "model:lightbulb_01"
+  "model:lightbulb_01",
+  "model:metal_office_desk",
+  "model:desk_lamp_arm_01",
+  "model:clipboard",
+  "model:office_notepads",
+  "model:mounted_fluorescent_lights",
+  "texture:beige_wall_002",
+  "texture:concrete_wall_008",
+  "texture:old_linoleum_flooring_01",
+  "hdri:blinds",
+  "model:cardboard_box_01",
+  "model:steel_frame_shelves_01",
+  "texture:brushed_concrete",
+  "texture:concrete_floor_painted",
+  "texture:stretch_poplin",
+  "texture:gingham_check",
+  "hdri:storeroom",
+  "texture:hinoki_planks",
+  "texture:metal_plate",
+  "hdri:carpentry_shop_01",
+  "hdri:winter_orchard",
+  "model:SchoolChair_01"
  ]
 }

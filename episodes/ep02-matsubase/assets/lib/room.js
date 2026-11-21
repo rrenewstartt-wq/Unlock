@@ -24,14 +24,14 @@ const NET = [0.2, 0.22];                   // south-east corner of the top (x, z
 const PEEL = [-0.12, 0.15];                 // in the net's shadow, so the amber pool reads
 
 const MODES = {
-  morning: { hdri: "kloofendal_misty_morning_puresky", env: 0.16, bg: 1.15, exposure: 0.95, sun: 5.2, sunColor: "#eef1f3",
-    fill: 0.9, fillColor: "#cfd8e2", amb: 0.05, lamp: 0, amberPeel: 1, top: true },
-  still: { hdri: "kloofendal_misty_morning_puresky", env: 0.13, bg: 0.75, exposure: 0.95, sun: 0, sunColor: "#dfe6ee",
-    fill: 1.5, fillColor: "#b9c6d4", amb: 0.06, lamp: 0, amberPeel: 0, top: true },
-  night: { hdri: "kloofendal_misty_morning_puresky", env: 0.012, bg: 0.012, exposure: 1.0, sun: 0, sunColor: "#eef1f3",
+  morning: { hdri: "winter_orchard", env: 0.16, bg: 0.5, exposure: 0.95, sun: 5.2, sunColor: "#eef1f3",
+    fill: 0.9, fillColor: "#cfd8e2", amb: 0.05, bounce: 1, lamp: 0, amberPeel: 1, top: true },
+  still: { hdri: "winter_orchard", env: 0.13, bg: 0.32, exposure: 0.95, sun: 0, sunColor: "#dfe6ee",
+    fill: 1.5, fillColor: "#b9c6d4", amb: 0.06, bounce: 0.5, lamp: 0, amberPeel: 0, top: true },
+  night: { hdri: "winter_orchard", env: 0.012, bg: 0.006, exposure: 1.0, sun: 0, sunColor: "#eef1f3",
     fill: 0, fillColor: "#8ea0b8", amb: 0.015, lamp: 1, amberPeel: 0, top: false },
   dusk: { hdri: "qwantani_dusk_2_puresky", env: 0.1, bg: 0.55, exposure: 0.95, sun: 1.6, sunColor: "#c9b2c4",
-    fill: 0.8, fillColor: "#9aa6c4", amb: 0.04, lamp: 0, amberPeel: 0, amberMikan: 1, top: true },
+    fill: 0.8, fillColor: "#9aa6c4", amb: 0.04, bounce: 0.5, lamp: 0, amberPeel: 0, amberMikan: 1, top: true },
 };
 
 // Small deterministic canvas textures: mikan dimples (bump) and the net's diamond mesh (alpha).
@@ -190,7 +190,7 @@ export function createRoom(stage, opts) {
     }
     futGeo.computeVertexNormals();
     const futMat = f.tiled(linen, 7, 7);
-    futMat.color = new THREE.Color("#4a4440");
+    futMat.color = new THREE.Color("#3a3532");
     futMat.side = THREE.DoubleSide;
     mesh(futGeo, futMat, [0, 0, 0]);
     // top: dark wood board with a rounded edge
@@ -202,7 +202,7 @@ export function createRoom(stage, opts) {
 
     // ---------------------------------------------------------------- mikan (desaturated, cool), the red net, the peel
     const dimple = dimpleTexture();
-    const mikanMat = new THREE.MeshStandardMaterial({ color: "#9a5530", roughness: 0.5, bumpMap: dimple, bumpScale: 0.6 });
+    const mikanMat = new THREE.MeshStandardMaterial({ color: "#b5622a", roughness: 0.48, bumpMap: dimple, bumpScale: 0.6 });
     const mikanGeo = new THREE.SphereGeometry(0.032, 28, 20);
     const onTop = [];   // everything that sits on the kotatsu top (hidden in night mode, faded during the dissolve)
     // The bag lies on its side and the 19 fruit slump inside it. Settled once at build time by a deterministic
@@ -248,7 +248,7 @@ export function createRoom(stage, opts) {
     // the strand, never sinking more than 4 mm into the fruit, so the mesh clings over the fruit and bridges the gaps.
     // Past the last fruit there is nothing to stop the march, so both ends gather onto the axis; one end is tied off.
     const xs = P.map((p) => p.x), yMid = P.reduce((a, p) => a + p.y, 0) / P.length;
-    const xA = Math.min(...xs) - RX - 0.02, xB = Math.max(...xs) + RX + 0.02, L = xB - xA;
+    const xA = Math.min(...xs) - RX - 0.012, xB = Math.max(...xs) + RX + 0.012, L = xB - xA;
     const Rn = 0.0342;
     const inFruit = (x, y, z) => P.some((c) => (c.x - x) ** 2 + ((c.y - y) / 0.84) ** 2 + (c.z - z) ** 2 < Rn * Rn);
     const surf = (x, th) => {                  // radius at which a ray from the axis at angle th first meets the heap
@@ -261,8 +261,8 @@ export function createRoom(stage, opts) {
       }
       return r;
     };
-    const netMat = new THREE.MeshStandardMaterial({ color: "#6c2b30", roughness: 0.8 });
-    const N = 16, NP = 110, TURNS = 1.15;
+    const netMat = new THREE.MeshStandardMaterial({ color: "#7e211d", roughness: 0.9 });
+    const N = 30, NP = 120, TURNS = 0.62;
     const ends = [];
     for (const fam of [1, -1]) for (let k = 0; k < N; k++) {
       const xsP = [], thP = [], rP = [];
@@ -271,14 +271,14 @@ export function createRoom(stage, opts) {
         xsP.push(x); thP.push(th); rP.push(surf(x, th));
       }
       let sm = rP.slice();
-      for (let pass = 0; pass < 6; pass++) sm = sm.map((r, j) => (j === 0 || j === NP) ? r : (sm[j - 1] + 2 * r + sm[j + 1]) / 4);
+      for (let pass = 0; pass < 2; pass++) sm = sm.map((r, j) => (j === 0 || j === NP) ? r : (sm[j - 1] + 2 * r + sm[j + 1]) / 4);
       const pts = rP.map((r, j) => {
-        const rr = Math.max(r, sm[j] - 0.004) + 0.0012;
+        const rr = Math.max(r, sm[j] - 0.007) + 0.0006;
         const y = Math.max(0.0012, yMid + Math.cos(thP[j]) * rr);
         return new THREE.Vector3(xsP[j], y, Math.sin(thP[j]) * rr);
       });
       ends.push(pts[NP]);
-      const tube = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), NP * 2, 0.0009, 4, false), netMat);
+      const tube = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), NP * 2, 0.00035, 3, false), netMat);
       tube.castShadow = true;
       inner.add(tube);
     }
@@ -296,43 +296,70 @@ export function createRoom(stage, opts) {
     S.add(pile);
     onTop.push(pile);
 
-    // One mikan's worth of peel, opened out the way it is left after eating: a shallow base cup and five petals laid
-    // back onto the table, pale pith up, orange skin underneath and on the curled tips.
+    // One mikan's worth of peel: three torn pieces of a thick shell (2.5 mm). Orange skin outside; the white pith only on
+    // the inner face and the torn rim. Each piece is a jagged patch of the sphere (outer + inner surface + rim walls).
     const peel = new THREE.Group();
-    const peelOut = new THREE.MeshStandardMaterial({ color: "#d27a2a", roughness: 0.55, bumpMap: dimple, bumpScale: 0.5, side: THREE.FrontSide });
-    const peelIn = new THREE.MeshStandardMaterial({ color: "#e9d3a6", roughness: 0.92, side: THREE.BackSide });
-    const PR = 0.033, HINGE = Math.PI * 0.7;                // base cup = the bottom 30 % of the sphere
-    const petalGeo = (k) => {
-      const span = 2 * Math.PI / 5, gap = 0.1 + 0.08 * hash(k + 20);
-      const g = new THREE.SphereGeometry(PR, 10, 18, k * span + gap / 2, span - gap, 0.12 + 0.2 * hash(k + 30), HINGE - 0.12 - 0.2 * hash(k + 30));
-      const p = g.attributes.position;
-      const phiC = k * span + span / 2;
-      const tilt = 0.32 + 0.25 * hash(k + 40);
-      for (let i = 0; i < p.count; i++) {
-        const v = new THREE.Vector3(p.getX(i), p.getY(i), p.getZ(i));
-        const th = Math.acos(THREE.MathUtils.clamp(v.y / PR, -1, 1));
-        const ph = Math.atan2(v.z, -v.x);
-        let dph = ph - phiC; while (dph > Math.PI) dph -= 2 * Math.PI; while (dph < -Math.PI) dph += 2 * Math.PI;
-        const s = (HINGE - th) * PR;                         // distance from the hinge along the petal
-        const rho = PR * Math.sin(HINGE) + s * Math.cos(tilt);
-        const tan = PR * Math.sin(th) * dph * 1.15;          // petal width, narrowing to the tip
-        const y = 0.008 + s * Math.sin(tilt) * (1 - s / (PR * 3.2)) + 0.9 * tan * tan / PR;
-        // radial d = (-cos φc, sin φc) and tangential (sin φc, cos φc) in the table plane (SphereGeometry's convention)
-        p.setXYZ(i, -Math.cos(phiC) * rho + Math.sin(phiC) * tan, y, Math.sin(phiC) * rho + Math.cos(phiC) * tan);
+    const peelOut = new THREE.MeshStandardMaterial({ color: "#c8692a", roughness: 0.5, bumpMap: dimple, bumpScale: 0.5 });
+    const peelIn = new THREE.MeshStandardMaterial({ color: "#ead9b8", roughness: 0.95, side: THREE.DoubleSide });
+    const PR = 0.033, PT = 0.0025;
+    const shellPiece = (seed, phiW, th0, th1) => {
+      const NUu = 22, NVv = 16, pos = [], idxO = [], idxI = [];
+      const edge = (x, k) => 0.5 * hash(Math.floor(x * 9) + k) + 0.5 * hash(Math.floor(x * 9) + k + 1) * (x * 9 % 1);
+      const P3 = (u, v, r) => {
+        const phi = (u - 0.5) * phiW * (1 - 0.28 * edge(v, seed + (u < 0.5 ? 3 : 7)) * Math.abs(2 * u - 1));
+        const a = th0 + 0.18 * edge(u, seed + 11), b = th1 - 0.18 * edge(u, seed + 17);
+        const th = a + v * (b - a);
+        return [-r * Math.cos(phi) * Math.sin(th), r * Math.cos(th), r * Math.sin(phi) * Math.sin(th)];
+      };
+      for (const r of [PR, PR - PT]) for (let j = 0; j <= NVv; j++) for (let i = 0; i <= NUu; i++) pos.push(...P3(i / NUu, j / NVv, r));
+      const id = (layer, i, j) => layer * (NUu + 1) * (NVv + 1) + j * (NUu + 1) + i;
+      for (let j = 0; j < NVv; j++) for (let i = 0; i < NUu; i++) {
+        const [a0, b0, c0, d0] = [id(0, i, j), id(0, i + 1, j), id(0, i + 1, j + 1), id(0, i, j + 1)];
+        idxO.push(a0, c0, b0, a0, d0, c0);
+        const [a1, b1, c1, d1] = [id(1, i, j), id(1, i + 1, j), id(1, i + 1, j + 1), id(1, i, j + 1)];
+        idxI.push(a1, b1, c1, a1, c1, d1);
       }
+      // rim: walk the boundary and join the two layers
+      const ring = [];
+      for (let i = 0; i < NUu; i++) ring.push([i, 0]);
+      for (let j = 0; j < NVv; j++) ring.push([NUu, j]);
+      for (let i = NUu; i > 0; i--) ring.push([i, NVv]);
+      for (let j = NVv; j > 0; j--) ring.push([0, j]);
+      for (let k = 0; k < ring.length; k++) {
+        const [i0, j0] = ring[k], [i1, j1] = ring[(k + 1) % ring.length];
+        const o0 = id(0, i0, j0), o1 = id(0, i1, j1), n0 = id(1, i0, j0), n1 = id(1, i1, j1);
+        idxI.push(o0, o1, n1, o0, n1, n0);
+      }
+      const g = new THREE.BufferGeometry();
+      g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+      const uv = [];
+      for (let l = 0; l < 2; l++) for (let j = 0; j <= NVv; j++) for (let i = 0; i <= NUu; i++) uv.push(i / NUu, j / NVv);
+      g.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+      g.setIndex([...idxO, ...idxI]);
+      g.addGroup(0, idxO.length, 0);
+      g.addGroup(idxO.length, idxI.length, 1);
       g.computeVertexNormals();
-      return g;
+      const m = new THREE.Mesh(g, [peelOut, peelIn]);
+      m.castShadow = m.receiveShadow = true;
+      return m;
     };
-    const addPiece = (g) => {
-      const a = new THREE.Mesh(g, peelOut), b = new THREE.Mesh(g, peelIn);
-      a.castShadow = true; a.receiveShadow = b.receiveShadow = true;
-      peel.add(a, b);
-    };
-    for (let k = 0; k < 5; k++) addPiece(petalGeo(k));
-    const cup = new THREE.SphereGeometry(PR, 36, 6, 0, Math.PI * 2, HINGE, Math.PI - HINGE);
-    cup.translate(0, PR, 0);      // bottom of the cup on the table
-    cup.scale(1, 0.6, 1);
-    addPiece(cup);
+    // [seed, phi width, theta range, rotation (Euler XYZ: z rolls the convex side down/up, y yaws), flatten, position (x, z)]
+    const PIECES = [
+      [1, 2.4, 0.35, 2.55, [0, 0.2, Math.PI * 0.5], 0.62, [0.0, 0.0]],       // the big half, pith up
+      [2, 1.5, 0.5, 2.3, [0, 1.9, -Math.PI * 0.5], 0.7, [0.055, -0.035]],    // skin up, a curled dome
+      [3, 0.9, 0.9, 2.1, [0.3, 3.6, 0.25], 0.75, [-0.05, 0.045]],            // a small torn strip on its side
+    ];
+    for (const [seed, w, a, b, rot, flat, [px, pz]] of PIECES) {
+      const piece = shellPiece(seed, w, a, b);
+      const holder = new THREE.Group();
+      piece.rotation.set(...rot);
+      holder.add(piece);
+      holder.scale.set(1, flat, 1);
+      holder.updateMatrixWorld(true);
+      const box = new THREE.Box3().setFromObject(holder);
+      holder.position.set(px, -box.min.y + 0.0004, pz);
+      peel.add(holder);
+    }
     peel.position.set(PEEL[0], TOP, PEEL[1]);
     peel.rotation.y = 0.3;
     S.add(peel);
@@ -375,6 +402,11 @@ export function createRoom(stage, opts) {
     fill.shadow.bias = -0.0006;
     fill.shadow.radius = 8;
     S.add(fill, fill.target);
+    // Bounce: the sunlit tatami throws a little soft light back onto the kotatsu top from the room side.
+    const bounce = new THREE.SpotLight("#dfe2e4", 0, 0, 0.75, 1, 1.5);
+    bounce.position.set(-1.3, 0.3, 0.7);   // below the top surface: lights the fruit, never glints on the varnish
+    bounce.target.position.set(0.15, 0.55, 0.15);
+    S.add(bounce, bounce.target);
     const amb = new THREE.HemisphereLight("#9fb0c4", "#3b342c", M.amb);
     S.add(amb);
     // Amber: one tight warm pool on the peel only.
@@ -418,6 +450,7 @@ export function createRoom(stage, opts) {
       fill.intensity = 40 * lerp(from.fill, M.fill);
       fill.color.set(M.fillColor);
       amb.intensity = lerp(from.amb, M.amb);
+      bounce.intensity = 7 * lerp(from.bounce ?? 0, M.bounce ?? 0);
       amber.intensity = 22 * lerp(from.amberPeel, M.amberPeel);
       amberMikan.intensity = 9 * (M.amberMikan || 0);
       const lamp = lerp(from.lamp, M.lamp);

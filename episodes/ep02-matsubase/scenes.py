@@ -115,3 +115,4 @@ def sfx_events(DATA):
 
 # ---------------------------------------------------------------- 기록 장면(hook, place) — scenes_archive.py
 from scenes_archive import hook, place  # noqa: E402,F401
+from scenes_room import *  # noqa: E402,F401,F403  (TEMP: set-builder check build)
