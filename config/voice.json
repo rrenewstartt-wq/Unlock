@@ -4,7 +4,7 @@
   "consent": "own",
   "mode": "ultimate_clone",
   "reference_wav": "voice/my_voice_ref.wav",
-  "reference_text": "1948년 12월 1일 아침, 해변에서 한 남자가 발견됩니다. 그의 이름이 밝혀지기까지는 무려 73년이 걸렸습니다.",
+  "reference_text": "23년 동안 그날 밤 무슨 일이 있었는지 아무도 몰랐습니다. 작은 단서 하나가 모든 것을 바꾸기 전까지는요. 어떻게 아무도 그걸 먼저 보지 못했을까요? 이것은 시간이 잊기를 거부한 미스터리의 이야기입니다.",
   "cfg_value": 2.0,
   "inference_timesteps": 10,
   "seed": 42,
