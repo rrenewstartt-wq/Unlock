@@ -3,13 +3,14 @@
     python3 scripts/gates.py episodes/<ep>                                   # 장부 보기(다음 관문 표시)
     python3 scripts/gates.py episodes/<ep> pass <stage> --by <담당> --evidence "<근거: 파일·보고 요약>"
     python3 scripts/gates.py episodes/<ep> fail <stage> --by <담당> --evidence "<무엇이 미달인지>"
-    python3 scripts/gates.py episodes/<ep> waive "<parity 항목>" --by 사람 --reason "<이유>"   # 사람이 정한 예외만
+    python3 scripts/gates.py episodes/<ep> waive "<parity 항목>" --by 사람 --reason "<이유>"   # 사람이 정한 예외만 → data/exceptions.json
 
 장부: episodes/<ep>/data/gates.json. 규칙:
 - 앞 관문(REQUIRES)이 통과 상태가 아니면 pass 를 거부한다.
 - 자동 확인이 있는 관문은 pass 전에 확인한다(사실 수, parity 영역, 렌더 파일). 실패면 거부.
 - 대본(data/script.txt)이 바뀌면 그 뒤 관문은 "다시 필요"로 보인다(통과 당시 대본 해시와 비교).
-- waive 는 사람 결정만 기록한다(--by 사람). parity 행은 그대로 ❌ 로 남고, 판정자가 예외 목록을 본다.
+- waive 는 사람 결정만 기록한다(--by 사람). 기록은 data/exceptions.json(parity_check 와 같은 파일)에 가고,
+  parity 는 그 행을 "⚪ 예외"로 표시한다. 판정자는 예외가 있는 영역을 최고 "근접"으로 본다.
 """
 import datetime
 import hashlib
@@ -30,6 +31,7 @@ STAGES = [
     ("pilot", "파일럿(콜드 오픈~첫 질문 직후)", "set-builder·diagram-builder·editor → visual-critic + parity-judge(파일럿)"),
     ("scenes", "전체 장면", "set-builder·diagram-builder → editor → visual-critic"),
     ("sound", "소리", "sound-designer → editor"),
+    ("qa_facts", "렌더 직전 최종 사실", "fact-checker(화면 글자·그림 전체 대조)"),
     ("render", "렌더", "제작 책임자 → editor(실측) + visual-critic(렌더 프레임)"),
     ("thumbnail", "썸네일", "thumb-director·thumb-builder → thumb-critic"),
     ("meta", "메타(upload.json)", "meta-writer → thumb-copy-critic"),
@@ -37,10 +39,10 @@ STAGES = [
 ]
 REQUIRES = {
     "plan": [], "facts": ["plan"], "script": ["facts"], "design": ["script"], "archive": ["design"],
-    "pilot": ["design", "archive"], "scenes": ["pilot"], "sound": ["script"], "render": ["scenes", "sound"],
+    "pilot": ["design", "archive"], "scenes": ["pilot"], "sound": ["script"], "qa_facts": ["scenes"], "render": ["scenes", "sound", "qa_facts"],
     "thumbnail": ["script"], "meta": ["script"], "judge": ["render", "thumbnail", "meta"],
 }
-AFTER_SCRIPT = {"script", "design", "archive", "pilot", "scenes", "sound", "render", "thumbnail", "meta", "judge"}
+AFTER_SCRIPT = {"script", "design", "archive", "pilot", "scenes", "sound", "qa_facts", "render", "thumbnail", "meta", "judge"}
 NAMES = [s for s, _, _ in STAGES]
 
 
@@ -52,6 +54,11 @@ def script_hash(ep):
 def load(ep):
     p = ep / "data" / "gates.json"
     return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {"stages": {}, "waivers": [], "log": []}
+
+
+def exceptions(ep):
+    f = ep / "data" / "exceptions.json"
+    return {e["item"]: e for e in json.loads(f.read_text(encoding="utf-8")).get("exceptions", [])} if f.exists() else {}
 
 
 def save(ep, g):
@@ -76,7 +83,7 @@ def parity(ep, test, extra=()):
 def auto_check(ep, g, name):
     """관문별 자동 확인. 문제 목록을 돌려준다(빈 목록이면 통과 가능)."""
     test = bool(json.loads((ep / "meta.json").read_text(encoding="utf-8")).get("test")) if (ep / "meta.json").exists() else False
-    waived = {w["item"] for w in g.get("waivers", [])}
+    waived = {w["item"] for w in g.get("waivers", [])} | set(exceptions(ep))
     probs = []
     if name == "facts":
         facts = (ep / "data" / "facts.md").read_text(encoding="utf-8") if (ep / "data" / "facts.md").exists() else ""
@@ -118,10 +125,11 @@ def show(ep, g):
         print(f"| {name} | {label} | {who} | {st} | {ev[:60]} |")
         if nxt is None and st != "통과" and all(state(ep, g, r) == "통과" for r in REQUIRES[name]):
             nxt = name
-    if g.get("waivers"):
-        print("\n사람이 정한 예외:")
-        for w in g["waivers"]:
-            print(f"- {w['item']}: {w['reason']} ({w['date']})")
+    exc = exceptions(ep)
+    if exc:
+        print("\n사람이 정한 예외(data/exceptions.json):")
+        for e in exc.values():
+            print(f"- {e['item']}: {e.get('reason', '')} ({e.get('decided', '')})")
     print(f"\n다음 관문: {nxt or '없음(모두 통과)'}")
 
 
@@ -142,9 +150,11 @@ def main():
         item, by, reason = a[2], opt("--by"), opt("--reason")
         if by != "사람" or not reason:
             raise SystemExit("예외는 사람 결정만 기록한다: --by 사람 --reason \"<이유>\"")
-        g["waivers"].append({"item": item, "reason": reason, "date": today})
-        save(ep, g)
-        return print(f"예외 기록: {item}")
+        f = ep / "data" / "exceptions.json"
+        d = json.loads(f.read_text(encoding="utf-8")) if f.exists() else {"exceptions": []}
+        d["exceptions"] = [e for e in d["exceptions"] if e["item"] != item] + [{"item": item, "reason": reason, "decided": today}]
+        f.write_text(json.dumps(d, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        return print(f"예외 기록: {item} → {f.relative_to(HERE)}")
     if cmd not in ("pass", "fail") or len(a) < 3 or a[2] not in NAMES:
         raise SystemExit(f"관문 이름: {', '.join(NAMES)}")
     name, by, ev = a[2], opt("--by"), opt("--evidence")

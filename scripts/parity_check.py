@@ -5,6 +5,9 @@
     python3 scripts/parity_check.py episodes/<ep> --test     # 3분 시험편 기준(길이·질문 수만 완화)
     python3 scripts/parity_check.py episodes/<ep> --render renders/pilot.mp4   # 그 렌더로 실측(결과 data/parity-pilot.json)
 
+사람이 알고 남긴 예외는 episodes/<ep>/data/exceptions.json {"exceptions": [{"item": "<항목 이름>", "reason", "decided": "YYYY-MM-DD"}]}
+— 그 항목은 ❌ 대신 "⚪ 예외"로 표시되고 --strict 를 막지 않는다. 기준을 낮추는 용도로 쓰지 않는다(사람 결정만).
+
 렌더(renders/*.mp4)가 있으면 화면 변화율·컷 길이·음량도 잰다. 없으면 대본·장면 파일로 추정하고 "렌더 후"로 남긴다.
 기준값의 근거는 data/benchmark/unlock_kr/summary.json 과 docs/benchmark-report.md (레퍼런스 4편).
 """
@@ -256,15 +259,24 @@ def main():
     else:
         row("렌더", "렌더 실측", "화면 변화율·컷 길이·음량", "렌더 없음", None, "npm run render 뒤 다시 실행")
 
+    # ---------------- 사람이 알고 남긴 예외 (data/exceptions.json: [{"item", "reason", "decided"}])
+    exf = ep / "data" / "exceptions.json"
+    exc = {e["item"]: e for e in json.loads(exf.read_text(encoding="utf-8")).get("exceptions", [])} if exf.exists() else {}
+    for r in rows:
+        e = exc.get(r["item"])
+        if e and r["ok"] is False:
+            r["ok"] = "exc"
+            r["note"] = f'사람 결정 {e.get("decided", "")}: {e.get("reason", "")}'
+
     # ---------------- 출력
-    mark = {True: "✅", False: "❌", None: "–"}
+    mark = {True: "✅", False: "❌", None: "–", "exc": "⚪ 예외"}
     print(f"\n레퍼런스 동급 검사 — {ep.name}{' (시험편 기준)' if test else ''}\n")
     print("| 영역 | 항목 | 목표 | 측정 | 판정 |\n|---|---|---|---|---|")
     for r in rows:
         note = f" ({r['note']})" if r["note"] and r["ok"] is not True else ""
         print(f"| {r['area']} | {r['item']} | {r['target']} | {r['value']}{note} | {mark[r['ok']]} |")
     fails = [r for r in rows if r["ok"] is False]
-    print(f"\n통과 {sum(r['ok'] is True for r in rows)} · 실패 {len(fails)} · 보류 {sum(r['ok'] is None for r in rows)}")
+    print(f"\n통과 {sum(r['ok'] is True for r in rows)} · 실패 {len(fails)} · 보류 {sum(r['ok'] is None for r in rows)} · 예외(사람 결정) {sum(r['ok'] == 'exc' for r in rows)}")
     (ep / "data" / (f"parity-{forced.stem}.json" if forced else "parity.json")).write_text(json.dumps({"episode": ep.name, "test": test, "rows": rows}, ensure_ascii=False, indent=1),
                                              encoding="utf-8")
     if strict and fails:

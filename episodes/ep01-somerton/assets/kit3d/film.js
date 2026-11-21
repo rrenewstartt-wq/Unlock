@@ -123,6 +123,19 @@ export class Film extends Thumb {
     return l;
   }
 
+  // A copy of a PBR material with its own texture repeat. Textures are cloned: a shared texture shares its
+  // repeat, so setting the repeat on one wall would silently stretch the floor (ep01 bug, 2026-11-20).
+  tiled(mat, rx, ry = rx) {
+    const m = mat.clone();
+    for (const k of ["map", "normalMap", "roughnessMap", "aoMap"]) {
+      if (!mat[k]) continue;
+      m[k] = mat[k].clone();
+      m[k].repeat.set(rx, ry);
+      m[k].needsUpdate = true;
+    }
+    return m;
+  }
+
   shot(keys, t) {
     const c = cameraAt(keys, t);
     this.cam.position.set(...c.pos);

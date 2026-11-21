@@ -121,6 +121,15 @@ def main():
                                "median_views": int(med), "max_views": max(v["views"] for v in vids),
                                "median_minutes": round(statistics.median((v["duration"] or 0) / 60 for v in vids), 1),
                                "top": [{"title": v["title"], "views": v["views"], "ratio": round(v["ratio"], 1), "id": v["id"]} for v in top]}
+    non_ko = [v for v in rows if not re.search(r"[가-힣]", v["title"])]
+    if rows and len(non_ko) / len(rows) > 0.05:
+        print(f"경고: 한국어가 없는 제목 {len(non_ko)}/{len(rows)}편 — 자동 번역 제목이 섞였을 수 있다(제목 분석 신뢰 낮음). 예: {non_ko[0]['title'][:40]}")
+    prev_f = OUT / "summary.json"
+    if prev_f.exists() and "--offline" not in args:
+        prev_n = len(json.loads(prev_f.read_text(encoding="utf-8")).get("channels", {}))
+        if len(chans) < prev_n * 0.8:
+            print(f"수집된 채널 {len(chans)}곳 < 기존 {prev_n}곳의 80% — 기존 summary.json 을 덮어쓰지 않는다(봇 확인·네트워크 문제일 수 있음).")
+            return
     out = {"collected": time.strftime("%Y-%m-%d"), "method": __doc__.split("측정 방법")[1].strip(), "channels": chans}
     CORE = ("ai3d", "photo")  # 내레이션 사건 채널(진행자·실제 영상·장르 밖 제외)
     rows = [v for v in rows if v["group"] != "other"]

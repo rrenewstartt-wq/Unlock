@@ -14,18 +14,6 @@ const MODES = {
   dusk: { hdri: "qwantani_dusk_2_puresky", env: 0.5, exposure: 0.8, fog: ["#6f6a68", 0.03], sun: 1.6, sunColor: "#e8a56a" },
 };
 
-// A copy of a PBR material with its own texture repeat (textures are cloned: a shared texture shares its repeat).
-function tile(mat, rx, ry) {
-  const m = mat.clone();
-  for (const k of ["map", "normalMap", "roughnessMap", "aoMap"]) {
-    if (!mat[k]) continue;
-    m[k] = mat[k].clone();
-    m[k].repeat.set(rx, ry);
-    m[k].needsUpdate = true;
-  }
-  return m;
-}
-
 export function createBeach(stage, opts) {
   const M = MODES[opts.mode];
   const cue = opts.cues || {};
@@ -60,14 +48,14 @@ export function createBeach(stage, opts) {
       pos.setZ(i, h - Math.max(0, -y - 8) * 0.03);
     }
     sandGeo.computeVertexNormals();
-    const sandMat = tile(sandDry, 110, 40);
+    const sandMat = f.tiled(sandDry, 110, 40);
     sandMat.color = new THREE.Color("#f3e9d6");
     const sand = new THREE.Mesh(sandGeo, sandMat);
     sand.rotation.x = -Math.PI / 2;
     sand.position.z = 24;
     sand.receiveShadow = true;
     S.add(sand);
-    const wet = new THREE.Mesh(new THREE.PlaneGeometry(220, 30), tile(sandWet, 110, 15));
+    const wet = new THREE.Mesh(new THREE.PlaneGeometry(220, 30), f.tiled(sandWet, 110, 15));
     wet.rotation.x = -Math.PI / 2;
     wet.position.set(0, 0.06, 26);
     wet.receiveShadow = true;
@@ -82,12 +70,12 @@ export function createBeach(stage, opts) {
     S.add(sea);
 
     // Seawall, promenade.
-    const wallMat = tile(concrete, 60, 0.7);
+    const wallMat = f.tiled(concrete, 60, 0.7);
     const wall = new THREE.Mesh(new THREE.BoxGeometry(160, 1.8, 0.7), wallMat);
     wall.position.set(0, 0.8, -3.35);
     wall.castShadow = wall.receiveShadow = true;
     S.add(wall);
-    const promMat = tile(concrete, 50, 4);
+    const promMat = f.tiled(concrete, 50, 4);
     promMat.color = new THREE.Color("#8d8a86");
     const prom = new THREE.Mesh(new THREE.BoxGeometry(160, 0.12, 12), promMat);
     prom.position.set(0, 1.66, -9.6);
@@ -95,7 +83,7 @@ export function createBeach(stage, opts) {
     S.add(prom);
 
     // Steps down to the beach, descending toward +x.
-    const stepMat = tile(concrete, 0.3, 0.6);
+    const stepMat = f.tiled(concrete, 0.3, 0.6);
     for (let s = 0; s < 9; s++) {
       const h = (9 - s) * 0.19;
       const step = new THREE.Mesh(new THREE.BoxGeometry(0.32, h, 1.1), stepMat);

@@ -3,6 +3,8 @@
 새 세션·다른 계정에서 이어 갈 때 이 파일부터 읽는다. 설치는 `docs/SETUP.md` (`bash scripts/setup.sh`, 끝에 "결과: 모두 같음 ✓").
 
 ## 바로 다음 할 일 (ep02 마쓰바세 제작 중 — 관문 `python3 scripts/gates.py episodes/ep02-matsubase`)
+회고 두 편(2026-11-21, 같은 날 두 세션): `docs/retros/2026-11-21-harness.md`(팀 7개, 렌더 부담: 18분 편 약 8~9시간 추정 → 그 회고 6번), `docs/retros/2026-11-21-teams-gates.md`(관문 장부·파일럿·블라인드 비교). 팀 `docs/teams.md`.
+
 현재: plan ✅ · facts ✅ · script ✅(사람 승인) · **design: 1차 미달 → SPEC v3 로 지적 전부 반영, visual-critic 재검토 대기** · 나머지 대기.
 1. **design 다시:** storyboard-director 에게 `episodes/ep02-matsubase/data/review-design-1.md`(visual-critic P0 1·P1 24)대로
    `SPEC.md`·`data/shots.json` 을 고치게 하고 → visual-critic(설계 검토 모드) 재검토 → P0 0 이면
@@ -27,10 +29,10 @@
 - 내레이션: `scripts/voice_local.py`(CPU, voxcpm==2.0.3) 추가, 노트북의 `seed` 인자 오류(voxcpm 2.x) 수정. CPU 속도: 복제 모드 한 줄 약 34초.
 - 잘 된 것·안 된 것: 관문 장부가 실제로 되돌림을 잡았다(facts 1회, design 1회). 사실 담당 ↔ 대본 담당 ↔ 대본 검수의 3자 대조로 원문보다 센 문장 30곳 이상을 고쳤다.
 
-## 2026-11-21: 회고와 팀 재구성 (`docs/retrospective-2026-11-21.md`)
+## 2026-11-21: 회고와 팀 재구성 (`docs/retros/2026-11-21-teams-gates.md`)
 - 회고 핵심: 동급 롱폼이 아직 한 편도 없다(R1), 레퍼런스 증거가 얇고(R2) 검수가 자기 채점이다(R3), 사실·도식·편집·메타 담당이 비어 있었다(R4·R5·R9),
   자막↔근거와 관문이 기록되지 않았다(R6·R7), 소리 결정이 마지막에 있었다(R8).
-- **새 팀원 5명(17 → 22):** fact-checker(사실), diagram-builder(2D 도식), editor(리듬·싱크·소리 교차 검수), reference-analyst(레퍼런스 팩·블라인드 시트), meta-writer(upload.json).
+- **새 팀원 5명(17 → 22, main 쪽 performance-analyst 와 합쳐 23):** fact-checker(사실), diagram-builder(2D 도식), editor(리듬·싱크·소리 교차 검수), reference-analyst(레퍼런스 팩·블라인드 시트), meta-writer(upload.json).
 - **새 관문:** `scripts/gates.py`(관문 장부: 순서 강제, 자동 확인, 대본이 바뀌면 다시 필요, 사람 예외 기록), 파일럿 관문, 블라인드 비교(3장 중 2장에서 우리 칸이 "더 싸 보임"이면 동급 아님).
 - **새 검사:** parity "자막 근거 연결"(facts.md 사실 ID + `data/fact_map.json`), `--render <파일>`(파일럿 실측, 결과 `data/parity-<파일>.json`).
 - 메인 세션은 제작 책임자: 단계를 돌리고 장부를 쓰고 사람 결정을 묻는다. 만들거나 검수하지 않는다.
@@ -68,7 +70,7 @@
 | 썸네일 | **장르 히트작 분석으로 개정:** 공개 기록 사진(실제 얼굴 허용, 조건부) 또는 사진 같은 이미지를 크게 + 두 줄 큰 글자(위 흰 줄 + 아래 앰버 명사구). CC0 3D 썸네일은 약해서 보조 | `docs/thumbnail-benchmark.md`, `docs/thumbnail-copy.md` |
 | 제목 | "N년 만에"(숫자+결과) > 최상급, 끝에 `｜사건명`. "~한 이유"는 보조, 물음 제목·비교·경고형 안 씀 | `docs/script-formula.md`, `docs/competitor-report.md` |
 | 길이 | 기본 16~20분 | `docs/competitor-report.md` |
-| 팀 | 22명: 기준 1, 기획·소재 4, 사실 1, 대본 2, 연출·화면 4, 편집·소리 2, 검수·판정 2, 썸네일·메타 6. 관문 장부 `scripts/gates.py` | `.claude/agents/`, `CLAUDE.md`, `docs/retrospective-2026-11-21.md` |
+| 팀 | 22명: 기준 1, 기획·소재 4, 사실 1, 대본 2, 연출·화면 4, 편집·소리 2, 검수·판정 2, 썸네일·메타 6. 관문 장부 `scripts/gates.py` | `.claude/agents/`, `CLAUDE.md`, `docs/retros/2026-11-21-teams-gates.md` |
 
 ## ep01 서머턴 맨 (기준 잡기용 시험편, 3분)
 - 영상: `episodes/ep01-somerton` — 빌드됨(렌더는 `npm run render`, 약 35분). 내레이션·음악 없음, 효과음만.

@@ -126,7 +126,7 @@
    "area": "화면",
    "item": "핵심 장면 실제 사진",
    "target": "핵심 장면 5개 이상, 사진 60% 이상, 못 쓴 장면은 이유",
-   "value": "data/shots.json 없음",
+   "value": "11개 중 사진 0, 문제: hook(사진도 이유도 없음), place(사진도 이유도 없음), trial_1986(사진도 이유도 없음), five_pieces(사진도 이유도 없음), feb14(사진도 이유도 없음), blade_width(사진도 이유도 없음), kaishi_2016(사진도 이유도 없음), not_requested(사진도 이유도 없음), verdict_2019(사진도 이유도 없음), ending(사진도 이유도 없음)",
    "ok": false,
    "note": ""
   },

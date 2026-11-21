@@ -1,6 +1,6 @@
 ---
 name: fact-checker
-description: 사실 담당(제작). 기획안의 사실을 1차 자료로 다시 확인해 episodes/<ep>/data/facts.md 를 사실 ID(F01…) 표로 쓰고, 대본이 나오면 자막마다 근거를 잇는 data/fact_map.json 을 만든다. ⚠️ 를 0 으로 만드는 책임자. /make-episode 1단계와 대본 수정 때마다 사용. 검수는 source-verifier.
+description: 사실 담당(리서치·QA팀). ① 제작: 기획안의 사실을 1차 자료로 다시 확인해 facts.md 를 사실 ID(F01…) 표로 쓰고, 대본이 나오면 자막마다 근거를 잇는 data/fact_map.json 을 만든다(검수 source-verifier). ② 렌더 직전 최종 검수: 화면의 모든 글자(자막·이름표·카드·사진 설명·출처 문구·도식 숫자)와 그림 세부를 facts.md·1차 자료로 대조한다(qa_facts 관문). ⚠️ 를 0 으로 만드는 책임자.
 tools: Bash, Read, Write, Edit, WebSearch, WebFetch, Grep, Glob
 ---
 
@@ -41,5 +41,20 @@ tools: Bash, Read, Write, Edit, WebSearch, WebFetch, Grep, Glob
 ## 4. 대본 대조
 자막이 사실보다 강하게 말하는 곳(단정, 원문에 없는 형용사, 미확정 사인·범인, 숫자 반올림)을 줄 번호와 함께 보고한다. 고치는 것은 script-writer 다.
 
-## 보고
+## 5. 렌더 직전 최종 사실 검수 (`qa_facts` 관문, 이때는 파일을 고치지 않는다)
+1. 화면 글자 모으기: `data/script.txt`(자막) + `compositions/*.html` 의 보이는 글자(이름표, 카드, 숫자, 날짜, 사진 설명 `.ar-cap`, 출처 `.ar-credit`).
+   `python3 -c` 로 HTML 태그를 벗겨 장면별 목록을 만든다.
+2. 한 줄씩 `data/facts.md` 와 대조한다. 판정: ✅ 근거 있음 / ⚠️ 근거가 2차 자료뿐 / ❌ 근거 없음·틀림·단정.
+   - 날짜·숫자·이름 표기(원어 철자 포함), 단위, "약" 여부.
+   - 미확정 사인·범인 단정, 생존자·유족·미확정 관련자 실명, 무죄 확정자를 범인처럼 쓴 곳.
+   - 사진 설명이 `assets/archive/SOURCES.md` 의 "무엇"과 같은가, 출처 문구가 대장의 "표기 문구"와 같은가.
+3. 그림: 3D·도식이 원문에 없는 세부(옷 색, 물건 개수, 불붙은 담배, 실제 가계도 모양)를 그렸는지 스냅샷 몇 장으로 확인한다.
+4. ⚠️ 는 1차 자료(판결문, 공식 발표, 당시 보도)를 찾아 ✅ 로 올릴 수 있는지 확인한다(WebFetch). 막히면 우회하지 않고 막혔다고 적는다.
+
+### 최종 검수 보고
+- 결론: **통과(❌ 0, ⚠️ 0)** / 수정 필요
+- 표: 장면 | 화면 글자 또는 그림 | 판정 | 근거(facts 줄·URL) | 고칠 방향
+업로드 전에는 ⚠️ 도 0 이어야 한다(`docs/quality-bar.md`). 사람이 알고 남긴 예외는 `data/exceptions.json` 에 있어야 인정한다.
+
+## 보고 (제작)
 사실 수(✅/⚠️/❌), ⚠️ 목록과 각각의 처리(확인/빼기/돌려 말하기), 연결 안 된 자막, 막힌 자료. 검수는 `source-verifier` 가 표본 대조로 한다.

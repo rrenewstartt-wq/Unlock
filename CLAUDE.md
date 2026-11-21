@@ -19,14 +19,17 @@
 [6 소리]     sound-designer(voice.py pack → Colab 내 목소리 → import, 음악 큐) → editor 교차 검수 (docs/voice.md)
 [7 렌더]     npx hyperframes render → renders/ (17분 약 3시간, 4코어) → editor 실측 + visual-critic 렌더 검수 → 미리보기본
 [8 썸네일·메타] 썸네일 팀(/thumbnail) + meta-writer → upload.json (검수 thumb-copy-critic)
-[9 판정]     reference-analyst(레퍼런스 팩·블라인드 시트) → parity-judge: 블라인드 비교 먼저, 전 영역 동급이어야 "완성"
+[8.5 사실]   fact-checker(렌더 직전 화면 글자·그림 전체 대조, qa_facts 관문)
+[9 판정]     reference-analyst(레퍼런스 팩·블라인드 시트) → parity_check --strict → parity-judge: 블라인드 비교 먼저, 전 영역 동급이어야 "완성"
+[10 회고]    업로드 2주 뒤 performance-analyst → /retro → 기준 문서 수정(사람 승인)
 ```
 관문 장부: `python3 scripts/gates.py episodes/<ep>` — 단계마다 `pass <관문> --by <검수> --evidence <근거>`. 앞 관문이 없거나 자동 확인이 실패하면 거부,
-대본이 바뀌면 이후 관문은 "다시 필요". 메인 세션은 제작 책임자(돌리고·기록하고·묻는다), 만들거나 검수하지 않는다. 회고: `docs/retrospective-2026-11-21.md`.
+대본이 바뀌면 이후 관문은 "다시 필요". 메인 세션은 제작 책임자(돌리고·기록하고·묻는다), 만들거나 검수하지 않는다. 회고: `docs/retros/`.
 
-슬래시 스킬: `/benchmark` `/scout` `/plan` `/make-episode` `/review` `/thumbnail`. 팀 에이전트 22명 `.claude/agents/`: 기준 reference-analyst / 기획·소재 case-scout, source-verifier, risk-reviewer, episode-planner / 사실 fact-checker /
-대본 script-writer, script-critic / 연출·화면 storyboard-director, archive-researcher, set-builder, diagram-builder / 편집·소리 editor, sound-designer /
-검수·판정 visual-critic, parity-judge / 썸네일·메타 thumb-copywriter, thumb-copy-critic, thumb-director, thumb-builder, thumb-critic, meta-writer. HyperFrames 작업 전에는 `/hyperframes` 스킬을 먼저 읽는다(렌더 계약).
+슬래시 스킬: `/benchmark` `/scout` `/plan` `/make-episode` `/review` `/thumbnail` `/retro`. **팀 7개, 팀원 23명 — `docs/teams.md`**(메인 세션이 쇼러너):
+전략(performance-analyst, reference-analyst) / 리서치(case-scout, source-verifier, risk-reviewer, archive-researcher) / 작가(episode-planner, script-writer, script-critic) /
+아트(storyboard-director, set-builder, diagram-builder) / 포스트(editor, sound-designer) / 썸네일·메타(thumb-copywriter, thumb-copy-critic, thumb-director, thumb-builder, thumb-critic, meta-writer) /
+QA(fact-checker, visual-critic, parity-judge). HyperFrames 작업 전에는 `/hyperframes` 스킬을 먼저 읽는다(렌더 계약).
 
 ## 에피소드 폴더 계약 (`episodes/<ep>/`)
 - `data/script.txt` → `python3 data/build_script.py` → `data/script.json`(장면·자막 시각). **대본은 여기만 고친다.**
