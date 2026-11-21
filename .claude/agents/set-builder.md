@@ -22,6 +22,13 @@ tools: Bash, Read, Write, Edit, Grep, Glob
 3. 카메라는 `scenes_kit.cam_shots` 로 자막마다 컷. 와이드·미디엄·디테일을 섞고, **인물 가슴 위 클로즈업 금지**.
 4. 조명: 키(방향광 또는 스팟) + 림 또는 배경 분리 + 앰버 초점 하나. 화면이 평평한 회색이면 실패.
 
+## 빠른 미리보기 (대본·HyperFrames 없이)
+```bash
+python3 scripts/set_preview.py episodes/<ep> <세트 파일> <factory> '<opts JSON: mode, camera 키>' /tmp/<이름>.png 0,1.5,3
+```
+같은 SwiftShader 로 몇 초 만에 찍는다. 세트를 짓는 동안은 이걸로, 장면에 붙인 뒤에는 아래 snapshot 으로 확인한다.
+앉은 자세: `poseSeated(fig, {style: "chair" | "seiza", forearms})` → `settle(fig, 0)`(의자면 좌판을 골반 아래 약 0.45m 에).
+
 ## 확인 (매번)
 ```bash
 cd episodes/<ep> && python3 build.py && npx --yes hyperframes@0.9.59 snapshot --at <컷마다 한 장> --no-end --timeout 170000

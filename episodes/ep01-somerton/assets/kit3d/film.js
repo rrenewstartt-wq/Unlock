@@ -62,10 +62,10 @@ export class Film extends Thumb {
   }
 
   async _init({ width = 1920, height = 1080, hdri = null, envIntensity = 1, exposure = 1, background = "#000000",
-    envBackground = false, fog = null, shadowSize = 2048 } = {}) {
+    envBackground = false, fog = null, shadowSize = 2048, antialias = true } = {}) {
     this.w = width; this.h = height;
     this.shadowSize = shadowSize;
-    const r = this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, preserveDrawingBuffer: true });
+    const r = this.renderer = new THREE.WebGLRenderer({ antialias, alpha: false, preserveDrawingBuffer: true });
     r.setPixelRatio(1);
     r.setSize(width, height);
     r.outputColorSpace = THREE.SRGBColorSpace;
