@@ -101,7 +101,9 @@ def main():
     cpm = len(text) / (total / 60)
     row("대본", "분당 글자", "380~420", f"{cpm:.0f}", 370 <= cpm <= 430 if data.get("voice") else None,
         "" if data.get("voice") else "읽기 속도 추정값 — 내레이션을 넣은 뒤 판정")
-    row("대본", "날짜로 시작", "첫 자막이 연·월·일", caps[0]["text"], bool(re.match(r"^\s*\d{4}년", caps[0]["text"])))
+    hook = scenes[0] if scenes[0]["id"] == "hook" else None
+    first = (scenes[1] if hook and len(scenes) > 1 else scenes[0])["captions"][0]
+    row("대본", "날짜로 시작", "콜드 오픈 뒤 첫 자막이 연·월·일", first["text"], bool(re.match(r"^\s*\d{4}년", first["text"])))
     teaser = next((c for c in caps if c["start"] <= 60 and re.search(r"\d+\s*년(이|만에|간| 동안)", c["text"])), None)
     row("대본", "떡밥(걸린 햇수)", "60초 안", f'{teaser["start"]:.0f}초 "{teaser["text"]}"' if teaser else "없음", bool(teaser))
     rew = next((c for c in caps if re.search(r"되돌려|거슬러", c["text"])), None)
@@ -171,6 +173,11 @@ def main():
     row("화면", "핵심 장면 실제 사진", f"핵심 장면 {need}개 이상, 사진 60% 이상, 못 쓴 장면은 이유",
         f"{len(keys)}개 중 사진 {with_photo}" + (f", 문제: {', '.join(bad)}" if bad else "") if keys else "data/shots.json 없음",
         len(keys) >= need and share >= 0.6 and not bad)
+    hook_photo = bool(hook) and "assets/archive/" in comp.get("hook", "") and hook["end"] - hook["start"] <= 12
+    hook_skip = next((k for k in keys if k.get("scene") == "hook" and (k.get("no_photo_reason") or "").strip()), None)
+    row("화면", "콜드 오픈 실제 사진", "첫 10초 안에 hook 장면(실제 기록 사진, 12초 이하)",
+        f'{hook["end"] - hook["start"]:.1f}초, 사진 {"있음" if hook_photo else "없음"}' if hook else ("없음 — 이유: " + hook_skip["no_photo_reason"] if hook_skip else "없음"),
+        hook_photo or bool(hook_skip))
     missing_tag = [sid for sid in real if "tag-re" not in comp[sid]]
     row("화면", "3D 에 '재현' 표기", "모든 3D 장면", "누락 " + (", ".join(missing_tag) if missing_tag else "없음"), not missing_tag)
     # Static shot estimate: 3D = camera cuts, 2D = one beat per caption.
