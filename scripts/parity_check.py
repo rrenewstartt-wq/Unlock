@@ -179,7 +179,7 @@ def main():
         f'{hook["end"] - hook["start"]:.1f}초, 사진 {"있음" if hook_photo else "없음"}' if hook else ("없음 — 이유: " + hook_skip["no_photo_reason"] if hook_skip else "없음"),
         hook_photo or bool(hook_skip))
     ar_d = [float(m) for h in comp.values() for m in re.findall(r'class="clip ar-shot[^"]*" data-start="[\d.]+" data-duration="([\d.]+)"', h)]
-    n_ins = sum(h.count("ar-ins") // 2 for h in comp.values())
+    n_ins = sum(h.count("clip ar-shot ar-ins") for h in comp.values())
     want_ins = 1 if test else max(4, round(total / 150))
     row("화면", "실제 사진 컷(약 3초)", f"컷 2.5~4초, 중간 하이라이트 3초 컷 {want_ins}개 이상(2~3분마다)",
         f"사진 컷 {len(ar_d)}개" + (f", 길이 {min(ar_d):.1f}~{max(ar_d):.1f}초" if ar_d else "") + f", 중간 삽입 {n_ins}개",
