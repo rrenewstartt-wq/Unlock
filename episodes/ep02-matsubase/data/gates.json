@@ -1,0 +1,21 @@
+{
+ "stages": {
+  "plan": {
+   "status": "pass",
+   "by": "사람",
+   "evidence": "기획안 승인 2026-11-21 (data/topics/plans/matsubase-kumamoto-1985.md)",
+   "date": "2026-11-21",
+   "script": "d62e51373037"
+  }
+ },
+ "waivers": [],
+ "log": [
+  {
+   "stage": "plan",
+   "status": "pass",
+   "by": "사람",
+   "evidence": "기획안 승인 2026-11-21 (data/topics/plans/matsubase-kumamoto-1985.md)",
+   "date": "2026-11-21"
+  }
+ ]
+}
