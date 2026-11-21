@@ -13,15 +13,16 @@
 [2.7 사실]   1차 자료 조사 → episodes/<ep>/data/facts.md (자막별 근거, ✅/⚠️)
 [3 대본]     script-writer → script-critic → episodes/<ep>/data/script.txt (7단계, 기본 16~20분)              (/make-episode)
 [3.5 설계]   storyboard-director → SPEC.md SHOTS 표(3D/도식/실제 자료 배분, 자막마다 컷) + archive-researcher → assets/archive/
-[4 장면]     scripts/new_episode.py → set-builder(film 키트 3D 세트, assets/lib/*.js) + scenes.py(도식) → build.py
-[5 검수]     npx hyperframes check + parity_check + visual-critic(P0/P1)                                    (/review)
+[4 장면]     scripts/new_episode.py → set-builder(film 키트 3D 세트) + diagram-builder(도식) + archive_scene/insert(기록 사진) → build.py
+[5 편집·검수] editor(컷 리듬·기록 3초 컷) → npx hyperframes check + parity_check + visual-critic(P0/P1)          (/review)
 [6 소리]     sound-designer: scripts/voice.py pack → Colab notebooks/voxcpm2_voice.ipynb(내 목소리 복제) → voice.py import → 음성 길이로 재계산 (docs/voice.md, 동급 판정에 필요)
 [7 렌더]     npx hyperframes render → renders/ (약 35분/3분, 4코어 기준) → 미리보기본(ffmpeg CRF 25)
 [8 썸네일]   썸네일 팀: thumb-director → thumb-builder(thumbkit 3D 정지 장면) → thumb-critic → thumbnail/out/   (/thumbnail, docs/thumbnail-benchmark.md → thumbnail-formula.md)
-[9 판정]     parity-judge: 영역별 동급/근접/미달. 전 영역 동급이어야 "완성"
+[9 판정]     fact-checker(렌더 전) → parity_check --strict → parity-judge: 전 영역 동급이어야 "완성"
+[10 회고]    업로드 2주 뒤 performance-analyst → /retro → 기준 문서 수정(사람 승인)
 ```
 
-슬래시 스킬: `/benchmark` `/scout` `/plan` `/make-episode` `/review` `/thumbnail`. 팀 에이전트: `.claude/agents/`(기획·소재: case-scout, source-verifier, risk-reviewer, episode-planner / 제작: script-writer, script-critic, storyboard-director, set-builder, archive-researcher, sound-designer / 검수·판정: visual-critic, parity-judge / 썸네일: thumb-copywriter, thumb-copy-critic, thumb-director, thumb-builder, thumb-critic). HyperFrames 작업 전에는 `/hyperframes` 스킬을 먼저 읽는다(렌더 계약).
+슬래시 스킬: `/benchmark` `/scout` `/plan` `/make-episode` `/review` `/thumbnail` `/retro`. **팀 7개, 팀원 21명 — `docs/teams.md`**(메인 세션이 쇼러너): 전략(performance-analyst) / 리서치(case-scout, source-verifier, risk-reviewer, archive-researcher) / 작가(episode-planner, script-writer, script-critic) / 아트(storyboard-director, set-builder, diagram-builder) / 포스트(editor, sound-designer) / 썸네일(thumb-copywriter, thumb-copy-critic, thumb-director, thumb-builder, thumb-critic) / QA(fact-checker, visual-critic, parity-judge). HyperFrames 작업 전에는 `/hyperframes` 스킬을 먼저 읽는다(렌더 계약).
 
 ## 에피소드 폴더 계약 (`episodes/<ep>/`)
 - `data/script.txt` → `python3 data/build_script.py` → `data/script.json`(장면·자막 시각). **대본은 여기만 고친다.**
