@@ -1,0 +1,246 @@
+{
+ "episode": "ep02-matsubase",
+ "test": false,
+ "rows": [
+  {
+   "area": "대본",
+   "item": "길이",
+   "target": "12~20분 (기본 16~20분, docs/competitor-report.md)",
+   "value": "16.2분",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "분당 글자",
+   "target": "380~420",
+   "value": "419",
+   "ok": null,
+   "note": "읽기 속도 추정값 — 내레이션을 넣은 뒤 판정"
+  },
+  {
+   "area": "대본",
+   "item": "날짜로 시작",
+   "target": "콜드 오픈 뒤 첫 자막이 연·월·일",
+   "value": "1985년 1월 8일 오전 9시 30분 무렵",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "떡밥(걸린 햇수)",
+   "target": "60초 안",
+   "value": "56초 \"무려 34년이 걸렸습니다\"",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "되감기",
+   "target": "\"~전으로 되돌려 보겠습니다\"",
+   "value": "65초",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "질문형 문장 수",
+   "target": "5~9",
+   "value": 6,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "첫 질문 위치",
+   "target": "8~20%",
+   "value": "11%",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "어미 ~죠 비율",
+   "target": "30~60% (~습니다와 섞기)",
+   "value": "53% (습니다 87, 죠 100)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "같은 어미 연속",
+   "target": "3번 미만",
+   "value": "최대 2번",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "자막 길이",
+   "target": "28자 이하",
+   "value": "0줄 초과",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "소품 회수",
+   "target": "마지막 장면이 도입의 물건을 다시 꺼냄",
+   "value": "남아, 셔츠, 아궁이에서",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "대본",
+   "item": "장면 수",
+   "target": "22개 이상",
+   "value": 52,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "화면",
+   "item": "3D 재연 비중",
+   "target": "35~65% 길이",
+   "value": "5%",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "화면",
+   "item": "사실적 3D(film 키트)",
+   "target": "3D 장면 100%",
+   "value": "3/3",
+   "ok": true,
+   "note": "나머지는 기본 도형 마네킹(world.js)"
+  },
+  {
+   "area": "화면",
+   "item": "실제 자료(기록 사진·지도·문서)",
+   "target": "3장면 이상 + 출처 대장",
+   "value": "3장면, 대장 있음",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "화면",
+   "item": "핵심 장면 실제 사진",
+   "target": "핵심 장면 5개 이상, 사진 60% 이상, 못 쓴 장면은 이유",
+   "value": "11개 중 사진 2, 문제: trial_1986(사진도 이유도 없음), five_pieces(사진 지정했지만 파일·장면·대장 중 빠짐), feb14(사진 지정했지만 파일·장면·대장 중 빠짐), blade_width(사진 지정했지만 파일·장면·대장 중 빠짐), kaishi_2016(사진 지정했지만 파일·장면·대장 중 빠짐), not_requested(사진 지정했지만 파일·장면·대장 중 빠짐), verdict_2019(사진 지정했지만 파일·장면·대장 중 빠짐), ending(사진 지정했지만 파일·장면·대장 중 빠짐)",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "화면",
+   "item": "콜드 오픈 실제 사진",
+   "target": "첫 10초 안에 hook 장면(실제 기록 사진, 12초 이하)",
+   "value": "10.6초, 사진 있음",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "화면",
+   "item": "실제 사진 컷(약 3초)",
+   "target": "컷 2.5~4초, 중간 하이라이트 3초 컷 6개 이상(2~3분마다)",
+   "value": "사진 컷 9개, 길이 2.4~3.8초, 중간 삽입 1개",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "화면",
+   "item": "3D 에 '재현' 표기",
+   "target": "모든 3D 장면",
+   "value": "누락 없음",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "화면",
+   "item": "컷 길이(추정)",
+   "target": "중앙값 3~8초, 최대 12초",
+   "value": "중앙값 3.1초, 최대 3.9초",
+   "ok": true,
+   "note": "장면 파일로 추정. 렌더가 있으면 아래 실측을 본다"
+  },
+  {
+   "area": "소리",
+   "item": "내레이션",
+   "target": "본인 목소리 복제(docs/voice.md)",
+   "value": "없음",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "소리",
+   "item": "음악 베드",
+   "target": "있음 + 라이선스 기록",
+   "value": "없음",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "소리",
+   "item": "효과음",
+   "target": "화면 원인 있는 것만",
+   "value": "51개",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "사실",
+   "item": "⚠️ 남은 사실",
+   "target": "업로드 전 0",
+   "value": 2,
+   "ok": false,
+   "note": "1차 자료로 확인하거나 자막에서 뺀다"
+  },
+  {
+   "area": "사실",
+   "item": "자막 근거 연결",
+   "target": "모든 자막 → facts.md 의 사실 ID",
+   "value": "314/314 연결, ⚠️ 사실에 기댄 자막 1",
+   "ok": true,
+   "note": "⚠️ 연결은 업로드 전 0"
+  },
+  {
+   "area": "썸네일",
+   "item": "완성 썸네일",
+   "target": "문구 검수 통과안 2~3개",
+   "value": "0개",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "메타",
+   "item": "업로드 정보(upload.json)",
+   "target": "제목(공식) + 한·일 태그 8개 이상",
+   "value": "제목 없음, 태그 0개",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "area": "렌더",
+   "item": "10초 간격 화면 변화율",
+   "target": "74~92% (레퍼런스 실측)",
+   "value": "100%",
+   "ok": true,
+   "note": "sample-30s.mp4"
+  },
+  {
+   "area": "렌더",
+   "item": "컷 길이(실측)",
+   "target": "중앙값 3~8초, 최대 12초",
+   "value": "중앙값 3.4초, 최대 8.6초",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "렌더",
+   "item": "음량",
+   "target": "-16~-14 LUFS, 피크 -1 dB 이하",
+   "value": "-24.8 LUFS, 피크 -11.1",
+   "ok": false,
+   "note": "측정값이다. 들어 본 것은 아니다"
+  }
+ ]
+}
