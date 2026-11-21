@@ -97,6 +97,7 @@ ARCHIVE_GRADE = '{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.
 
 def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens=""):
     """A scene built from real archive photos (assets/archive/, licensed in assets/archive/SOURCES.md).
+    Each photo should hold about 3 s (2.5~4 s): the hook = 1~3 photos, one caption line each.
 
     shots: list of dicts, one per photo, cut hard from one to the next:
       src     "assets/archive/<file>.jpg"
@@ -163,3 +164,44 @@ def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens
     script = ("    const tl = gsap.timeline({ paused: true });\n" + "\n".join(tw) + "\n" + tweens +
               f'\n    window.__timelines["{sid}"] = tl;')
     return wrap(sid, dur, base_css + css, "\n".join(["    " + m for m in markup]) + "\n    " + tag + "\n" + overlay, script)
+
+
+def archive_insert(sid, at, src, size, dur=3.0, focus=None, caption="", credit="", tilt=-1.0, push=(1.0, 1.06), n=0):
+    """A ~3-second real-photo cut inserted inside any scene (3D or diagram) at a highlight.
+
+    Returns (markup, css, tweens) to add to the scene: scene3d(..., overlay=markup, css=css, tweens=tweens), or into a wrap() scene.
+    at: scene-local seconds (usually q[i] + small offset, the moment the caption names the thing).
+    focus: (cx, cy, r) amber ring on the photo, 0..1 of width/height, drawn 0.4 s after the cut.
+    """
+    w, h = size
+    k_fit = min(1300 / w, 760 / h, 2.6)
+    pw, ph = round(w * k_fit), round(h * k_fit)
+    iid = f"{sid}-ins{n}"
+    ring, tw = "", []
+    if focus:
+        cx, cy, r = focus
+        ring = (f'<svg class="ar-ring" viewBox="0 0 {pw} {ph}" width="{pw}" height="{ph}">'
+                f'<ellipse id="{iid}-r" cx="{round(cx * pw)}" cy="{round(cy * ph)}" rx="{round(r * pw)}" ry="{round(r * pw * 0.82)}" '
+                f'pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100"/></svg>')
+        tw.append(f'    tl.to("#{iid}-r", {{ strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }}, {round(at + 0.4, 2)});')
+    fig = (f'<figure class="ar-print" style="width:{pw}px;height:{ph}px;transform:translate(-50%,-50%) rotate({tilt}deg)">'
+           f'<img class="ar-img" src="{src}" alt="" style="width:{pw}px;height:{ph}px" data-color-grading=\'{ARCHIVE_GRADE}\'/>{ring}</figure>')
+    inner = (f'<div id="{iid}-cam" class="ar-cam">{fig}</div>'
+             + (f'<div class="ar-cap">{caption}</div>' if caption else "")
+             + (f'<div class="ar-credit">{credit}</div>' if credit else "")
+             + '<div class="tag-re tag-ar">기록</div>')
+    markup = "    " + clip(iid, round(at, 2), dur, "ar-shot ar-ins", inner)
+    tw.append(f'    tl.fromTo("#{iid}-cam", {{ scale: {push[0]} }}, {{ scale: {push[1]}, duration: {dur}, ease: "none" }}, {round(at, 2)});')
+    css = f"""
+    .ar-shot {{ position: absolute; inset: 0; background: {BOARD}; overflow: hidden; }}
+    .ar-ins {{ z-index: 20; }}
+    .ar-cam {{ position: absolute; inset: 0; transform-origin: 50% 46%; }}
+    .ar-print {{ position: absolute; left: 50%; top: 46%; margin: 0; padding: 0; background: #EDE8DE;
+      outline: 18px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }}
+    .ar-img {{ display: block; }}
+    .ar-ring {{ position: absolute; left: 0; top: 0; overflow: visible; }}
+    .ar-ring ellipse {{ fill: none; stroke: {AMBER}; stroke-width: 7; stroke-linecap: round; }}
+    .ar-cap {{ position: absolute; left: 0; right: 0; bottom: 176px; text-align: center; font-size: 32px; color: rgba(233,229,221,.9); }}
+    .ar-credit {{ position: absolute; right: 64px; bottom: 30px; font-size: 22px; color: rgba(233,229,221,.62); }}
+    .tag-ar {{ border-color: {AMBER}; }}"""
+    return markup, css, "\n".join(tw)

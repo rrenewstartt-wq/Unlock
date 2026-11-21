@@ -9,6 +9,7 @@
 
 ## 실제 사진 (핵심 장면은 사진이 먼저)
 - 핵심 장면(발견, 결정적 증거, 인물, 장소, 반전, 엔딩 — `docs/quality-bar.md`)은 **실제 기록 사진을 먼저** 쓴다. 3D·도식은 사진을 쓸 수 없을 때만.
+- **한 컷 약 3초.** 처음 후킹 1~3장 + 중간 하이라이트마다 3초 컷(`scenes_kit.archive_insert(sid, at, src, size, focus=...)` 를 3D·도식 장면 안에 끼움).
 - `scenes_kit.archive_scene(sid, dur, q, shots)`: 사진마다 한 컷, `기록` 표기(앰버 테두리), 출처 한 줄, 흑백·바랜 톤·그레인
   (HyperFrames `data-color-grading` `mono-fade` — 모든 기록 사진에 같은 룩, CSS 필터로 흉내 내지 않는다).
 - 작은 옛 사진은 보드 위 인화 사진(흰 테두리, ±1.2° 기울기, 그림자), 큰 사진(긴 변 1600px 이상)만 `mode: "cover"`.

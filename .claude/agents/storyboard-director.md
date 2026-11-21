@@ -21,6 +21,7 @@ tools: Bash, Read, Write, Edit, Grep, Glob
    `archive-researcher` 에게 넘길 목록(무엇을, 왜, 어느 장면)을 따로 적고, `episodes/<ep>/data/shots.json` 을 쓴다:
    `{"key_scenes": [{"scene": "<장면 id>", "why": "결정적 증거", "want": "찾을 사진", "photo": null, "no_photo_reason": ""}]}`
    (`photo` 와 `no_photo_reason` 은 자료 담당이 채운다). 사진이 있을 장면은 "재현 → 기록" 짝(3D 로 상황, 실제 사진으로 컷)을 우선 검토한다.
+   실제 사진 컷은 **약 3초**: 처음 후킹 1~3장, 중간 하이라이트마다 3초 컷(SHOTS 표에 "기록 3초 @자막 n"으로 표시, 롱폼 2~3분마다 하나꼴).
 6. 원문에 없는 세부를 그림에 넣지 않는다(옷 색, 표정, 무기 모양 등은 기록에 있을 때만).
 
 보고: 장면 수, 종류별 비중(%), 새로 지을 3D 세트 목록과 각 세트의 작업량, 실제 자료 요청 목록.

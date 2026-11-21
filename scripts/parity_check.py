@@ -178,6 +178,12 @@ def main():
     row("화면", "콜드 오픈 실제 사진", "첫 10초 안에 hook 장면(실제 기록 사진, 12초 이하)",
         f'{hook["end"] - hook["start"]:.1f}초, 사진 {"있음" if hook_photo else "없음"}' if hook else ("없음 — 이유: " + hook_skip["no_photo_reason"] if hook_skip else "없음"),
         hook_photo or bool(hook_skip))
+    ar_d = [float(m) for h in comp.values() for m in re.findall(r'class="clip ar-shot[^"]*" data-start="[\d.]+" data-duration="([\d.]+)"', h)]
+    n_ins = sum(h.count("ar-ins") // 2 for h in comp.values())
+    want_ins = 1 if test else max(4, round(total / 150))
+    row("화면", "실제 사진 컷(약 3초)", f"컷 2.5~4초, 중간 하이라이트 3초 컷 {want_ins}개 이상(2~3분마다)",
+        f"사진 컷 {len(ar_d)}개" + (f", 길이 {min(ar_d):.1f}~{max(ar_d):.1f}초" if ar_d else "") + f", 중간 삽입 {n_ins}개",
+        bool(ar_d) and all(2.5 <= d <= 4.2 for d in ar_d) and n_ins >= want_ins)
     missing_tag = [sid for sid in real if "tag-re" not in comp[sid]]
     row("화면", "3D 에 '재현' 표기", "모든 3D 장면", "누락 " + (", ".join(missing_tag) if missing_tag else "없음"), not missing_tag)
     # Static shot estimate: 3D = camera cuts, 2D = one beat per caption.
