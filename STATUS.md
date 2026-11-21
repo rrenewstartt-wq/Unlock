@@ -2,14 +2,30 @@
 
 새 세션·다른 계정에서 이어 갈 때 이 파일부터 읽는다. 설치는 `docs/SETUP.md` (`bash scripts/setup.sh`, 끝에 "결과: 모두 같음 ✓").
 
-## 바로 다음 할 일
-1. **2편 기획안 승인** — 마쓰바세 사건 선정·기획 완료(`data/topics/plans/matsubase-kumamoto-1985.md`, 상태 `기획됨`).
-   제목 후보 5개(추천 「징역 13년이 확정됐던 일본 남자, 34년 만에 무죄｜마쓰바세 사건」), 썸네일 2안(셔츠 왼소매 / 고타츠 위의 귤), 약 17분·46장면·새 3D 세트 6개.
-   안협소 58만 영상은 아시카가 사건(태그 기준)이라 같은 사건 아님. 승인되면:
-   `python3 scripts/new_episode.py ep02-matsubase "<제목>"` → `python3 scripts/gates.py episodes/ep02-matsubase pass plan --by 사람 --evidence "기획안 승인"` → `/make-episode`.
-2. **사람 결정을 앞당긴다(대본 승인 때 함께):** 내레이션 녹음(본인 목소리, Colab)과 음악 출처. 이것 없이는 소리 영역이 동급이 될 수 없다(회고 R8).
-3. 2편은 **파일럿 관문**(콜드 오픈~첫 질문, 약 2분 30초)이 블라인드 비교에서 동급이어야 나머지 장면을 짓는다.
-4. ep01 남은 일(시험편이라 급하지 않음): 렌더 안 함, 보관소 장면 film 키트로, 담배 인서트 컷, facts.md 를 사실 ID 표로.
+## 바로 다음 할 일 (ep02 마쓰바세 제작 중 — 관문 `python3 scripts/gates.py episodes/ep02-matsubase`)
+현재: plan ✅ · facts ✅ · script ✅(사람 승인) · **design ❌ 1차 미달 → 고치는 중** · 나머지 대기.
+1. **design 다시:** storyboard-director 에게 `episodes/ep02-matsubase/data/review-design-1.md`(visual-critic P0 1·P1 24)대로
+   `SPEC.md`·`data/shots.json` 을 고치게 하고 → visual-critic(설계 검토 모드) 재검토 → P0 0 이면
+   `gates.py ... pass design --by visual-critic --evidence "..."`. (2026-11-21 storyboard-director 가 고치던 중 사용량 제한으로 멈춤 — SPEC.md 는 일부만 반영된 상태로 커밋됨. 이어서 고칠 때 review-design-1.md 항목마다 반영 여부부터 확인한다.)
+2. **archive:** archive-researcher 에게 SPEC 의 요청 R1~R9(판결문·결정문 지면은 실명 줄을 **파일 자체에서** 잘라 냄) + shots.json 핵심 장면 12.
+3. **pilot:** 0~137초(hook~calendar) + 판정용 시험 컷 6개. 세트 room·outside·home(+시험 컷: police·vault·knife). 직전에 레퍼런스 수집 재시도
+   (`python3 scripts/benchmark.py @unlock_kr --all-storyboards` → `scripts/blind_sheet.py`). 봇 확인이면 사용자에게 다시 묻는다.
+4. **내레이션(사람 녹음 받음, 사용자 확인 대기):** 이 환경 CPU 로 생성한다(`docs/voice.md` "Colab 없이").
+   - 기준 녹음은 개인 정보라 저장소에 없다. 새 환경에서는 사용자에게 녹음 파일(m4a)을 다시 받아 `python3 scripts/voice_local.py setup` → `ref <파일>`.
+     녹음 문장은 `config/voice.json → reference_text`(이미 실제 녹음 문장으로 맞춰 둠).
+   - 시험 3줄(콜드 오픈) 생성·받아쓰기 대조 완료, **사용자가 목소리를 들어 보고 확인하는 중**. 괜찮으면 `voice.py pack` → `voice_local.py gen`(314줄, 약 3시간) → `voice.py import`.
+5. **음악:** 사용자가 나중에 정함 → 정하기 전까지 sound 는 미달로 남는다.
+6. 업로드 직전: facts F204(최고재판소 결과) 다시 확인, F29(이름 읽기)는 확인 못 하면 "미야타 씨"만(대본은 이미 그렇게 씀).
+7. ep01 남은 일(급하지 않음): 렌더, 보관소 장면 film 키트로, 담배 인서트, facts.md 를 사실 ID 표로.
+
+## 2026-11-21: ep02 진행 기록
+- 사실: `data/facts.md` F01~F224(1차 자료: 재심 판결 2019, 고법 결정 2017, 국가배상 1심 2025·2심 2026 — courts.go.jp), source-verifier 원문 대조 2회(불합격 → 합격).
+- 대본: 52장면 314줄 16.2분(읽기 속도), 질문 6개(첫 11%), 자막 근거 연결 314/314. script-critic 3회(수정 → 수정 → 합격), 사람 승인.
+  제목 「징역 13년이 확정됐던 일본 남자, 34년 만에 무죄｜마쓰바세 사건」.
+- 설계: SHOTS 52장면(3D 49.6%·도식 39.4%·기록 11%), 장면 안 기록 3초 컷 12, 핵심 장면 12(사진 11 예정). 1차 검토 미달.
+- 레퍼런스 팩: `data/benchmark/unlock_kr/reference-pack.json` 은 봇 확인으로 프레임 0장(자막 수치만). 블라인드 시트 도구 `scripts/blind_sheet.py` 준비됨.
+- 내레이션: `scripts/voice_local.py`(CPU, voxcpm==2.0.3) 추가, 노트북의 `seed` 인자 오류(voxcpm 2.x) 수정. CPU 속도: 복제 모드 한 줄 약 34초.
+- 잘 된 것·안 된 것: 관문 장부가 실제로 되돌림을 잡았다(facts 1회, design 1회). 사실 담당 ↔ 대본 담당 ↔ 대본 검수의 3자 대조로 원문보다 센 문장 30곳 이상을 고쳤다.
 
 ## 2026-11-21: 회고와 팀 재구성 (`docs/retrospective-2026-11-21.md`)
 - 회고 핵심: 동급 롱폼이 아직 한 편도 없다(R1), 레퍼런스 증거가 얇고(R2) 검수가 자기 채점이다(R3), 사실·도식·편집·메타 담당이 비어 있었다(R4·R5·R9),
@@ -65,7 +81,7 @@
 0. **동급에 꼭 필요한 사람 결정:** 내레이션 녹음(본인 목소리, Colab), 음악 출처(본인 소유 곡 또는 사용 허가가 명확한 라이브러리).
 1. ep01 썸네일 문구 3안 중 선택(또는 A/B 테스트).
 2. 사진이 없는 사건의 썸네일 이미지: AI 생성 이미지(HeyGen, 유료 크레딧) 사용 여부.
-3. 2편 기획안 승인(위 "바로 다음 할 일" 1번).
+3. (완료) 2편 기획안·대본 승인.
 4. 1978 일본 해변 연인(북한 납치)을 이 채널에서 다룰지, 사후 얼굴 사진(서머턴 맨)을 본편에 쓸지.
 
 ## 다음 순서 (사건이 정해지면)
