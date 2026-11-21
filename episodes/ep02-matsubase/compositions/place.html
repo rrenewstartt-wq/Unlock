@@ -8,15 +8,42 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    .ar-shot { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); overflow: hidden; }
+    .ar-cam { position: absolute; inset: 0; transform-origin: 50% 43%; }
+    .ar-print { position: absolute; left: 50%; top: 43%; margin: 0; padding: 0; background: #EDE8DE;
+      outline: 18px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }
+    .ar-cover { position: absolute; inset: 0; margin: 0; }
+    .ar-cover .ar-img { width: 1920px; height: 1080px; object-fit: cover; }
+    .ar-img { display: block; }
+    .ar-ring { position: absolute; left: 0; top: 0; overflow: visible; }
+    .ar-ring ellipse { fill: none; stroke: #F0A23B; stroke-width: 7; stroke-linecap: round; }
+    .ar-cap { position: absolute; left: 0; right: 0; top: 830px; text-align: center; font-size: 32px; color: rgba(233,229,221,.9); }
+    .ar-credit { position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }
+    .tag-ar { border-color: #F0A23B; }
+    .ar-cover::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(to bottom, rgba(14,16,19,.45) 0%, rgba(14,16,19,.30) 35%, rgba(14,16,19,.55) 70%, rgba(14,16,19,.88) 100%); }
+    .ar-cover .ar-img { filter: brightness(.78) contrast(1.08); }
   </style>
   <div id="root" data-composition-id="place" data-width="1920" data-height="1080">
-    <div id="place-ph" class="clip ph" data-start="0" data-duration="15.16"><b class="disp">place</b><span>장면을 만들어 주세요</span></div>
+    <div id="place-ph0" class="clip ar-shot" data-start="0.0" data-duration="3.09"><div id="place-cam0" class="ar-cam"><figure class="ar-cover"><img class="ar-img" src="assets/archive/map-kyushu.png" alt="" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/></figure></div><div class="ar-cap">일본 규슈</div><div class="ar-credit">出典：国土地理院（地理院タイル・淡色地図）を加工して作成 · 현재 지도</div></div>
+    <div id="place-ph1" class="clip ar-shot" data-start="3.09" data-duration="3.14"><div id="place-cam1" class="ar-cam"><figure class="ar-cover"><img class="ar-img" src="assets/archive/map-kumamoto.png" alt="" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/></figure></div><div class="ar-cap">구마모토현 서부</div><div class="ar-credit">出典：国土地理院（地理院タイル・淡色地図）を加工して作成 · 현재 지도</div></div>
+    <div id="place-ph2" class="clip ar-shot" data-start="6.23" data-duration="2.36"><div id="place-cam2" class="ar-cam"><figure class="ar-cover"><img class="ar-img" src="assets/archive/map-matsubase.png" alt="" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/><svg class="ar-ring" viewBox="0 0 1920 1080" width="1920" height="1080"><ellipse id="place-r2-0" cx="941" cy="540" rx="96" ry="79" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100"/></svg></figure></div><div class="ar-cap">지금의 우키시 마쓰바세 · 마쓰바세역 부근(집 위치는 표시하지 않음)</div><div class="ar-credit">出典：国土地理院（地理院タイル・淡色地図）を加工して作成 · 현재 지도</div></div>
+    <div id="place-ph3" class="clip ar-shot" data-start="8.59" data-duration="3.14"><div id="place-cam3" class="ar-cam"><figure class="ar-print" style="width:453px;height:640px;transform:translate(-50%,-50%) rotate(1.2deg)"><img class="ar-img" src="assets/archive/saishin-p2.png" alt="" style="width:453px;height:640px" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/><svg class="ar-ring" viewBox="0 0 453 640" width="453" height="640"><ellipse id="place-r3-0" cx="149" cy="120" rx="50" ry="41" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100"/></svg></figure></div><div class="ar-cap">재심 판결문 2쪽 — 사건의 발견</div><div class="ar-credit">구마모토지법 재심 판결(2019) · 재판소 공개본</div></div>
+    <div id="place-ph4" class="clip ar-shot" data-start="11.73" data-duration="3.43"><div id="place-cam4" class="ar-cam"><figure class="ar-print" style="width:1760px;height:269px;transform:translate(-50%,-50%) rotate(0deg)"><img class="ar-img" src="assets/archive/saishin-p2-l5.png" alt="" style="width:1760px;height:269px" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/></figure></div><div class="ar-cap">「1985년 1월 8일 오전 9시 30분경 … 자택 방 안에서 … 발견되었다」</div><div class="ar-credit">구마모토지법 재심 판결(2019) · 재판소 공개본</div></div>
+    <div id="place-tag" class="clip tag-re tag-ar" data-start="0.3" data-duration="14.86">기록</div>
+
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#place-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.fromTo("#place-cam0", { scale: 1.0, x: 0, y: 0 }, { scale: 1.06, x: 0, y: 0, duration: 3.09, ease: "none" }, 0.0);
+    tl.fromTo("#place-cam1", { scale: 1.0, x: 0, y: 0 }, { scale: 1.08, x: 0, y: 0, duration: 3.14, ease: "none" }, 3.09);
+    tl.to("#place-r2-0", { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, 6.43);
+    tl.fromTo("#place-cam2", { scale: 1.0, x: 0, y: 0 }, { scale: 1.12, x: 20, y: -10, duration: 2.36, ease: "none" }, 6.23);
+    tl.to("#place-r3-0", { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, 8.79);
+    tl.fromTo("#place-cam3", { scale: 1.0, x: 0, y: 0 }, { scale: 1.08, x: 20, y: -20, duration: 3.14, ease: "none" }, 8.59);
+    tl.fromTo("#place-cam4", { scale: 1.0, x: 0, y: 0 }, { scale: 1.04, x: 0, y: 0, duration: 3.43, ease: "none" }, 11.73);
+
     window.__timelines["place"] = tl;
   </script>
 </template>

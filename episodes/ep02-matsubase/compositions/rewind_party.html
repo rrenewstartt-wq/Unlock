@@ -8,15 +8,55 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    .rlabel { position: absolute; left: 96px; top: 150px; padding: 16px 30px 18px 30px; background: rgba(16,18,21,.74);
+      border-left: 8px solid #E9E5DD; font-size: 46px; line-height: 1.15; color: #F3F0EA; }
+    .rlabel small { display: block; font-family: "Gothic A1", sans-serif; font-size: 34px; margin-top: 8px; color: rgba(243,240,234,.9); }
+    .rlabel.amber { border-left-color: #F0A23B; }
+    .rlabel.right { left: auto; right: 96px; }
   </style>
   <div id="root" data-composition-id="rewind_party" data-width="1920" data-height="1080">
-    <div id="rewind_party-ph" class="clip ph" data-start="0" data-duration="18.37"><b class="disp">rewind_party</b><span>장면을 만들어 주세요</span></div>
+    <div id="rewind_party-stage" class="clip" data-start="0" data-duration="18.37" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="rewind_party-re" class="clip tag-re" data-start="0.3" data-duration="18.07">재현</div>
+    <div id="rewind_party-lb0" class="clip rlabel disp" data-start="0.0" data-duration="2.39">◀◀ 사흘 전</div>
+    <div id="rewind_party-lb1" class="clip rlabel disp" data-start="2.49" data-duration="2.2">1985.1.5 밤</div>
+    <div id="rewind_party-lb2" class="clip rlabel disp" data-start="4.79" data-duration="3.3">넷 · 장기 친구</div>
+    <div id="rewind_party-lb3" class="clip rlabel disp right" data-start="8.19" data-duration="3.3">한 친구 집 → 피해자 집</div>
+    <div id="rewind_party-lb4" class="clip rlabel disp" data-start="11.59" data-duration="3.04">공소장 · 밤 11:30 무렵</div>
+    <div id="rewind_party-lb5" class="clip rlabel disp" data-start="14.73" data-duration="3.64">말다툼</div>
   </div>
-  <script>
+  <script type="module">
+    import { createRoom } from "./assets/lib/room.js";
+    const render = createRoom(document.getElementById("rewind_party-stage"), { mode: "night", camera: [
+      { t: 0, pos: [-1.95, 1.3, 1.55], look: [0.55, 0.56, -0.3], fov: 50 },
+      { t: 2.42, pos: [-1.8, 1.256, 1.439], look: [0.55, 0.56, -0.3], fov: 50, ease: "linear" },
+      { t: 2.44, pos: [-1.4, 0.8, -1.3], look: [0.6, 1.2, -0.45], fov: 50, cut: true },
+      { t: 4.72, pos: [-1.28, 0.824, -1.249], look: [0.6, 1.2, -0.45], fov: 50, ease: "linear" },
+      { t: 4.74, pos: [0.5, 1.5, 0.45], look: [0.0, 1.88, 0.0], fov: 40, cut: true },
+      { t: 8.12, pos: [0.47, 1.523, 0.423], look: [0.0, 1.88, 0.0], fov: 40, ease: "linear" },
+      { t: 8.14, pos: [1.9, 1.0, 1.3], look: [-2.25, 0.62, -1.75], fov: 44, cut: true },
+      { t: 11.52, pos: [1.651, 0.977, 1.117], look: [-2.25, 0.62, -1.75], fov: 44, ease: "linear" },
+      { t: 11.54, pos: [-1.9, 1.2, -0.9], look: [0.4, 1.55, -0.55], fov: 42, cut: true },
+      { t: 14.66, pos: [-1.762, 1.221, -0.879], look: [0.4, 1.55, -0.55], fov: 42, ease: "linear" },
+      { t: 14.68, pos: [-2.05, 0.1, 1.25], look: [0.6, 0.18, -0.35], fov: 40, cut: true },
+      { t: 18.37, pos: [-1.891, 0.105, 1.154], look: [0.6, 0.18, -0.35], fov: 40, ease: "linear" }
+    ], cues: { dissolve: 0.6 } });
+    const st = { t: 0 };
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#rewind_party-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.to(st, { t: 18.37, duration: 18.37, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.fromTo("#rewind_party-lb0", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 0.05);
+    tl.to("#rewind_party-lb0", { opacity: 0, duration: 0.3, ease: "power2.in" }, 2.04);
+    tl.fromTo("#rewind_party-lb1", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 2.54);
+    tl.to("#rewind_party-lb1", { opacity: 0, duration: 0.3, ease: "power2.in" }, 4.34);
+    tl.fromTo("#rewind_party-lb2", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 4.84);
+    tl.to("#rewind_party-lb2", { opacity: 0, duration: 0.3, ease: "power2.in" }, 7.74);
+    tl.fromTo("#rewind_party-lb3", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 8.24);
+    tl.to("#rewind_party-lb3", { opacity: 0, duration: 0.3, ease: "power2.in" }, 11.14);
+    tl.fromTo("#rewind_party-lb4", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 11.64);
+    tl.to("#rewind_party-lb4", { opacity: 0, duration: 0.3, ease: "power2.in" }, 14.28);
+    tl.fromTo("#rewind_party-lb5", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 14.78);
+    tl.to("#rewind_party-lb5", { opacity: 0, duration: 0.3, ease: "power2.in" }, 18.02);
+    render(0);
     window.__timelines["rewind_party"] = tl;
   </script>
 </template>

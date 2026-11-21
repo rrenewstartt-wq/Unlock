@@ -20,8 +20,8 @@ const X0 = -W / 2, X1 = W / 2, Z0 = -D / 2, Z1 = D / 2;
 const TOP = 0.42;                           // kotatsu top surface
 const WIN = { z0: -0.65, z1: 1.05, y0: 0.78, y1: 1.86 }; // window opening in the east wall
 const DOOR = { z0: -1.45, z1: -0.55, y1: 1.82 };          // doorway in the west wall
-const NET = [0.27, 0.27];                   // south-east corner of the top (x, z)
-const PEEL = [-0.06, 0.17];                 // in the net's shadow, so the amber pool reads
+const NET = [0.2, 0.22];                   // south-east corner of the top (x, z)
+const PEEL = [-0.12, 0.15];                 // in the net's shadow, so the amber pool reads
 
 const MODES = {
   morning: { hdri: "kloofendal_misty_morning_puresky", env: 0.16, bg: 1.15, exposure: 0.95, sun: 5.2, sunColor: "#eef1f3",
@@ -190,7 +190,7 @@ export function createRoom(stage, opts) {
     }
     futGeo.computeVertexNormals();
     const futMat = f.tiled(linen, 7, 7);
-    futMat.color = new THREE.Color("#4a4c52");
+    futMat.color = new THREE.Color("#4a4440");
     futMat.side = THREE.DoubleSide;
     mesh(futGeo, futMat, [0, 0, 0]);
     // top: dark wood board with a rounded edge
@@ -202,7 +202,7 @@ export function createRoom(stage, opts) {
 
     // ---------------------------------------------------------------- mikan (desaturated, cool), the red net, the peel
     const dimple = dimpleTexture();
-    const mikanMat = new THREE.MeshStandardMaterial({ color: "#ad6a45", roughness: 0.46, bumpMap: dimple, bumpScale: 0.6 });
+    const mikanMat = new THREE.MeshStandardMaterial({ color: "#9a5530", roughness: 0.5, bumpMap: dimple, bumpScale: 0.6 });
     const mikanGeo = new THREE.SphereGeometry(0.032, 28, 20);
     const onTop = [];   // everything that sits on the kotatsu top (hidden in night mode, faded during the dissolve)
     // The bag lies on its side and the 19 fruit slump inside it. Settled once at build time by a deterministic
@@ -239,39 +239,60 @@ export function createRoom(stage, opts) {
       inner.add(m);
       return m;
     });
-    // The net: it clings to the outer face of the fruit, so each mikan gets a slightly larger netted shell (inner faces
-    // are hidden by the neighbours); both ends of the bag are gathered into short netted cones, one tied off.
-    const netTex = netTexture();
-    netTex.repeat.set(9, 5);
-    const netMat = new THREE.MeshStandardMaterial({ color: "#76353a", roughness: 0.7, alphaMap: netTex, alphaTest: 0.5,
-      side: THREE.DoubleSide, transparent: false });
-    const shellGeo = new THREE.SphereGeometry(0.0335, 28, 20);
-    for (const m of mikans) {
-      const shell = new THREE.Mesh(shellGeo, netMat);
-      shell.castShadow = true;
-      m.add(shell);
-    }
-    const endTex = netTex.clone(); endTex.repeat.set(9, 2); endTex.needsUpdate = true;
-    const endMat = netMat.clone(); endMat.alphaMap = endTex;
+    // calyx: a small dark stem scar on each fruit
+    const calyxGeo = new THREE.CylinderGeometry(0.0045, 0.006, 0.003, 12);
+    const calyxMat = new THREE.MeshStandardMaterial({ color: "#3f4030", roughness: 0.8 });
+    for (const m of mikans) { const c = new THREE.Mesh(calyxGeo, calyxMat); c.position.y = 0.032; m.add(c); }
+    // The net: two families of helical strands (a diamond mesh) around the bag axis (x). Each strand point is found by
+    // marching in from outside toward the axis until it touches a mikan (or the table); the radius is then smoothed along
+    // the strand, never sinking more than 4 mm into the fruit, so the mesh clings over the fruit and bridges the gaps.
+    // Past the last fruit there is nothing to stop the march, so both ends gather onto the axis; one end is tied off.
     const xs = P.map((p) => p.x), yMid = P.reduce((a, p) => a + p.y, 0) / P.length;
-    for (const [x, dir] of [[Math.min(...xs) - RX + 0.006, -1], [Math.max(...xs) + RX - 0.006, 1]]) {
-      const cone = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.05, 0.045, 36, 4, true), endMat);
-      cone.rotation.z = -dir * Math.PI / 2;               // narrow end pointing away from the fruit
-      cone.position.set(x + dir * 0.02, yMid, 0);
-      cone.castShadow = true;
-      inner.add(cone);
-      if (dir > 0) {
-        const tie = new THREE.Mesh(new THREE.CylinderGeometry(0.007, 0.004, 0.03, 10), new THREE.MeshStandardMaterial({ color: "#6a3034", roughness: 0.6 }));
-        tie.rotation.z = -Math.PI / 2;
-        tie.position.set(x + 0.058, yMid - 0.004, 0.002);
-        tie.castShadow = true;
-        inner.add(tie);
+    const xA = Math.min(...xs) - RX - 0.02, xB = Math.max(...xs) + RX + 0.02, L = xB - xA;
+    const Rn = 0.0342;
+    const inFruit = (x, y, z) => P.some((c) => (c.x - x) ** 2 + ((c.y - y) / 0.84) ** 2 + (c.z - z) ** 2 < Rn * Rn);
+    const surf = (x, th) => {                  // radius at which a ray from the axis at angle th first meets the heap
+      const cy = Math.cos(th), cz = Math.sin(th);
+      let r = 0.18;
+      while (r > 0.003) {
+        const rr = r - 0.0012;
+        if (inFruit(x, yMid + cy * rr, cz * rr)) break;
+        r = rr;
       }
+      return r;
+    };
+    const netMat = new THREE.MeshStandardMaterial({ color: "#6c2b30", roughness: 0.8 });
+    const N = 16, NP = 110, TURNS = 1.15;
+    const ends = [];
+    for (const fam of [1, -1]) for (let k = 0; k < N; k++) {
+      const xsP = [], thP = [], rP = [];
+      for (let j = 0; j <= NP; j++) {
+        const u = j / NP, x = xA + u * L, th = (k / N) * 2 * Math.PI + fam * u * TURNS * 2 * Math.PI;
+        xsP.push(x); thP.push(th); rP.push(surf(x, th));
+      }
+      let sm = rP.slice();
+      for (let pass = 0; pass < 6; pass++) sm = sm.map((r, j) => (j === 0 || j === NP) ? r : (sm[j - 1] + 2 * r + sm[j + 1]) / 4);
+      const pts = rP.map((r, j) => {
+        const rr = Math.max(r, sm[j] - 0.004) + 0.0012;
+        const y = Math.max(0.0012, yMid + Math.cos(thP[j]) * rr);
+        return new THREE.Vector3(xsP[j], y, Math.sin(thP[j]) * rr);
+      });
+      ends.push(pts[NP]);
+      const tube = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), NP * 2, 0.0009, 4, false), netMat);
+      tube.castShadow = true;
+      inner.add(tube);
     }
+    const endMat = netMat;
+    const knot = ends.reduce((a, p) => a.add(p), new THREE.Vector3()).multiplyScalar(1 / ends.length);
+    const tie = new THREE.Mesh(new THREE.CylinderGeometry(0.0035, 0.006, 0.03, 10), new THREE.MeshStandardMaterial({ color: "#6a3034", roughness: 0.6 }));
+    tie.rotation.z = -Math.PI / 2 + 0.3;
+    tie.position.set(knot.x + 0.012, Math.max(0.006, knot.y - 0.004), knot.z);
+    tie.castShadow = true;
+    inner.add(tie);
     const pile = new THREE.Group();
     pile.add(inner);
     pile.position.set(NET[0], TOP, NET[1]);
-    pile.rotation.y = 0.55;
+    pile.rotation.y = 0.64;
     S.add(pile);
     onTop.push(pile);
 
@@ -368,7 +389,7 @@ export function createRoom(stage, opts) {
     amberMikan.target.position.copy(topMikan);
     S.add(amberMikan, amberMikan.target);
     // Night: the bulb. A downward spot (the shade stops the light going up) + a dim point for the ceiling and walls.
-    const lampDown = new THREE.SpotLight("#ffd6a0", 0, 0, 1.15, 0.55, 2);
+    const lampDown = new THREE.SpotLight("#ffe0bd", 0, 0, 1.15, 0.55, 2);
     lampDown.position.set(0, 1.89, 0);
     lampDown.target.position.set(0, 0, 0);
     lampDown.castShadow = true;
@@ -376,7 +397,7 @@ export function createRoom(stage, opts) {
     lampDown.shadow.bias = -0.0004;
     lampDown.shadow.radius = 4;
     S.add(lampDown, lampDown.target);
-    const lampSpill = new THREE.PointLight("#ffcf98", 0, 0, 2);
+    const lampSpill = new THREE.PointLight("#ffdcb4", 0, 0, 2);
     lampSpill.position.set(0, 1.9, 0);
     S.add(lampSpill);
 
