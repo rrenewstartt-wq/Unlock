@@ -26,8 +26,8 @@ def hook(sid, dur, q):
 
 MAP_CSS = """
     .ar-cover::after { content: ""; position: absolute; inset: 0; pointer-events: none;
-      background: linear-gradient(to bottom, rgba(14,16,19,.45) 0%, rgba(14,16,19,.30) 35%, rgba(14,16,19,.55) 70%, rgba(14,16,19,.88) 100%); }
-    .ar-cover .ar-img { filter: brightness(.78) contrast(1.08); }"""
+      background: linear-gradient(to bottom, rgba(14,16,19,.45) 0%, rgba(14,16,19,.28) 32%, rgba(14,16,19,.62) 62%, rgba(14,16,19,.93) 80%, rgba(14,16,19,.96) 100%); }
+    .ar-cover .ar-img { filter: brightness(.72) contrast(1.05); }"""
 
 
 def place(sid, dur, q):
