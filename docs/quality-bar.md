@@ -2,7 +2,14 @@
 
 목표: **@unlock_kr 롱폼과 나란히 놓았을 때 빠지지 않는 한 편.** "비슷해 보인다"가 아니라 아래 숫자로 판정한다.
 자동 측정: `python3 scripts/parity_check.py episodes/<ep>` (렌더가 있으면 화면 변화율·컷 길이·음량까지).
-넘기기 전 관문: `--strict` 가 통과하고, `visual-critic` 의 P0 가 0개이고, `parity-judge` 가 "동급"이라고 판정할 것.
+넘기기 전 관문: `--strict` 가 통과하고, `visual-critic` 의 P0 가 0개이고, `parity-judge` 가 **블라인드 비교를 먼저 한 뒤** "동급"이라고 판정할 것.
+관문 기록: `python3 scripts/gates.py episodes/<ep>`(단계 순서·근거·대본이 바뀌면 다시 필요). 팀과 관문은 `.claude/skills/make-episode/SKILL.md`.
+
+## 0. 파일럿과 블라인드 비교
+- **파일럿:** 전체를 짓기 전에 콜드 오픈~첫 질문 직후(2~3분)를 최종 품질로 렌더(`renders/pilot.mp4`)해 판정한다. 파일럿이 동급이어야 나머지를 짓는다.
+- **블라인드 비교:** `reference-analyst` 가 영역별로 우리 프레임 2 + 레퍼런스 프레임 2 를 무작위로 섞은 2×2 시트(320px, 3장 이상)를 만들고,
+  판정자는 기준표를 보기 전에 "더 싸 보이는 두 칸"을 고른다. 3장 중 2장 이상에서 우리 두 칸이 모두 골리면 그 영역은 동급이 아니다.
+- 레퍼런스 쪽 수치는 `data/benchmark/unlock_kr/reference-pack.json`(파생 수치만, 원본은 raw/).
 
 근거: 레퍼런스 4편(`data/benchmark/unlock_kr/summary.json`, `docs/benchmark-report.md`). 최고 조회수 편은 10분 56초, 나머지는 16~19분.
 
@@ -20,9 +27,9 @@
 | 단서 | 수사 단계에 단서 6~10개, 단서 하나 = 장면 하나 | 눈 |
 | 마무리 | 아직 모르는 것을 정직하게 + **도입의 물건을 다시 꺼낸다** | 자동(겹치는 말) + 눈 |
 | 자막 | 한 줄 22자 안팎, 최대 28자, 한 줄에 사실 하나 | 자동 |
-| 사실 | 모든 자막이 `facts.md` 근거, 업로드 전 ⚠️ 0개 | 자동 + `source-verifier` |
+| 사실 | 모든 자막이 `facts.md` 의 사실 ID 에 연결(`data/fact_map.json`, 담당 `fact-checker`), 업로드 전 ⚠️ 0개 | 자동 + `source-verifier`(표본 원문 대조) |
 
-## 2. 화면 — 연출 `storyboard-director`, 검수 `visual-critic`
+## 2. 화면 — 연출 `storyboard-director`, 3D `set-builder`, 도식 `diagram-builder`, 편집 `editor`, 검수 `visual-critic`
 | 항목 | 기준 | 측정 |
 |---|---|---|
 | 컷 | 중앙값 3~8초, 한 화면 최대 12초. 10초 간격 프레임의 74~92%가 이전과 다른 화면(레퍼런스 실측) | 자동(렌더) |
@@ -55,7 +62,7 @@
 - 3D 재연으로 상황을 보여 준 뒤 **같은 대상의 실제 사진으로 컷**하는 짝이 가장 세다("재현 → 기록").
 - 사진을 못 쓰는 이유는 셋뿐이다: ① 쓸 수 있는 라이선스의 사진이 없음(`archive-researcher` 가 찾아본 기록), ② 안전 규칙(시신·피·피해자와 유족의 사적 사진·미성년자 얼굴), ③ 해상도가 너무 낮아(긴 변 250px 미만) 알아볼 수 없음.
 
-## 3. 소리 — 담당 `sound-designer`
+## 3. 소리 — 담당 `sound-designer`, 검수 `editor`
 | 항목 | 기준 | 측정 |
 |---|---|---|
 | 내레이션 | 본인 목소리 복제(`docs/voice.md`). 없으면 "동급" 판정 불가 | 자동 |
@@ -63,7 +70,7 @@
 | 효과음 | 화면에 원인이 있는 것만, 같은 소리는 2~3개 테이크를 번갈아 | 자동 + 눈 |
 | 음량 | 통합 -16~-14 LUFS, 실제 피크 -1 dB 이하, 내레이션 위 음악 약 -20 dB | 자동(렌더). **측정만 했으면 "들어 보지 않았다"고 보고** |
 
-## 4. 썸네일·메타 — 썸네일 팀(`/thumbnail`)
+## 4. 썸네일·메타 — 썸네일 팀(`/thumbnail`), 메타 `meta-writer`
 | 항목 | 기준 |
 |---|---|
 | 썸네일 | `docs/thumbnail-benchmark.md` 규칙 + 문구 검수 통과안 2~3개 |

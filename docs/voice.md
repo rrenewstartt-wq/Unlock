@@ -18,6 +18,18 @@ cd episodes/<ep> && python3 data/build_script.py && python3 build.py && npx hype
 ```
 import 뒤에는 **자막·장면 길이·3D 카메라·도식 등장 시점이 모두 음성에 맞춰진다**(전부 자막 시각을 따르므로).
 
+## Colab 없이 이 컴퓨터에서 (CPU)
+GPU 가 없어도 된다. CPU 4코어에서 실시간의 약 4배(16분 내레이션 ≈ 1~1.5시간, 2026-11-21 측정, 복제 없는 시험 문장 기준).
+```bash
+python3 scripts/voice_local.py setup                         # .venv-voice/ 에 CPU torch + voxcpm==2.0.3 (커밋 안 함)
+python3 scripts/voice_local.py ref <내 녹음 파일>              # → voice/my_voice_ref.wav (reference_text 를 그대로 읽은 녹음)
+python3 scripts/voice.py pack episodes/<ep>
+python3 scripts/voice_local.py gen episodes/<ep> --limit 3     # 먼저 3줄만 만들어 들어 본다
+python3 scripts/voice_local.py gen episodes/<ep>               # 나머지(이미 만든 줄은 건너뜀)
+python3 scripts/voice.py import episodes/<ep> episodes/<ep>/voice/out
+```
+voxcpm 2.x 의 `generate()` 에는 `seed` 인자가 없다. 노트북과 이 도구는 생성 직전에 `torch.manual_seed` 로 고정한다.
+
 ## 대본 쓰는 법 (읽기)
 - 한 줄 = 자막 하나 = 음성 한 조각. 한 줄에 숨 한 번으로 읽히는 길이(22자 안팎).
 - 숫자·외국어처럼 읽기가 헷갈리는 줄은 `자막 || 읽을 문장` 으로 읽는 법을 적는다:

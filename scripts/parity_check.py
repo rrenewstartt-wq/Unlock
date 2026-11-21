@@ -3,6 +3,7 @@
     python3 scripts/parity_check.py episodes/<ep>            # 표 + data/parity.json
     python3 scripts/parity_check.py episodes/<ep> --strict   # 하나라도 ❌ 이면 종료 코드 1 (넘기기 전 관문)
     python3 scripts/parity_check.py episodes/<ep> --test     # 3분 시험편 기준(길이·질문 수만 완화)
+    python3 scripts/parity_check.py episodes/<ep> --render renders/pilot.mp4   # 그 렌더로 실측(결과 data/parity-pilot.json)
 
 사람이 알고 남긴 예외는 episodes/<ep>/data/exceptions.json {"exceptions": [{"item": "<항목 이름>", "reason", "decided": "YYYY-MM-DD"}]}
 — 그 항목은 ❌ 대신 "⚪ 예외"로 표시되고 --strict 를 막지 않는다. 기준을 낮추는 용도로 쓰지 않는다(사람 결정만).
@@ -87,6 +88,7 @@ def main():
         raise SystemExit(__doc__)
     ep = pathlib.Path(args[0]).resolve()
     strict, test = "--strict" in args, "--test" in args
+    forced = (ep / args[args.index("--render") + 1]) if "--render" in args else None
     data = json.loads((ep / "data" / "script.json").read_text(encoding="utf-8"))
     scenes = data["scenes"]
     caps = [c for s in scenes for c in s["captions"]]
@@ -212,6 +214,22 @@ def main():
     facts = (ep / "data" / "facts.md").read_text(encoding="utf-8") if (ep / "data" / "facts.md").exists() else ""
     warn = len(re.findall(r"^\|.*⚠️.*\|\s*$", facts, re.M))
     row("사실", "⚠️ 남은 사실", "업로드 전 0", warn, warn == 0, "1차 자료로 확인하거나 자막에서 뺀다")
+    # 자막 → 사실 ID 연결 (facts.md `| F01 | 사실 | 출처 | 상태 |` + data/fact_map.json {"captions": {"자막": ["F01"]}})
+    fid = {m.group(1): ("⚠️" in m.group(0)) for m in re.finditer(r"^\|\s*(F\d+)\s*\|.*$", facts, re.M)}
+    fmap_p = ep / "data" / "fact_map.json"
+    if not fid:
+        row("사실", "자막 근거 연결", "모든 자막 → facts.md 의 사실 ID", "facts.md 에 사실 ID(F01…) 행 없음",
+            None if test else False, "fact-checker 가 사실 ID 표로 쓴다")
+    else:
+        fmap = json.loads(fmap_p.read_text(encoding="utf-8")).get("captions", {}) if fmap_p.exists() else {}
+        none = [c["text"] for c in caps if not fmap.get(c["text"])]
+        bad = sorted({i for c in caps for i in fmap.get(c["text"], []) if i not in fid})
+        weak = [c["text"] for c in caps if fmap.get(c["text"]) and any(fid.get(i) for i in fmap[c["text"]])]
+        ok = not none and not bad
+        row("사실", "자막 근거 연결", "모든 자막 → facts.md 의 사실 ID",
+            f"{len(caps) - len(none)}/{len(caps)} 연결" + (f", 없는 ID {', '.join(bad[:5])}" if bad else "")
+            + (f", ⚠️ 사실에 기댄 자막 {len(weak)}" if weak else ""), ok,
+            (f"근거 없음 예: \"{none[0]}\"" if none else "") or ("⚠️ 연결은 업로드 전 0" if weak else ""))
     out = ep / "thumbnail" / "out"
     finals = sorted(out.glob("copy-*.jpg")) if out.exists() else []
     row("썸네일", "완성 썸네일", "문구 검수 통과안 2~3개", f"{len(finals)}개", len(finals) >= 2)
@@ -223,7 +241,9 @@ def main():
 
     # ---------------- 렌더 실측
     renders = sorted((ep / "renders").glob("*.mp4")) if (ep / "renders").exists() else []
-    renders = [r for r in renders if "preview" not in r.name] or renders
+    renders = [r for r in renders if "preview" not in r.name and not r.name.startswith("pilot")]
+    if forced:
+        renders = [forced]
     if renders and shutil.which("ffmpeg"):
         v = renders[-1]
         ratio = frame_change_ratio(v)
@@ -257,7 +277,7 @@ def main():
         print(f"| {r['area']} | {r['item']} | {r['target']} | {r['value']}{note} | {mark[r['ok']]} |")
     fails = [r for r in rows if r["ok"] is False]
     print(f"\n통과 {sum(r['ok'] is True for r in rows)} · 실패 {len(fails)} · 보류 {sum(r['ok'] is None for r in rows)} · 예외(사람 결정) {sum(r['ok'] == 'exc' for r in rows)}")
-    (ep / "data" / "parity.json").write_text(json.dumps({"episode": ep.name, "test": test, "rows": rows}, ensure_ascii=False, indent=1),
+    (ep / "data" / (f"parity-{forced.stem}.json" if forced else "parity.json")).write_text(json.dumps({"episode": ep.name, "test": test, "rows": rows}, ensure_ascii=False, indent=1),
                                              encoding="utf-8")
     if strict and fails:
         sys.exit(1)

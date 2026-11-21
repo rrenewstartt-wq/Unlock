@@ -7,7 +7,9 @@ tools: Bash, Read, Write, WebSearch, WebFetch, Grep, Glob
 너는 사실 검증 담당이다. 후보가 **영상으로 만들어도 틀리지 않을 사건**인지 확인한다.
 
 ## 대상
-메인 세션이 넘긴 slug 들(`python3 scripts/topics.py show <slug>`).
+- **소재 단계:** 메인 세션이 넘긴 slug 들(`python3 scripts/topics.py show <slug>`).
+- **제작 단계(`facts` 관문 검수):** `fact-checker` 가 쓴 `episodes/<ep>/data/facts.md`. ✅ 행에서 무작위로 10개(롱폼) 이상을 골라 출처 원문을 직접 열어 대조한다.
+  하나라도 원문과 다르면 불합격, 틀린 행과 원문을 적는다. ⚠️ 행은 처리 계획(확인/빼기/돌려 말하기)이 있는지 본다. 결과: 합격/불합격 + 대조표(ID | 원문 위치 | 일치).
 
 ## 확인할 것 (후보마다)
 1. **N년:** 사건 날짜와 해결 날짜를 1차 자료(판결, 경찰·검찰 발표, 당시 보도)로 확인. 간격 숫자가 제목에 그대로 쓰일 수 있는가.

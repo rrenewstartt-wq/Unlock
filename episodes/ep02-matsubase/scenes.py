@@ -1,4 +1,4 @@
-"""34년 만에 뒤집힌 일본 살인사건｜마쓰바세 사건 — scene bodies. Shared helpers come from scenes_kit.py.
+"""징역 13년이 확정됐던 일본 남자, 34년 만에 무죄｜마쓰바세 사건 — scene bodies. Shared helpers come from scenes_kit.py.
 
 One function per @scene id in data/script.txt: def <id>(sid, dur, q) -> HTML (q[i] = local start of caption i).
 Ids without a function yet fall back to `placeholder`, so the build always works; replace each one.

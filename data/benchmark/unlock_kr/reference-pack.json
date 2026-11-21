@@ -1,0 +1,165 @@
+{
+ "handle": "@unlock_kr",
+ "updated": "2026-11-21",
+ "by": "reference-analyst",
+ "rule": "파생 수치·분류만 커밋한다. 자막 문장·그림 내용·이미지는 raw/ 에만(docs/originality.md).",
+ "collection": {
+  "date": "2026-11-21",
+  "method": "python3 scripts/benchmark.py @unlock_kr (yt-dlp, 공개 경로, 쿠키·우회 없음)",
+  "result": "blocked",
+  "detail": "채널 목록 info.json 1개만 받음(구독자 33,100, 영상 목록 0건). 개별 영상 페이지가 'Sign in to confirm you're not a bot' 봇 확인 → 영상 info.json 0/4, 자동 자막 0/4, 스토리보드 시트 0장. 우회하지 않음(CLAUDE.md 4).",
+  "raw_available": {
+   "thumbnails": 4,
+   "video_info_json": 0,
+   "subtitles": 0,
+   "storyboard_sheets": 0
+  },
+  "note": "썸네일은 영상 프레임이 아니라 별도 이미지라 프레임 분류에 쓰지 않았다."
+ },
+ "method": {
+  "frames": "스토리보드 가장 큰 포맷(약 10초 간격, 320x180) 전부 → python3 scripts/blind_sheet.py cells <id> → raw/frames/<id>/t#####.jpg 를 Read 로 직접 보고 분류. 확실하지 않은 칸은 null.",
+  "kind": "3d(3D 재연) | diagram(2D 도식·UI·카드) | archive(실제 사진·문서·지도·영상 자료) | title(제목·막 전환 글자 화면)",
+  "fields": "figure(인물 있음) / face_visible(얼굴 이목구비가 보임) / text_on_screen none|label|panel / accent red-light|red-mark|none / set 짧은 일반 명사",
+  "kind_pct": "kind 별 프레임 수 / 전체 프레임 수 x 100",
+  "change_ratio_10s": "이웃 프레임 160x90 회색 평균 밝기 차 > 12/255 인 비율(parity_check.frame_change_ratio 와 같은 방식, blind_sheet.py cells 가 출력)",
+  "archive_frames": "kind == archive 프레임 수",
+  "captions_per_min": "자동 자막 큐 수(중복 줄 제거 뒤) / 분",
+  "chars_per_min": "자동 자막 글자 수 / 분 (benchmark.py)",
+  "first_question_pct": "물음표·'~까'로 끝나는 첫 문장의 자막 시각 / 영상 길이 x 100"
+ },
+ "videos": [
+  {
+   "video": "UV4I5My5C0E",
+   "duration_s": 656,
+   "source": null,
+   "status": "frames_not_collected",
+   "frames": [],
+   "stats": {
+    "kind_pct": {
+     "3d": null,
+     "diagram": null,
+     "archive": null,
+     "title": null
+    },
+    "change_ratio_10s": null,
+    "archive_frames": null,
+    "captions_per_min": null,
+    "chars_per_min": 381,
+    "first_question_pct": null,
+    "questions": 5,
+    "jyo_pct": 49
+   },
+   "stats_source": {
+    "chars_per_min": "summary.json (자동 자막, 2026-11-17 수집)",
+    "questions": "summary.json 질문형(~까?) 수",
+    "jyo_pct": "summary.json 어미 수: ~죠 / (~죠 + ~습니다)"
+   }
+  },
+  {
+   "video": "0pU_k2OUC1I",
+   "duration_s": 1136,
+   "source": null,
+   "status": "frames_not_collected",
+   "frames": [],
+   "stats": {
+    "kind_pct": {
+     "3d": null,
+     "diagram": null,
+     "archive": null,
+     "title": null
+    },
+    "change_ratio_10s": null,
+    "archive_frames": null,
+    "captions_per_min": null,
+    "chars_per_min": 419,
+    "first_question_pct": null,
+    "questions": 3,
+    "jyo_pct": 60
+   },
+   "stats_source": {
+    "chars_per_min": "summary.json (자동 자막, 2026-11-17 수집)",
+    "questions": "summary.json 질문형(~까?) 수",
+    "jyo_pct": "summary.json 어미 수: ~죠 / (~죠 + ~습니다)"
+   }
+  },
+  {
+   "video": "t5BgBYoW_zg",
+   "duration_s": 1116,
+   "source": null,
+   "status": "frames_not_collected",
+   "frames": [],
+   "stats": {
+    "kind_pct": {
+     "3d": null,
+     "diagram": null,
+     "archive": null,
+     "title": null
+    },
+    "change_ratio_10s": null,
+    "archive_frames": null,
+    "captions_per_min": null,
+    "chars_per_min": 419,
+    "first_question_pct": null,
+    "questions": 9,
+    "jyo_pct": 30
+   },
+   "stats_source": {
+    "chars_per_min": "summary.json (자동 자막, 2026-11-17 수집)",
+    "questions": "summary.json 질문형(~까?) 수",
+    "jyo_pct": "summary.json 어미 수: ~죠 / (~죠 + ~습니다)"
+   }
+  },
+  {
+   "video": "kXHIhuQLRvY",
+   "duration_s": 993,
+   "source": null,
+   "status": "frames_not_collected",
+   "frames": [],
+   "stats": {
+    "kind_pct": {
+     "3d": null,
+     "diagram": null,
+     "archive": null,
+     "title": null
+    },
+    "change_ratio_10s": null,
+    "archive_frames": null,
+    "captions_per_min": null,
+    "chars_per_min": 404,
+    "first_question_pct": null,
+    "questions": 3,
+    "jyo_pct": 49
+   },
+   "stats_source": {
+    "chars_per_min": "summary.json (자동 자막, 2026-11-17 수집)",
+    "questions": "summary.json 질문형(~까?) 수",
+    "jyo_pct": "summary.json 어미 수: ~죠 / (~죠 + ~습니다)"
+   }
+  }
+ ],
+ "prior_observations": {
+  "note": "2026-11-18 스토리보드·자막 관찰(docs/benchmark-report.md '샘플 대비 비교'). 영상별 값·프레임이 남아 있지 않아 이 팩에서 재현·재확인하지 못했다. 판정 근거로 쓸 때는 '미재확인'으로 적는다.",
+  "videos": [
+   "kXHIhuQLRvY",
+   "0pU_k2OUC1I",
+   "t5BgBYoW_zg"
+  ],
+  "change_ratio_10s_range": [
+   0.74,
+   0.92
+  ],
+  "first_question_pct_range": [
+   8,
+   19
+  ],
+  "questions_per_video_range": [
+   3,
+   9
+  ],
+  "chars_per_min_range": [
+   381,
+   419
+  ],
+  "figure_3d": "옷·머리·손이 있는 사실적 인물, 상세 세트(사무실·취조실), 영화식 조명 — face_visible 은 기록 없음"
+ }
+}

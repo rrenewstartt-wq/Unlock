@@ -1,0 +1,70 @@
+{
+ "stages": {
+  "plan": {
+   "status": "pass",
+   "by": "사람",
+   "evidence": "기획안 승인 2026-11-21 (data/topics/plans/matsubase-kumamoto-1985.md)",
+   "date": "2026-11-21",
+   "script": "d62e51373037"
+  },
+  "facts": {
+   "status": "pass",
+   "by": "source-verifier",
+   "evidence": "재검수 합격: 고친 19행 원문 일치 + 무작위 10행(시드 20261122) 일치. ⚠️ 2(F29 읽기, F204 최고재) 업로드 전",
+   "date": "2026-11-21",
+   "script": "d62e51373037"
+  },
+  "script": {
+   "status": "pass",
+   "by": "사람",
+   "evidence": "사람 승인 2026-11-21: 대본·제목. script-critic 3차 합격, fact_map 314/314",
+   "date": "2026-11-21",
+   "script": "84474e766cfa"
+  },
+  "design": {
+   "status": "fail",
+   "by": "visual-critic",
+   "evidence": "설계 검토: P0 1(2D 16장면 한 판 14~23초, 화면 변화율 위험), P1 24(인물 3%, 기록에 없는 세부, 실명 줄 크롭, 천 무늬 등)",
+   "date": "2026-11-21",
+   "script": "84474e766cfa"
+  }
+ },
+ "waivers": [],
+ "log": [
+  {
+   "stage": "plan",
+   "status": "pass",
+   "by": "사람",
+   "evidence": "기획안 승인 2026-11-21 (data/topics/plans/matsubase-kumamoto-1985.md)",
+   "date": "2026-11-21"
+  },
+  {
+   "stage": "facts",
+   "status": "fail",
+   "by": "source-verifier",
+   "evidence": "불합격: F70·F117·F205 원문보다 셈/틀림, F28 상태 오류. 핵심 반전·계산 8행은 일치(무작위 24 + 핵심 약 110행 대조, 시드 20261121)",
+   "date": "2026-11-21"
+  },
+  {
+   "stage": "facts",
+   "status": "pass",
+   "by": "source-verifier",
+   "evidence": "재검수 합격: 고친 19행 원문 일치 + 무작위 10행(시드 20261122) 일치. ⚠️ 2(F29 읽기, F204 최고재) 업로드 전",
+   "date": "2026-11-21"
+  },
+  {
+   "stage": "script",
+   "status": "pass",
+   "by": "사람",
+   "evidence": "사람 승인 2026-11-21: 대본·제목. script-critic 3차 합격, fact_map 314/314",
+   "date": "2026-11-21"
+  },
+  {
+   "stage": "design",
+   "status": "fail",
+   "by": "visual-critic",
+   "evidence": "설계 검토: P0 1(2D 16장면 한 판 14~23초, 화면 변화율 위험), P1 24(인물 3%, 기록에 없는 세부, 실명 줄 크롭, 천 무늬 등)",
+   "date": "2026-11-21"
+  }
+ ]
+}

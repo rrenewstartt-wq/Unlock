@@ -1,4 +1,82 @@
 {
- "key_scenes": [],
- "_doc": "핵심 장면마다 {scene, why, want, photo, no_photo_reason} — docs/quality-bar.md 핵심 장면"
+ "_doc": "핵심 장면마다 {scene, why, want, photo, no_photo_reason} — docs/quality-bar.md 핵심 장면. photo 는 archive-researcher 가 채운다(no_photo_reason 은 workshop_intro 만 설계 단계 예상값, 자료 담당이 찾아본 뒤 확정). 요청 번호(R1~R9)·제안 파일 이름·실명 크롭 규칙은 SPEC.md '실제 자료 요청'. 판결문·결정문 줄은 이미지 파일 자체를 줄 단위로 자른다(CSS 크롭 금지).",
+ "key_scenes": [
+  {
+   "scene": "hook",
+   "why": "콜드 오픈",
+   "want": "R1 kousai-p16(16쪽 지면, 보드 위 인화) → kousai-p16-l6(6행 「犯行後風呂の焚き口で燃やしてしまったものである」 종이 띠, 출처 '후쿠오카고법 결정문(2017) · 조서 요약 부분') + R2 saishin-p3-l5(3쪽 5~6행 「シャツの左袖が現存し血液付着も認められなかった」 종이 띠). 첫 10초, 컷 3 × 약 3.3초",
+   "photo": null,
+   "no_photo_reason": ""
+  },
+  {
+   "scene": "place",
+   "why": "발견·장소 확립",
+   "want": "R8 지도 map-kyushu·map-matsubase(집 위치 표시 없음, 직접 그린 지도면 장면 표기 '도식') + R9 matsubase-station(CC0, 2018) + R2 saishin-p2(2쪽 지면) → saishin-p2-l6(6~7행 발견 일시·장소 종이 띠)",
+   "photo": null,
+   "no_photo_reason": ""
+  },
+  {
+   "scene": "workshop_intro",
+   "why": "인물(미야타 씨 첫 소개)",
+   "want": "본인 공식 사진(공개 라이선스). 판결문은 'Ａ'로 익명이고 보도 사진뿐일 것으로 예상",
+   "photo": null,
+   "no_photo_reason": "① (설계 단계 예상 — archive-researcher 확인 후 확정) 미야타 씨의 공개 라이선스 사진 없음: 공개된 것은 보도 사진뿐이고, 법원 공개본 판결문·결정문은 그를 'Ａ'로 익명 처리. 장면은 흐린 낮 작업장(인물 없음) + 외곽선 사람 카드 '미야타 씨 · 당시 50대 초반'으로(v3)"
+  },
+  {
+   "scene": "trial_1986",
+   "why": "장소 확립(원 재판의 법원)",
+   "want": "R4 kumamoto-court(구마모토지방재판소 외관, Commons 2011, CC BY-SA 3.0 확인) — c2 기록 3초",
+   "photo": null,
+   "no_photo_reason": ""
+  },
+  {
+   "scene": "five_pieces",
+   "why": "결정적 증거(다섯 조각 = 셔츠 한 벌)",
+   "want": "R1 kousai-p15-l16(15쪽 16~17행 「ほぼ完全な形で１枚のシャツが復元できた」 종이 띠) — c2 기록 3초. 천 실물 사진은 보도·변호인단 제공이라 쓰지 않음",
+   "photo": null,
+   "no_photo_reason": ""
+  },
+  {
+   "scene": "feb14",
+   "why": "결정적 증거(왼소매 발견, 재현 → 기록 짝)",
+   "want": "R1 kousai-p15-l13(15쪽 13~16행 「上記シャツと同じ生地柄の…残布１片…最後に発見押収された残布が左袖部分」 종이 띠) — c5 기록 3초",
+   "photo": null,
+   "no_photo_reason": ""
+  },
+  {
+   "scene": "blade_width",
+   "why": "결정적 증거(칼 폭과 상처 입구의 차이, 재현 → 기록 짝)",
+   "want": "R1 kousai-p9-l21(9쪽 21~22행 「先端から４．７㎝の部分の刃幅は２．１㎝」 종이 띠) — c4 기록 3초",
+   "photo": null,
+   "no_photo_reason": ""
+  },
+  {
+   "scene": "kaishi_2016",
+   "why": "반전(재심 개시 결정·확정)",
+   "want": "R2 saishin-p2(지면)·saishin-p2-l25·saishin-p2-l23·saishin-p3-l21 + R4 kumamoto-court + R1 kousai-p1-shubun(1쪽 주문 한 줄만 따낸 파일 — 바로 아래 理由부터 검사·변호인 실명) + R7 supreme-court",
+   "photo": null,
+   "no_photo_reason": ""
+  },
+  {
+   "scene": "not_requested",
+   "why": "결정적 증거(재심에서 신청하지 않은 천, 판결문 한 줄)",
+   "want": "R2 saishin-p4-l17(4쪽 17~18행 「燃やしたとされる前記布きれなどは請求していない」 종이 띠) — c3 기록 3초",
+   "photo": null,
+   "no_photo_reason": ""
+  },
+  {
+   "scene": "verdict_2019",
+   "why": "반전(살인 무죄)",
+   "want": "R4 kumamoto-court + R2 saishin-p1(1쪽 지면, 이름 없음)·saishin-p4-l2·saishin-p5-l5(5쪽 5~6행만 따낸 파일 — 5쪽 아래 검사·재판장 실명)·saishin-p1-l7·saishin-p1-shubun(주문 블록 「無罪」~「没収」만). 6쪽 금지",
+   "photo": null,
+   "no_photo_reason": ""
+  },
+  {
+   "scene": "ending",
+   "why": "엔딩 소품 회수(왼소매)",
+   "want": "R1 kousai-p16-l6(16쪽 6행 「風呂の焚き口で燃やしてしまった」 종이 띠) — hook 의 그 줄을 c6 기록 3초로 다시. 천 실물 사진은 쓰지 않음",
+   "photo": null,
+   "no_photo_reason": ""
+  }
+ ]
 }

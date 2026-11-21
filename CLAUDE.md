@@ -10,19 +10,26 @@
 [1 벤치마크]  scripts/benchmark.py @handle  → data/benchmark/<handle>/summary.json, docs/benchmark-report.md   (/benchmark)
 [2 소재]     기획·소재 발굴 팀: case-scout → source-verifier + risk-reviewer → data/topics/backlog.json   (/scout)
 [2.5 기획]   episode-planner → data/topics/plans/<slug>.md (관점·제목·7단계·장면 계획)                    (/plan)
-[2.7 사실]   1차 자료 조사 → episodes/<ep>/data/facts.md (자막별 근거, ✅/⚠️)
-[3 대본]     script-writer → script-critic → episodes/<ep>/data/script.txt (7단계, 기본 16~20분)              (/make-episode)
-[3.5 설계]   storyboard-director → SPEC.md SHOTS 표(3D/도식/실제 자료 배분, 자막마다 컷) + archive-researcher → assets/archive/
-[4 장면]     scripts/new_episode.py → set-builder(film 키트 3D 세트) + diagram-builder(도식) + archive_scene/insert(기록 사진) → build.py
-[5 편집·검수] editor(컷 리듬·기록 3초 컷) → npx hyperframes check + parity_check + visual-critic(P0/P1)          (/review)
-[6 소리]     sound-designer: scripts/voice.py pack → Colab notebooks/voxcpm2_voice.ipynb(내 목소리 복제) → voice.py import → 음성 길이로 재계산 (docs/voice.md, 동급 판정에 필요)
-[7 렌더]     npx hyperframes render → renders/ (약 35분/3분, 4코어 기준) → 미리보기본(ffmpeg CRF 25)
-[8 썸네일]   썸네일 팀: thumb-director → thumb-builder(thumbkit 3D 정지 장면) → thumb-critic → thumbnail/out/   (/thumbnail, docs/thumbnail-benchmark.md → thumbnail-formula.md)
-[9 판정]     fact-checker(렌더 전) → parity_check --strict → parity-judge: 전 영역 동급이어야 "완성"
+[2.7 사실]   fact-checker → source-verifier: episodes/<ep>/data/facts.md (사실 ID 표, ✅/⚠️) + data/fact_map.json (자막 → 사실 ID)
+[3 대본]     script-writer → script-critic → 사람 승인: data/script.txt (7단계, 기본 16~20분)              (/make-episode)
+             ↳ 이때 사람 결정(내레이션 녹음 시작, 음악 출처)을 함께 묻는다
+[3.5 설계]   storyboard-director → visual-critic(설계 검토): SPEC.md SHOTS 표 + PILOT 범위 / archive-researcher → assets/archive/
+[4 파일럿]   콜드 오픈~첫 질문 직후만 최종 품질로 → renders/pilot.mp4 → reference-analyst 블라인드 시트 → parity-judge. 동급이어야 다음
+[4.5 장면]   set-builder(film 키트 3D, 세트마다 병렬) + diagram-builder(도식) → editor(리듬·싱크) → visual-critic(P0/P1)   (/review)
+[6 소리]     sound-designer(voice.py pack → Colab 내 목소리 → import, 음악 큐) → editor 교차 검수 (docs/voice.md)
+[7 렌더]     npx hyperframes render → renders/ (17분 약 3시간, 4코어) → editor 실측 + visual-critic 렌더 검수 → 미리보기본
+[8 썸네일·메타] 썸네일 팀(/thumbnail) + meta-writer → upload.json (검수 thumb-copy-critic)
+[8.5 사실]   fact-checker(렌더 직전 화면 글자·그림 전체 대조, qa_facts 관문)
+[9 판정]     reference-analyst(레퍼런스 팩·블라인드 시트) → parity_check --strict → parity-judge: 블라인드 비교 먼저, 전 영역 동급이어야 "완성"
 [10 회고]    업로드 2주 뒤 performance-analyst → /retro → 기준 문서 수정(사람 승인)
 ```
+관문 장부: `python3 scripts/gates.py episodes/<ep>` — 단계마다 `pass <관문> --by <검수> --evidence <근거>`. 앞 관문이 없거나 자동 확인이 실패하면 거부,
+대본이 바뀌면 이후 관문은 "다시 필요". 메인 세션은 제작 책임자(돌리고·기록하고·묻는다), 만들거나 검수하지 않는다. 회고: `docs/retros/`.
 
-슬래시 스킬: `/benchmark` `/scout` `/plan` `/make-episode` `/review` `/thumbnail` `/retro`. **팀 7개, 팀원 21명 — `docs/teams.md`**(메인 세션이 쇼러너): 전략(performance-analyst) / 리서치(case-scout, source-verifier, risk-reviewer, archive-researcher) / 작가(episode-planner, script-writer, script-critic) / 아트(storyboard-director, set-builder, diagram-builder) / 포스트(editor, sound-designer) / 썸네일(thumb-copywriter, thumb-copy-critic, thumb-director, thumb-builder, thumb-critic) / QA(fact-checker, visual-critic, parity-judge). HyperFrames 작업 전에는 `/hyperframes` 스킬을 먼저 읽는다(렌더 계약).
+슬래시 스킬: `/benchmark` `/scout` `/plan` `/make-episode` `/review` `/thumbnail` `/retro`. **팀 7개, 팀원 23명 — `docs/teams.md`**(메인 세션이 쇼러너):
+전략(performance-analyst, reference-analyst) / 리서치(case-scout, source-verifier, risk-reviewer, archive-researcher) / 작가(episode-planner, script-writer, script-critic) /
+아트(storyboard-director, set-builder, diagram-builder) / 포스트(editor, sound-designer) / 썸네일·메타(thumb-copywriter, thumb-copy-critic, thumb-director, thumb-builder, thumb-critic, meta-writer) /
+QA(fact-checker, visual-critic, parity-judge). HyperFrames 작업 전에는 `/hyperframes` 스킬을 먼저 읽는다(렌더 계약).
 
 ## 에피소드 폴더 계약 (`episodes/<ep>/`)
 - `data/script.txt` → `python3 data/build_script.py` → `data/script.json`(장면·자막 시각). **대본은 여기만 고친다.**
@@ -54,13 +61,15 @@ bash scripts/setup.sh                                   # 새 환경: 설치·�
 python3 scripts/benchmark.py @unlock_kr                 # 벤치마크 수집(봇 확인 시 --offline)
 python3 scripts/topics.py list --top 10                 # 소재 후보 순위 (add / check / set / show)
 python3 scripts/new_episode.py ep02-<slug> "제목"        # 새 에피소드 (film 키트·자료·음악 폴더 포함)
-python3 scripts/parity_check.py episodes/<ep>           # 레퍼런스 동급 검사 (--strict 관문, --test 시험편)
+python3 scripts/gates.py episodes/<ep>                  # 관문 장부: 어디까지 왔나, 다음 관문 (pass/fail/waive)
+python3 scripts/parity_check.py episodes/<ep>           # 레퍼런스 동급 검사 (--strict 관문, --test 시험편, --render renders/pilot.mp4)
 python3 scripts/kit3d.py episodes/<ep>                  # film 키트 코드 + kit3d.json 자산 복사
 python3 scripts/voice.py pack episodes/<ep>              # 내레이션 줄 내보내기 → Colab → voice.py import
 cd episodes/<ep>
 python3 data/build_script.py && python3 build.py        # 대본·장면 → 컴포지션
 npx hyperframes check                                   # 린트·레이아웃·대비·타이밍
 npx hyperframes snapshot --at 1,10,20                   # 프레임 확인
+npx hyperframes render --start 0 --end 150 -o renders/pilot.mp4   # 파일럿 렌더(콜드 오픈~첫 질문)
 npx hyperframes render -o renders/<ep>.mp4              # 렌더
 bash ../../scripts/thumbnail.sh . c1 c2                 # 썸네일 컨셉 촬영·보정·검수 (thumbnail/c*.html)
 ffmpeg -i renders/<ep>.mp4 -c:v libx264 -crf 25 -maxrate 9M -bufsize 18M -c:a copy -movflags +faststart renders/<ep>-preview.mp4

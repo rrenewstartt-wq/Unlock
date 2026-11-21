@@ -1,6 +1,9 @@
 """Collect a reference channel's public data with yt-dlp and summarise its format.
 
-    python3 scripts/benchmark.py @unlock_kr [--limit 30]
+    python3 scripts/benchmark.py @unlock_kr [--limit 30] [--all-storyboards]
+
+--all-storyboards fetches every sheet of the storyboard (the whole video at ~10 s, for reference-pack.json);
+the default fetches the first 4. Cut sheets into frames with `python3 scripts/blind_sheet.py cells`.
 
 Writes data/benchmark/<handle>/summary.json (committed: numbers and patterns only) and
 data/benchmark/<handle>/raw/ (not committed: metadata, transcripts, thumbnails and storyboard sheets,
@@ -61,6 +64,7 @@ def main():
     ap.add_argument("handle")
     ap.add_argument("--limit", type=int, default=30)
     ap.add_argument("--offline", action="store_true", help="수집 없이 raw/ 에 있는 자료만 다시 요약")
+    ap.add_argument("--all-storyboards", action="store_true", help="스토리보드 시트를 처음 4장이 아니라 전부 받는다(raw/ 에만)")
     a = ap.parse_args()
     handle = a.handle.lstrip("@")
     base = HERE / "data" / "benchmark" / handle
@@ -83,13 +87,17 @@ def main():
         text = clean_vtt(subs[0]) if subs else ""
         if text:
             (raw / f"{vid}.txt").write_text(text, encoding="utf-8")
-        # Storyboard: fetch the largest sheet set's first 4 images (scene grammar, not the video).
+        # Storyboard: fetch the largest sheet set's images (scene grammar, not the video). First 4 by default, all with --all-storyboards.
         sb = [x for x in d.get("formats", []) if str(x.get("format_id", "")).startswith("sb")]
-        if sb and not a.offline and not list(raw.glob(f"{vid}.sb*.webp")):
+        if sb and not a.offline and (a.all_storyboards or not list(raw.glob(f"{vid}.sb*.webp"))):
             best = max(sb, key=lambda x: x.get("width") or 0)
-            for i, frag in enumerate(best.get("fragments", [])[:4]):
+            frags = best.get("fragments", [])
+            for i, frag in enumerate(frags if a.all_storyboards else frags[:4]):
+                dst = raw / f"{vid}.sb{i}.webp"
+                if dst.exists() and dst.stat().st_size > 0:
+                    continue
                 try:
-                    urllib.request.urlretrieve(frag["url"], raw / f"{vid}.sb{i}.webp")
+                    urllib.request.urlretrieve(frag["url"], dst)
                 except Exception:
                     pass
         minutes = (d.get("duration") or 0) / 60
