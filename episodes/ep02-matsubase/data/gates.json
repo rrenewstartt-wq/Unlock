@@ -20,6 +20,13 @@
    "evidence": "사람 승인 2026-11-21: 대본·제목. script-critic 3차 합격, fact_map 314/314",
    "date": "2026-11-21",
    "script": "84474e766cfa"
+  },
+  "design": {
+   "status": "fail",
+   "by": "visual-critic",
+   "evidence": "설계 검토: P0 1(2D 16장면 한 판 14~23초, 화면 변화율 위험), P1 24(인물 3%, 기록에 없는 세부, 실명 줄 크롭, 천 무늬 등)",
+   "date": "2026-11-21",
+   "script": "84474e766cfa"
   }
  },
  "waivers": [],
@@ -50,6 +57,13 @@
    "status": "pass",
    "by": "사람",
    "evidence": "사람 승인 2026-11-21: 대본·제목. script-critic 3차 합격, fact_map 314/314",
+   "date": "2026-11-21"
+  },
+  {
+   "stage": "design",
+   "status": "fail",
+   "by": "visual-critic",
+   "evidence": "설계 검토: P0 1(2D 16장면 한 판 14~23초, 화면 변화율 위험), P1 24(인물 3%, 기록에 없는 세부, 실명 줄 크롭, 천 무늬 등)",
    "date": "2026-11-21"
   }
  ]
