@@ -37,6 +37,17 @@
     .who span { display: block; font-size: 34px; }
     .deny { position: absolute; left: 1190px; top: 500px; width: 600px; text-align: center; font-size: 66px; color: #F3F0EA; }
     .stamp { position: absolute; left: 1000px; top: 650px; font-size: 120px; color: #F0A23B; border: 8px solid #F0A23B; padding: 0 36px 10px; transform: rotate(-6deg); background: #1C1E21; }
+    .ar-shot { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); overflow: hidden; }
+    .ar-ins { z-index: 20; }
+    .ar-cam { position: absolute; inset: 0; transform-origin: 50% 43%; }
+    .ar-print { position: absolute; left: 50%; top: 43%; margin: 0; padding: 0; background: #EDE8DE;
+      outline: 18px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }
+    .ar-img { display: block; }
+    .ar-ring { position: absolute; left: 0; top: 0; overflow: visible; }
+    .ar-ring ellipse { fill: none; stroke: #F0A23B; stroke-width: 7; stroke-linecap: round; }
+    .ar-cap { position: absolute; left: 0; right: 0; top: 830px; text-align: center; font-size: 32px; color: rgba(233,229,221,.9); }
+    .ar-credit { position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }
+    .tag-ar { border-color: #F0A23B; }
   </style>
   <div id="root" data-composition-id="book" data-width="1920" data-height="1080">
     <div id="bk-wrap" class="clip bkwrap" data-start="0" data-duration="24.97">
@@ -55,6 +66,7 @@
       <div id="bk-deny" class="deny disp">“모르는 사람입니다”</div>
       <div id="bk-stamp" class="stamp disp">미해독</div></div>
     <div id="bk-re" class="clip tag-re" data-start="0.3" data-duration="24.67">재현</div>
+    <div id="book-ins0" class="clip ar-shot ar-ins" data-start="9.72" data-duration="3.0" data-layout-allow-overlap><div id="book-ins0-cam" class="ar-cam"><figure class="ar-print" style="width:801px;height:640px;transform:translate(-50%,-50%) rotate(-1.0deg)"><img class="ar-img" src="assets/archive/code-rubaiyat-1949.jpg" alt="" style="width:801px;height:640px" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/><svg class="ar-ring" viewBox="0 0 801 640" width="801" height="640"><ellipse id="book-ins0-r" cx="400" cy="397" rx="336" ry="276" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100"/></svg></figure></div><div class="ar-cap">실제 암호 사진: 경찰이 눌린 자국을 덧그려 찍은 것</div><div class="ar-credit">기록 사진: 남호주 경찰, 1949 (퍼블릭 도메인, Wikimedia Commons)</div><div class="tag-re tag-ar">기록</div></div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
@@ -80,6 +92,10 @@
     tl.to("#bk-phone b", { color: "rgba(233,229,221,.6)", duration: 0.3 }, 18.06);
     tl.to("#bk-code", { color: "#F0A23B", duration: 0.3 }, 18.16);
     tl.fromTo("#bk-stamp", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power4.out" }, 18.56);
+    tl.to("#book-ins0-r", { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, 10.12);
+    tl.fromTo("#book-ins0-cam", { scale: 1.0 }, { scale: 1.06, duration: 3.0, ease: "none" }, 9.72);
+    tl.set("#bk-wrap, #bk-re", { opacity: 0 }, 9.74);
+    tl.set("#bk-wrap, #bk-re", { opacity: 1 }, 12.72);
     window.__timelines["book"] = tl;
   </script>
 </template>

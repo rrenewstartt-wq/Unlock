@@ -4,6 +4,9 @@
 
 | 자막 | 근거 | 상태 |
 |---|---|---|
+| (콜드 오픈) 1948년 경찰이 X로 표시한 자리 | 1948년 12월 남호주 경찰 사진, 방파제 계단 아래 발견 지점 X 표시(`assets/archive/beach-deathsite-1948.jpg`, 대장 `assets/archive/SOURCES.md`) | ✅ (사진 자체) |
+| (콜드 오픈) 발견된 남자에겐 이름이 없었다 | 신원 미상, 2022년에야 이름 발표(아래 "이름까지 73년") | ✅ |
+| (콜드 오픈) 아직 아무도 풀지 못한 다섯 줄의 암호 | 『루바이야트』 뒤표지의 눌린 글자 5줄, 미해독(아래 book) + 경찰 암호 사진(`assets/archive/code-rubaiyat-1949.jpg`) | ✅ |
 | 1948년 12월 1일 오전 6시 30분, 서머턴 해변 | 6:30 am 경찰 신고, Somerton Park beach, 애들레이드 남서쪽 약 11km | ✅ |
 | 방파제에 머리, 다리 뻗고 발 엇갈림, 옷깃 위 반쯤 피운 담배 | lying back, head against seawall, legs extended, feet crossed; half-smoked cigarette on right collar | ✅ |
 | 지갑·신분증·모자 없음, 상표 전부 제거 | no hat, no wallet, no identification; all clothing labels removed | ✅ |

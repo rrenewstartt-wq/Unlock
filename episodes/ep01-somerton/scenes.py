@@ -3,7 +3,23 @@
 cues q[i] is the scene-local start (s) of caption i; visuals land on their caption.
 """
 from scenes_kit import *  # noqa: F401,F403
-from scenes_kit import AMBER, INK, GROUND, BOARD, wrap, clip, scene3d, cam_shots, person_card  # noqa: F401
+from scenes_kit import AMBER, INK, GROUND, BOARD, wrap, clip, scene3d, cam_shots, person_card, archive_scene, archive_insert  # noqa: F401
+
+
+POLICE_1948 = "기록 사진: 남호주 경찰, 1948 (퍼블릭 도메인, Wikimedia Commons)"
+POLICE_1949 = "기록 사진: 남호주 경찰, 1949 (퍼블릭 도메인, Wikimedia Commons)"
+
+
+def hook(sid, dur, q):
+    """Cold open: three real police records, one per caption (~3 s each), before the date opening."""
+    return archive_scene(sid, dur, q, [
+        {"src": "assets/archive/beach-deathsite-1948.jpg", "size": (500, 326), "at": 0, "focus": [(0, 0.22, 0.9, 0.07)],
+         "caption": "1948년 12월, 서머턴 해변의 발견 지점", "credit": POLICE_1948},
+        {"src": "assets/archive/person-bust-1949.jpg", "size": (300, 261), "at": 1, "tilt": 1.4,
+         "caption": "1949년 경찰 신원 확인 포스터의 사진", "credit": "기록 사진: 남호주 경찰 포스터, 1949 (퍼블릭 도메인, Wikimedia Commons)"},
+        {"src": "assets/archive/code-rubaiyat-1949.jpg", "size": (1600, 1279), "at": 2, "focus": [(2, 0.5, 0.62, 0.42)],
+         "caption": "『루바이야트』 뒤표지에 눌린 글자, 경찰 사진", "credit": POLICE_1949},
+    ])
 
 
 def beach(sid, dur, q):
@@ -101,7 +117,9 @@ def station(sid, dur, q):
     tl.to("#st-match", {{ opacity: 0, duration: 0.25 }}, {q[5] + 0.1});
     tl.fromTo("#st-name span", {{ opacity: 0, scale: 1.25 }}, {{ opacity: 1, scale: 1, duration: 0.25, ease: "power4.out" }}, {q[5] + 0.35});
     tl.fromTo("#st-none", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.4 }}, {q[6]});"""
-    return scene3d(sid, dur, "station", "createStation", opts, overlay, tweens, css)
+    ins, ins_css, ins_tw = archive_insert(sid, q[1] + 0.6, "assets/archive/suitcase-1949.jpg", (250, 295), focus=(0.33, 0.5, 0.2),
+                                          caption="1949년 1월, 가방 속 옷을 살피는 형사들", credit=POLICE_1949)
+    return scene3d(sid, dur, "station", "createStation", opts, overlay + "\n" + ins, tweens + "\n" + ins_tw, css + ins_css)
 
 
 def ending(sid, dur, q):
@@ -385,6 +403,11 @@ def book(sid, dur, q):
         f'    tl.to("#bk-c{i}", {{ opacity: 1, duration: 0.3, ease: "power2.out" }}, {round(q[3] + 0.6 + i * 0.4, 2)});'
         for i in range(5)
     )
+    ins, ins_css, ins_tw = archive_insert(sid, q[3] + 0.3, "assets/archive/code-rubaiyat-1949.jpg", (1600, 1279), focus=(0.5, 0.62, 0.42),
+                                          caption="실제 암호 사진: 경찰이 눌린 자국을 덧그려 찍은 것", credit=POLICE_1949,
+                                          hide="#bk-wrap, #bk-re")
+    markup += "\n" + ins
+    css += ins_css
     script = f"""    const tl = gsap.timeline({{ paused: true }});
     tl.fromTo("#bk-cover", {{ opacity: 0, y: 50, rotation: -3 }}, {{ opacity: 1, y: 0, rotation: -1.5, duration: 0.7, ease: "power3.out" }}, {q[0] + 0.1});
     tl.to("#bk-cover .tear", {{ opacity: 1, duration: 0.3 }}, {q[1] + 0.2});
@@ -404,6 +427,7 @@ def book(sid, dur, q):
     tl.to("#bk-phone b", {{ color: "rgba(233,229,221,.6)", duration: 0.3 }}, {q[6]});
     tl.to("#bk-code", {{ color: "#F0A23B", duration: 0.3 }}, {q[6] + 0.1});
     tl.fromTo("#bk-stamp", {{ opacity: 0, scale: 1.4 }}, {{ opacity: 1, scale: 1, duration: 0.25, ease: "power4.out" }}, {q[6] + 0.5});
+{ins_tw}
     window.__timelines["{sid}"] = tl;"""
     return wrap(sid, dur, css, markup, script)
 
@@ -619,6 +643,8 @@ def sfx_events(DATA):
     for i, off in [(0, 0.5), (1, 0.2), (2, 0.2)]:
         ev.append(("click-soft", at("autopsy", i, off + 0.05), 0.55))
     ev.append(("whoosh-short", at("autopsy", 4, 0.05), 0.35))
+    ev.append(("click-soft", at("station", 1, 0.6), 0.5))   # cut to the 1949 suitcase photo
+    ev.append(("click-soft", at("book", 3, 0.3), 0.5))      # cut to the real code photo
     ev.append(("pop", at("station", 2, 0.2), 0.45))
     ev.append(("pop", at("station", 4, 0.2), 0.4))
     ev.append(("click", at("station", 5, 0.03), 0.6))

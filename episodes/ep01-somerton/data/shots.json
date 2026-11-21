@@ -1,0 +1,32 @@
+{
+ "key_scenes": [
+  {
+   "scene": "hook",
+   "why": "콜드 오픈",
+   "want": "발견 지점·인물·암호 실제 사진",
+   "photo": "assets/archive/beach-deathsite-1948.jpg",
+   "no_photo_reason": ""
+  },
+  {
+   "scene": "station",
+   "why": "결정적 증거(가방)",
+   "want": "1949 가방 경찰 사진",
+   "photo": "assets/archive/suitcase-1949.jpg",
+   "no_photo_reason": ""
+  },
+  {
+   "scene": "book",
+   "why": "결정적 증거(암호)",
+   "want": "암호 경찰 사진",
+   "photo": "assets/archive/code-rubaiyat-1949.jpg",
+   "no_photo_reason": ""
+  },
+  {
+   "scene": "scrap",
+   "why": "결정적 증거('Tamám Shud' 종이)",
+   "want": "종이 조각 사진",
+   "photo": null,
+   "no_photo_reason": "라이선스 있는 사진 없음: Commons Actual-tamam-shud.jpg 의 원 크레디트가 News Ltd/Newspix/Getty(언론사), 다른 공공 기록에서 못 찾음(2026-11-21 archive-researcher)"
+  }
+ ]
+}

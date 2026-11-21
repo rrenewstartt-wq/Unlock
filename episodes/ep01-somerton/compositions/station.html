@@ -25,6 +25,17 @@
     .nametag { position: absolute; right: 120px; top: 170px; text-align: right; }
     .nametag span { display: inline-block; font-size: 120px; color: #1E2125; background: #E9E5DD; padding: 6px 34px 14px; transform: rotate(-2deg); }
     .nametag em { display: block; font-style: normal; font-size: 46px; margin-top: 36px; color: #F3F0EA; }
+    .ar-shot { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); overflow: hidden; }
+    .ar-ins { z-index: 20; }
+    .ar-cam { position: absolute; inset: 0; transform-origin: 50% 43%; }
+    .ar-print { position: absolute; left: 50%; top: 43%; margin: 0; padding: 0; background: #EDE8DE;
+      outline: 18px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }
+    .ar-img { display: block; }
+    .ar-ring { position: absolute; left: 0; top: 0; overflow: visible; }
+    .ar-ring ellipse { fill: none; stroke: #F0A23B; stroke-width: 7; stroke-linecap: round; }
+    .ar-cap { position: absolute; left: 0; right: 0; top: 830px; text-align: center; font-size: 32px; color: rgba(233,229,221,.9); }
+    .ar-credit { position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }
+    .tag-ar { border-color: #F0A23B; }
   </style>
   <div id="root" data-composition-id="station" data-width="1920" data-height="1080">
     <div id="station-stage" class="clip" data-start="0" data-duration="23.93" style="position:absolute;inset:0" data-layout-ignore></div>
@@ -33,6 +44,7 @@
     <div id="st-ticket" class="clip ticket" data-start="6.54" data-duration="3.34"><b>맡긴 시각</b><span class="disp">1948.11.30 오전 11:00 이후</span><em>사망 추정 약 15시간 전</em></div>
     <div id="st-match" class="clip match" data-start="12.33" data-duration="3.51"><div class="m-a"><svg width="300" height="190" viewBox="0 0 300 190"><path d="M70 20 h160 v40 l-14 10 l14 10 v80 h-160 v-80 l14 -10 l-14 -10 z" fill="#D8D2C4"/><line x1="78" x2="222" y1="78" y2="81" stroke="#F0A23B" stroke-width="7" stroke-linecap="round"/><line x1="78" x2="222" y1="87" y2="90" stroke="#F0A23B" stroke-width="7" stroke-linecap="round"/><line x1="78" x2="222" y1="96" y2="99" stroke="#F0A23B" stroke-width="7" stroke-linecap="round"/><line x1="78" x2="222" y1="105" y2="108" stroke="#F0A23B" stroke-width="7" stroke-linecap="round"/><line x1="78" x2="222" y1="114" y2="117" stroke="#F0A23B" stroke-width="7" stroke-linecap="round"/><line x1="78" x2="222" y1="123" y2="126" stroke="#F0A23B" stroke-width="7" stroke-linecap="round"/></svg><b>가방 속 실타래</b></div><div class="m-eq disp">=</div><div class="m-b"><svg width="300" height="190" viewBox="0 0 300 190"><defs><pattern id="tw" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#4A3D30"/><rect width="5" height="10" fill="#3E3328"/></pattern></defs><rect x="10" y="10" width="280" height="170" fill="url(#tw)"/><path d="M30 120 C 100 60, 200 60, 270 110" fill="none" stroke="#2A2017" stroke-width="10"/><path d="M30 120 C 100 60, 200 60, 270 110" fill="none" stroke="#F0A23B" stroke-width="6" stroke-dasharray="16 10"/></svg><b>바지 주머니 수선 자국</b></div><p class="m-note">같은 주황색 왁스 실 · 호주에서 팔지 않던 종류</p></div>
     <div id="st-name" class="clip nametag" data-start="15.44" data-duration="8.49"><span class="disp">T. KEANE</span><em id="st-none">실종 신고 일치: 0건</em></div>
+    <div id="station-ins0" class="clip ar-shot ar-ins" data-start="3.87" data-duration="3.0" data-layout-allow-overlap><div id="station-ins0-cam" class="ar-cam"><figure class="ar-print" style="width:542px;height:640px;transform:translate(-50%,-50%) rotate(-1.0deg)"><img class="ar-img" src="assets/archive/suitcase-1949.jpg" alt="" style="width:542px;height:640px" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/><svg class="ar-ring" viewBox="0 0 542 640" width="542" height="640"><ellipse id="station-ins0-r" cx="179" cy="320" rx="108" ry="89" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100"/></svg></figure></div><div class="ar-cap">1949년 1월, 가방 속 옷을 살피는 형사들</div><div class="ar-credit">기록 사진: 남호주 경찰, 1949 (퍼블릭 도메인, Wikimedia Commons)</div><div class="tag-re tag-ar">기록</div></div>
   </div>
   <script type="module">
     import { createStation } from "./assets/lib/station.js";
@@ -66,6 +78,8 @@
     tl.to("#st-match", { opacity: 0, duration: 0.25 }, 15.54);
     tl.fromTo("#st-name span", { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power4.out" }, 15.79);
     tl.fromTo("#st-none", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 18.06);
+    tl.to("#station-ins0-r", { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, 4.27);
+    tl.fromTo("#station-ins0-cam", { scale: 1.0 }, { scale: 1.06, duration: 3.0, ease: "none" }, 3.87);
     render(0);
     window.__timelines["station"] = tl;
   </script>
