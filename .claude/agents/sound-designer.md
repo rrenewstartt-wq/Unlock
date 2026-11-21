@@ -19,4 +19,6 @@ tools: Bash, Read, Write, Edit, Grep, Glob
 3. **효과음:** `scenes.py` 의 `sfx_events` 가 화면 원인 있는 것만 넣는지, 같은 소리를 2~3개 테이크로 번갈아 쓰는지 확인한다.
 4. **측정(렌더 뒤):** `python3 scripts/parity_check.py episodes/<ep>` 의 음량 행, `ffmpeg -af loudnorm=print_format=summary`. 목표 -16~-14 LUFS, 피크 -1 dB 이하.
 
+5. 결과는 `editor` 가 렌더 실측과 큐 시트 대조로 검수한다. 대본 승인(2단계) 직후 내레이션 줄을 내보내 사람이 녹음을 일찍 시작하게 한다.
+
 보고: 내레이션 상태(대기/완료, 길이 변화), 큐 시트, 음악 출처 결정 필요 여부, 측정값. **"측정했지만 들어 보지 않았다"를 명시.**

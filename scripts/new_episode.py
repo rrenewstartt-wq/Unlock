@@ -38,10 +38,16 @@ SCRIPT_TPL = """# 장면은 @id 로 시작하고, 그 아래 한 줄이 자막 �
 
 FACTS_TPL = """# 사실 근거 — {name}
 
-출처: (URL, 열람일). ✅ = 원문 확인, ⚠️ = 요약·2차 자료에서만 확인(업로드 전 1차 자료로 재확인).
+담당 fact-checker, 검수 source-verifier. ✅ = 원문 확인, ⚠️ = 요약·2차 자료에서만 확인 또는 자료끼리 다름(업로드 전 0), ❌ = 틀린 통념(쓰지 않음).
+자막과 사실의 연결은 data/fact_map.json {{"captions": {{"<자막>": ["F01"]}}}} — parity_check "자막 근거 연결".
 
-| 자막 | 근거 | 상태 |
-|---|---|---|
+## 출처
+| # | 자료 | 종류(1차/주요 언론/2차) | 위치(URL, 쪽) | 열람일 |
+|---|---|---|---|---|
+
+## 사실
+| ID | 사실(자막이 될 단위, 한 줄) | 출처(#·쪽·원문 짧은 인용) | 상태 |
+|---|---|---|---|
 
 ## 일부러 쓰지 않은 것
 - 확정되지 않은 사인·범인, 생존자·유족 실명, 라이선스 미확인 사진
@@ -72,6 +78,8 @@ def main():
         f"# SPEC — {slug} 「{name}」\n\nGOAL / OUTPUT / TIME / LOOK / OBJECTS / MOTION / SHOTS / BANNED / QA 를 ep01 SPEC.md 처럼 채운다.\n"
         "룩·도식 원칙은 ../../docs/visual-style.md 를 따른다.\n", encoding="utf-8")
     (dst / "data" / "shots.json").write_text(json.dumps({"key_scenes": [], "_doc": "핵심 장면마다 {scene, why, want, photo, no_photo_reason} — docs/quality-bar.md 핵심 장면"}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    (dst / "data" / "fact_map.json").write_text(json.dumps({"captions": {}}, ensure_ascii=False) + "\n", encoding="utf-8")
+    (dst / "data" / "gates.json").write_text(json.dumps({"stages": {}, "waivers": [], "log": []}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     (dst / "kit3d.json").write_text(json.dumps({"assets": ["figure:quaternius"]}) + "\n", encoding="utf-8")
     import subprocess
     subprocess.run([sys.executable, str(HERE / "scripts" / "kit3d.py"), str(dst)], check=True)
@@ -79,7 +87,7 @@ def main():
                       ("assets/music", "# 음악 라이선스\n\n| 파일 | 곡 | 출처 | 허가 근거 |\n|---|---|---|---|\n")]:
         (dst / d).mkdir(parents=True, exist_ok=True)
         (dst / d / ("SOURCES.md" if "archive" in d else "LICENSE.md")).write_text(readme, encoding="utf-8")
-    print(f"만들었습니다: {dst}\n다음: /make-episode 2단계(script-writer) — 기준 docs/quality-bar.md")
+    print(f"만들었습니다: {dst}\n다음: python3 scripts/gates.py {dst.relative_to(HERE)} — 관문 장부(/make-episode, 기준 docs/quality-bar.md)")
 
 
 if __name__ == "__main__":

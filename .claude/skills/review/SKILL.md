@@ -20,8 +20,11 @@ parity 의 ❌ 를 목록으로 만든다.
 - `visual-critic`: 스냅샷 리뷰 시트로 P0/P1
 
 ## 3. 고치기
-P0 → parity ❌ → P1 순서. 3D 세트 문제는 `set-builder` 에게, 대본은 `script-writer` 에게, 도식은 메인 세션이 고친다.
+P0 → parity ❌ → P1 순서. 3D 세트 문제는 `set-builder`, 도식은 `diagram-builder`, 시간·싱크·컷 길이는 `editor`, 대본은 `script-writer`(고친 뒤 `fact-checker` 가 fact_map 갱신)에게 넘긴다.
 고친 장면만 다시 스냅샷. 같은 장면을 3번 고쳐도 안 되면 멈추고 남은 문제를 보고한다. **기준을 낮춰서 통과시키지 않는다.**
+
+## 3.5 레퍼런스 비교를 원하면
+`reference-analyst` 에게 영역별 블라인드 대조 시트 → `visual-critic` 이 기준표 전에 먼저 고른다.
 
 ## 4. 보고
 표: 장면 | 문제(P0/P1/parity) | 고친 방법 | 남음. 남긴 경고와 이유, ⚠️ 사실 목록, parity 통과/실패 수.

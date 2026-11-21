@@ -48,7 +48,7 @@ bash scripts/setup.sh
 | 경쟁 채널 목록 원본 `data/benchmark/competitors/raw/` | 다른 채널의 데이터(분석용) | `python3 scripts/competitors.py --refresh` | 분석 결과 `summary.json`·`docs/competitor-report.md` 는 커밋됨. 조회수는 받는 날의 값이라 조금 달라짐 |
 
 **저장소에 들어 있는 것(받기만 하면 됨):** 실제 기록 사진과 출처 대장 `episodes/*/assets/archive/`, 영상 3D 키트 코드 `episodes/*/assets/kit3d/*.js`,
-팀 에이전트 17명 `.claude/agents/`, 스킬 `.claude/skills/`, 소재 백로그·검증 결과 `data/topics/`, 기준 문서 `docs/`.
+팀 에이전트 22명 `.claude/agents/`, 스킬 `.claude/skills/`, 소재 백로그·검증 결과 `data/topics/`, 기준 문서 `docs/`.
 
 ## 재현 확인
 ```bash

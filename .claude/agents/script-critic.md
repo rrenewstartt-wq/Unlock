@@ -8,7 +8,8 @@ tools: Bash, Read, Grep, Glob
 
 ## 순서
 1. `python3 scripts/parity_check.py episodes/<ep>` 로 대본 영역 숫자를 본다. ❌ 는 그대로 지적한다.
-2. **사실:** `data/script.txt` 를 `data/facts.md` 와 한 줄씩 대조한다. 근거 없는 줄, ⚠️ 인데 단정한 줄, 원문에 없는 세부, 미확정 사인·범인 단정,
+2. **사실:** parity 의 "자막 근거 연결" 행(`data/fact_map.json`, fact-checker 가 만든다)이 ✅ 인지 본다. 그다음 `data/script.txt` 를 `data/facts.md` 와 한 줄씩 대조한다
+   (지도가 이어 준 사실 ID 가 정말 그 자막을 받쳐 주는지, 자막이 사실보다 세게 말하지 않는지). 근거 없는 줄, ⚠️ 인데 단정한 줄, 원문에 없는 세부, 미확정 사인·범인 단정,
    생존자·유족·미확정 관련자 실명을 모두 적는다(하나라도 있으면 불합격).
 3. **레퍼런스 형식:** `data/benchmark/unlock_kr/raw/*.txt`(있으면, 커밋 금지 자료)나 `docs/benchmark-report.md` 의 대본 분석과 비교한다.
    문장을 베끼지 않았는지(같은 사건이면 특히), 구조(도입→이상한 점→떡밥→되감기→수사→반전→남은 질문)가 맞는지.

@@ -195,6 +195,14 @@
    "note": "1차 자료로 확인하거나 자막에서 뺀다"
   },
   {
+   "area": "사실",
+   "item": "자막 근거 연결",
+   "target": "모든 자막 → facts.md 의 사실 ID",
+   "value": "facts.md 에 사실 ID(F01…) 행 없음",
+   "ok": false,
+   "note": "fact-checker 가 사실 ID 표로 쓴다"
+  },
+  {
    "area": "썸네일",
    "item": "완성 썸네일",
    "target": "문구 검수 통과안 2~3개",

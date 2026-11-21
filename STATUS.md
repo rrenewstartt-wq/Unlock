@@ -3,12 +3,21 @@
 새 세션·다른 계정에서 이어 갈 때 이 파일부터 읽는다. 설치는 `docs/SETUP.md` (`bash scripts/setup.sh`, 끝에 "결과: 모두 같음 ✓").
 
 ## 바로 다음 할 일
-1. **다음 편(2편) 사건 고르기** — 2026-11-20 발굴·검증·위험 검토 완료(`python3 scripts/topics.py list --top 12`, 근거 `data/topics/inbox-20261120-*.json`).
-   추천 **마쓰바세 사건**(`matsubase-kumamoto-1985`, 28.0점, 1985 구마모토 → 2019 재심 무죄, 34년, 판결문 원문 확인·단서 11/12, 판결문은 저작권 없음).
-   그다음 팔미라 환초(27.8, 위험 3 조건부), 1978 일본 해변 연인(27.8, **사람 판단 필요**: 북한 납치·외교 사안), 아이슬란드 '레이캬비크 6인'(27.3), 오렌지 양말(26.9, 단서 8개로 빠듯).
-   브레켄리지는 보류(범인 옥중 사망 뒤 유죄의 법적 상태 미확인). 마쓰바세는 안협소의 「일본 검찰 최악의 흑역사인 미제사건」(58만)과 같은 사건인지 기획 때 확인.
-2. 고르면: `python3 scripts/topics.py set <slug> 선정` → `/plan <slug>` → `/make-episode`(기본 16~20분).
-3. ep01 남은 일(시험편이라 급하지 않음): 렌더 안 함(`npm run render`, 약 35분), 보관소 장면 film 키트로, 담배 인서트 컷.
+1. **2편 기획안 승인** — 마쓰바세 사건 선정·기획 완료(`data/topics/plans/matsubase-kumamoto-1985.md`, 상태 `기획됨`).
+   제목 후보 5개(추천 「징역 13년이 확정됐던 일본 남자, 34년 만에 무죄｜마쓰바세 사건」), 썸네일 2안(셔츠 왼소매 / 고타츠 위의 귤), 약 17분·46장면·새 3D 세트 6개.
+   안협소 58만 영상은 아시카가 사건(태그 기준)이라 같은 사건 아님. 승인되면:
+   `python3 scripts/new_episode.py ep02-matsubase "<제목>"` → `python3 scripts/gates.py episodes/ep02-matsubase pass plan --by 사람 --evidence "기획안 승인"` → `/make-episode`.
+2. **사람 결정을 앞당긴다(대본 승인 때 함께):** 내레이션 녹음(본인 목소리, Colab)과 음악 출처. 이것 없이는 소리 영역이 동급이 될 수 없다(회고 R8).
+3. 2편은 **파일럿 관문**(콜드 오픈~첫 질문, 약 2분 30초)이 블라인드 비교에서 동급이어야 나머지 장면을 짓는다.
+4. ep01 남은 일(시험편이라 급하지 않음): 렌더 안 함, 보관소 장면 film 키트로, 담배 인서트 컷, facts.md 를 사실 ID 표로.
+
+## 2026-11-21: 회고와 팀 재구성 (`docs/retrospective-2026-11-21.md`)
+- 회고 핵심: 동급 롱폼이 아직 한 편도 없다(R1), 레퍼런스 증거가 얇고(R2) 검수가 자기 채점이다(R3), 사실·도식·편집·메타 담당이 비어 있었다(R4·R5·R9),
+  자막↔근거와 관문이 기록되지 않았다(R6·R7), 소리 결정이 마지막에 있었다(R8).
+- **새 팀원 5명(17 → 22):** fact-checker(사실), diagram-builder(2D 도식), editor(리듬·싱크·소리 교차 검수), reference-analyst(레퍼런스 팩·블라인드 시트), meta-writer(upload.json).
+- **새 관문:** `scripts/gates.py`(관문 장부: 순서 강제, 자동 확인, 대본이 바뀌면 다시 필요, 사람 예외 기록), 파일럿 관문, 블라인드 비교(3장 중 2장에서 우리 칸이 "더 싸 보임"이면 동급 아님).
+- **새 검사:** parity "자막 근거 연결"(facts.md 사실 ID + `data/fact_map.json`), `--render <파일>`(파일럿 실측, 결과 `data/parity-<파일>.json`).
+- 메인 세션은 제작 책임자: 단계를 돌리고 장부를 쓰고 사람 결정을 묻는다. 만들거나 검수하지 않는다.
 
 ## 2026-11-20: 레퍼런스 동급을 목표로 팀 개선
 - **기준:** `docs/quality-bar.md`(대본·화면·소리·사실·썸네일·메타의 숫자 기준) + `scripts/parity_check.py`(자동 측정, `--strict` 관문).
@@ -43,7 +52,7 @@
 | 썸네일 | **장르 히트작 분석으로 개정:** 공개 기록 사진(실제 얼굴 허용, 조건부) 또는 사진 같은 이미지를 크게 + 두 줄 큰 글자(위 흰 줄 + 아래 앰버 명사구). CC0 3D 썸네일은 약해서 보조 | `docs/thumbnail-benchmark.md`, `docs/thumbnail-copy.md` |
 | 제목 | "N년 만에"(숫자+결과) > 최상급, 끝에 `｜사건명`. "~한 이유"는 보조, 물음 제목·비교·경고형 안 씀 | `docs/script-formula.md`, `docs/competitor-report.md` |
 | 길이 | 기본 16~20분 | `docs/competitor-report.md` |
-| 팀 | 기획·소재 4, 제작 6(script-writer, script-critic, storyboard-director, set-builder, archive-researcher, sound-designer), 검수·판정 2(visual-critic, parity-judge), 썸네일 5 | `.claude/agents/`, `CLAUDE.md` |
+| 팀 | 22명: 기준 1, 기획·소재 4, 사실 1, 대본 2, 연출·화면 4, 편집·소리 2, 검수·판정 2, 썸네일·메타 6. 관문 장부 `scripts/gates.py` | `.claude/agents/`, `CLAUDE.md`, `docs/retrospective-2026-11-21.md` |
 
 ## ep01 서머턴 맨 (기준 잡기용 시험편, 3분)
 - 영상: `episodes/ep01-somerton` — 빌드됨(렌더는 `npm run render`, 약 35분). 내레이션·음악 없음, 효과음만.
@@ -56,11 +65,11 @@
 0. **동급에 꼭 필요한 사람 결정:** 내레이션 녹음(본인 목소리, Colab), 음악 출처(본인 소유 곡 또는 사용 허가가 명확한 라이브러리).
 1. ep01 썸네일 문구 3안 중 선택(또는 A/B 테스트).
 2. 사진이 없는 사건의 썸네일 이미지: AI 생성 이미지(HeyGen, 유료 크레딧) 사용 여부.
-3. 다음 편 사건: 위 "바로 다음 할 일" 1번(추천 마쓰바세).
+3. 2편 기획안 승인(위 "바로 다음 할 일" 1번).
 4. 1978 일본 해변 연인(북한 납치)을 이 채널에서 다룰지, 사후 얼굴 사진(서머턴 맨)을 본편에 쓸지.
 
 ## 다음 순서 (사건이 정해지면)
-`/plan <slug>` → `/make-episode`(기본 16~20분): 사실 → 대본(script-writer/critic) → 설계(storyboard-director) → 실제 자료(archive-researcher) → 장면(set-builder + 도식) → `/review` → 소리(sound-designer) → 렌더 → `/thumbnail` → parity-judge → 사람이 업로드.
+`/make-episode`(관문: plan → facts → script → design → archive → **pilot** → scenes → sound → render → thumbnail·meta → judge, `scripts/gates.py`) → 사람이 업로드.
 
 ## 알아 둘 것
 - 클라우드 세션은 재시작되면 커밋하지 않은 파일이 사라진다. 결과물은 만들 때마다 커밋한다. 캐시는 `bash scripts/setup.sh` 로 복구된다.
