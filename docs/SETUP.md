@@ -21,6 +21,7 @@ bash scripts/setup.sh
 - **HyperFrames 플러그인**(영상 제작 스킬 `/hyperframes`)은 계정마다 설치해야 한다: Claude Code 플러그인 마켓에서 HyperFrames 를 추가.
   영상 CLI 자체는 `npx --yes hyperframes@0.9.59` 로 버전이 고정돼 있어 플러그인 없이도 렌더된다.
 - 이어서 할 일은 `STATUS.md` 에 있다. 새 세션에 "STATUS.md 읽고 이어서 해줘" 라고 하면 된다.
+- 작업은 `main` 브랜치 기준이다. 클라우드 세션은 재시작되면 커밋하지 않은 파일이 사라지므로 단계마다 커밋·푸시한다.
 
 ## 버전 (2026-11-19 이 저장소의 결과를 만든 환경)
 | 도구 | 버전 | 고정 위치 |
@@ -32,7 +33,7 @@ bash scripts/setup.sh
 | three.js | r185 | 저장소에 포함(`thumbkit/lib`, `episodes/*/assets/lib`) |
 | Playwright / Chromium | 1.63.0 | `scripts/setup.sh` |
 | ffmpeg | 6.1 | — |
-| yt-dlp (선택) | 2026.10.26 | 벤치마크 재수집에만 |
+| yt-dlp | 2026.10.26 | `requirements.txt` (벤치마크·경쟁 채널 수집에만) |
 | 글꼴 | Black Han Sans, Gothic A1 (OFL) | 저장소에 포함 |
 
 ## 저장소에 없는 것과 다시 받는 법
@@ -43,6 +44,11 @@ bash scripts/setup.sh
 | 영상 렌더 `episodes/*/renders/` | 용량, 다시 만들 수 있음 | `cd episodes/<ep> && npm run render` | 프레임 비교(ffmpeg) |
 | 3D 촬영 원본 `thumbnail/out/beauty-*`, `mask-*` | 용량 | `bash scripts/thumbnail.sh episodes/<ep>` | `python3 scripts/verify_repro.py --3d` |
 | 내 목소리 `assets/voice/`, `data/voice.json` | 개인 정보 | 본인이 Colab 에서 다시 생성(`docs/voice.md`) | — |
+| 영상 3D 자산 `episodes/*/assets/kit3d/cache/` | 용량(thumbkit/cache 의 복사본) | `python3 scripts/kit3d.py --all` (setup.sh 가 자동) | 같은 잠금 파일 |
+| 경쟁 채널 목록 원본 `data/benchmark/competitors/raw/` | 다른 채널의 데이터(분석용) | `python3 scripts/competitors.py --refresh` | 분석 결과 `summary.json`·`docs/competitor-report.md` 는 커밋됨. 조회수는 받는 날의 값이라 조금 달라짐 |
+
+**저장소에 들어 있는 것(받기만 하면 됨):** 실제 기록 사진과 출처 대장 `episodes/*/assets/archive/`, 영상 3D 키트 코드 `episodes/*/assets/kit3d/*.js`,
+팀 에이전트 17명 `.claude/agents/`, 스킬 `.claude/skills/`, 소재 백로그·검증 결과 `data/topics/`, 기준 문서 `docs/`.
 
 ## 재현 확인
 ```bash

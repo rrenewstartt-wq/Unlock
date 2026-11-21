@@ -1,6 +1,14 @@
-# 현재 상태와 다음 할 일 (2026-11-20 기준)
+# 현재 상태와 다음 할 일 (2026-11-21 기준)
 
-새 세션·다른 계정에서 이어 갈 때 이 파일부터 읽는다. 설치는 `docs/SETUP.md` (`bash scripts/setup.sh`).
+새 세션·다른 계정에서 이어 갈 때 이 파일부터 읽는다. 설치는 `docs/SETUP.md` (`bash scripts/setup.sh`, 끝에 "결과: 모두 같음 ✓").
+
+## 바로 다음 할 일
+1. **다음 편(2편) 사건 고르기** — 2026-11-20 발굴·검증·위험 검토 완료(`python3 scripts/topics.py list --top 12`, 근거 `data/topics/inbox-20261120-*.json`).
+   추천 **마쓰바세 사건**(`matsubase-kumamoto-1985`, 28.0점, 1985 구마모토 → 2019 재심 무죄, 34년, 판결문 원문 확인·단서 11/12, 판결문은 저작권 없음).
+   그다음 팔미라 환초(27.8, 위험 3 조건부), 1978 일본 해변 연인(27.8, **사람 판단 필요**: 북한 납치·외교 사안), 아이슬란드 '레이캬비크 6인'(27.3), 오렌지 양말(26.9, 단서 8개로 빠듯).
+   브레켄리지는 보류(범인 옥중 사망 뒤 유죄의 법적 상태 미확인). 마쓰바세는 안협소의 「일본 검찰 최악의 흑역사인 미제사건」(58만)과 같은 사건인지 기획 때 확인.
+2. 고르면: `python3 scripts/topics.py set <slug> 선정` → `/plan <slug>` → `/make-episode`(기본 16~20분).
+3. ep01 남은 일(시험편이라 급하지 않음): 렌더 안 함(`npm run render`, 약 35분), 보관소 장면 film 키트로, 담배 인서트 컷.
 
 ## 2026-11-20: 레퍼런스 동급을 목표로 팀 개선
 - **기준:** `docs/quality-bar.md`(대본·화면·소리·사실·썸네일·메타의 숫자 기준) + `scripts/parity_check.py`(자동 측정, `--strict` 관문).
@@ -8,8 +16,8 @@
   `/make-episode` 는 단계마다 "만드는 팀원 → 검수 팀원 → 관문", 마지막에 parity-judge 가 전 영역 동급일 때만 "완성".
 - **3D 엔진:** 영상 3D 를 기본 도형 마네킹에서 **film 키트**(`thumbkit/film.js`: 사실적 인물 남녀 + Poly Haven 실사 질감·하늘·소품 모델)로 바꿨다.
   `python3 scripts/kit3d.py episodes/<ep>`. ep01 해변 세트 3장면(beach, dusk, ending)을 이 키트로 다시 지었다.
-- **ep01 동급 검사(시험편 기준 아님):** 통과 12 · 실패 10. 실패: 길이(3분), 장면 수, 자막 4줄 28자 초과, 소품 회수, 보관소 장면이 아직 마네킹,
-  실제 자료 0, 내레이션·음악 없음, ⚠️ 사실 2개, upload.json 없음.
+- **ep01 동급 검사(롱폼 기준, 2026-11-21):** 통과 13 · 실패 12 · 보류 2. 실패: 길이(3분 시험편), 첫 질문 21%(사람 결정으로 유지), 자막 4줄 28자 초과, 소품 회수,
+  장면 수, 보관소 장면이 아직 마네킹, 핵심 장면 수·중간 사진 컷 수(롱폼 기준), 내레이션·음악 없음, ⚠️ 사실 2개, upload.json 없음.
 - **ep01 남은 화면 문제:** 담배가 흰 셔츠에 묻혀 안 보인다 → 담배만 찍는 인서트 컷이 필요. 해변 아침 조명이 평평하다.
 
 ## 2026-11-21: 실제 사진 — 처음 후킹 + 중간 하이라이트, 한 컷 약 3초
@@ -30,11 +38,12 @@
 |---|---|---|
 | 채널 | 해외 실화 미제사건 롱폼 16:9, 벤치마크 @unlock_kr 의 형식만(표현은 직접) | `docs/originality.md` |
 | 대표색 | 앰버 하나(빨간 단색은 벤치마크의 것) | `docs/visual-style.md` |
-| 화면 | 도식은 2D(검은 보드), 재연은 3D "섞기" 방식(사실적 CC0 세계 + 무채색 + 초점 하나만 앰버) — 정지 화면 시험까지, 본편 적용은 아직 | `docs/visual-style.md` |
+| 화면 | 도식은 2D(검은 보드), 재연은 film 키트 3D(사실적 인물·실사 질감), **핵심 장면은 실제 기록 사진이 먼저**(처음 후킹 + 중간 하이라이트, 한 컷 약 3초) | `docs/visual-style.md`, `docs/quality-bar.md` |
 | 내레이션 | 본인 목소리 복제(VoxCPM2, Colab) — 나중에. 음악도 나중 | `docs/voice.md` |
 | 썸네일 | **장르 히트작 분석으로 개정:** 공개 기록 사진(실제 얼굴 허용, 조건부) 또는 사진 같은 이미지를 크게 + 두 줄 큰 글자(위 흰 줄 + 아래 앰버 명사구). CC0 3D 썸네일은 약해서 보조 | `docs/thumbnail-benchmark.md`, `docs/thumbnail-copy.md` |
-| 제목 | 숫자+결과 / 모순+이유 / 뜻밖의 결말 / 최상급. 비교·경고형 안 씀 | `docs/script-formula.md` |
-| 팀 | 기획·소재(case-scout, source-verifier, risk-reviewer, episode-planner), 썸네일 문구(thumb-copywriter, thumb-copy-critic), 썸네일 이미지(thumb-director, thumb-builder, thumb-critic) | `.claude/agents/` |
+| 제목 | "N년 만에"(숫자+결과) > 최상급, 끝에 `｜사건명`. "~한 이유"는 보조, 물음 제목·비교·경고형 안 씀 | `docs/script-formula.md`, `docs/competitor-report.md` |
+| 길이 | 기본 16~20분 | `docs/competitor-report.md` |
+| 팀 | 기획·소재 4, 제작 6(script-writer, script-critic, storyboard-director, set-builder, archive-researcher, sound-designer), 검수·판정 2(visual-critic, parity-judge), 썸네일 5 | `.claude/agents/`, `CLAUDE.md` |
 
 ## ep01 서머턴 맨 (기준 잡기용 시험편, 3분)
 - 영상: `episodes/ep01-somerton` — 빌드됨(렌더는 `npm run render`, 약 35분). 내레이션·음악 없음, 효과음만.
@@ -47,7 +56,8 @@
 0. **동급에 꼭 필요한 사람 결정:** 내레이션 녹음(본인 목소리, Colab), 음악 출처(본인 소유 곡 또는 사용 허가가 명확한 라이브러리).
 1. ep01 썸네일 문구 3안 중 선택(또는 A/B 테스트).
 2. 사진이 없는 사건의 썸네일 이미지: AI 생성 이미지(HeyGen, 유료 크레딧) 사용 여부.
-3. 다음 편 사건: 소재 백로그 1위 **텔마 개스턴(1981, 2026 신원 확인)** 추천 — `python3 scripts/topics.py list --top 10`.
+3. 다음 편 사건: 위 "바로 다음 할 일" 1번(추천 마쓰바세).
+4. 1978 일본 해변 연인(북한 납치)을 이 채널에서 다룰지, 사후 얼굴 사진(서머턴 맨)을 본편에 쓸지.
 
 ## 다음 순서 (사건이 정해지면)
 `/plan <slug>` → `/make-episode`(기본 16~20분): 사실 → 대본(script-writer/critic) → 설계(storyboard-director) → 실제 자료(archive-researcher) → 장면(set-builder + 도식) → `/review` → 소리(sound-designer) → 렌더 → `/thumbnail` → parity-judge → 사람이 업로드.

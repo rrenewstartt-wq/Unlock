@@ -1,13 +1,13 @@
 {
  "episode": "ep01-somerton",
- "test": true,
+ "test": false,
  "rows": [
   {
    "area": "대본",
    "item": "길이",
-   "target": "2~4분 (시험편)",
+   "target": "12~20분 (기본 16~20분, docs/competitor-report.md)",
    "value": "3.2분",
-   "ok": true,
+   "ok": false,
    "note": ""
   },
   {
@@ -45,7 +45,7 @@
   {
    "area": "대본",
    "item": "질문형 문장 수",
-   "target": "3~6",
+   "target": "5~9",
    "value": 5,
    "ok": true,
    "note": ""
@@ -93,9 +93,9 @@
   {
    "area": "대본",
    "item": "장면 수",
-   "target": "10개 이상",
+   "target": "18개 이상",
    "value": 11,
-   "ok": true,
+   "ok": false,
    "note": ""
   },
   {
@@ -125,9 +125,9 @@
   {
    "area": "화면",
    "item": "핵심 장면 실제 사진",
-   "target": "핵심 장면 2개 이상, 사진 60% 이상, 못 쓴 장면은 이유",
+   "target": "핵심 장면 5개 이상, 사진 60% 이상, 못 쓴 장면은 이유",
    "value": "4개 중 사진 3",
-   "ok": true,
+   "ok": false,
    "note": ""
   },
   {
@@ -141,9 +141,9 @@
   {
    "area": "화면",
    "item": "실제 사진 컷(약 3초)",
-   "target": "컷 2.5~4초, 중간 하이라이트 3초 컷 1개 이상(2~3분마다)",
+   "target": "컷 2.5~4초, 중간 하이라이트 3초 컷 4개 이상(2~3분마다)",
    "value": "사진 컷 5개, 길이 3.0~3.5초, 중간 삽입 2개",
-   "ok": true,
+   "ok": false,
    "note": ""
   },
   {
