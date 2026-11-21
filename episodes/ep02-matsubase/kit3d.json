@@ -1,1 +1,15 @@
-{"assets": ["figure:quaternius"]}
+{
+ "assets": [
+  "figure:quaternius",
+  "hdri:kloofendal_misty_morning_puresky",
+  "hdri:qwantani_dusk_2_puresky",
+  "texture:tatami_mat",
+  "texture:beige_wall_001",
+  "texture:clay_plaster",
+  "texture:dark_wood",
+  "texture:japanese_cedar_planks",
+  "texture:rough_linen",
+  "model:pull_chain_light_socket",
+  "model:lightbulb_01"
+ ]
+}
