@@ -6,6 +6,13 @@
    "evidence": "기획안 승인 2026-11-21 (data/topics/plans/matsubase-kumamoto-1985.md)",
    "date": "2026-11-21",
    "script": "d62e51373037"
+  },
+  "facts": {
+   "status": "fail",
+   "by": "source-verifier",
+   "evidence": "불합격: F70·F117·F205 원문보다 셈/틀림, F28 상태 오류. 핵심 반전·계산 8행은 일치(무작위 24 + 핵심 약 110행 대조, 시드 20261121)",
+   "date": "2026-11-21",
+   "script": "d62e51373037"
   }
  },
  "waivers": [],
@@ -15,6 +22,13 @@
    "status": "pass",
    "by": "사람",
    "evidence": "기획안 승인 2026-11-21 (data/topics/plans/matsubase-kumamoto-1985.md)",
+   "date": "2026-11-21"
+  },
+  {
+   "stage": "facts",
+   "status": "fail",
+   "by": "source-verifier",
+   "evidence": "불합격: F70·F117·F205 원문보다 셈/틀림, F28 상태 오류. 핵심 반전·계산 8행은 일치(무작위 24 + 핵심 약 110행 대조, 시드 20261121)",
    "date": "2026-11-21"
   }
  ]
