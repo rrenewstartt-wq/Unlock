@@ -12,10 +12,10 @@
 2. **archive:** archive-researcher 에게 SPEC 의 요청 R1~R9(판결문·결정문 지면은 실명 줄을 **파일 자체에서** 잘라 냄) + shots.json 핵심 장면 12.
 3. **pilot:** 0~137초(hook~calendar) + 판정용 시험 컷 6개. 세트 room·outside·home(+시험 컷: police·vault·knife). 직전에 레퍼런스 수집 재시도
    (`python3 scripts/benchmark.py @unlock_kr --all-storyboards` → `scripts/blind_sheet.py`). 봇 확인이면 사용자에게 다시 묻는다.
-4. **내레이션(사람 녹음 받음, 사용자 확인 대기):** 이 환경 CPU 로 생성한다(`docs/voice.md` "Colab 없이").
-   - 기준 녹음은 개인 정보라 저장소에 없다. 새 환경에서는 사용자에게 녹음 파일(m4a)을 다시 받아 `python3 scripts/voice_local.py setup` → `ref <파일>`.
-     녹음 문장은 `config/voice.json → reference_text`(이미 실제 녹음 문장으로 맞춰 둠).
-   - 시험 3줄(콜드 오픈) 생성·받아쓰기 대조 완료, **사용자가 목소리를 들어 보고 확인하는 중**. 괜찮으면 `voice.py pack` → `voice_local.py gen`(314줄, 약 3시간) → `voice.py import`.
+4. **내레이션 — 사람 결정(2026-11-21): 맨 마지막 작업으로 한다.** 그때까지 모든 시각은 읽기 속도 기준이다.
+   마지막에: 사용자에게 녹음(m4a) 받기(새 환경이면) → `voice_local.py setup` → `ref <파일>` → `voice.py pack` → `voice_local.py gen`(314줄, CPU 약 3시간)
+   → `voice.py import` → `build_script.py`·`build.py`(시각이 음성에 맞춰짐) → **editor 가 싱크·판 교체 간격(8초) 다시 확인** → 렌더.
+   그래서 파일럿 판정의 소리 영역은 "미달(사람 결정 대기)"로 두고 화면·대본·사실만 본다. 시험 3줄은 만들어 보냈고 사용자 확인 전.
 5. **음악:** 사용자가 나중에 정함 → 정하기 전까지 sound 는 미달로 남는다.
 6. 업로드 직전: facts F204(최고재판소 결과) 다시 확인, F29(이름 읽기)는 확인 못 하면 "미야타 씨"만(대본은 이미 그렇게 씀).
 7. ep01 남은 일(급하지 않음): 렌더, 보관소 장면 film 키트로, 담배 인서트, facts.md 를 사실 ID 표로.
