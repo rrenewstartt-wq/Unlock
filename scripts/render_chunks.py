@@ -51,7 +51,8 @@ def main():
             print(f"{i:02d}  {s:8.2f} → {e:8.2f}  ({e - s:6.1f}초)  {'완료' if done else ''}")
         print(f"총 {total:.1f}초, {len(chunks)}구간")
     elif a[1] == "render":
-        want = [int(x) for x in a[2:] if x.isdigit()] or range(len(chunks))
+        skip = {a.index("--max") + 1} if "--max" in a else set()
+        want = [int(x) for i, x in enumerate(a[2:], 2) if x.isdigit() and i not in skip] or range(len(chunks))
         for i in want:
             s, e = chunks[i]
             dst = out / f"{i:02d}.mp4"
