@@ -36,7 +36,10 @@
   "texture:poly_wool_herringbone",
   "texture:poly_wool_herringbone@4k",
   "texture:tatami_mat",
-  "texture:wooden_panels"
+  "texture:wooden_panels",
+  "model:lightbulb_01",
+  "model:pull_chain_light_socket",
+  "texture:rough_linen"
  ],
  "files": {
   "figures/LICENSE_Quaternius.txt": "0f4beaf0fe360a7732e58bbe3dbf60a2422367fbea60cb9ea4add968f383268e",
@@ -201,6 +204,23 @@
   "textures/wooden_panels/diff.jpg": "736793db480954a1da44280522dfe86cededf6f3891344db76d5d0329cbf168d",
   "textures/wooden_panels/disp.jpg": "91b3613b6f39f206d2c09c8b946c761da56fc860201eaa4e864bbec688175871",
   "textures/wooden_panels/nor.jpg": "3853ab00e3860d804bb8738f3d7a38451917d7a8b5cf480f5c1d8cf82c8e375a",
-  "textures/wooden_panels/rough.jpg": "4b90d2f54238551cd78c8dbcb65b5af10b64674002e5dc0c19753da80333991b"
+  "textures/wooden_panels/rough.jpg": "4b90d2f54238551cd78c8dbcb65b5af10b64674002e5dc0c19753da80333991b",
+  "models/lightbulb_01/lightbulb_01.bin": "6df75cf32b286d6ead20a98c26ddab7fd46a5742c4e4c52eeec1bbb20126b737",
+  "models/lightbulb_01/lightbulb_01.gltf": "6b17f2a316b0562fc5eeaa9a7dd64855c0f76499b64e9ad45081ed7243116826",
+  "models/lightbulb_01/textures/lightbulb_01_arm_1k.jpg": "0602d1b32e535f5af1bebc36dda76498dec87c4b2c144fd68d82b54bcb460260",
+  "models/lightbulb_01/textures/lightbulb_01_diff_1k.jpg": "8b11885644f5c1d08eb142974ceb8e43edfe7585042fa1e45ff86e79e3569863",
+  "models/lightbulb_01/textures/lightbulb_01_emissive_1k.jpg": "4267e103b28112291061a722430ca9d75909bb7c3cbe4d7466a67f608e26aeee",
+  "models/lightbulb_01/textures/lightbulb_01_nor_gl_1k.jpg": "7003bb598feee5cf0d592d53e228992afe56580a0f012a38ce888f5fe9ea98f2",
+  "models/pull_chain_light_socket/pull_chain_light_socket.bin": "a258aff9c893175c7ddcd09a904900ff10047a1a3ad51688b867c95208b45b4e",
+  "models/pull_chain_light_socket/pull_chain_light_socket.gltf": "093c38e382efeaf605be0133bec7a93a8b2c935c40a5d0f311468053681d8258",
+  "models/pull_chain_light_socket/textures/pull_chain_light_socket_arm_1k.jpg": "35a97a7025587b8d11cbe32e385b8383fe8e7cb05e1e84c74f58cf31c5f1c295",
+  "models/pull_chain_light_socket/textures/pull_chain_light_socket_diff_1k.jpg": "92675203e71250358db8e200a8a367ff39839f231db93050135718769b155552",
+  "models/pull_chain_light_socket/textures/pull_chain_light_socket_nor_gl_1k.jpg": "8af515ce9ad355961bfc086830c54e065a579a737f233cea627735f850256860",
+  "textures/rough_linen/ao.jpg": "05076a86deb0d7e60e722f746339a2598c3449e4fc013ac4ad63edebf1f16420",
+  "textures/rough_linen/arm.jpg": "e1ca6b51ed62834063253e08f8f2e23836aa00d72675b960ddd8e608d9f0c7e6",
+  "textures/rough_linen/diff.jpg": "04897d7611d7390ddf5b2c6f7273f448dfc48341fdbd1f4f207fa30b331d7f57",
+  "textures/rough_linen/disp.jpg": "38b1cd43b45e5ef0c09df779787ef18a6bcf3c7665f78c7d698d755f5305ac65",
+  "textures/rough_linen/nor.jpg": "e2402166d1a489f7414814e69e1836ab672aa24e30bec2d41fea356f81687e53",
+  "textures/rough_linen/rough.jpg": "734ad6718841a6e296aacaa6e9ee2e1686eed5f62bb8d71c915c5605e162bcb4"
  }
 }

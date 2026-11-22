@@ -8,15 +8,82 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    #root { background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); }
+    .pn { position: absolute; inset: 0; }
+    .h { opacity: 0; }
+    .abs { position: absolute; }
+    .paper { position: absolute; background: #D9D5CC; color: #1E2125; box-shadow: 0 24px 60px rgba(0,0,0,.5); }
+    .lab { position: absolute; background: rgba(12,13,15,.8); border-left: 8px solid #E9E5DD; color: #F3F0EA; padding: 12px 28px 14px; }
+
+    .ax { position: absolute; left: 200px; width: 1520px; top: 640px; height: 14px; }
+    .ax i { position: absolute; inset: 0; background: rgba(233,229,221,.32); transform-origin: left center; border-radius: 7px; }
+    .ax i.fill { background: #E9E5DD; }
+    .ax.top { top: 250px; }
+    .tick { position: absolute; top: 470px; }
+    .tick.l { left: 180px; } .tick.r { right: 180px; text-align: right; }
+    .tick b { display: block; font-size: 84px; line-height: 1; color: #E9E5DD; }
+    .tick span { display: block; font-size: 40px; color: rgba(233,229,221,.85); margin-top: 8px; }
+    .big { position: absolute; left: 0; right: 0; top: 150px; text-align: center; font-size: 250px; line-height: 1; color: #F0A23B; }
+    .big b { font-weight: 400; }
+    .big2 { position: absolute; left: 0; right: 0; top: 78px; text-align: center; font-size: 150px; line-height: 1; color: #F0A23B; }
+    .big2::before { content: ""; }
+    .drop { position: absolute; top: 264px; width: 6px; height: 40px; background: #E9E5DD; }
+    .drop.l { left: 197px; } .drop.r { left: 1717px; }
+    .yc { top: 300px; width: 834px; height: 590px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .yc.l { left: 96px; } .yc.r { left: 990px; }
+    .yc > div { display: flex; flex-direction: column; align-items: center; }
+    .yc b { font-size: 230px; line-height: .95; font-weight: 400; }
+    .yc em { font-style: normal; font-size: 120px; line-height: 1.05; }
+    .yc span { font-size: 46px; margin-top: 26px; padding-top: 18px; border-top: 4px solid rgba(30,33,37,.55); }
+    .pc { position: absolute; left: 150px; top: 150px; }
+    .pname { left: 150px; top: 818px; font-size: 48px; padding: 6px 26px 8px; }
+    .age { position: absolute; left: 860px; }
+    .age span { display: block; font-size: 44px; color: rgba(233,229,221,.8); }
+    .age b { display: block; font-weight: 400; line-height: 1; color: #E9E5DD; }
+    .a1 { top: 110px; } .a1 b { font-size: 140px; }
+    .a2 { top: 560px; transform-origin: left center; } .a2 b { font-size: 250px; }
+    .arw { position: absolute; left: 880px; top: 340px; height: 200px; width: 700px; transform-origin: 0 0; }
+    .arw i { position: absolute; left: 0; top: 0; width: 8px; height: 186px; background: #E9E5DD; border-radius: 4px; }
+    .arw i::after { content: ""; position: absolute; left: -18px; bottom: -14px; border-left: 22px solid transparent;
+      border-right: 22px solid transparent; border-top: 30px solid #E9E5DD; }
+    .arw em { position: absolute; left: 70px; top: 46px; font-style: normal; font-size: 100px; line-height: 1; color: #F0A23B; }
+
   </style>
   <div id="root" data-composition-id="counter34" data-width="1920" data-height="1080">
-    <div id="counter34-ph" class="clip ph" data-start="0" data-duration="11.44"><b class="disp">counter34</b><span>장면을 만들어 주세요</span></div>
+    <div id="counter34-b0" class="clip pn" data-start="0.0" data-duration="4.61">
+      <div class="ax"><i id="counter34-base" class="h"></i><i id="counter34-fill" class="fill h"></i></div>
+      <div id="counter34-tl" class="tick l h"><b class="disp">1985.1</b><span>사건</span></div>
+      <div id="counter34-tq" class="tick r h"><b class="disp">결론</b><span>?</span></div>
+      <div id="counter34-tr" class="tick r h"><b class="disp">2019.3</b><span>재심 판결</span></div>
+      <div id="counter34-big" class="big disp h"><b id="counter34-n">0</b>년</div></div>
+    <div id="counter34-b1" class="clip pn" data-start="4.61" data-duration="3.01">
+      <div class="ax top"><i></i><i class="fill"></i></div>
+      <div class="big2 disp">34년</div>
+      <i class="drop l"></i><i class="drop r"></i>
+      <div class="paper yc l"><b class="disp">1985</b><em class="disp">겨울</em><span>1월 · 사건</span></div>
+      <div class="paper yc r"><div id="counter34-yr" class="h"><b class="disp">2019</b><em class="disp">봄</em><span>3월 28일 · 재심 판결</span></div></div></div>
+    <div id="counter34-b2" class="clip pn" data-start="7.62" data-duration="3.82">
+      <div class="pc"><svg class="pcard" width="520" height="650" viewBox="0 0 520 650"><rect x="2.0" y="2.0" width="516" height="646" rx="6" fill="#0E0F11" stroke="#E9E5DD" stroke-width="4"/><circle cx="260.0" cy="240.5" r="83.2" fill="none" stroke="#E9E5DD" stroke-width="4"/><path d="M 104.0 546.0 Q 104.0 377.0 260.0 377.0 Q 416.0 377.0 416.0 546.0" fill="none" stroke="#E9E5DD" stroke-width="4" stroke-linecap="round"/></svg></div>
+      <div class="lab pname disp">미야타 씨</div>
+      <div class="age a1"><span>1985</span><b class="disp">50대 초반</b></div>
+      <div id="counter34-arw" class="arw h"><i></i><em class="disp">34년</em></div>
+      <div id="counter34-a2" class="age a2 h"><span>2019</span><b class="disp">85세</b></div></div>
+    <div id="counter34-tg0" class="clip tag-re" data-start="0.3" data-duration="11.14">도식</div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#counter34-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.fromTo("#counter34-base", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 0.15);
+    tl.fromTo("#counter34-tl", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 0.3);
+    tl.fromTo("#counter34-fill", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 1.6, ease: "power2.inOut" }, 2.36);
+    tl.fromTo("#counter34-big", { opacity: 0, scale: 1.0 }, { opacity: 1, scale: 1, duration: 0.2, ease: "power3.out" }, 2.36);
+    (() => { const o = { v: 0 }; tl.to(o, { v: 34, duration: 1.6, ease: "power2.out", onUpdate: () => { document.getElementById("counter34-n").textContent = Math.round(o.v); } }, 2.36); })();
+    tl.fromTo("#counter34-tq", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 0.9);
+    tl.to("#counter34-tq", { opacity: 0, duration: 0.15 }, 3.76);
+    tl.fromTo("#counter34-tr", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 3.86);
+    tl.fromTo("#counter34-yr", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 5.61);
+    tl.fromTo("#counter34-arw", { opacity: 0, scaleY: 0 }, { opacity: 1, scaleY: 1, duration: 0.45, ease: "power2.out" }, 8.57);
+    tl.fromTo("#counter34-a2", { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 0.35, ease: "power3.out" }, 9.27);
     window.__timelines["counter34"] = tl;
   </script>
 </template>

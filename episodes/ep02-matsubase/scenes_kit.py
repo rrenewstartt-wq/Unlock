@@ -93,6 +93,8 @@ def person_card(w, h, color="#E9E5DD", sw=3, dashed=False, fill="#0E0F11", cls="
 
 # Archive look: HyperFrames media treatment (mono, faded, deterministic grain) — one look for every record photo.
 ARCHIVE_GRADE = '{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'
+# Very flat paper strips (a cropped document line): the vignette leaves a white blotch in the middle, so none.
+STRIP_GRADE = '{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'
 
 
 def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens=""):
@@ -103,7 +105,8 @@ def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens
       src     "assets/archive/<file>.jpg"
       at      start: caption index (int) or seconds (float). The first shot starts at 0.
       size    (w, h) pixel size of the source file — used for layout
-      mode    "print" (default; small/old photos: a print on the board, max ~2.6x upscale) or "cover" (≥1600px wide)
+      mode    "print" (default; small/old photos: a print on the board, max ~2.6x upscale), "cover" (≥1600px wide) or
+              "strip" (a cropped line of a document: a wide paper strip, up to 1760 px wide, no tilt by default)
       tilt    print rotation in degrees (default alternates ±1.2)
       push    (scale_from, scale_to) slow camera push (default 1.0 → 1.07)
       pan     (dx, dy) px drift over the shot (default 0, 0)
@@ -125,12 +128,13 @@ def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens
             fig = (f'<figure class="ar-cover"><img class="ar-img" src="{s["src"]}" alt="" '
                    f"data-color-grading='{ARCHIVE_GRADE}'/>")
         else:
-            k_fit = min(1240 / w, 640 / h, 2.6)
+            bw, bh = (1760, 320) if mode == "strip" else (1240, 640)
+            k_fit = min(bw / w, bh / h, 2.6)
             pw, ph = round(w * k_fit), round(h * k_fit)
-            tilt = s.get("tilt", 1.2 if k % 2 else -1.2)
+            tilt = s.get("tilt", 0 if mode == "strip" else (1.2 if k % 2 else -1.2))
             fig = (f'<figure class="ar-print" style="width:{pw}px;height:{ph}px;transform:translate(-50%,-50%) rotate({tilt}deg)">'
                    f'<img class="ar-img" src="{s["src"]}" alt="" style="width:{pw}px;height:{ph}px" '
-                   f"data-color-grading='{ARCHIVE_GRADE}'/>")
+                   f"data-color-grading='{STRIP_GRADE if mode == "strip" else ARCHIVE_GRADE}'/>")
         rings = ""
         for j, (ci, cx, cy, r) in enumerate(s.get("focus", [])):
             rid = f"{sid}-r{k}-{j}"

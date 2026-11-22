@@ -8,15 +8,50 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    .rlabel { position: absolute; left: 96px; top: 150px; padding: 16px 30px 18px 30px; background: rgba(16,18,21,.74);
+      border-left: 8px solid #E9E5DD; font-size: 46px; line-height: 1.15; color: #F3F0EA; }
+    .rlabel small { display: block; font-family: "Gothic A1", sans-serif; font-size: 34px; margin-top: 8px; color: rgba(243,240,234,.9); }
+    .rlabel.amber { border-left-color: #F0A23B; }
+    .rlabel.right { left: auto; right: 96px; }
   </style>
   <div id="root" data-composition-id="night_road" data-width="1920" data-height="1080">
-    <div id="night_road-ph" class="clip ph" data-start="0" data-duration="15.49"><b class="disp">night_road</b><span>장면을 만들어 주세요</span></div>
+    <div id="night_road-stage" class="clip" data-start="0" data-duration="15.49" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="night_road-re" class="clip tag-re" data-start="0.3" data-duration="15.19">재현</div>
+    <div id="night_road-lb0" class="clip rlabel disp right" data-start="0.0" data-duration="2.2">1985.1.8</div>
+    <div id="night_road-lb1" class="clip rlabel disp" data-start="2.3" data-duration="2.91">그날 밤 · 임의 조사 시작</div>
+    <div id="night_road-lb2" class="clip rlabel disp" data-start="5.31" data-duration="3.04">밤 11:56까지 · 4시간 26분</div>
+    <div id="night_road-lb3" class="clip rlabel disp right" data-start="8.45" data-duration="3.17">함께 있던 부부 · 말다툼을 경찰에</div>
+    <div id="night_road-lb4" class="clip rlabel disp" data-start="11.72" data-duration="3.77">그 · 집에 갔을 뿐</div>
   </div>
-  <script>
+  <script type="module">
+    import { createOutside } from "./assets/lib/outside.js";
+    const render = createOutside(document.getElementById("night_road-stage"), { mode: "night", camera: [
+      { t: 0, pos: [2.0, 8.5, -16], look: [-2.0, 5.5, -150], fov: 34 },
+      { t: 2.23, pos: [1.84, 8.38, -21.36], look: [-2.0, 5.5, -150], fov: 34, ease: "linear" },
+      { t: 2.25, pos: [-1.8, 1.6, 3], look: [0.0, 2.8, -9], fov: 40, cut: true },
+      { t: 5.24, pos: [-1.71, 1.66, 2.4], look: [0.0, 2.8, -9], fov: 40, ease: "linear" },
+      { t: 5.26, pos: [0.6, 4.2, -5.2], look: [1.9, 5.45, -8], fov: 30, cut: true },
+      { t: 8.38, pos: [0.678, 4.275, -5.368], look: [1.9, 5.45, -8], fov: 30, ease: "linear" },
+      { t: 8.4, pos: [2.0, 1.5, -24], look: [-3.2, 1.3, -40], fov: 38, cut: true },
+      { t: 11.65, pos: [1.792, 1.492, -24.64], look: [-3.2, 1.3, -40], fov: 38, ease: "linear" },
+      { t: 11.67, pos: [-0.3, 1.25, -21], look: [1.0, 2.2, 0], fov: 40, cut: true },
+      { t: 15.49, pos: [-0.3, 1.25, -21.0], look: [1.0, 2.2, 0], fov: 40, ease: "linear" }
+    ] });
+    const st = { t: 0 };
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#night_road-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.to(st, { t: 15.49, duration: 15.49, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.fromTo("#night_road-lb0", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 0.05);
+    tl.to("#night_road-lb0", { opacity: 0, duration: 0.3, ease: "power2.in" }, 1.85);
+    tl.fromTo("#night_road-lb1", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 2.35);
+    tl.to("#night_road-lb1", { opacity: 0, duration: 0.3, ease: "power2.in" }, 4.86);
+    tl.fromTo("#night_road-lb2", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 5.36);
+    tl.to("#night_road-lb2", { opacity: 0, duration: 0.3, ease: "power2.in" }, 8.0);
+    tl.fromTo("#night_road-lb3", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 8.5);
+    tl.to("#night_road-lb3", { opacity: 0, duration: 0.3, ease: "power2.in" }, 11.27);
+    tl.fromTo("#night_road-lb4", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 11.77);
+    tl.to("#night_road-lb4", { opacity: 0, duration: 0.3, ease: "power2.in" }, 15.14);
+    render(0);
     window.__timelines["night_road"] = tl;
   </script>
 </template>
