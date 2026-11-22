@@ -87,7 +87,7 @@ def counter34(sid, dur, q):
       <div class="big2 disp">34년</div>
       <i class="drop l"></i><i class="drop r"></i>
       <div class="paper yc l"><b class="disp">1985</b><em class="disp">겨울</em><span>1월 · 사건</span></div>
-      <div class="paper yc r"><div id="{p}-yr" class="h"><b class="disp">2019</b><em class="disp">봄</em><span>3월 28일 · 재심 판결</span></div></div>"""
+      <div class="paper yc r"><div id="{p}-yr"><b class="disp">2019</b><em class="disp">봄</em><span>3월 28일 · 재심 판결</span></div></div>"""
     B = f"""
       <div class="pc">{person_card(520, 650, sw=4)}</div>
       <div class="lab pname disp">미야타 씨</div>
@@ -104,7 +104,7 @@ def counter34(sid, dur, q):
     .tick {{ position: absolute; top: 470px; }}
     .tick.l {{ left: 180px; }} .tick.r {{ right: 180px; text-align: right; }}
     .tick b {{ display: block; font-size: 84px; line-height: 1; color: {INK}; }}
-    .tick span {{ display: block; font-size: 40px; color: rgba(233,229,221,.85); margin-top: 8px; }}
+    .tick span {{ display: block; font-size: 48px; color: rgba(233,229,221,.85); margin-top: 8px; }}
     .big {{ position: absolute; left: 0; right: 0; top: 150px; text-align: center; font-size: 250px; line-height: 1; color: {AMBER}; }}
     .big b {{ font-weight: 400; }}
     .big2 {{ position: absolute; left: 0; right: 0; top: 78px; text-align: center; font-size: 150px; line-height: 1; color: {AMBER}; }}
@@ -116,11 +116,11 @@ def counter34(sid, dur, q):
     .yc > div {{ display: flex; flex-direction: column; align-items: center; }}
     .yc b {{ font-size: 230px; line-height: .95; font-weight: 400; }}
     .yc em {{ font-style: normal; font-size: 120px; line-height: 1.05; }}
-    .yc span {{ font-size: 46px; margin-top: 26px; padding-top: 18px; border-top: 4px solid rgba(30,33,37,.55); }}
+    .yc span {{ font-size: 52px; margin-top: 26px; padding-top: 18px; border-top: 4px solid rgba(30,33,37,.55); }}
     .pc {{ position: absolute; left: 150px; top: 150px; }}
     .pname {{ left: 150px; top: 818px; font-size: 48px; padding: 6px 26px 8px; }}
     .age {{ position: absolute; left: 860px; }}
-    .age span {{ display: block; font-size: 44px; color: rgba(233,229,221,.8); }}
+    .age span {{ display: block; font-size: 50px; color: rgba(233,229,221,.8); }}
     .age b {{ display: block; font-weight: 400; line-height: 1; color: {INK}; }}
     .a1 {{ top: 110px; }} .a1 b {{ font-size: 140px; }}
     .a2 {{ top: 560px; transform-origin: left center; }} .a2 b {{ font-size: 250px; }}
@@ -139,7 +139,6 @@ def counter34(sid, dur, q):
         _fade(f"#{p}-tq", q[0] + 0.9),
         f'    tl.to("#{p}-tq", {{ opacity: 0, duration: 0.15 }}, {round(q[1] + 1.4, 2)});',
         _fade(f"#{p}-tr", q[1] + 1.5),
-        _fade(f"#{p}-yr", q[2] + 0.95, 0.3),
         _grow(f"#{p}-arw", q[3] + 0.9, 0.45, "Y", "power2.out"),
         _pop(f"#{p}-a2", q[3] + 1.6, 1.12, 0.35),
     ]
@@ -212,17 +211,17 @@ def calendar(sid, dur, q):
         _board(p, 3, c[3], c[4], C), _board(p, 4, c[4], c[5], D),
         _tag(p, 0, c[0], c[1]), _tag(p, 1, c[1], c[2], "도식 · 실제 영장 아님"), _tag(p, 2, c[2], c[5])])
     css = BASE_CSS + f"""
-    .hd {{ position: absolute; left: 212px; top: 112px; font-size: 44px; color: rgba(233,229,221,.88); }}
-    .hd.sm {{ left: 96px; top: 186px; font-size: 40px; }}
+    .hd {{ position: absolute; left: 212px; top: 104px; font-size: 52px; color: rgba(233,229,221,.88); }}
+    .hd.sm {{ left: 96px; top: 176px; font-size: 50px; }}
     .cell {{ position: absolute; border: 3px solid rgba(233,229,221,.5); border-radius: 6px; overflow: hidden; }}
     .cell > i {{ position: absolute; inset: -3px; }}
     .cell .fl {{ background: {PAPER}; }}
     .cell .ht {{ background: repeating-linear-gradient(135deg, rgba(233,229,221,.34) 0 10px, rgba(233,229,221,0) 10px 26px); }}
     .cell b {{ position: absolute; left: 22px; top: 14px; font-size: 104px; line-height: 1; font-weight: 400; color: rgba(233,229,221,.7); }}
-    .cell em {{ position: absolute; left: 24px; bottom: 16px; font-style: normal; font-size: 38px; color: {DARK}; }}
+    .cell em {{ position: absolute; left: 22px; bottom: 12px; font-style: normal; font-size: 54px; color: {DARK}; }}
     .cell .fl ~ b {{ color: {DARK}; }}
     .cell.sm {{ border-width: 2px; border-radius: 4px; }}
-    .cell.sm b {{ left: 8px; top: 6px; font-size: 40px; }}
+    .cell.sm b {{ left: 7px; top: 6px; font-size: 48px; }}
     .lab b {{ font-weight: 400; }}
     .l1 {{ left: 212px; top: 704px; font-size: 52px; }} .l1 b {{ font-size: 64px; }}
     .wr {{ left: 690px; top: 96px; width: 1134px; height: 794px; }}
@@ -233,35 +232,35 @@ def calendar(sid, dur, q):
     .stamp {{ position: absolute; left: 150px; top: 330px; width: 834px; padding: 30px 0 34px; text-align: center;
       border: 12px solid {DARK}; border-radius: 14px; transform: rotate(-4deg); background: {PAPER}; }}
     .stamp b {{ display: block; font-weight: 400; font-size: 168px; line-height: 1; }}
-    .stamp span {{ display: block; font-size: 48px; margin-top: 16px; }}
-    .l2 {{ left: 96px; top: 560px; width: 540px; font-size: 46px; line-height: 1.3; }} .l2 b {{ display: block; font-size: 96px; line-height: 1.1; }}
+    .stamp span {{ display: block; font-size: 54px; margin-top: 16px; }}
+    .l2 {{ left: 96px; top: 560px; width: 560px; font-size: 52px; line-height: 1.3; }} .l2 b {{ display: block; font-size: 96px; line-height: 1.1; }}
     .l3 {{ left: 212px; top: 704px; font-size: 64px; }}
     .chip {{ position: absolute; top: 112px; width: 104px; height: 96px; border: 3px solid rgba(233,229,221,.5); border-radius: 6px; overflow: hidden; }}
     .chip i {{ position: absolute; inset: -3px; }}
     .chip i.fl {{ background: {PAPER}; }}
     .chip i.ht {{ background: repeating-linear-gradient(135deg, rgba(233,229,221,.34) 0 8px, rgba(233,229,221,0) 8px 20px); }}
-    .chip b {{ position: absolute; left: 0; right: 0; top: 22px; text-align: center; font-size: 48px; line-height: 1; font-weight: 400; color: rgba(233,229,221,.7); }}
+    .chip b {{ position: absolute; left: 0; right: 0; top: 20px; text-align: center; font-size: 54px; line-height: 1; font-weight: 400; color: rgba(233,229,221,.7); }}
     .chip i.fl ~ b {{ color: {DARK}; }}
     .bc {{ top: 262px; width: 340px; height: 620px; }}
-    .bc span {{ position: absolute; left: 34px; top: 30px; font-size: 44px; }}
+    .bc span {{ position: absolute; left: 34px; top: 26px; font-size: 52px; }}
     .bc b {{ position: absolute; left: 26px; top: 120px; font-size: 250px; line-height: 1; font-weight: 400; }}
     .bc em {{ position: absolute; left: 34px; bottom: 40px; font-style: normal; font-size: 64px; }}
     .ctr {{ position: absolute; left: 1360px; top: 300px; width: 470px; text-align: center; }}
     .ctr span, .ctr em {{ display: block; font-style: normal; font-size: 56px; color: rgba(233,229,221,.9); }}
     .ctr b {{ display: block; font-weight: 400; font-size: 280px; line-height: 1.02; color: {INK}; }}
     .ctr b i {{ font-style: normal; }}
-    .hd2 {{ position: absolute; left: 0; right: 0; top: 100px; text-align: center; font-size: 50px; color: rgba(233,229,221,.9); }}
+    .hd2 {{ position: absolute; left: 0; right: 0; top: 96px; text-align: center; font-size: 54px; color: rgba(233,229,221,.9); }}
     .hr {{ position: absolute; left: 0; right: 0; top: 170px; text-align: center; font-size: 280px; line-height: 1; color: {AMBER}; }}
     .hr b {{ font-weight: 400; }} .hr i {{ font-style: normal; display: inline-block; }}
     .hax {{ position: absolute; left: 260px; top: 640px; width: 1400px; height: 16px; }}
     .hax .base, .hax .fill {{ position: absolute; left: 0; top: 0; height: 16px; border-radius: 8px; transform-origin: left center; }}
     .hax .base {{ width: 1400px; background: rgba(233,229,221,.28); }}
     .hax .fill {{ width: {round(70 * 15.56)}px; background: {INK}; }}
-    .hax .z {{ position: absolute; left: -10px; top: 34px; font-size: 40px; color: rgba(233,229,221,.8); }}
+    .hax .z {{ position: absolute; left: -10px; top: 34px; font-size: 50px; color: rgba(233,229,221,.8); }}
     .mk {{ position: absolute; top: 0; }}
     .mk i {{ position: absolute; left: -3px; width: 6px; height: 70px; background: {INK}; }}
-    .mk span {{ position: absolute; white-space: nowrap; font-size: 44px; color: {INK}; transform: translateX(-50%); }}
-    .mk.up i {{ top: -70px; }} .mk.up span {{ top: -128px; }}
+    .mk span {{ position: absolute; white-space: nowrap; font-size: 52px; color: {INK}; transform: translateX(-50%); }}
+    .mk.up i {{ top: -70px; }} .mk.up span {{ top: -138px; }}
     .mk.dn i {{ top: 16px; }} .mk.dn span {{ top: 92px; }}
 """
     tw = []
@@ -300,7 +299,7 @@ INS_CSS = f"""
       outline: 18px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }}
     .ar-img {{ display: block; }}
     .ar-ul {{ position: absolute; height: 8px; background: {AMBER}; border-radius: 4px; transform-origin: left center; }}
-    .ar-cap {{ position: absolute; left: 0; right: 0; top: 700px; text-align: center; font-size: 36px; color: rgba(233,229,221,.9); }}
+    .ar-cap {{ position: absolute; left: 0; right: 0; top: 680px; text-align: center; font-size: 48px; color: rgba(233,229,221,.9); }}
     .ar-credit {{ position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }}
     .tag-ar {{ border-color: {AMBER}; }}"""
 
@@ -368,11 +367,11 @@ def feb5_change(sid, dur, q):
         _board(p, 3, c[4], c[5], C), _board(p, 4, c[5], c[6], D),
         _tag(p, 0, c[0], c[3], tagt), _tag(p, 1, c[4], c[6], tagt)])
     css = BASE_CSS + INS_CSS + f"""
-    .k {{ display: block; font-size: 40px; opacity: .72; }}
+    .k {{ display: block; font-size: 48px; opacity: .72; }}
     .doc {{ left: 120px; top: 140px; width: 780px; height: 750px; padding: 64px 70px; }}
     .doc b {{ display: block; font-weight: 400; font-size: 110px; line-height: 1.1; margin-top: 34px; }}
     .doc b.big {{ font-size: 230px; margin-top: 0; }}
-    .doc em {{ position: absolute; left: 70px; right: 70px; bottom: 60px; font-style: normal; font-size: 38px; padding-top: 22px;
+    .doc em {{ position: absolute; left: 70px; right: 70px; bottom: 60px; font-style: normal; font-size: 46px; padding-top: 22px;
       border-top: 4px solid rgba(30,33,37,.5); }}
     .fh {{ position: absolute; left: 980px; top: 110px; font-size: 48px; color: rgba(233,229,221,.9); }}
     .frm {{ position: absolute; left: 980px; width: 844px; height: 190px; border: 4px solid rgba(233,229,221,.55); border-radius: 6px;
@@ -400,13 +399,13 @@ def feb5_change(sid, dur, q):
     .qq {{ position: absolute; left: 76px; right: 76px; top: 390px; display: flex; justify-content: center; align-items: center; gap: 40px; }}
     .qq i {{ font-style: normal; font-size: 200px; line-height: 1; color: rgba(30,33,37,.4); }}
     .qq b {{ font-weight: 400; font-size: 220px; line-height: 1; margin: 0; }}
-    .qc em {{ position: absolute; left: 76px; right: 76px; bottom: 64px; font-style: normal; font-size: 40px; text-align: center; }}
+    .qc em {{ position: absolute; left: 76px; right: 76px; bottom: 60px; font-style: normal; font-size: 48px; text-align: center; }}
     .row {{ position: absolute; left: 96px; width: 1728px; display: flex; align-items: center; padding-left: 60px; }}
     .row b {{ font-weight: 400; width: 420px; }}
     .r1 {{ top: 206px; height: 110px; opacity: .25; }} .r1 b {{ font-size: 68px; }} .r1 span {{ font-size: 50px; }}
     .r2 {{ top: 338px; height: 290px; flex-wrap: wrap; align-content: center; }}
     .r2 b {{ font-size: 100px; line-height: 1; }}
-    .r2 .was {{ font-size: 44px; color: rgba(30,33,37,.66); }}
+    .r2 .was {{ font-size: 50px; color: rgba(30,33,37,.66); }}
     .am {{ position: absolute; left: 0; top: 0; bottom: 0; width: 16px; background: {AMBER}; }}
     .new2 {{ width: 100%; font-size: 100px; line-height: 1.1; margin-top: 30px; }}
     .new2 u {{ position: relative; text-decoration: none; }}
@@ -414,7 +413,7 @@ def feb5_change(sid, dur, q):
     .r3 {{ top: 656px; height: 140px; border: 4px solid rgba(233,229,221,.55); border-radius: 6px; }}
     .r3 b {{ font-size: 90px; color: {INK}; }}
     .sm {{ left: 96px; width: 1728px; height: 80px; display: flex; align-items: center; padding-left: 50px; opacity: .25; box-shadow: none; }}
-    .sm b {{ font-weight: 400; font-size: 50px; width: 360px; }} .sm span {{ font-size: 42px; }}
+    .sm b {{ font-weight: 400; font-size: 54px; width: 360px; }} .sm span {{ font-size: 50px; }}
     .s1 {{ top: 212px; }} .s2 {{ top: 304px; }}
 """
     tw = [

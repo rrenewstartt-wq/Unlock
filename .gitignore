@@ -15,3 +15,5 @@ episodes/*/thumbnail/out/beauty-*.png
 episodes/*/thumbnail/out/mask-*.png
 # 로컬 내레이션 생성 환경(scripts/voice_local.py setup)
 .venv-voice
+# 세트 미리보기 임시 파일(scripts/set_preview.py)
+episodes/*/_set_preview*
