@@ -9,6 +9,7 @@
 구간 경계는 장면 경계(장면 시작 0.4초 전, 효과음이 걸치지 않는 곳). 목표 구간 길이 기본 90초(--max 초).
 """
 import json
+import os
 import pathlib
 import shutil
 import subprocess
@@ -61,7 +62,10 @@ def main():
                 continue
             tmp = out / f"{i:02d}.part.mp4"
             print(f"{i:02d} 렌더 {s:.2f}~{e:.2f}", flush=True)
-            r = subprocess.run(HF + ["render", "--start", str(s), "--end", str(e), "-o", str(tmp)], cwd=ep)
+            # CPU-only WebGL: many 3D sets take minutes (not the 45 s default) to finish buildReady (2026-11-22, ep02)
+            env = {**os.environ, "PRODUCER_PLAYER_READY_TIMEOUT_MS": os.environ.get("PRODUCER_PLAYER_READY_TIMEOUT_MS", "900000"),
+                   "PRODUCER_RENDER_READY_TIMEOUT_MS": os.environ.get("PRODUCER_RENDER_READY_TIMEOUT_MS", "900000")}
+            r = subprocess.run(HF + ["render", "--start", str(s), "--end", str(e), "-o", str(tmp)], cwd=ep, env=env)
             if r.returncode != 0 or abs(dur(tmp) - (e - s)) > 0.2:
                 sys.exit(f"{i:02d} 실패(종료 코드 {r.returncode}, 길이 {dur(tmp):.2f}/{e - s:.2f})")
             tmp.rename(dst)
