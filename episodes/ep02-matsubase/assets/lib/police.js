@@ -1,5 +1,5 @@
 // 1985 interrogation room (film kit: CC0 Poly Haven linoleum / painted plaster / concrete textures, an indoor HDRI for
-// reflections, metal_office_desk, SchoolChair_01, desk_lamp_arm_01, clipboard, office_notepads, mounted_fluorescent_lights;
+// reflections, metal_office_desk, desk_lamp_arm_01, clipboard, office_notepads, mounted_fluorescent_lights;
 // one realistic faceless figure seated with his back or side to the camera). SPEC "3D 세트" police.js.
 // Modes:
 //   interrogation → interrogation  daytime: both fluorescent rows on, frosted window bright, amber = the desk stand
@@ -13,6 +13,7 @@
 //
 // opts: { mode, camera: cam_shots keys, cues: { empty: [t0, t1] } }  — `empty` hides the man (the empty chair shot).
 import { film, THREE, poseSeated, settle, turn, setFabric } from "../kit3d/film.js";
+import { dress } from "./dress.js";
 
 const AMBER = "#F0A23B";
 const X0 = -2.8, X1 = 3.1, Z0 = -2.2, Z1 = 3.0, H = 2.6;
@@ -24,8 +25,8 @@ const WIN = { x0: -1.0, x1: 0.9, y0: 1.05, y1: 2.05 };          // frosted windo
 const DOOR = { z0: 1.6, z1: 2.5, y1: 2.0 };                     // door in the east wall
 
 const MODES = {
-  interrogation: { hdri: "blinds", env: 0.12, exposure: 1.0, rows: [1, 1], tube: 1.0, winGlow: "#d9e0e2", winLight: 2.4,
-    amb: 0.08, lamp: 1, fill: 1.3 },
+  interrogation: { hdri: "blinds", env: 0.12, exposure: 1.0, rows: [1, 1], tube: 1.0, winGlow: "#9ea7aa", winLight: 3.2,
+    amb: 0.05, lamp: 1, fill: 0.65 },
   night: { hdri: "blinds", env: 0.01, exposure: 1.0, rows: [1, 0], tube: 1.0, winGlow: "#10161f", winLight: 0,
     amb: 0.006, lamp: 1, fill: 0 },
 };
@@ -43,6 +44,34 @@ export function grade(mat, sat = 0.5, tint = "#ffffff") {
   mat.customProgramCacheKey = () => `grade-${sat}-${tint}`;
   mat.needsUpdate = true;
   return mat;
+}
+
+// A plain office chair (faces +z): steel tube legs and back posts, wooden seat and back board. Seat top at 0.45 m.
+function officeChair(f, wood, pos, rotY) {
+  const g = new THREE.Group();
+  const steel = new THREE.MeshStandardMaterial({ color: "#5d605f", metalness: 0.75, roughness: 0.38 });
+  const tubeAt = (x0, y0, z0, x1, y1, z1, r = 0.011) => {
+    const a = new THREE.Vector3(x0, y0, z0), b = new THREE.Vector3(x1, y1, z1);
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, a.distanceTo(b), 12), steel);
+    m.position.copy(a).add(b).multiplyScalar(0.5);
+    m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), b.clone().sub(a).normalize());
+    m.castShadow = m.receiveShadow = true;
+    g.add(m);
+  };
+  for (const [x, z] of [[-0.19, -0.18], [0.19, -0.18], [-0.19, 0.18], [0.19, 0.18]]) tubeAt(x, 0, z, x, 0.43, z);
+  tubeAt(-0.19, 0.14, -0.18, -0.19, 0.14, 0.18); tubeAt(0.19, 0.14, -0.18, 0.19, 0.14, 0.18);
+  tubeAt(-0.19, 0.14, 0.0, 0.19, 0.14, 0.0, 0.009);
+  for (const x of [-0.17, 0.17]) tubeAt(x, 0.44, -0.19, x, 0.86, -0.26);
+  const seat = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.024, 0.41), wood);
+  seat.position.set(0, 0.444, 0);
+  const back = new THREE.Mesh(new THREE.BoxGeometry(0.39, 0.13, 0.016), wood);
+  back.position.set(0, 0.76, -0.245);
+  back.rotation.x = -0.17;
+  for (const m of [seat, back]) { m.castShadow = m.receiveShadow = true; g.add(m); }
+  g.position.set(...pos);
+  g.rotation.y = rotY;
+  f.scene.add(g);
+  return g;
 }
 
 // A generic glTF part: load the model, keep only the named node, centre it on x/z and stand it on y = 0.
@@ -75,12 +104,13 @@ export function createPolice(stage, opts) {
     hdri: M.hdri, envIntensity: M.env, exposure: M.exposure, background: "#07090b",
   }, async (f) => {
     const S = f.scene;
-    const [lino, plaster, lower, wood, fabric] = await Promise.all([
+    const [lino, plaster, lower, wood, fabric, wool] = await Promise.all([
       f.material("old_linoleum_flooring_01", { normalScale: 0.8 }),
       f.material("beige_wall_002", { normalScale: 0.9 }),
       f.material("concrete_wall_008", { normalScale: 0.6 }),
       f.material("dark_wood"),
       f.material("stretch_poplin"),
+      f.material("poly_wool_herringbone"),
     ]);
     setFabric(fabric.normalMap);
 
@@ -241,11 +271,13 @@ export function createPolice(stage, opts) {
     // Desk (drawers toward the officer, north), two chairs, stand, papers.
     const desk = await f.model("metal_office_desk", { pos: [DESK[0], 0, DESK[1]], rot: [0, 0, 0], height: 0.74 });
     desk.traverse((o) => { if (o.isMesh) grade(o.material, 0.5, "#9da3a0"); });
-    for (const c of [await f.model("SchoolChair_01", { pos: [0.05, 0, SEAT_Z + 0.12], rot: [0, CHAIR_FACE + Math.PI, 0], height: 0.84 }),
-      await f.model("SchoolChair_01", { pos: [-0.1, 0, -1.5], rot: [0, CHAIR_FACE + 0.12, 0], height: 0.84 })]) {
-      c.traverse((o) => { if (o.isMesh) grade(o.material, 0.25, "#b8bcbc"); });
-    }
-    const lamp = await f.model("desk_lamp_arm_01", { pos: [-0.5, 0.76, -0.82], rot: [0, 2.3, 0], height: 0.5 });
+    // Office chairs: steel tube frame + wooden seat and back (generic 1980s office chair, built here).
+    const seatWood = f.tiled(wood, 0.5, 0.5);
+    seatWood.color = new THREE.Color("#a08c78");
+    officeChair(f, seatWood, [0.05, 0, SEAT_Z + 0.1], Math.PI);
+    officeChair(f, seatWood, [-0.1, 0, -1.5], 0.12);
+    // the stand stands at the desk's right end (seen from the man's back) so it never sits behind his head
+    const lamp = await f.model("desk_lamp_arm_01", { pos: [0.8, 0.74, -0.86], rot: [0, 2.3, 0], height: 0.5 });
     const papers = new THREE.Group();
     for (let i = 0; i < 7; i++) {
       const s = f.sheet({ w: 0.21, h: 0.297, lines: 16, age: 0.35, torn: 0, px: 512, paper: i % 2 ? "#b9b3a6" : "#c2bcae",
@@ -258,7 +290,7 @@ export function createPolice(stage, opts) {
     notes.traverse((o) => { if (o.isMesh && !/a4_stack/.test(o.name)) o.visible = false; });
     notes.rotation.y = 0;
     notes.traverse((o) => { if (o.isMesh) { o.material = o.material.clone(); o.material.color = new THREE.Color("#a8a49c"); } });
-    notes.position.set(0.62 + 0.45, 0.741, -0.82 + 0.175); // puts the a4 stack (node at -0.45, -0.175) at (0.62, -0.82)
+    notes.position.set(-0.5 + 0.45, 0.741, -0.78 + 0.175); // puts the a4 stack (node at -0.45, -0.175) at (-0.5, -0.78)
 
     // Fluorescent battens: two rows of two along z. Each: model fixture (one variant) + lit tube + down spot.
     const rowsX = [-1.6, 1.2];
@@ -318,7 +350,7 @@ export function createPolice(stage, opts) {
     S.add(bulb);
     const pool = new THREE.SpotLight(AMBER, M.lamp * (mode === "night" ? 5.5 : 4), 2.2, 0.75, 0.6, 1.6);
     pool.position.copy(bulb.position);
-    pool.target.position.set(0.2, 0.74, -0.65);
+    pool.target.position.set(0.38, 0.74, -0.62);
     pool.castShadow = true;
     pool.shadow.mapSize.set(1024, 1024);
     pool.shadow.bias = -0.0004;
@@ -326,6 +358,7 @@ export function createPolice(stage, opts) {
 
     // The man: seated (chair), forearms toward the desk, facing north (-z), back to the camera side.
     const man = await f.figure("film");
+    dress(man, { suit: "#2d2c2a", trousers: "#33312e", shirt: "#aaa69d", fabric: wool.normalMap });
     poseSeated(man, { style: "chair", forearms: 0.75, lean: 0.12 });
     turn(man, "neck_01", [1, 0, 0], 0.18);
     man.root.rotation.y = Math.PI;

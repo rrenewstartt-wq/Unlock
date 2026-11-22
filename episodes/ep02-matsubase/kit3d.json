@@ -29,7 +29,6 @@
   "texture:hinoki_planks",
   "hdri:carpentry_shop_01",
   "hdri:winter_orchard",
-  "model:SchoolChair_01",
   "hdri:evening_road_01_puresky",
   "texture:asphalt_04",
   "texture:concrete_block_wall",
@@ -38,6 +37,7 @@
   "model:painted_wooden_table",
   "model:bench_vice_01",
   "model:Shelf_01",
-  "model:metal_toolbox"
+  "model:metal_toolbox",
+  "texture:poly_wool_herringbone"
  ]
 }

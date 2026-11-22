@@ -333,7 +333,7 @@ def feb5_change(sid, dur, q):
     c = _cuts(q, dur, [2, 3, 4, 5, 6])  # c[3] = record cut start, c[4] = board C
     p = sid
     A = f"""<div class="paper doc"><span class="k">경찰 조서</span><b class="disp">2월 5일 자</b><b class="disp big">조서</b>
-        <em>1985년 · 고법 결정문이 요약한 내용</em></div>
+        <em>1985년 · 고법 결정문의 요약</em></div>
       <div id="{p}-fh" class="fh h">바뀐 진술</div>
       <div id="{p}-f1" class="frm h" style="top:200px"><b class="disp">①</b></div>
       <div id="{p}-f2" class="frm h" style="top:420px"><b class="disp">②</b></div>

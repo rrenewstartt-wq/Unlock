@@ -28,8 +28,8 @@ const MODES = {
     fill: 0.9, fillColor: "#cfd8e2", amb: 0.05, bounce: 1, lamp: 0, amberPeel: 1, top: true },
   still: { hdri: "winter_orchard", env: 0.13, bg: 0.32, exposure: 0.95, sun: 0, sunColor: "#dfe6ee",
     fill: 1.5, fillColor: "#b9c6d4", amb: 0.06, bounce: 0.5, lamp: 0, amberPeel: 0, top: true },
-  night: { hdri: "winter_orchard", env: 0.012, bg: 0.006, exposure: 1.0, sun: 0, sunColor: "#eef1f3",
-    fill: 0, fillColor: "#8ea0b8", amb: 0.015, lamp: 1, amberPeel: 0, top: false },
+  night: { hdri: "winter_orchard", env: 0.012, bg: 0.006, exposure: 0.9, sun: 0, sunColor: "#eef1f3",
+    fill: 0.22, fillColor: "#5d7598", amb: 0.03, lamp: 1, amberPeel: 0, top: false },     // cool moonlit base, the bulb is the one warm thing
   dusk: { hdri: "qwantani_dusk_2_puresky", env: 0.1, bg: 0.55, exposure: 0.95, sun: 1.6, sunColor: "#c9b2c4",
     fill: 0.8, fillColor: "#9aa6c4", amb: 0.04, bounce: 0.5, lamp: 0, amberPeel: 0, amberMikan: 1, top: true },
 };
@@ -113,6 +113,7 @@ export function createRoom(stage, opts) {
     const ceilMat = f.tiled(cedar, W / 1.13, D / 1.13);
     ceilMat.color = new THREE.Color("#7d7a78");
     mesh(new THREE.BoxGeometry(W + 0.2, 0.06, D + 0.2), ceilMat, [0, H + 0.03, 0]);
+    if (mode === "night") ceilMat.color = new THREE.Color("#4a4d52");
 
     // Plaster walls (beige_wall_001 is a 3 m tile), 10 cm thick; openings for the window (east) and the door (west).
     const wallMat = (w, h) => { const m = f.tiled(plaster, w / 3, h / 3); m.color = new THREE.Color("#d9d2c8"); return m; };
@@ -314,7 +315,7 @@ export function createRoom(stage, opts) {
     ao.position.set((xA + xB) / 2, 0.0006, 0);
     inner.add(ao);
     pile.position.set(NET[0], TOP, NET[1]);
-    pile.rotation.y = 0.64;
+    pile.rotation.y = -0.785;   // the bag lies side-on to the c2/c3 cameras (ends left and right, not toward the lens)
     S.add(pile);
     onTop.push(pile);
 
@@ -368,14 +369,15 @@ export function createRoom(stage, opts) {
     // [seed, phi width, theta range, rotation (Euler XYZ: z rolls the convex side down/up, y yaws), flatten, position (x, z)]
     const PIECES = [
       [1, 1.7, 0.4, 2.35, [0, 0.2, -Math.PI * 0.5], 0.55, [0.0, 0.0]],       // skin up: a shallow curled piece
-      [2, 0.8, 0.25, 2.75, [Math.PI * 0.5, 1.9, 0], 1.0, [0.035, -0.028]],   // a long strip lying on its side, curled (C)
+      [2, 0.8, 0.25, 2.75, [Math.PI * 0.5, 0.45, 0], 1.0, [0.035, -0.028]],  // a long strip lying flat in a C, skin side to the room
       [3, 1.1, 0.6, 2.0, [0, 3.6, -Math.PI * 0.5], 0.6, [-0.03, 0.03]],      // a smaller piece, skin up
     ];
     for (const [seed, w, a, b, rot, flat, [px, pz]] of PIECES) {
       const piece = shellPiece(seed, w, a, b);
       const holder = new THREE.Group();
-      piece.rotation.set(...rot);
+      piece.rotation.set(rot[0], 0, rot[2]);   // roll / tip the shell first …
       holder.add(piece);
+      holder.rotation.y = rot[1];              // … then turn it on the table
       holder.scale.set(1, flat, 1);
       holder.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(holder);
@@ -405,8 +407,16 @@ export function createRoom(stage, opts) {
     glow.position.set(0, 1.9, 0);
     S.add(glow);
     const shadeProf = [[0.058, 0.11], [0.075, 0.1], [0.13, 0.07], [0.19, 0.03], [0.225, 0.0], [0.228, -0.006]].map(([r, y]) => new THREE.Vector2(r, y));
-    const shadeMat = new THREE.MeshStandardMaterial({ color: "#d8d3c8", roughness: 0.45, side: THREE.DoubleSide, emissive: "#000000" });
+    const shadeMat = f.tiled(plaster, 0.25, 0.25);                    // enamelled metal shade: slightly mottled, matte
+    shadeMat.color = new THREE.Color("#a9a49b");
+    shadeMat.roughness = 0.7;
+    shadeMat.side = THREE.DoubleSide;
+    shadeMat.emissive = new THREE.Color("#000000");
     mesh(new THREE.LatheGeometry(shadeProf, 64), shadeMat, [0, 1.85, 0]);
+    const shadeOut = new THREE.MeshStandardMaterial({ color: "#5d5a55", roughness: 0.5, metalness: 0.3 });
+    mesh(new THREE.LatheGeometry(shadeProf.map((v) => new THREE.Vector2(v.x + 0.004, v.y + 0.003)), 64), shadeOut, [0, 1.85, 0]);
+    const rim = mesh(new THREE.TorusGeometry(0.229, 0.004, 8, 64), shadeOut, [0, 1.846, 0], [Math.PI / 2, 0, 0]);
+    rim.castShadow = true;
 
     // ---------------------------------------------------------------- light
     // Key: low winter sun through the east window (hard, shadows of the sashes on the tatami and the kotatsu).
@@ -448,7 +458,7 @@ export function createRoom(stage, opts) {
     amberMikan.target.position.copy(topMikan);
     S.add(amberMikan, amberMikan.target);
     // Night: the bulb. A downward spot (the shade stops the light going up) + a dim point for the ceiling and walls.
-    const lampDown = new THREE.SpotLight("#ffe0bd", 0, 0, 1.15, 0.55, 2);
+    const lampDown = new THREE.SpotLight("#ffe9d0", 0, 0, 1.05, 0.6, 2);
     lampDown.position.set(0, 1.89, 0);
     lampDown.target.position.set(0, 0, 0);
     lampDown.castShadow = true;
@@ -456,7 +466,7 @@ export function createRoom(stage, opts) {
     lampDown.shadow.bias = -0.0004;
     lampDown.shadow.radius = 4;
     S.add(lampDown, lampDown.target);
-    const lampSpill = new THREE.PointLight("#ffdcb4", 0, 0, 2);
+    const lampSpill = new THREE.PointLight("#f0e4d4", 0, 0, 2);
     lampSpill.position.set(0, 1.9, 0);
     S.add(lampSpill);
 
@@ -482,9 +492,9 @@ export function createRoom(stage, opts) {
       amberMikan.intensity = 9 * (M.amberMikan || 0);
       const lamp = lerp(from.lamp, M.lamp);
       lampDown.intensity = 26 * lamp;
-      lampSpill.intensity = 1.6 * lamp;
+      lampSpill.intensity = 0.7 * lamp;
       glowMat.opacity = 0.95 * lamp;
-      shadeMat.emissive.set("#3a2a18").multiplyScalar(lamp);
+      shadeMat.emissive.set("#1c140b").multiplyScalar(lamp);
       for (const m of bulbMats) m.emissiveIntensity = lamp;
       const show = M.top ? 1 : 1 - k;
       for (const o of onTop) o.visible = show > 0.001;
