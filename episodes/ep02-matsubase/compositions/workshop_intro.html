@@ -8,15 +8,51 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    .rlabel { position: absolute; left: 96px; top: 150px; padding: 16px 30px 18px 30px; background: rgba(16,18,21,.74);
+      border-left: 8px solid #E9E5DD; font-size: 46px; line-height: 1.15; color: #F3F0EA; }
+    .rlabel small { display: block; font-family: "Gothic A1", sans-serif; font-size: 34px; margin-top: 8px; color: rgba(243,240,234,.9); }
+    .rlabel.amber { border-left-color: #F0A23B; }
+    .rlabel.right { left: auto; right: 96px; }
+    .pcard-wrap { position: absolute; left: 110px; top: 196px; width: 380px; }
+    .pcard-wrap .pcard { display: block; filter: drop-shadow(0 18px 40px rgba(0,0,0,.6)); }
+    .pc-name { margin-top: 18px; padding: 14px 26px 16px; background: rgba(16,18,21,.82); border-left: 8px solid #F0A23B;
+      font-size: 54px; line-height: 1.1; color: #F3F0EA; }
+    .pc-sub { margin-top: 10px; padding: 10px 26px 12px; background: rgba(16,18,21,.74); border-left: 8px solid #E9E5DD;
+      font-family: "Gothic A1", sans-serif; font-size: 34px; color: rgba(243,240,234,.94); white-space: nowrap; width: max-content; }
   </style>
   <div id="root" data-composition-id="workshop_intro" data-width="1920" data-height="1080">
-    <div id="workshop_intro-ph" class="clip ph" data-start="0" data-duration="15.23"><b class="disp">workshop_intro</b><span>장면을 만들어 주세요</span></div>
+    <div id="workshop_intro-stage" class="clip" data-start="0" data-duration="15.23" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="workshop_intro-re" class="clip tag-re" data-start="0.3" data-duration="14.93">재현</div>
+    <div id="workshop_intro-pc" class="clip" data-start="0.05" data-duration="5.29"><div class="pcard-wrap"><svg class="pcard" width="380" height="440" viewBox="0 0 380 440"><rect x="1.5" y="1.5" width="377" height="437" rx="6" fill="rgba(14,15,17,.72)" stroke="#E9E5DD" stroke-width="3"/><circle cx="190.0" cy="162.8" r="60.8" fill="none" stroke="#E9E5DD" stroke-width="3"/><path d="M 76.0 369.6 Q 76.0 255.2 190.0 255.2 Q 304.0 255.2 304.0 369.6" fill="none" stroke="#E9E5DD" stroke-width="3" stroke-linecap="round"/></svg><div class="pc-name disp">미야타 씨</div><div id="workshop_intro-pcsub" class="pc-sub">당시 50대 초반 · 장기 친구</div></div></div>
+    <div id="workshop_intro-lb0" class="clip rlabel disp" data-start="5.44" data-duration="3.04">경찰서까지 약 300m</div>
+    <div id="workshop_intro-lb1" class="clip rlabel disp right" data-start="8.58" data-duration="2.65">2층 작업장</div>
   </div>
-  <script>
+  <script type="module">
+    import { createHome } from "./assets/lib/home.js";
+    const render = createHome(document.getElementById("workshop_intro-stage"), { mode: "workshop", camera: [
+      { t: 0, pos: [-0.3, 1.65, 1.85], look: [-1.3, 0.85, -1.6], fov: 50 },
+      { t: 2.23, pos: [-0.35, 1.61, 1.677], look: [-1.3, 0.85, -1.6], fov: 50, ease: "linear" },
+      { t: 2.25, pos: [2.0, 1.25, -0.2], look: [0.3, 0.8, -1.45], fov: 40, cut: true },
+      { t: 5.37, pos: [1.915, 1.228, -0.263], look: [0.3, 0.8, -1.45], fov: 40, ease: "linear" },
+      { t: 5.39, pos: [-1.0, 1.35, 1.2], look: [0.8, 1.35, -2.0], fov: 40, cut: true },
+      { t: 8.51, pos: [-0.91, 1.35, 1.04], look: [0.8, 1.35, -2.0], fov: 40, ease: "linear" },
+      { t: 8.53, pos: [-2.0, 1.6, -1.2], look: [-2.0, -1.1, 1.6], fov: 52, cut: true },
+      { t: 11.26, pos: [-2.0, 1.492, -1.088], look: [-2.0, -1.1, 1.6], fov: 52, ease: "linear" },
+      { t: 11.28, pos: [0.2, 1.0, -0.6], look: [0.7, 0.74, -1.45], fov: 34, cut: true },
+      { t: 15.23, pos: [0.225, 0.987, -0.642], look: [0.7, 0.74, -1.45], fov: 34, ease: "linear" }
+    ] });
+    const st = { t: 0 };
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#workshop_intro-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.to(st, { t: 15.23, duration: 15.23, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.fromTo("#workshop_intro-pc .pcard-wrap", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 0.1);
+    tl.fromTo("#workshop_intro-pcsub", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 2.35);
+    tl.to("#workshop_intro-pc .pcard-wrap", { opacity: 0, duration: 0.3, ease: "power2.in" }, 4.99);
+    tl.fromTo("#workshop_intro-lb0", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 5.49);
+    tl.to("#workshop_intro-lb0", { opacity: 0, duration: 0.3, ease: "power2.in" }, 8.13);
+    tl.fromTo("#workshop_intro-lb1", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 8.63);
+    tl.to("#workshop_intro-lb1", { opacity: 0, duration: 0.3, ease: "power2.in" }, 10.88);
+    render(0);
     window.__timelines["workshop_intro"] = tl;
   </script>
 </template>

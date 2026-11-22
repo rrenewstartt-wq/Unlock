@@ -1,5 +1,5 @@
 // 1985 interrogation room (film kit: CC0 Poly Haven linoleum / painted plaster / concrete textures, an indoor HDRI for
-// reflections, metal_office_desk, WoodenChair_01, desk_lamp_arm_01, clipboard, office_notepads, mounted_fluorescent_lights;
+// reflections, metal_office_desk, SchoolChair_01, desk_lamp_arm_01, clipboard, office_notepads, mounted_fluorescent_lights;
 // one realistic faceless figure seated with his back or side to the camera). SPEC "3D 세트" police.js.
 // Modes:
 //   interrogation → interrogation  daytime: both fluorescent rows on, frosted window bright, amber = the desk stand
@@ -15,7 +15,7 @@
 import { film, THREE, poseSeated, settle, turn, setFabric } from "../kit3d/film.js";
 
 const AMBER = "#F0A23B";
-const X0 = -2.8, X1 = 2.8, Z0 = -2.2, Z1 = 3.0, H = 2.6;
+const X0 = -2.8, X1 = 3.1, Z0 = -2.2, Z1 = 3.0, H = 2.6;
 const DESK = [0, -0.6];
 const SEAT_Z = 0.12;
 const CHAIR_FACE = 0;                                            // model yaw that makes a chair face +z
@@ -26,7 +26,7 @@ const DOOR = { z0: 1.6, z1: 2.5, y1: 2.0 };                     // door in the e
 const MODES = {
   interrogation: { hdri: "blinds", env: 0.12, exposure: 1.0, rows: [1, 1], tube: 1.0, winGlow: "#d9e0e2", winLight: 2.4,
     amb: 0.08, lamp: 1, fill: 1.3 },
-  night: { hdri: "blinds", env: 0.01, exposure: 1.0, rows: [0, 1], tube: 1.0, winGlow: "#10161f", winLight: 0,
+  night: { hdri: "blinds", env: 0.01, exposure: 1.0, rows: [1, 0], tube: 1.0, winGlow: "#10161f", winLight: 0,
     amb: 0.006, lamp: 1, fill: 0 },
 };
 
@@ -213,6 +213,7 @@ export function createPolice(stage, opts) {
     strip([0.12, DOOR.y1, 0.07], [X1 - 0.02, DOOR.y1 / 2, DOOR.z1 + 0.035], paint);
     const leafMat = f.tiled(wood, 1, 2);
     leafMat.color = new THREE.Color("#8d8479");
+    grade(leafMat, 0.35);
     const leaf = new THREE.Group();
     const leafBox = f.box({ size: [0.04, DOOR.y1 - 0.01, dw - 0.02], radius: 0.006, material: leafMat, pos: [0, (DOOR.y1 - 0.01) / 2, -(dw - 0.02) / 2] });
     S.remove(leafBox);
@@ -221,7 +222,7 @@ export function createPolice(stage, opts) {
     knob.position.set(-0.05, 0.95, -(dw - 0.12));
     leaf.add(knob);
     leaf.position.set(X1 - 0.02, 0, DOOR.z1);
-    leaf.rotation.y = -0.42; // swung into the room, hinge at the south jamb
+    leaf.rotation.y = 0.45; // swung into the room, hinge at the south jamb
     S.add(leaf);
     // Next room: a dark box with a painted floor; a corner of a brushed-metal case on a table (no knobs, no labels).
     const nextMat = new THREE.MeshStandardMaterial({ color: "#2e3230", roughness: 0.9, side: THREE.BackSide });
@@ -239,7 +240,7 @@ export function createPolice(stage, opts) {
 
     // Desk (drawers toward the officer, north), two chairs, stand, papers.
     const desk = await f.model("metal_office_desk", { pos: [DESK[0], 0, DESK[1]], rot: [0, 0, 0], height: 0.74 });
-    desk.traverse((o) => { if (o.isMesh) grade(o.material, 0.5, "#c9cfcc"); });
+    desk.traverse((o) => { if (o.isMesh) grade(o.material, 0.5, "#9da3a0"); });
     for (const c of [await f.model("SchoolChair_01", { pos: [0.05, 0, SEAT_Z + 0.12], rot: [0, CHAIR_FACE + Math.PI, 0], height: 0.84 }),
       await f.model("SchoolChair_01", { pos: [-0.1, 0, -1.5], rot: [0, CHAIR_FACE + 0.12, 0], height: 0.84 })]) {
       c.traverse((o) => { if (o.isMesh) grade(o.material, 0.25, "#b8bcbc"); });
@@ -247,18 +248,20 @@ export function createPolice(stage, opts) {
     const lamp = await f.model("desk_lamp_arm_01", { pos: [-0.5, 0.76, -0.82], rot: [0, 2.3, 0], height: 0.5 });
     const papers = new THREE.Group();
     for (let i = 0; i < 7; i++) {
-      const s = f.sheet({ w: 0.21, h: 0.297, lines: 16, age: 0.35, torn: 0, px: 512, paper: i % 2 ? "#e6dfcf" : "#ece6d8",
-        pos: [0.18 + 0.004 * Math.sin(i * 2.1), 0.762 + i * 0.0016, -0.58 + 0.005 * Math.cos(i * 1.7)], rot: [-Math.PI / 2, 0, 0.05 * Math.sin(i * 3.3)] });
+      const s = f.sheet({ w: 0.21, h: 0.297, lines: 16, age: 0.35, torn: 0, px: 512, paper: i % 2 ? "#b9b3a6" : "#c2bcae",
+        pos: [0.42 + 0.004 * Math.sin(i * 2.1), 0.742 + i * 0.0016, -0.6 + 0.005 * Math.cos(i * 1.7)], rot: [-Math.PI / 2, 0, 0.05 * Math.sin(i * 3.3)] });
       S.remove(s); papers.add(s);
     }
     S.add(papers);
-    await f.model("clipboard", { pos: [0.42, 0.762, -0.42], rot: [0, -0.35, 0], height: 0.03 });
+    await f.model("clipboard", { pos: [0.12, 0.741, -0.86], rot: [0, 0.5, 0], height: 0.03 });
     const notes = await f.model("office_notepads", { pos: [-0.2, 0.762, -0.35], rot: [0, 0.2, 0], scale: 1 });
-    notes.traverse((o) => { if (o.isMesh && !/a4_stack|note_stack/.test(o.name)) o.visible = false; });
-    notes.position.set(0.15, 0.762, -0.5);
+    notes.traverse((o) => { if (o.isMesh && !/a4_stack/.test(o.name)) o.visible = false; });
+    notes.rotation.y = 0;
+    notes.traverse((o) => { if (o.isMesh) { o.material = o.material.clone(); o.material.color = new THREE.Color("#a8a49c"); } });
+    notes.position.set(0.62 + 0.45, 0.741, -0.82 + 0.175); // puts the a4 stack (node at -0.45, -0.175) at (0.62, -0.82)
 
     // Fluorescent battens: two rows of two along z. Each: model fixture (one variant) + lit tube + down spot.
-    const rowsX = [-0.9, 1.6];
+    const rowsX = [-1.6, 1.2];
     const tubes = [];
     const rowLights = [];
     for (const [ri, rx] of rowsX.entries()) {
@@ -275,7 +278,7 @@ export function createPolice(stage, opts) {
       const on = M.rows[ri];
       const l = new THREE.SpotLight("#e9f2ef", on ? (mode === "night" ? 30 : 22) : 0, 9, 1.15, 0.95, 1.6);
       l.position.set(rx, H - 0.1, 0);
-      l.target.position.set(mode === "night" && ri === 1 ? rx + 0.6 : rx * 0.6, 0, 0);
+      l.target.position.set(mode === "night" && ri === 0 ? rx - 0.5 : rx * 0.6, 0, 0);
       l.castShadow = !!on;
       l.shadow.mapSize.set(2048, 2048);
       l.shadow.bias = -0.0004;
@@ -285,10 +288,10 @@ export function createPolice(stage, opts) {
       rowLights.push(l);
     }
     if (mode === "night") {
-      // The one lit row washes the east wall: a narrow grazing spot so the wall behind the man reads bright.
-      const wash = new THREE.SpotLight("#dfeae8", 26, 6, 0.55, 0.85, 1.5);
-      wash.position.set(1.75, H - 0.12, 0.3);
-      wash.target.position.set(X1, 0.9, 0.3);
+      // The one lit row washes the west wall: a grazing spot so the wall behind the man (seen from the east) reads bright.
+      const wash = new THREE.SpotLight("#dfeae8", 26, 6, 0.6, 0.85, 1.5);
+      wash.position.set(-1.75, H - 0.12, 0.0);
+      wash.target.position.set(X0, 0.9, -0.2);
       S.add(wash, wash.target);
     }
     // Daylight through the frosted window: a soft spot from outside, low and cool.
@@ -315,7 +318,7 @@ export function createPolice(stage, opts) {
     S.add(bulb);
     const pool = new THREE.SpotLight(AMBER, M.lamp * (mode === "night" ? 5.5 : 4), 2.2, 0.75, 0.6, 1.6);
     pool.position.copy(bulb.position);
-    pool.target.position.set(-0.15, 0.76, -0.55);
+    pool.target.position.set(0.2, 0.74, -0.65);
     pool.castShadow = true;
     pool.shadow.mapSize.set(1024, 1024);
     pool.shadow.bias = -0.0004;

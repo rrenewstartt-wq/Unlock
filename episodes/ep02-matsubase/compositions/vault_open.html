@@ -8,15 +8,56 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    .slabel { position: absolute; left: 96px; top: 150px; padding: 16px 30px 18px 30px; background: rgba(16,18,21,.76);
+      border-left: 8px solid #E9E5DD; font-size: 46px; line-height: 1.15; color: #F3F0EA; max-width: 1100px; }
+    .slabel small { display: block; font-family: "Gothic A1", sans-serif; font-size: 34px; margin-top: 8px; color: rgba(243,240,234,.9); }
+    .slabel.quote { font-family: "Gothic A1", sans-serif; font-size: 42px; line-height: 1.3; }
+    .slabel.quote small { font-size: 30px; color: rgba(243,240,234,.82); }
+    .slabel.amber { border-left-color: #F0A23B; }
+    .slabel.right { left: auto; right: 96px; }
   </style>
   <div id="root" data-composition-id="vault_open" data-width="1920" data-height="1080">
-    <div id="vault_open-ph" class="clip ph" data-start="0" data-duration="23.39"><b class="disp">vault_open</b><span>장면을 만들어 주세요</span></div>
+    <div id="vault_open-stage" class="clip" data-start="0" data-duration="23.39" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="vault_open-re" class="clip tag-re" data-start="0.3" data-duration="23.09">재현</div>
+    <div id="vault_open-lb0" class="clip slabel disp" data-start="0.3" data-duration="2.74">재심을 준비하던 변호인단</div>
+    <div id="vault_open-lb1" class="clip slabel disp" data-start="9.29" data-duration="3.17">원래 재판에 나온 적 없는 천</div>
+    <div id="vault_open-lb2" class="clip slabel disp" data-start="12.56" data-duration="3.69">2012. 3. 12<small>후견인이 재심 청구</small></div>
+    <div id="vault_open-lb3" class="clip slabel disp" data-start="16.35" data-duration="2.65">확정 22년 만</div>
+    <div id="vault_open-lb4" class="clip slabel disp right" data-start="19.1" data-duration="4.29">이후 판단: 2017 후쿠오카고법</div>
   </div>
-  <script>
+  <script type="module">
+    import { createVault } from "./assets/lib/vault.js";
+    const render = createVault(document.getElementById("vault_open-stage"), { mode: "open", camera: [
+      { t: 0, pos: [0.5, 1.4, 3.2], look: [0.0, 0.95, -0.8], fov: 40 },
+      { t: 3.07, pos: [0.47, 1.373, 2.96], look: [0.0, 0.95, -0.8], fov: 40, ease: "linear" },
+      { t: 3.09, pos: [1.2, 1.0, 1.0], look: [-0.35, 0.86, -0.05], fov: 36, cut: true },
+      { t: 5.82, pos: [1.107, 0.992, 0.937], look: [-0.35, 0.86, -0.05], fov: 36, ease: "linear" },
+      { t: 5.84, pos: [-0.05, 1.3, 0.62], look: [-0.32, 0.78, 0.0], fov: 38, cut: true },
+      { t: 9.22, pos: [-0.066, 1.269, 0.583], look: [-0.32, 0.78, 0.0], fov: 38, ease: "linear" },
+      { t: 9.24, pos: [-0.12, 0.92, 0.62], look: [-0.22, 0.87, 0.17], fov: 30, cut: true },
+      { t: 12.49, pos: [-0.126, 0.917, 0.593], look: [-0.22, 0.87, 0.17], fov: 30, ease: "linear" },
+      { t: 12.51, pos: [0.95, 1.12, 0.85], look: [0.42, 0.76, 0.12], fov: 36, cut: true },
+      { t: 16.28, pos: [0.918, 1.098, 0.806], look: [0.42, 0.76, 0.12], fov: 36, ease: "linear" },
+      { t: 16.3, pos: [-0.95, 0.9, 0.5], look: [-0.5, 0.86, 0.12], fov: 32, cut: true },
+      { t: 19.03, pos: [-0.923, 0.898, 0.477], look: [-0.5, 0.86, 0.12], fov: 32, ease: "linear" },
+      { t: 19.05, pos: [-1.7, 1.3, 2.7], look: [0.15, 1.0, -0.9], fov: 40, cut: true },
+      { t: 23.39, pos: [-1.589, 1.282, 2.484], look: [0.15, 1.0, -0.9], fov: 40, ease: "linear" }
+    ] });
+    const st = { t: 0 };
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#vault_open-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.to(st, { t: 23.39, duration: 23.39, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.fromTo("#vault_open-lb0", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 0.35);
+    tl.to("#vault_open-lb0", { opacity: 0, duration: 0.3, ease: "power2.in" }, 2.69);
+    tl.fromTo("#vault_open-lb1", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 9.34);
+    tl.to("#vault_open-lb1", { opacity: 0, duration: 0.3, ease: "power2.in" }, 12.11);
+    tl.fromTo("#vault_open-lb2", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 12.61);
+    tl.to("#vault_open-lb2", { opacity: 0, duration: 0.3, ease: "power2.in" }, 15.9);
+    tl.fromTo("#vault_open-lb3", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 16.4);
+    tl.to("#vault_open-lb3", { opacity: 0, duration: 0.3, ease: "power2.in" }, 18.65);
+    tl.fromTo("#vault_open-lb4", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 19.15);
+    tl.to("#vault_open-lb4", { opacity: 0, duration: 0.3, ease: "power2.in" }, 23.04);
+    render(0);
     window.__timelines["vault_open"] = tl;
   </script>
 </template>

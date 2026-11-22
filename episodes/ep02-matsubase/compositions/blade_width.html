@@ -8,15 +8,73 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    .slabel { position: absolute; left: 96px; top: 150px; padding: 16px 30px 18px 30px; background: rgba(16,18,21,.76);
+      border-left: 8px solid #E9E5DD; font-size: 46px; line-height: 1.15; color: #F3F0EA; max-width: 1100px; }
+    .slabel small { display: block; font-family: "Gothic A1", sans-serif; font-size: 34px; margin-top: 8px; color: rgba(243,240,234,.9); }
+    .slabel.quote { font-family: "Gothic A1", sans-serif; font-size: 42px; line-height: 1.3; }
+    .slabel.quote small { font-size: 30px; color: rgba(243,240,234,.82); }
+    .slabel.amber { border-left-color: #F0A23B; }
+    .slabel.right { left: auto; right: 96px; }
+    .ar-shot { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); overflow: hidden; }
+    .ar-ins { z-index: 20; }
+    .ar-cam { position: absolute; inset: 0; transform-origin: 50% 43%; }
+    .ar-print { position: absolute; left: 50%; top: 43%; margin: 0; padding: 0; background: #EDE8DE;
+      outline: 18px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }
+    .ar-img { display: block; }
+    .ar-ring { position: absolute; left: 0; top: 0; overflow: visible; }
+    .ar-ring ellipse { fill: none; stroke: #F0A23B; stroke-width: 7; stroke-linecap: round; }
+    .ar-cap { position: absolute; left: 0; right: 0; top: 830px; text-align: center; font-size: 32px; color: rgba(233,229,221,.9); }
+    .ar-credit { position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }
+    .tag-ar { border-color: #F0A23B; }
   </style>
   <div id="root" data-composition-id="blade_width" data-width="1920" data-height="1080">
-    <div id="blade_width-ph" class="clip ph" data-start="0" data-duration="22.29"><b class="disp">blade_width</b><span>장면을 만들어 주세요</span></div>
+    <div id="blade_width-stage" class="clip" data-start="0" data-duration="22.29" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="blade_width-re" class="clip tag-re" data-start="0.3" data-duration="21.99">재현</div>
+    <div id="blade_width-lb0" class="clip slabel disp" data-start="0.3" data-duration="2.09">입구 약 1.5cm<small>상처 하나</small></div>
+    <div id="blade_width-lb1" class="clip slabel disp" data-start="2.49" data-duration="2.2">깊이 약 4.7cm</div>
+    <div id="blade_width-lb2" class="clip slabel disp" data-start="4.79" data-duration="3.43">이 지점 폭 ≤ 1.5cm 여야<small>상처대로라면</small></div>
+    <div id="blade_width-lb3" class="clip slabel disp" data-start="11.72" data-duration="3.43">폭 1.5cm는 여기<small>끝에서 약 3.2cm</small></div>
+    <div id="blade_width-lb4" class="clip slabel disp" data-start="15.25" data-duration="3.04">입구가 0.6cm 좁다<small>4.7cm 지점 날 폭 2.1cm</small></div>
+    <div id="blade_width-lb5" class="clip slabel quote" data-start="18.39" data-duration="3.9">“미묘한 차이라 할 수 없다”<small>후쿠오카고법 (2017)</small></div>
+    <div id="blade_width-ins0" class="clip ar-shot ar-ins" data-start="8.27" data-duration="3.4" data-layout-allow-overlap><div id="blade_width-ins0-cam" class="ar-cam"><figure class="ar-print" style="width:1240px;height:120px;transform:translate(-50%,-50%) rotate(0deg)"><img class="ar-img" src="assets/archive/kousai-p9-l21.png" alt="" style="width:1240px;height:120px" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/><svg class="ar-ring" viewBox="0 0 1240 120" width="1240" height="120"><ellipse id="blade_width-ins0-r" cx="105" cy="90" rx="74" ry="61" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100"/></svg></figure></div><div class="ar-credit">후쿠오카고법 결정문(2017) · 감정 요지</div><div class="tag-re tag-ar">기록</div></div>
   </div>
-  <script>
+  <script type="module">
+    import { createKnife } from "./assets/lib/knife.js";
+    const render = createKnife(document.getElementById("blade_width-stage"), { mode: "blade_macro", camera: [
+      { t: 0, pos: [0.013, 0.13, 0.03], look: [0.013, 0.0, 0.0], fov: 30 },
+      { t: 2.42, pos: [0.013, 0.122, 0.028], look: [0.013, 0.0, 0.0], fov: 30, ease: "linear" },
+      { t: 2.44, pos: [0.026, 0.16, 0.04], look: [0.026, 0.0, 0.002], fov: 30, cut: true },
+      { t: 4.72, pos: [0.026, 0.15, 0.038], look: [0.026, 0.0, 0.002], fov: 30, ease: "linear" },
+      { t: 4.74, pos: [0.04, 0.2, 0.07], look: [0.045, 0.0, 0.008], fov: 30, cut: true },
+      { t: 8.25, pos: [0.04, 0.188, 0.066], look: [0.045, 0.0, 0.008], fov: 30, ease: "linear" },
+      { t: 8.27, pos: [0.04, 0.2, 0.07], look: [0.045, 0.0, 0.008], fov: 30, cut: true },
+      { t: 11.65, pos: [0.04, 0.188, 0.066], look: [0.045, 0.0, 0.008], fov: 30, ease: "linear" },
+      { t: 11.67, pos: [0.035, 0.12, 0.04], look: [0.038, 0.0, 0.008], fov: 30, cut: true },
+      { t: 15.18, pos: [0.035, 0.113, 0.038], look: [0.038, 0.0, 0.008], fov: 30, ease: "linear" },
+      { t: 15.2, pos: [0.05, 0.09, 0.03], look: [0.05, 0.0, 0.01], fov: 30, cut: true },
+      { t: 18.32, pos: [0.05, 0.085, 0.029], look: [0.05, 0.0, 0.01], fov: 30, ease: "linear" },
+      { t: 18.34, pos: [0.09, 0.24, 0.13], look: [0.085, 0.0, 0.012], fov: 32, cut: true },
+      { t: 22.29, pos: [0.09, 0.226, 0.123], look: [0.085, 0.0, 0.012], fov: 32, ease: "linear" }
+    ], cues: { c: [-0.05, 2.44, 4.74, 8.27, 11.67, 15.2, 18.34] } });
+    const st = { t: 0 };
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#blade_width-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.to(st, { t: 22.29, duration: 22.29, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.fromTo("#blade_width-lb0", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 0.35);
+    tl.to("#blade_width-lb0", { opacity: 0, duration: 0.3, ease: "power2.in" }, 2.04);
+    tl.fromTo("#blade_width-lb1", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 2.54);
+    tl.to("#blade_width-lb1", { opacity: 0, duration: 0.3, ease: "power2.in" }, 4.34);
+    tl.fromTo("#blade_width-lb2", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 4.84);
+    tl.to("#blade_width-lb2", { opacity: 0, duration: 0.3, ease: "power2.in" }, 7.87);
+    tl.fromTo("#blade_width-lb3", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 11.77);
+    tl.to("#blade_width-lb3", { opacity: 0, duration: 0.3, ease: "power2.in" }, 14.8);
+    tl.fromTo("#blade_width-lb4", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 15.3);
+    tl.to("#blade_width-lb4", { opacity: 0, duration: 0.3, ease: "power2.in" }, 17.94);
+    tl.fromTo("#blade_width-lb5", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 18.44);
+    tl.to("#blade_width-lb5", { opacity: 0, duration: 0.3, ease: "power2.in" }, 21.94);
+    tl.to("#blade_width-ins0-r", { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, 8.67);
+    tl.fromTo("#blade_width-ins0-cam", { scale: 1.0 }, { scale: 1.06, duration: 3.4, ease: "none" }, 8.27);
+    render(0);
     window.__timelines["blade_width"] = tl;
   </script>
 </template>

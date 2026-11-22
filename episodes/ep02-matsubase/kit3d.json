@@ -31,6 +31,15 @@
   "texture:metal_plate",
   "hdri:carpentry_shop_01",
   "hdri:winter_orchard",
-  "model:SchoolChair_01"
+  "model:SchoolChair_01",
+  "hdri:evening_road_01_puresky",
+  "texture:asphalt_04",
+  "texture:concrete_block_wall",
+  "model:modular_electricity_poles",
+  "texture:old_wood_floor",
+  "model:painted_wooden_table",
+  "model:bench_vice_01",
+  "model:Shelf_01",
+  "model:metal_toolbox"
  ]
 }

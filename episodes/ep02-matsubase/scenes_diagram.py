@@ -79,6 +79,7 @@ def counter34(sid, dur, q):
     A = f"""
       <div class="ax"><i id="{p}-base" class="h"></i><i id="{p}-fill" class="fill h"></i></div>
       <div id="{p}-tl" class="tick l h"><b class="disp">1985.1</b><span>사건</span></div>
+      <div id="{p}-tq" class="tick r h"><b class="disp">결론</b><span>?</span></div>
       <div id="{p}-tr" class="tick r h"><b class="disp">2019.3</b><span>재심 판결</span></div>
       <div id="{p}-big" class="big disp h"><b id="{p}-n">0</b>년</div>"""
     A2 = f"""
@@ -88,7 +89,7 @@ def counter34(sid, dur, q):
       <div class="paper yc l"><b class="disp">1985</b><em class="disp">겨울</em><span>1월 · 사건</span></div>
       <div class="paper yc r"><div id="{p}-yr" class="h"><b class="disp">2019</b><em class="disp">봄</em><span>3월 28일 · 재심 판결</span></div></div>"""
     B = f"""
-      <div class="pc">{person_card(540, 690, sw=4)}</div>
+      <div class="pc">{person_card(520, 650, sw=4)}</div>
       <div class="lab pname disp">미야타 씨</div>
       <div class="age a1"><span>1985</span><b class="disp">50대 초반</b></div>
       <div id="{p}-arw" class="arw h"><i></i><em class="disp">34년</em></div>
@@ -116,7 +117,7 @@ def counter34(sid, dur, q):
     .yc b {{ font-size: 230px; line-height: .95; font-weight: 400; }}
     .yc em {{ font-style: normal; font-size: 120px; line-height: 1.05; }}
     .yc span {{ font-size: 46px; margin-top: 26px; padding-top: 18px; border-top: 4px solid rgba(30,33,37,.55); }}
-    .pc {{ position: absolute; left: 150px; top: 110px; }}
+    .pc {{ position: absolute; left: 150px; top: 150px; }}
     .pname {{ left: 150px; top: 818px; font-size: 48px; padding: 6px 26px 8px; }}
     .age {{ position: absolute; left: 860px; }}
     .age span {{ display: block; font-size: 44px; color: rgba(233,229,221,.8); }}
@@ -135,8 +136,10 @@ def counter34(sid, dur, q):
         _grow(f"#{p}-fill", q[1], 1.6),
         _pop(f"#{p}-big", q[1], 1.0, 0.2),
         _count(f"{p}-n", q[1], 1.6, 34),
-        _fade(f"#{p}-tr", q[1] + 1.45),
-        _fade(f"#{p}-yr", q[2] + 1.25, 0.3),
+        _fade(f"#{p}-tq", q[0] + 0.9),
+        f'    tl.to("#{p}-tq", {{ opacity: 0, duration: 0.15 }}, {round(q[1] + 1.4, 2)});',
+        _fade(f"#{p}-tr", q[1] + 1.5),
+        _fade(f"#{p}-yr", q[2] + 0.95, 0.3),
         _grow(f"#{p}-arw", q[3] + 0.9, 0.45, "Y", "power2.out"),
         _pop(f"#{p}-a2", q[3] + 1.6, 1.12, 0.35),
     ]
@@ -197,13 +200,13 @@ def calendar(sid, dur, q):
     big = "".join(f'<div class="paper bc" style="left:{212 + k * 370}px"><span>1월</span><b class="disp">{d}</b><em>{w}</em></div>'
                   for k, (d, w) in enumerate([(18, "조사"), (19, "조사"), (20, "자백")]))
     C = ("".join(chips) + big
-         + f'<div class="ctr"><span>13일 가운데</span><b class="disp"><i id="{p}-n9">0</i>일</b><em>조사한 날</em></div>')
+         + f'<div class="ctr"><span>13일 가운데</span><b id="{p}-n9b" class="disp h"><i id="{p}-n9">0</i>일</b><em>조사한 날</em></div>')
     D = f"""<div class="hd2">법원이 따진 조사 시간</div>
       <div class="hr disp"><b id="{p}-n70">0</b>시간<i id="{p}-plus" class="h">+</i></div>
       <div class="hax"><i class="base"></i><i id="{p}-hf" class="fill h"></i>
         <span class="z">0</span>
-        <div id="{p}-m1" class="mk up h" style="left:{round(74 * 15.56)}px"><i></i><span>1심 약 74</span></div>
-        <div id="{p}-m2" class="mk dn h" style="left:{round(81 * 15.56)}px"><i></i><span>2심 약 81</span></div></div>"""
+        <div id="{p}-m1" class="mk up h" style="left:{round(74 * 15.56)}px"><i></i><span>1심 약 74시간</span></div>
+        <div id="{p}-m2" class="mk dn h" style="left:{round(81 * 15.56)}px"><i></i><span>2심 약 81시간</span></div></div>"""
     markup = "\n".join([
         _board(p, 0, c[0], c[1], A), _board(p, 1, c[1], c[2], A2), _board(p, 2, c[2], c[3], B),
         _board(p, 3, c[3], c[4], C), _board(p, 4, c[4], c[5], D),
@@ -276,7 +279,8 @@ def calendar(sid, dur, q):
         tw.append(_fade(f"#{p}-b{d}", q[4] + 0.2 + k * 0.2, 0.3))
     tw += [
         _slide(f"#{p}-l3", q[4] + 1.2),
-        _count(f"{p}-n9", q[5] + 1.6, 1.1, 9),
+        _fade(f"#{p}-n9b", q[5] + 0.9, 0.2),
+        _count(f"{p}-n9", q[5] + 0.9, 1.9, 9),
         _grow(f"#{p}-hf", q[6] + 0.15, 1.9),
         _count(f"{p}-n70", q[6] + 0.15, 1.9, 70),
         _pop(f"#{p}-plus", q[6] + 2.1, 1.4, 0.25),
@@ -307,10 +311,11 @@ def _strip_insert(sid, at, dur, src, size, ul, caption, credit, n=0):
     Returns (markup, tweens). Scene boards end at `at` and resume at `at + dur`, so nothing is hidden beneath it."""
     w, h = size
     k = min(1760 / w, 320 / h, 2.6)
+    grade = ARCHIVE_GRADE.replace('"vignette":0.18', '"vignette":0')
     pw, ph = round(w * k), round(h * k)
     iid = f"{sid}-ins{n}"
     fig = (f'<figure class="ar-print" style="width:{pw}px;height:{ph}px;transform:translate(-50%,-50%)">'
-           f'<img class="ar-img" src="{src}" alt="" style="width:{pw}px;height:{ph}px" data-color-grading=\'{ARCHIVE_GRADE}\'/>'
+           f'<img class="ar-img" src="{src}" alt="" style="width:{pw}px;height:{ph}px" data-color-grading=\'{grade}\'/>'
            f'<i id="{iid}-ul" class="ar-ul h" style="left:{round(ul[0] * pw)}px;width:{round((ul[1] - ul[0]) * pw)}px;top:{ph + 2}px"></i>'
            f'</figure>')
     inner = (f'<div id="{iid}-cam" class="ar-cam">{fig}</div><div class="ar-cap">{caption}</div>'
@@ -341,7 +346,7 @@ def feb5_change(sid, dur, q):
       <div class="ghost" style="left:96px"><b class="disp">②</b></div><div class="ghost" style="left:968px"><b class="disp">③</b></div>"""
     B = f"""<div class="mini"><b class="disp">① 장갑</b><span>강 → 아궁이</span></div><i class="link"></i>
       <div class="paper qc"><span class="k">2월 5일 자 조서 속 그의 설명</span>
-        <b class="disp">경찰의 물음</b><i class="qm o disp">「</i><i class="qm c disp">」</i>
+        <b class="disp">경찰의 물음</b><div class="qq disp"><i>「</i><b>?</b><i>」</i></div>
         <em id="{p}-qn" class="h">원문은 고법 결정문 4쪽 20행</em></div>"""
     C = f"""<div class="hd3">2월 5일 자 조서 · 바뀐 진술</div>
       <div class="paper row r1"><b class="disp">① 장갑</b><span>강 → 아궁이에서 태움</span></div>
@@ -364,7 +369,7 @@ def feb5_change(sid, dur, q):
         _tag(p, 0, c[0], c[3], tagt), _tag(p, 1, c[4], c[6], tagt)])
     css = BASE_CSS + INS_CSS + f"""
     .k {{ display: block; font-size: 40px; opacity: .72; }}
-    .doc {{ left: 120px; top: 96px; width: 780px; height: 794px; padding: 64px 70px; }}
+    .doc {{ left: 120px; top: 140px; width: 780px; height: 750px; padding: 64px 70px; }}
     .doc b {{ display: block; font-weight: 400; font-size: 110px; line-height: 1.1; margin-top: 34px; }}
     .doc b.big {{ font-size: 230px; margin-top: 0; }}
     .doc em {{ position: absolute; left: 70px; right: 70px; bottom: 60px; font-style: normal; font-size: 38px; padding-top: 22px;
@@ -392,24 +397,25 @@ def feb5_change(sid, dur, q):
     .link {{ position: absolute; left: 656px; top: 498px; width: 164px; height: 4px; background: rgba(233,229,221,.6); border-radius: 2px; }}
     .qc {{ left: 820px; top: 96px; width: 1004px; height: 794px; padding: 70px 76px; }}
     .qc b {{ display: block; font-weight: 400; font-size: 150px; line-height: 1.1; margin-top: 30px; }}
-    .qm {{ position: absolute; font-style: normal; font-size: 220px; line-height: 1; color: rgba(30,33,37,.35); }}
-    .qm.o {{ left: 60px; top: 420px; }} .qm.c {{ right: 60px; top: 520px; }}
+    .qq {{ position: absolute; left: 76px; right: 76px; top: 390px; display: flex; justify-content: center; align-items: center; gap: 40px; }}
+    .qq i {{ font-style: normal; font-size: 200px; line-height: 1; color: rgba(30,33,37,.4); }}
+    .qq b {{ font-weight: 400; font-size: 220px; line-height: 1; margin: 0; }}
     .qc em {{ position: absolute; left: 76px; right: 76px; bottom: 64px; font-style: normal; font-size: 40px; text-align: center; }}
     .row {{ position: absolute; left: 96px; width: 1728px; display: flex; align-items: center; padding-left: 60px; }}
     .row b {{ font-weight: 400; width: 420px; }}
-    .r1 {{ top: 216px; height: 150px; opacity: .25; }} .r1 b {{ font-size: 76px; }} .r1 span {{ font-size: 56px; }}
-    .r2 {{ top: 392px; height: 300px; flex-wrap: wrap; align-content: center; }}
+    .r1 {{ top: 206px; height: 110px; opacity: .25; }} .r1 b {{ font-size: 68px; }} .r1 span {{ font-size: 50px; }}
+    .r2 {{ top: 338px; height: 290px; flex-wrap: wrap; align-content: center; }}
     .r2 b {{ font-size: 100px; line-height: 1; }}
     .r2 .was {{ font-size: 44px; color: rgba(30,33,37,.66); }}
     .am {{ position: absolute; left: 0; top: 0; bottom: 0; width: 16px; background: {AMBER}; }}
     .new2 {{ width: 100%; font-size: 100px; line-height: 1.1; margin-top: 30px; }}
     .new2 u {{ position: relative; text-decoration: none; }}
     .new2 u i {{ position: absolute; left: 0; right: 0; bottom: -8px; height: 12px; background: {AMBER}; transform-origin: left center; }}
-    .r3 {{ top: 718px; height: 150px; border: 4px solid rgba(233,229,221,.55); border-radius: 6px; }}
+    .r3 {{ top: 656px; height: 140px; border: 4px solid rgba(233,229,221,.55); border-radius: 6px; }}
     .r3 b {{ font-size: 90px; color: {INK}; }}
-    .sm {{ left: 96px; width: 1728px; height: 96px; display: flex; align-items: center; padding-left: 50px; opacity: .25; box-shadow: none; }}
-    .sm b {{ font-weight: 400; font-size: 56px; width: 360px; }} .sm span {{ font-size: 46px; }}
-    .s1 {{ top: 210px; }} .s2 {{ top: 290px; }}
+    .sm {{ left: 96px; width: 1728px; height: 80px; display: flex; align-items: center; padding-left: 50px; opacity: .25; box-shadow: none; }}
+    .sm b {{ font-weight: 400; font-size: 50px; width: 360px; }} .sm span {{ font-size: 42px; }}
+    .s1 {{ top: 212px; }} .s2 {{ top: 304px; }}
 """
     tw = [
         _fade(f"#{p}-fh", q[1] + 0.05, 0.3),
@@ -418,7 +424,7 @@ def feb5_change(sid, dur, q):
         _grow(f"#{p}-f3", q[1] + 0.6, 0.4, "X", "power3.out"),
         _grow(f"#{p}-strike", q[2] + 0.9, 0.35, "X", "power2.out"),
         _slide(f"#{p}-new1", q[2] + 1.55, -36),
-        _fade(f"#{p}-qn", q[3] + 1.4, 0.4),
+        _fade(f"#{p}-qn", q[3] + 0.55, 0.4),
         itw,
         _slide(f"#{p}-new2", q[5] + 0.8, -36),
         _grow(f"#{p}-ul2", q[5] + 1.6, 0.5, "X", "power2.out"),

@@ -116,3 +116,9 @@ def sfx_events(DATA):
 # ---------------------------------------------------------------- 기록 장면(hook, place) — scenes_archive.py
 from scenes_archive import hook, place  # noqa: E402,F401
 from scenes_room import *  # noqa: E402,F401,F403  (TEMP: set-builder check build)
+from scenes_outside import night_road  # noqa: E402,F401  (TEMP: set-builder check build)
+from scenes_home import workshop_intro  # noqa: E402,F401  (TEMP: set-builder check build)
+from scenes_diagram import counter34, calendar, feb5_change  # noqa: E402,F401  (TEMP: diagram-builder check build)
+from scenes_police import interrogation, arrest_wish  # noqa: E402,F401  (임시: set-builder 확인용)
+from scenes_vault import vault_open, five_pieces  # noqa: E402,F401  (임시: set-builder 확인용)
+from scenes_knife import blade_width  # noqa: E402,F401  (임시: set-builder 확인용)

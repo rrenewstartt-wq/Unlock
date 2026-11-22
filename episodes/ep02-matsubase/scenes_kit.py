@@ -93,6 +93,8 @@ def person_card(w, h, color="#E9E5DD", sw=3, dashed=False, fill="#0E0F11", cls="
 
 # Archive look: HyperFrames media treatment (mono, faded, deterministic grain) — one look for every record photo.
 ARCHIVE_GRADE = '{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'
+# Very flat paper strips (a cropped document line): the vignette leaves a white blotch in the middle, so none.
+STRIP_GRADE = '{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'
 
 
 def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens=""):
@@ -132,7 +134,7 @@ def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens
             tilt = s.get("tilt", 0 if mode == "strip" else (1.2 if k % 2 else -1.2))
             fig = (f'<figure class="ar-print" style="width:{pw}px;height:{ph}px;transform:translate(-50%,-50%) rotate({tilt}deg)">'
                    f'<img class="ar-img" src="{s["src"]}" alt="" style="width:{pw}px;height:{ph}px" '
-                   f"data-color-grading='{ARCHIVE_GRADE}'/>")
+                   f"data-color-grading='{STRIP_GRADE if mode == "strip" else ARCHIVE_GRADE}'/>")
         rings = ""
         for j, (ci, cx, cy, r) in enumerate(s.get("focus", [])):
             rid = f"{sid}-r{k}-{j}"
