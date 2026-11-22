@@ -13,6 +13,7 @@
    `SPEC.md`·`data/shots.json` 을 고치게 하고 → visual-critic(설계 검토 모드) 재검토 → P0 0 이면
    `gates.py ... pass design --by visual-critic --evidence "..."`. (2026-11-21 storyboard-director 가 고치던 중 사용량 제한으로 멈춤 — SPEC.md 는 일부만 반영된 상태로 커밋됨. 이어서 고칠 때 review-design-1.md 항목마다 반영 여부부터 확인한다.)
 2. **archive:** archive-researcher 에게 SPEC 의 요청 R1~R9(판결문·결정문 지면은 실명 줄을 **파일 자체에서** 잘라 냄) + shots.json 핵심 장면 12.
+   - 사람 결정(2026-11-22): 레퍼런스 프레임은 봇 확인으로 여전히 막힘 → **나중에 다시 자동 시도.** 그때까지 파일럿은 화면 검수(기준표)와 렌더 실측으로만 판정하고, 블라인드 비교는 "보류", 화면 영역은 최고 "근접".
 3. **pilot:** 0~137초(hook~calendar) + 판정용 시험 컷 6개. 세트 room·outside·home(+시험 컷: police·vault·knife). 직전에 레퍼런스 수집 재시도
    (`python3 scripts/benchmark.py @unlock_kr --all-storyboards` → `scripts/blind_sheet.py`). 봇 확인이면 사용자에게 다시 묻는다.
 4. **내레이션 — 사람 결정(2026-11-21): 맨 마지막 작업으로 한다.** 그때까지 모든 시각은 읽기 속도 기준이다.
