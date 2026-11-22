@@ -93,28 +93,39 @@ def cmd_cells(a):
     out = pathlib.Path(a.out) if a.out else RAW / "frames" / vid
     out.mkdir(parents=True, exist_ok=True)
     n_max = math.ceil(duration / interval) if duration else None
-    k, written = 0, []
-    for sh in sheets:
+    k, written, blank = 0, [], 0
+    for si, sh in enumerate(sheets):
         im = Image.open(sh).convert("RGB")
         cw, ch = im.width // cols, im.height // rows
+        cells = []
         for r in range(rows):
             for c in range(cols):
-                if n_max is not None and k >= n_max:
-                    break
-                cell = im.crop((c * cw, r * ch, (c + 1) * cw, (r + 1) * ch))
-                lo, hi = cell.convert("L").getextrema()
-                if hi < 4:              # 마지막 시트의 빈 칸
-                    k += 1
-                    continue
-                p = out / f"t{round(k * interval):05d}.jpg"
-                fit(cell).save(p, quality=92)
-                written.append(p)
-                k += 1
-    ratio = change_ratio(written)
+                cells.append(im.crop((c * cw, r * ch, (c + 1) * cw, (r + 1) * ch)))
+        if si == len(sheets) - 1 and n_max is None:
+            # 길이를 모르면 마지막 시트 끝의 빈 칸(완전한 검정)만 버린다. 영상 중간의 검은 화면은 프레임으로 남긴다.
+            while cells and cells[-1].convert("L").getextrema()[1] < 4:
+                cells.pop()
+                blank += 1
+        for cell in cells:
+            if n_max is not None and k >= n_max:
+                break
+            p = out / f"t{round(k * interval):05d}.jpg"
+            fit(cell).save(p, quality=92)
+            written.append(p)
+            k += 1
+    # 칸 간격이 10초보다 짧으면(짧은 영상은 약 5초) 10초에 가장 가까운 간격으로 솎아서 잰다 — parity_check 의 10초 표본과 맞춘다.
+    step = max(1, round(10 / interval))
+    ratio_cell = change_ratio(written)
+    ratio = change_ratio(written[::step])
     print(f"{vid}: 시트 {len(sheets)}장({rows}x{cols}, 간격 {interval:g}초) → 프레임 {len(written)}장 → {out}")
+    if step > 1:
+        print(f"  칸 간격({interval:.1f}초) 화면 변화율: {'측정 불가' if ratio_cell is None else f'{ratio_cell * 100:.0f}%'}, "
+              f"{step}칸마다({step * interval:.1f}초) 솎은 프레임 {len(written[::step])}장으로 10초 값을 잰다")
     print(f"10초 화면 변화율(밝기 차 > 12/255): {'측정 불가' if ratio is None else f'{ratio * 100:.0f}%'}")
     (out / "cells.json").write_text(json.dumps({"video": vid, "rows": rows, "cols": cols, "interval_s": interval,
-                                                "sheets": len(sheets), "frames": len(written), "change_ratio_10s": ratio,
+                                                "sheets": len(sheets), "frames": len(written), "step_10s": step,
+                                                "frames_10s": [p.name for p in written[::step]],
+                                                "change_ratio_cell": ratio_cell, "change_ratio_10s": ratio,
                                                 "format": meta.get("format")}, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
