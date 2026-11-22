@@ -113,6 +113,7 @@ def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens
       focus   [(caption index, cx, cy, r)] amber rings drawn on the photo at that caption; cx, cy, r in 0..1 of photo width/height
       caption small line under the print, e.g. "1948년 12월, 남호주 경찰 사진"
       credit  licence line, bottom right, e.g. "South Australia Police · 퍼블릭 도메인"
+      cls     extra class on this shot (style it with the css argument), e.g. a darker map
     """
     def t_of(v):
         return q[v] if isinstance(v, int) else float(v)
@@ -146,7 +147,7 @@ def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens
         cap = f'<div class="ar-cap">{s["caption"]}</div>' if s.get("caption") else ""
         cred = f'<div class="ar-credit">{s["credit"]}</div>' if s.get("credit") else ""
         cam = f'<div id="{sid}-cam{k}" class="ar-cam">{fig}</div>'
-        markup.append(clip(f"{sid}-ph{k}", round(t0, 2), t1 - t0, "ar-shot", cam + cap + cred))
+        markup.append(clip(f"{sid}-ph{k}", round(t0, 2), t1 - t0, "ar-shot " + s.get("cls", ""), cam + cap + cred))
         s0, s1 = s.get("push", (1.0, 1.07))
         dx, dy = s.get("pan", (0, 0))
         tw.append(f'    tl.fromTo("#{sid}-cam{k}", {{ scale: {s0}, x: 0, y: 0 }}, '
@@ -162,7 +163,8 @@ def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens
     .ar-img {{ display: block; }}
     .ar-ring {{ position: absolute; left: 0; top: 0; overflow: visible; }}
     .ar-ring ellipse {{ fill: none; stroke: {AMBER}; stroke-width: 7; stroke-linecap: round; }}
-    .ar-cap {{ position: absolute; left: 0; right: 0; top: 830px; text-align: center; font-size: 32px; color: rgba(233,229,221,.9); }}
+    .ar-cap {{ position: absolute; left: 0; right: 0; top: 806px; text-align: center; font-size: 44px; color: rgba(243,240,234,.95);
+      text-shadow: 0 0 3px #000, 0 2px 10px #000; }}
     .ar-credit {{ position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }}
     .tag-ar {{ border-color: {AMBER}; }}"""
     script = ("    const tl = gsap.timeline({ paused: true });\n" + "\n".join(tw) + "\n" + tweens +
@@ -211,7 +213,8 @@ def archive_insert(sid, at, src, size, dur=3.0, focus=None, caption="", credit="
     .ar-img {{ display: block; }}
     .ar-ring {{ position: absolute; left: 0; top: 0; overflow: visible; }}
     .ar-ring ellipse {{ fill: none; stroke: {AMBER}; stroke-width: 7; stroke-linecap: round; }}
-    .ar-cap {{ position: absolute; left: 0; right: 0; top: 830px; text-align: center; font-size: 32px; color: rgba(233,229,221,.9); }}
+    .ar-cap {{ position: absolute; left: 0; right: 0; top: 806px; text-align: center; font-size: 44px; color: rgba(243,240,234,.95);
+      text-shadow: 0 0 3px #000, 0 2px 10px #000; }}
     .ar-credit {{ position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }}
     .tag-ar {{ border-color: {AMBER}; }}"""
     return markup, css, "\n".join(tw)
