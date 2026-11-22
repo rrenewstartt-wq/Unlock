@@ -2,6 +2,7 @@
 
 담당 fact-checker, 검수 source-verifier. ✅ = 원문 확인, ⚠️ = 요약·2차 자료에서만 확인 또는 자료끼리 다름(업로드 전 0), ❌ = 틀린 통념(쓰지 않음).
 자막과 사실의 연결은 data/fact_map.json {"captions": {"<자막>": ["F01"]}} — parity_check "자막 근거 연결".
+집계(2026-11-22 표본 대조 반영): 사실 행 139개(F01~F132와 보충 행 a) — ✅ 128 · ⚠️ 11(F115 는 월만 ⚠️ 라 ⚠️ 로 셈) / 틀린 통념 ❌ 11개(X01~X11).
 
 표기 규칙(위험 검토): 함께 있던 여성은 이 문서에서도 **"동행 여성"** 으로만 쓴다. 판결문·기사에 나오는 그녀의 이름·가명·이후 이름은 '이름 생략'.
 사건과 무관한 제3자(사진을 맡아 준 지인, 수색 참가 민간인, 유골 발견 부부)도 이름을 쓰지 않는다.
@@ -60,7 +61,7 @@
 | F21 | 최신 장비를 갖추고 2년 항해 채비를 한 배 | [1] ¶3 「with state-of-the-art technology, outfitted for a two-year cruise」 | ✅ |
 | F22 | 식량과 물자가 넉넉했고 공구실까지 갖춘 배 | [5]·[4] 「stocked with abundant food and stores, and fitted with a complete tool shop」 | ✅ |
 | F23 | 부부는 2년 넘게 이 항해를 준비했다 | [5]·[4] 「The Grahams had spent over two years planning the trip and provisioning the Sea Wind」 | ✅ |
-| F24 | 두 배는 4~5일 차이로 도착했고, 정박 전까지 두 배 사람들은 서로 접촉이 없었다 | [5] 「arrived at Palmyra four or five days apart and that their respective crews had no contact until the two vessels were moored」 | ✅ |
+| F24 | 두 배는 며칠 차이로 도착했고, 정박 전까지 두 배 사람들은 서로 접촉이 없었다 | [5] 「arrived at Palmyra four or five days apart and that their respective crews had no contact until the two vessels were moored」. 판결의 「four or five days」는 F11(6/25~26)·F19(7/1)로 계산한 5~6일과 어긋나므로 숫자는 화면에 쓰지 않음 | ✅(숫자 뺀 문장) |
 | F25 | 두 팀은 가장 큰 섬 쿠퍼섬 뭍에 각자 야영지를 차렸다 | [4] THE 1974 INVESTIGATION 「Cooper Island, the largest island in the group, where the Grahams and [이름 생략] and Walker had camped on shore」 | ✅ |
 
 ### 2. 섬 생활과 마지막 무선 교신 (1974년 8월)
@@ -84,7 +85,7 @@
 | F37 | 법정에 나온 사진 5장: 파랑·흰색 Iola 가 끌려가지 않고 돛을 다 펴고 먼바다를 달리는 모습 | [5] 「Each photograph shows a blue and white sailboat, not in tow, but under full sail at open sea」 ; 「the blue and white craft in the five photographs is the Iola」 | ✅ |
 | F38 | 한 장에는 앞쪽에 Sea Wind 의 갑판과 빨간 보호 그물이 찍혀 있었다 | [5] 「A fourth photograph is taken from a second vessel … attached to its gunwales is a red protective net」「the second vessel … is the Sea Wind」 | ✅ |
 | F39 | 빨간 그물은 원래 Iola 에 달려 있던 것 — 개들이 배 밖으로 떨어지지 않게 친 그물 | [5] 「the Iola was equipped with the red net to prevent [이름 생략]' and Walker's dogs from falling overboard」「the net on the Sea Wind … was the same net that had been on the Iola」 | ✅ |
-| F40 | 법원은 이 사진들이 하와이로 돌아가는 길, Sea Wind 에서 찍혔다고 보았다(사진의 시간·장소 인정) | [5] 「all five pictures of the Iola under its own sail were taken … from the Sea Wind on the return voyage to Hawaii and at open sea, away from the channel」 | ✅ |
+| F40 | 법원은 이 사진들이 하와이로 돌아가는 길에 Sea Wind 에서 찍힌 것으로 볼 수 있다고 했다(증거 채택 근거로서의 추론) | [5] 「It is reasonable to infer, therefore, that all five pictures of the Iola under its own sail were taken … from the Sea Wind on the return voyage to Hawaii and at open sea, away from the channel」 | ✅ |
 | F41 | Iola 가 팔미라 수로를 떠난 것은 1974년 9월 | [5] 「after the Iola had left the Palmyra channel in September 1974」 | ✅ |
 | F42 | Iola 침몰 날짜 '9월 11일' | 위키·블로그만. 1차는 「September 1974」([5])까지 | ⚠️ → 날짜 빼고 "9월"로 |
 | F43 | 1차 재판의 쟁점: 배를 훔칠 마음을 팔미라를 떠나기 전에 먹었나, 하와이로 가는 길에 먹었나 | [2] ¶9 「whether Walker had intended to steal the Sea Wind at the time he sailed it from Palmyra, or whether an intent to steal was formed at some later point in the voyage」 | ✅ |
@@ -129,18 +130,18 @@
 | F68 | 두 사람은 절도와 도품 주간(州間) 운송 혐의로 기소됐다 | [1] ¶7 「indicted on charges of theft and interstate transportation of stolen property」 | ✅ |
 | F69 | 워커는 나중에 따로 기소돼 따로 재판을 받았다 | [1] ¶7 「Walker later was dismissed from the first indictment and indicted separately」 ; [2] 각주1 「She was convicted in a separate trial」 | ✅ |
 | F70 | 워커의 죄목은 Sea Wind 절도, 도품 운송, 여권 신청서 허위 기재 — 세 가지 모두 배심 유죄 | [2] ¶1 「theft … 18 U.S.C. § 661 … transporting stolen property … § 2314 … false statement in an application for a passport … § 1542. Walker was convicted on all three counts」 | ✅ |
-| F71 | 유죄 평결은 1975년 8월 | [11] 「convicted in August 1975」 ; [4] 「the theft count of the 1975 indictment」(기소 1975년) | ✅(주요 언론, 1차는 '1975년 기소'까지) |
-| F72 | 재판 중 배심원단은 '훔칠 마음을 하와이 가는 길에 먹었다면 무죄냐'고 판사에게 물었다 | [2] ¶11 「If we were to determine that the intent occurred at a later time on the trip to Hawaii, would that necessitate a not guilty verdict on Count I?」 | ✅ |
+| F71 | 절도 재판·유죄 평결 시기: 애드버타이저(2010)는 두 사람 모두 「1975년 8월」, 1차는 동행 여성 재판이 1975년 6월, 워커 재판 시기는 1차에 없음 | [11] 「convicted in August 1975」(두 사람 주어, 단독) ; [5] 각주1 「The trial in this action took place in June 1975」(동행 여성 재판) ; [4] 「the theft count of the 1975 indictment」 | ⚠️ → 화면은 "1975년 재판에서 유죄"까지(월 빼기) |
+| F72 | 평의 중 배심원단은 '훔칠 마음을 하와이 가는 길에 먹었다면 무죄냐'고 판사에게 물었다 | [2] ¶11 「If we were to determine that the intent occurred at a later time on the trip to Hawaii, would that necessitate a not guilty verdict on Count I?」 | ✅ |
 | F73 | 증거 사진의 길: 호놀룰루 약국에 맡긴 필름 → 지인이 찾아 우편으로 → 다른 지인이 할라와 구치소에 → 검사 후 FBI 가 영장으로 압수 | [2] ¶2–5 「delivered for processing to a drug store in Honolulu」「mailed the folder of photographs … in an 8 X 10 brown manila envelope」「took the brown envelope … to Halawa Jail」「Hamilton seized the envelope and the photographs」(지인 이름 생략) | ✅ |
 | F74 | 사진 중 일부는 워커가 찍었다 | [2] ¶2 「Walker took some of the pictures」 ; 각주3 「some of them had been taken by Walker」 | ✅ |
 | F75 | 1978년 1월 13일 항소법원은 워커의 절도 유죄를 파기 — 배심원 질문에 대한 판사 답변이 혼란을 줬다는 이유 | [2] ¶20 「We therefore reverse the appellant's conviction on count I」 ; ¶29 「The judgment of conviction on count I is REVERSED」 ; 선고일 머리말 「Jan. 13, 1978」 | ✅ |
 | F76 | 도품 운송 유죄는 유지됐다 | [2] ¶29 「The judgment of conviction on count II is AFFIRMED」 ; [4] 「His convictions for transporting stolen property and making false statements were affirmed」 | ✅ |
-| F77 | 파기된 절도 혐의는 그 뒤 신속재판 위반으로 기각됐다(1982년, 유골 발견 뒤) | [1] ¶7 「His theft charge eventually was dismissed on speedy trial grounds」 ; [4] 「I recently dismissed the theft count of the 1975 indictment on Constitutional and Speedy Trial Act grounds」 | ✅ |
+| F77 | 파기된 절도 혐의는 유골 발견 뒤 신속재판 위반으로 기각됐다(연도는 판결에 없음) | [1] ¶7 「His theft charge eventually was dismissed on speedy trial grounds」 ; [4] 「I recently dismissed the theft count of the 1975 indictment on Constitutional and Speedy Trial Act grounds」 | ✅ |
 | F78 | 워커가 받은 형은 징역 10년 | [10] 「Walker served 42-months of a 10 year sentence before escaping」 | ✅(주요 언론 2007, 당시 판결 원문 없음 — "10년형을 받았다(보도)"로) |
 | F79 | 동행 여성은 1975년 별도 재판에서 절도·운송 유죄, 징역 2년(+보호관찰 5년) | [5] 「Appellant was sentenced to imprisonment for two years on count I and to probation for five years on counts II and III」 ; [10] 「served seven months of a two-year sentence」 | ✅ |
 | F80 | 워커는 42개월을 복역한 뒤 탈옥했다 | [10] 「served 42-months of a 10 year sentence before escaping」 | ✅(주요 언론) |
 | F80a | 탈옥 장소·날짜(맥닐섬 연방교도소, 1979년 7월) | 위키만. 1차·주요 언론 원문 못 찾음 | ⚠️ → "탈옥했다"까지만, 장소·날짜 빼기 |
-| F81 | 워커는 뒤에 애리조나의 마약 함정수사에서 다시 붙잡혔다 | [10] 「He was arrested later in a drug sting in Arizona」 ; [11] 「arrested in Arizona」 | ✅(주요 언론, 날짜 없음) |
+| F81 | 워커는 뒤에 애리조나의 마약 함정수사에서 다시 붙잡혔다 | [10] 「He was arrested later in a drug sting in Arizona」 | ✅(주요 언론 [10] 단독, 날짜 없음. [11]의 「arrested in Arizona」는 1981년 살인 혐의 체포 문장이라 근거에서 뺌) |
 | F82 | 워커의 별도 기소장에는 마약 사건 보석 도주 혐의도 있었다(이 혐의는 기각) | [4] 각주3 「The fourth count, relating to bail jumping on a drug charge, was dismissed」 | ✅ |
 
 ### 7. 1981년 유골 발견
@@ -149,15 +150,15 @@
 | F83 | 1981년 2월, 팔미라에 온 다른 항해자들이 엘리너 그레이엄의 유골을 발견했다 | [4] INTRODUCTION 「Mrs. Graham's skeletal remains were discovered on Palmyra by other sailors in February of 1981」 | ✅ |
 | F84 | 발견한 사람은 팔미라를 찾은 한 부부 | [1] ¶8 「A couple visiting Palmyra」 | ✅ |
 | F84a | 발견 부부의 국적('남아공') | 위키만 | ⚠️ → 국적 쓰지 않음 |
-| F85 | 그 부부는 가라앉아 있던 비행기용 구조선을 끌어올렸다 | [1] ¶8 「raised a sunken airplane rescue boat」 | ✅ |
+| F85 | 그 부부는 물에 가라앉아 있던 항공기 구조선(rescue boat)을 끌어올렸다 | [1] ¶8 「raised a sunken airplane rescue boat」 | ✅ |
 | F86 | 2주 뒤, 근처 산호 턱(얕은 산호 바닥)에서 두개골과 뼈 일부를 찾았다 | [1] ¶8 「Two weeks later, they found Mrs. Graham's skull and some bones on a coral shelf nearby」 | ✅(실사·클로즈업 금지) |
 | F87 | 발견 장소는 석호 북서쪽 모퉁이 물가의 산호 턱 | [4] THE 1974 INVESTIGATION 「washed up on the coral shelf near the shore of the northwest corner of the lagoon」 | ✅ |
 | F88 | 유골은 뚜껑 달린 금속 상자 안과 그 둘레에서 나왔다 | [4] 「discovered in and around a metal container (with a lid)」 | ✅ |
 | F89 | 금속 상자는 전선으로 묶여 닫혀 있었다 | [1] ¶8 「A metal box that had been closed with electrical wire still held at least one of the bones」 | ✅ |
 | F90 | 상자는 물에 밀려 올라온 것으로 보였다 | [4] 「that had apparently washed up on the coral shelf」 | ✅ |
 | F91 | 법원: 유골은 1974년엔 산호 턱이 아니라 석호 물속에 가라앉아 있었던 것으로 보인다 | [4] III 「The facts surrounding the discovery … indicate they were sunk in the lagoon and not on the coral shelf in 1974」 | ✅ |
-| F92 | 그 상자는 구조선에 보급품을 넣어 두던 종류의 상자였다 | [4] 각주8 「the container found with Mrs. Graham's remains is of the type used to store supplies aboard the rescue boat」 | ✅ |
-| F93 | 그 구조선은 1974년 10월엔 창고 건물 안에 있었고, 뒤에 수상기 경사로 끝에 가라앉혀졌다가 다시 떠올려졌다(양측 합의 사실) | [4] 각주9 「The parties agree that the rescue boat was present in the storage building in October of 1974, was later removed and sunk at the end of the seaplane ramp, and still later was refloated」 | ✅ |
+| F92 | 그 상자는 항공기 구조선에 보급품을 넣어 두던 종류의 상자였다 | [4] 각주8 「the container found with Mrs. Graham's remains is of the type used to store supplies aboard the rescue boat」 | ✅ |
+| F93 | 그 항공기 구조선은 1974년 10월엔 창고 건물 안에 있었고, 뒤에 수상기 경사로 끝에 가라앉혀졌다가 다시 떠올려졌다(양측 합의 사실) | [4] 각주9 「The parties agree that the rescue boat was present in the storage building in October of 1974, was later removed and sunk at the end of the seaplane ramp, and still later was refloated」 | ✅ |
 | F94 | 유골은 치과 기록으로 엘리너 그레이엄으로 확인됐다 | [11] 「Inside were Eleanor Graham's remains, identified with dental records」 | ✅(주요 언론) |
 | F95 | FBI 는 1974년 이후 이때(1981년 2월) 처음 팔미라로 돌아갔다 | [4] 「The FBI did not return to Palmyra until February 1981」 | ✅ |
 | F96 | 실종에서 유골 발견까지 약 6년 반 | 계산: 1974-08(마지막 교신 8/28) → 1981-02 = 6년 5~6개월 → "약 6년 반" | ✅(계산) |
@@ -166,15 +167,15 @@
 ### 8. 1981년 살인 기소와 이중위험 쟁점 (1981~1984)
 | ID | 사실(자막이 될 단위, 한 줄) | 출처(#·쪽·원문 짧은 인용) | 상태 |
 |---|---|---|---|
-| F98 | 1981년, 두 사람은 엘리너 그레이엄 살인 혐의로 기소됐다(1급 살인, 18 U.S.C. §1111) | [4] INTRODUCTION 「indicted in 1981 for the first degree murder of Eleanor Graham in violation of 18 U.S.C. § 1111」 ; [1] ¶2 | ✅ |
-| F99 | 기소 죄목은 '강도 중 살인(felony murder)' — 강도 과정에서 사람을 죽였다는 혐의 | [1] ¶2 「indicted for felony (robbery) murder」 ; [4] 「"during the perpetration of or attempt to perpetrate a burglary or robbery"」(이후 burglary 부분은 철회, 각주1) | ✅ |
+| F98 | 1981년, 두 사람은 엘리너 그레이엄 살인 혐의로 기소됐다(1급 살인, 18 U.S.C. §1111) — **화면에서 반드시 F119(동행 여성 무죄)와 짝** | [4] INTRODUCTION 「indicted in 1981 for the first degree murder of Eleanor Graham in violation of 18 U.S.C. § 1111」 ; [1] ¶2 | ✅ |
+| F99 | 기소 죄목은 '강도 중 살인(felony murder)' — 강도 과정에서 사람을 죽였다는 혐의 — **화면에서 반드시 F119(동행 여성 무죄)와 짝** | [1] ¶2 「indicted for felony (robbery) murder」 ; [4] 「"during the perpetration of or attempt to perpetrate a burglary or robbery"」(이후 burglary 부분은 철회, 각주1) | ✅ |
 | F100 | 살인 기소는 맥이 아니라 엘리너 한 사람에 대한 것 | [4] INTRODUCTION 「first degree murder of Eleanor Graham」 | ✅ |
 | F101 | 피고인 측 주장: 이미 배 절도로 처벌받았으니 같은 일로 두 번 재판할 수 없다(이중위험) | [1] ¶11 「because theft is a lesser-included offense of felony (robbery) murder, the theft prosecutions preclude the present prosecutions」 | ✅ |
 | F102 | 미국 수정헌법 5조: 같은 범죄로 생명·신체의 위험에 두 번 처해지지 않는다 | [1] ¶12 「No person shall … be subject for the same offence to be twice put in jeopardy of life or limb」 | ✅ |
 | F103 | 1982년 3월 12일 호놀룰루에서 각하 신청 심리가 열렸다 | [4] 「a hearing on the motions to dismiss held March 12, 1982 at Honolulu, Hawaii」 | ✅ |
 | F104 | 1982년 9월 7일 하와이 연방지법은 각하 신청을 기각했다 — 1974년 수색은 충분히 성실했다 | [4] 머리말 「Sept. 7, 1982」; III 끝 「The motion to dismiss the murder indictment on the ground of double jeopardy is DENIED」 | ✅ |
 | F105 | 예외의 조건: 성실히 수사했는데도 처음엔 더 무거운 죄의 사실을 찾지 못한 경우 | [1] ¶21 「if the government was unable to prosecute the greater charge at the outset because the facts to sustain that charge were not discovered despite the exercise of due diligence」 | ✅ |
-| F106 | 그때까지 이 예외를 근거로 나중 재판을 허용한 하급 법원은 없었다 | [1] ¶16 「Several lower courts have noted this exception, but none has relied on it to sustain a later prosecution」 | ✅ |
+| F106 | 항소법원은 '여러 하급 법원이 이 예외를 언급했지만 이를 근거로 나중 재판을 허용한 곳은 없었다'고 적었다 | [1] ¶16 「Several lower courts have noted this exception, but none has relied on it to sustain a later prosecution」 | ✅ |
 | F107 | 1983년 5월 31일 제9순회항소법원이 하급심을 유지 — 살인 재판의 길이 열렸다 | [1] 머리말 「Decided May 31, 1983」; ¶22 「the Double Jeopardy Clause does not bar these prosecutions」 ; ¶32 「AFFIRMED」 | ✅ |
 | F108 | 연방대법원은 1984년 상고를 받아들이지 않았다 | [3] ¶1 「707 F.2d 391 (9th Cir.1983), cert. denied, 464 U.S. 1047 … (1984)」 | ✅ |
 | F109 | 1981년 7월 NYT 보도 「Mystery on Pacific Atoll Leads to Murder Charge」 | [15] URL 날짜·제목만, 본문 막힘 | ⚠️ → 화면에 기사 내용 쓰지 않음(제목 인용도 보류) |
@@ -231,7 +232,7 @@
 
 ## 일부러 쓰지 않은 것
 - **동행 여성의 실명·별칭·가명·이후 이름·거주지·생존 여부**: 판결문 사건명과 본문, 기사에 실명이 있지만 이 문서와 화면에서는 '동행 여성'. 1975년 재판 때 쓴 가명(판결문 머리말·[2] ¶2), 그녀 쪽 변호인단 명단, 이후 개명·거주지 보도는 모으지 않았다. 워커가 쓴 가명([1] 머리말)도 그녀의 가명과 성이 같으므로 쓰지 않는다.
-- **동행 여성의 관여를 암시하는 것**: 1983년 판결의 그녀 형량 공제 논의([1] ¶18), 정부의 형량·유죄 협상, 검찰의 공모 가설, 그녀의 법정 증언 내용(사진에 관한 「delphic statements」, [5] 각주), 체포 경위 세부. 그녀에 대해서는 "절도·운송 유죄(2년)"와 "살인 무죄"만 쓴다. 관여 추측 자료(책·블로그·다큐 해석)는 모으지 않았다.
+- **동행 여성의 관여를 암시하는 것**: 1983년 판결의 그녀 형량 공제 논의([1] ¶18), 정부의 형량·유죄 협상, 검찰의 공모 가설, 그녀의 법정 증언 내용(사진에 관한 「delphic statements」, [5] 각주), 체포 경위 세부. 그녀에 대해서는 절도 사건 법원 기록(증언·주장·사진: F17, F32~F34, F37~F40)과 판결(절도·운송 유죄 2년, 살인 무죄)만, 살인 관여를 암시하지 않게 쓴다. 관여 추측 자료(책·블로그·다큐 해석)는 모으지 않았다.
 - **유골 상태·화상**: 상자와 뼈가 「very high temperatures」에 노출됐다는 법원 서술([1] ¶8, [4] 각주8), 'partially burned', 'burned and battered'(UPI) 등. 법원이 인정한 사실이지만 자극적 세부라 자막·그림에 쓰지 않는다. 유골·두개골 실사, 법의학 사진도 쓰지 않는다.
 - **살해 방법·장소·시각**: 어떤 판결도 사실로 확정해 공개하지 않았다. 검찰 가설("시신을 태웠다" 등)도 쓰지 않는다.
 - **맥 그레이엄 살해 단정**: 기소·판결 없음.
