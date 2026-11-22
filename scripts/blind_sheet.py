@@ -12,11 +12,13 @@
     # 3) Sheets: per area, 2 ours + 2 reference in random order on a 2x2 sheet, labels A~D only
     python3 scripts/blind_sheet.py sheet <ep> --area 3d --ours <ours...> --ref <ref frames...> [--n 3]
     python3 scripts/blind_sheet.py sheet <ep> --area 3d --ours-dir .../ours --ref-from-pack     # reference = pack frames of kind 3d
+    python3 scripts/blind_sheet.py sheet <ep> --area 3d --ours-dir .../ours --tag 3d --ref-list raw/blind/<ep>/ref_frames.json
         → raw/blind/<ep>/sheets/<area>-<k>.jpg   (give ONLY this folder to the judge)
           raw/blind/<ep>/answers.json             (which cell is ours; open after the judgement)
 
 Fairness: every cell is fitted to 320x180 (the storyboard size) and our cells are re-encoded once as JPEG
-(--ours-q, default 55) so sharpness or compression does not give them away. Labels sit in a strip above each cell.
+(--ours-q, default 55) so sharpness or compression does not give them away. The burned-in subtitle band (bottom 15 %)
+is cropped from every cell (--crop-bottom) so subtitle fonts do not give them away. Labels sit in a strip above each cell.
 """
 import argparse
 import datetime
@@ -208,6 +210,8 @@ def cmd_sheet(a):
     refs = [pathlib.Path(p) for p in (a.ref or [])]
     if a.ref_from_pack:
         refs += ref_from_pack(area)
+    if a.ref_list:
+        refs += [pathlib.Path(x) for x in json.loads(pathlib.Path(a.ref_list).read_text(encoding="utf-8"))["areas"].get(area, [])]
     if len(ours) < 2 or len(refs) < 2:
         sys.exit(f"시트 한 장에 우리 2장 + 레퍼런스 2장이 필요합니다 (우리 {len(ours)}, 레퍼런스 {len(refs)})")
     if a.n < 3:
@@ -234,6 +238,9 @@ def cmd_sheet(a):
             im = fit(Image.open(p))
             if side == "ours" and a.ours_q:
                 im = degrade(im, a.ours_q)
+            if a.crop_bottom:
+                # 하단 자막 띠를 양쪽 똑같이 잘라 낸다(자막 글꼴·크기로 정답이 드러나지 않게). 칸 크기는 다시 320x180 으로.
+                im = fit(im.crop((0, 0, CW, round(CH * (1 - a.crop_bottom)))))
             cells.append(im)
         key = f"{area}-{k + 1}"
         path = sdir / f"{key}.jpg"
@@ -243,7 +250,7 @@ def cmd_sheet(a):
             "ours": [lab for lab, (side, _) in zip(labels, items) if side == "ours"],
             "cells": {lab: {"side": side, "src": str(p.resolve().relative_to(HERE)) if p.resolve().is_relative_to(HERE) else str(p)}
                       for lab, (side, p) in zip(labels, items)},
-            "ours_jpeg_q": a.ours_q, "created": datetime.datetime.now().isoformat(timespec="seconds"),
+            "ours_jpeg_q": a.ours_q, "crop_bottom": a.crop_bottom, "created": datetime.datetime.now().isoformat(timespec="seconds"),
         }
         made.append(path)
     ans_path.write_text(json.dumps(answers, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -280,8 +287,10 @@ def main():
     s.add_argument("--tag", help="--ours-dir 에서 이 접두사 파일만")
     s.add_argument("--ref", nargs="*")
     s.add_argument("--ref-from-pack", action="store_true", help="reference-pack.json 에서 kind == area 인 프레임")
+    s.add_argument("--ref-list", help='고른 레퍼런스 프레임 목록 JSON({"areas": {"3d": [경로...]}}, 예: raw/blind/<ep>/ref_frames.json)')
     s.add_argument("--n", type=int, default=3, help="시트 수(기본 3)")
     s.add_argument("--seed", type=int, help="재현용(기본: 무작위)")
+    s.add_argument("--crop-bottom", type=float, default=0.15, help="양쪽 칸 아래쪽 자막 띠를 이 비율만큼 잘라 냄(0 이면 안 함)")
     s.add_argument("--ours-q", type=int, default=55, help="우리 칸을 한 번 JPEG 로 다시 저장할 품질(0 이면 안 함)")
     a = ap.parse_args()
     if a.cmd == "ours":

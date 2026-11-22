@@ -1,48 +1,733 @@
 {
  "handle": "@unlock_kr",
- "updated": "2026-11-21",
+ "updated": "2026-11-22",
  "by": "reference-analyst",
  "rule": "파생 수치·분류만 커밋한다. 자막 문장·그림 내용·이미지는 raw/ 에만(docs/originality.md).",
  "collection": {
-  "date": "2026-11-21",
-  "method": "python3 scripts/benchmark.py @unlock_kr (yt-dlp, 공개 경로, 쿠키·우회 없음)",
-  "result": "blocked",
-  "detail": "채널 목록 info.json 1개만 받음(구독자 33,100, 영상 목록 0건). 개별 영상 페이지가 'Sign in to confirm you're not a bot' 봇 확인 → 영상 info.json 0/4, 자동 자막 0/4, 스토리보드 시트 0장. 우회하지 않음(CLAUDE.md 4).",
+  "date": "2026-11-22",
+  "method": "제작 책임자가 사용자 지시로 재수집: YTDLP_ARGS='--js-runtimes deno --extractor-args youtube:player_client=web_safari' python3 scripts/benchmark.py @unlock_kr --all-storyboards (쿠키 없음, CLAUDE.md 4 개정)",
+  "result": "storyboards_ok_subtitles_missing",
+  "detail": "영상 5편 info.json + 스토리보드 sb0(320x180, 3x3) 전체 68장. 자동 자막은 받지 못함. 2026-11-21 첫 시도는 봇 확인으로 0장.",
   "raw_available": {
-   "thumbnails": 4,
-   "video_info_json": 0,
+   "video_info_json": 5,
+   "storyboard_sheets": 68,
    "subtitles": 0,
-   "storyboard_sheets": 0
-  },
-  "note": "썸네일은 영상 프레임이 아니라 별도 이미지라 프레임 분류에 쓰지 않았다."
+   "thumbnails": 5
+  }
  },
  "method": {
-  "frames": "스토리보드 가장 큰 포맷(약 10초 간격, 320x180) 전부 → python3 scripts/blind_sheet.py cells <id> → raw/frames/<id>/t#####.jpg 를 Read 로 직접 보고 분류. 확실하지 않은 칸은 null.",
-  "kind": "3d(3D 재연) | diagram(2D 도식·UI·카드) | archive(실제 사진·문서·지도·영상 자료) | title(제목·막 전환 글자 화면)",
-  "fields": "figure(인물 있음) / face_visible(얼굴 이목구비가 보임) / text_on_screen none|label|panel / accent red-light|red-mark|none / set 짧은 일반 명사",
+  "frames": "스토리보드 sb0 전체 → python3 scripts/blind_sheet.py cells <id> → raw/frames/<id>/. 칸 간격이 약 5초인 짧은 영상(UV4I5My5C0E, TpyIVmDYd3k)은 2칸마다 솎아 10초 표본으로 맞춤. 대조 시트(raw/frames/_contact)를 Read 로 직접 보고 분류, 얼굴은 원본 칸을 확대해 확인.",
+  "kind": "3d(3D 재연) | diagram(2D 도식·UI·카드·지도) | archive(실제 사진·문서·영상) | title(글자만 있는 막 전환) | black(검은 화면, 영상 끝·전환) | null(판단 불가)",
+  "fields": "figure(인물 있음) / face_visible(눈·코·입이 읽히는 얼굴이 보임) / face_front(3D 인물 머리가 카메라 쪽, 3D 프레임만) / figure_style(3D 프레임만: clothed=옷·머리카락·손이 있는 인물 모델, mono=빨강·황토·흰·회색 한 색 마네킹, silhouette=검은·빛나는 실루엣) / text_on_screen(하단 자막 제외: none|label 작은 이름표·날짜|panel 글자 카드가 주인공) / accent(red-light 빨간 조명, red-mark 빨간 그래픽·빨간 단색 인물) / set 짧은 일반 명사",
   "kind_pct": "kind 별 프레임 수 / 전체 프레임 수 x 100",
   "change_ratio_10s": "이웃 프레임 160x90 회색 평균 밝기 차 > 12/255 인 비율(parity_check.frame_change_ratio 와 같은 방식, blind_sheet.py cells 가 출력)",
   "archive_frames": "kind == archive 프레임 수",
   "captions_per_min": "자동 자막 큐 수(중복 줄 제거 뒤) / 분",
   "chars_per_min": "자동 자막 글자 수 / 분 (benchmark.py)",
-  "first_question_pct": "물음표·'~까'로 끝나는 첫 문장의 자막 시각 / 영상 길이 x 100"
+  "first_question_pct": "물음표·'~까'로 끝나는 첫 문장의 자막 시각 / 영상 길이 x 100",
+  "archive_runs": "연속된 archive 프레임 묶음 수(10초 표본이라 3초짜리 사진 컷은 놓칠 수 있다 — 하한값)"
+ },
+ "conclusion_3d_figure": {
+  "summary": "3D 인물은 옷·머리카락·손이 있는 인물 모델(clothed)이 주력이지만 얼굴에 눈·코·입이 없다(매끈한 살색 얼굴). 정면·허리 위 근접에서도 같다. 여기에 한 색 마네킹(mono: 범인·용의자는 빨강, 경찰은 황토색, 군중은 흰색)과 실루엣을 섞는다.",
+  "evidence": "3D 인물 프레임 중 머리가 카메라를 향한 것(face_front) 전부에서 이목구비가 읽히지 않음. 확대 확인: kXHIhuQLRvY t187·t364·t482·t600·t678~767(취조실 허리 위 근접), t5BgBYoW_zg t79, 0pU_k2OUC1I t563, UV4I5My5C0E t79·t128·t207. 실제 자료(archive) 속 실존 인물만 얼굴이 보임.",
+  "caveat": "320px 스토리보드라 '이목구비 없음'과 '저해상도라 안 보임'을 완전히 가를 수는 없으나, 머리 높이 60px 이상인 근접(kXHIhuQLRvY 취조실)에서도 눈·코·입 음영이 전혀 없어 의도된 무안(無顔) 디자인으로 판단."
  },
  "videos": [
   {
    "video": "UV4I5My5C0E",
    "duration_s": 656,
-   "source": null,
-   "status": "frames_not_collected",
-   "frames": [],
-   "stats": {
-    "kind_pct": {
-     "3d": null,
-     "diagram": null,
-     "archive": null,
-     "title": null
+   "source": "storyboard sb0 3x3, 칸 4.93초 → 10초 표본 67장 (칸 133장 중 2칸마다) / 320px",
+   "status": "classified",
+   "frames": [
+    {
+     "t": 0,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "아파트 외경",
+     "face_front": false,
+     "figure_style": null
     },
-    "change_ratio_10s": null,
-    "archive_frames": null,
+    {
+     "t": 10,
+     "kind": "3d",
+     "figure": null,
+     "face_visible": null,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "밤길"
+    },
+    {
+     "t": 20,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "밤길",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 30,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "제방",
+     "face_front": false,
+     "figure_style": null
+    },
+    {
+     "t": 39,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-light",
+     "set": "빈 무대",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 49,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "지도"
+    },
+    {
+     "t": 59,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "문서 카드"
+    },
+    {
+     "t": 69,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "원룸",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 79,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "원룸",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 89,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "메모 카드"
+    },
+    {
+     "t": 99,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "목록"
+    },
+    {
+     "t": 109,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "목록"
+    },
+    {
+     "t": 118,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "밤길"
+    },
+    {
+     "t": 128,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "원룸",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 138,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "강변 도로"
+    },
+    {
+     "t": 148,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "제방",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 158,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 테이블"
+    },
+    {
+     "t": 168,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "부검 카드"
+    },
+    {
+     "t": 178,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "단면도"
+    },
+    {
+     "t": 187,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "들판"
+    },
+    {
+     "t": 197,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "빈 무대",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 207,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "취조실",
+     "face_front": true,
+     "figure_style": "clothed+mono"
+    },
+    {
+     "t": 217,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "증거 카드"
+    },
+    {
+     "t": 227,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "제방"
+    },
+    {
+     "t": 237,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "역 광장",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 247,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 256,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "지도"
+    },
+    {
+     "t": 266,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "지도"
+    },
+    {
+     "t": 276,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "도로"
+    },
+    {
+     "t": 286,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "도로",
+     "face_front": false,
+     "figure_style": "silhouette"
+    },
+    {
+     "t": 296,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "인물 아이콘"
+    },
+    {
+     "t": 306,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "수사본부",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 316,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "숫자 카운터"
+    },
+    {
+     "t": 326,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "기자회견장",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 335,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "수배 전단"
+    },
+    {
+     "t": 345,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "증거 카드"
+    },
+    {
+     "t": 355,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "타임라인"
+    },
+    {
+     "t": 365,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "숫자 카운터"
+    },
+    {
+     "t": 375,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 385,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "골목",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 395,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "항공 사진"
+    },
+    {
+     "t": 404,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "빈 방"
+    },
+    {
+     "t": 414,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "고가 도로"
+    },
+    {
+     "t": 424,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "증거 카드"
+    },
+    {
+     "t": 434,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "근접",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 444,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "골목",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 454,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "골목",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 464,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "공장",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 474,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "취조실",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 483,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "관계도"
+    },
+    {
+     "t": 493,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "문서 카드"
+    },
+    {
+     "t": 503,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "건물 앞"
+    },
+    {
+     "t": 513,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "모니터 화면",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 523,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "밤길"
+    },
+    {
+     "t": 533,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "밤길"
+    },
+    {
+     "t": 543,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "아이콘"
+    },
+    {
+     "t": 552,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "거리",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 562,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-light",
+     "set": "밤길",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 572,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "타임라인"
+    },
+    {
+     "t": 582,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "지도"
+    },
+    {
+     "t": 592,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "실내",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 602,
+     "kind": "archive",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "공항"
+    },
+    {
+     "t": 612,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "실내 홀",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 621,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "거리",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 631,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주택 외경"
+    },
+    {
+     "t": 641,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "제방"
+    },
+    {
+     "t": 651,
+     "kind": "black",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "검은 화면"
+    }
+   ],
+   "stats": {
+    "frames": 67,
+    "kind_pct": {
+     "3d": 62.7,
+     "diagram": 31.3,
+     "archive": 4.5,
+     "title": 0.0,
+     "black": 1.5,
+     "unclassified": 0.0
+    },
+    "change_ratio_10s": 0.985,
+    "archive_frames": 3,
+    "archive_runs": 3,
+    "first_archive_t": 335,
+    "figure_in_3d_pct": 61.9,
+    "figure_style_3d": {
+     "unknown": 2,
+     "clothed": 11,
+     "mono": 13,
+     "silhouette": 1
+    },
+    "face_front_3d": 4,
+    "face_visible_3d": 0,
+    "face_visible_archive": 0,
+    "accent_pct": {
+     "red-light": 3.0,
+     "red-mark": 29.9
+    },
+    "text_on_screen_pct": {
+     "none": 49.3,
+     "label": 34.3,
+     "panel": 16.4
+    },
     "captions_per_min": null,
     "chars_per_min": 381,
     "first_question_pct": null,
@@ -50,26 +735,1102 @@
     "jyo_pct": 49
    },
    "stats_source": {
-    "chars_per_min": "summary.json (자동 자막, 2026-11-17 수집)",
-    "questions": "summary.json 질문형(~까?) 수",
-    "jyo_pct": "summary.json 어미 수: ~죠 / (~죠 + ~습니다)"
+    "chars_per_min/questions/jyo_pct": "summary.json 자동 자막(2026-11-17 수집, 이번 재수집에서 자막은 못 받음)",
+    "change_ratio_10s": "blind_sheet.py cells (parity_check 와 같은 밝기 차 방식)"
    }
   },
   {
    "video": "0pU_k2OUC1I",
    "duration_s": 1136,
-   "source": null,
-   "status": "frames_not_collected",
-   "frames": [],
-   "stats": {
-    "kind_pct": {
-     "3d": null,
-     "diagram": null,
-     "archive": null,
-     "title": null
+   "source": "storyboard sb0 3x3, 칸 9.88초 → 10초 표본 115장 (칸 115장 중 1칸마다) / 320px",
+   "status": "classified",
+   "frames": [
+    {
+     "t": 0,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-light",
+     "set": "주택 외경"
     },
-    "change_ratio_10s": null,
-    "archive_frames": null,
+    {
+     "t": 10,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "차고"
+    },
+    {
+     "t": 20,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "지하 통로"
+    },
+    {
+     "t": 30,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "금속 문"
+    },
+    {
+     "t": 40,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-light",
+     "set": "지하 방"
+    },
+    {
+     "t": 49,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "현장 사진"
+    },
+    {
+     "t": 59,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "신문 그래픽"
+    },
+    {
+     "t": 69,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "현장 사진"
+    },
+    {
+     "t": 79,
+     "kind": "archive",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "거리 사진"
+    },
+    {
+     "t": 89,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "법정"
+    },
+    {
+     "t": 99,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "카드"
+    },
+    {
+     "t": 109,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "지도"
+    },
+    {
+     "t": 119,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "지도"
+    },
+    {
+     "t": 128,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "지도"
+    },
+    {
+     "t": 138,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 카드"
+    },
+    {
+     "t": 148,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "지도"
+    },
+    {
+     "t": 158,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "경기장 도식"
+    },
+    {
+     "t": 168,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "경기장 도식"
+    },
+    {
+     "t": 178,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "도식"
+    },
+    {
+     "t": 188,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 198,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "CCTV 화면"
+    },
+    {
+     "t": 207,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "교차로 도식"
+    },
+    {
+     "t": 217,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "교차로 도식"
+    },
+    {
+     "t": 227,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-light",
+     "set": "건물 앞",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 237,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "관계도"
+    },
+    {
+     "t": 247,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-light",
+     "set": "주택 외경"
+    },
+    {
+     "t": 257,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 267,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "숲길"
+    },
+    {
+     "t": 277,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "주택 사진"
+    },
+    {
+     "t": 286,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-light",
+     "set": "차고"
+    },
+    {
+     "t": 296,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "차고"
+    },
+    {
+     "t": 306,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "지하 방"
+    },
+    {
+     "t": 316,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "휴대폰 UI"
+    },
+    {
+     "t": 326,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "지도"
+    },
+    {
+     "t": 336,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "거리",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 346,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "메신저 UI"
+    },
+    {
+     "t": 356,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "휴대폰 UI"
+    },
+    {
+     "t": 365,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "지하 방",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 375,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "법정"
+    },
+    {
+     "t": 385,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 395,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "메신저 UI"
+    },
+    {
+     "t": 405,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "음성 파형"
+    },
+    {
+     "t": 415,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "음성 파형"
+    },
+    {
+     "t": 425,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "지도"
+    },
+    {
+     "t": 435,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "지도"
+    },
+    {
+     "t": 445,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "휴대폰 UI"
+    },
+    {
+     "t": 454,
+     "kind": "3d",
+     "figure": null,
+     "face_visible": null,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주차장"
+    },
+    {
+     "t": 464,
+     "kind": "3d",
+     "figure": null,
+     "face_visible": null,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주택 외경"
+    },
+    {
+     "t": 474,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "아이콘"
+    },
+    {
+     "t": 484,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "지하 방"
+    },
+    {
+     "t": 494,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 504,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 카드"
+    },
+    {
+     "t": 514,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 카드"
+    },
+    {
+     "t": 524,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 카드"
+    },
+    {
+     "t": 533,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "지도"
+    },
+    {
+     "t": 543,
+     "kind": null,
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "빈 보드"
+    },
+    {
+     "t": 553,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 563,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "빈 방",
+     "face_front": true,
+     "figure_style": "mono"
+    },
+    {
+     "t": 573,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "휴대폰 UI"
+    },
+    {
+     "t": 583,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "지도"
+    },
+    {
+     "t": 593,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "네트워크 도식"
+    },
+    {
+     "t": 603,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "서버실"
+    },
+    {
+     "t": 612,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "서버실"
+    },
+    {
+     "t": 622,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "데이터 벽"
+    },
+    {
+     "t": 632,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "모니터"
+    },
+    {
+     "t": 642,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "관계도"
+    },
+    {
+     "t": 652,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "메신저 UI"
+    },
+    {
+     "t": 662,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "메신저 UI"
+    },
+    {
+     "t": 672,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "메신저 UI"
+    },
+    {
+     "t": 682,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "사무실",
+     "face_front": false,
+     "figure_style": "mono"
+    },
+    {
+     "t": 691,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "휴대폰 UI"
+    },
+    {
+     "t": 701,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "도시 전경"
+    },
+    {
+     "t": 711,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내",
+     "face_front": false,
+     "figure_style": null
+    },
+    {
+     "t": 721,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주택 외경"
+    },
+    {
+     "t": 731,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "구덩이"
+    },
+    {
+     "t": 741,
+     "kind": "archive",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "현장 영상"
+    },
+    {
+     "t": 751,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주택 외경",
+     "face_front": true,
+     "figure_style": "mono"
+    },
+    {
+     "t": 761,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 771,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "현장 영상"
+    },
+    {
+     "t": 780,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "현장 영상"
+    },
+    {
+     "t": 790,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "서류 카드"
+    },
+    {
+     "t": 800,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "건물 아이콘"
+    },
+    {
+     "t": 810,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "기자회견 도식"
+    },
+    {
+     "t": 820,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "타임라인"
+    },
+    {
+     "t": 830,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "타임라인"
+    },
+    {
+     "t": 840,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "타임라인"
+    },
+    {
+     "t": 850,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "타임라인"
+    },
+    {
+     "t": 859,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "주택 외경"
+    },
+    {
+     "t": 869,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "서류 카드"
+    },
+    {
+     "t": 879,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "지도"
+    },
+    {
+     "t": 889,
+     "kind": null,
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "항공 전경"
+    },
+    {
+     "t": 899,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-light",
+     "set": "실내",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 909,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "인물 아이콘"
+    },
+    {
+     "t": 919,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 아이콘"
+    },
+    {
+     "t": 929,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "인물 아이콘"
+    },
+    {
+     "t": 938,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "인용 카드"
+    },
+    {
+     "t": 948,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "메신저 UI"
+    },
+    {
+     "t": 958,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "메신저 UI"
+    },
+    {
+     "t": 968,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 978,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "위계 도식"
+    },
+    {
+     "t": 988,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "위계 도식"
+    },
+    {
+     "t": 998,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "위계 도식"
+    },
+    {
+     "t": 1008,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "거리 사진"
+    },
+    {
+     "t": 1017,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "숫자 카운터"
+    },
+    {
+     "t": 1027,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 1037,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "인용 카드"
+    },
+    {
+     "t": 1047,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "DNA 도식"
+    },
+    {
+     "t": 1057,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "평면도"
+    },
+    {
+     "t": 1067,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "법정 사진"
+    },
+    {
+     "t": 1077,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "어두운 문"
+    },
+    {
+     "t": 1087,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "숫자 카운터"
+    },
+    {
+     "t": 1096,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 1106,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "숲길",
+     "face_front": null,
+     "figure_style": null
+    },
+    {
+     "t": 1116,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 1126,
+     "kind": "black",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "검은 화면"
+    }
+   ],
+   "stats": {
+    "frames": 115,
+    "kind_pct": {
+     "3d": 29.6,
+     "diagram": 59.1,
+     "archive": 8.7,
+     "title": 0.0,
+     "black": 0.9,
+     "unclassified": 1.7
+    },
+    "change_ratio_10s": 0.772,
+    "archive_frames": 10,
+    "archive_runs": 8,
+    "first_archive_t": 49,
+    "figure_in_3d_pct": 26.5,
+    "figure_style_3d": {
+     "mono": 6,
+     "unknown": 2,
+     "clothed": 1
+    },
+    "face_front_3d": 2,
+    "face_visible_3d": 0,
+    "face_visible_archive": 0,
+    "accent_pct": {
+     "red-light": 5.2,
+     "red-mark": 29.6
+    },
+    "text_on_screen_pct": {
+     "none": 40.9,
+     "label": 50.4,
+     "panel": 8.7
+    },
     "captions_per_min": null,
     "chars_per_min": 419,
     "first_question_pct": null,
@@ -77,26 +1838,1130 @@
     "jyo_pct": 60
    },
    "stats_source": {
-    "chars_per_min": "summary.json (자동 자막, 2026-11-17 수집)",
-    "questions": "summary.json 질문형(~까?) 수",
-    "jyo_pct": "summary.json 어미 수: ~죠 / (~죠 + ~습니다)"
+    "chars_per_min/questions/jyo_pct": "summary.json 자동 자막(2026-11-17 수집, 이번 재수집에서 자막은 못 받음)",
+    "change_ratio_10s": "blind_sheet.py cells (parity_check 와 같은 밝기 차 방식)"
    }
   },
   {
    "video": "t5BgBYoW_zg",
    "duration_s": 1116,
-   "source": null,
-   "status": "frames_not_collected",
-   "frames": [],
-   "stats": {
-    "kind_pct": {
-     "3d": null,
-     "diagram": null,
-     "archive": null,
-     "title": null
+   "source": "storyboard sb0 3x3, 칸 9.88초 → 10초 표본 113장 (칸 113장 중 1칸마다) / 320px",
+   "status": "classified",
+   "frames": [
+    {
+     "t": 0,
+     "kind": "3d",
+     "figure": null,
+     "face_visible": null,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주택가"
     },
-    "change_ratio_10s": null,
-    "archive_frames": null,
+    {
+     "t": 10,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "일본식 방",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 20,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "아파트 현관",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 30,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "근접",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 40,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-light",
+     "set": "건물 앞",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 49,
+     "kind": "archive",
+     "figure": true,
+     "face_visible": true,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "보도 사진"
+    },
+    {
+     "t": 59,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 카드"
+    },
+    {
+     "t": 69,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "빈 무대",
+     "face_front": true,
+     "figure_style": "mono"
+    },
+    {
+     "t": 79,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "빈 무대",
+     "face_front": true,
+     "figure_style": "clothed+mono"
+    },
+    {
+     "t": 89,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "빈 무대",
+     "face_front": true,
+     "figure_style": "mono"
+    },
+    {
+     "t": 99,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "건물 외경"
+    },
+    {
+     "t": 109,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "현관 소품"
+    },
+    {
+     "t": 119,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 128,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 138,
+     "kind": "title",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "연도 타이틀"
+    },
+    {
+     "t": 148,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "아파트 외경"
+    },
+    {
+     "t": 158,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "서류 카드"
+    },
+    {
+     "t": 168,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "소품 근접",
+     "face_front": null,
+     "figure_style": "mono"
+    },
+    {
+     "t": 178,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "복도",
+     "face_front": false,
+     "figure_style": "clothed+mono"
+    },
+    {
+     "t": 188,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "어두운 방"
+    },
+    {
+     "t": 198,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "서류 카드"
+    },
+    {
+     "t": 207,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "건물 입구",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 217,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 227,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "창고"
+    },
+    {
+     "t": 237,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "서류 근접"
+    },
+    {
+     "t": 247,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "수배 카드"
+    },
+    {
+     "t": 257,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "인물 아이콘"
+    },
+    {
+     "t": 267,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "서류 카드"
+    },
+    {
+     "t": 277,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 286,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 296,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "복도",
+     "face_front": false,
+     "figure_style": "clothed+mono"
+    },
+    {
+     "t": 306,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "서류 카드"
+    },
+    {
+     "t": 316,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "수배 카드"
+    },
+    {
+     "t": 326,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "지도"
+    },
+    {
+     "t": 336,
+     "kind": "archive",
+     "figure": true,
+     "face_visible": true,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "보도 사진"
+    },
+    {
+     "t": 346,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주택 외경"
+    },
+    {
+     "t": 356,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "관계도"
+    },
+    {
+     "t": 365,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "아파트 외경"
+    },
+    {
+     "t": 375,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "아파트 외경"
+    },
+    {
+     "t": 385,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 395,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 405,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "관계도"
+    },
+    {
+     "t": 415,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 아이콘"
+    },
+    {
+     "t": 425,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "현관 소품"
+    },
+    {
+     "t": 435,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "일본식 방",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 444,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "실내",
+     "face_front": true,
+     "figure_style": "mono"
+    },
+    {
+     "t": 454,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "일본식 방"
+    },
+    {
+     "t": 464,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "일본식 방",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 474,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "역 승강장"
+    },
+    {
+     "t": 484,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "역 승강장",
+     "face_front": null,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 494,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 504,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "역 사진"
+    },
+    {
+     "t": 514,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 카드"
+    },
+    {
+     "t": 523,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 533,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "일본식 방",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 543,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "관계도"
+    },
+    {
+     "t": 553,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 563,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "욕실"
+    },
+    {
+     "t": 573,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "거리 사진"
+    },
+    {
+     "t": 583,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "아이콘"
+    },
+    {
+     "t": 593,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 602,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 612,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "위계 도식"
+    },
+    {
+     "t": 622,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "위계 도식"
+    },
+    {
+     "t": 632,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "도시 전경"
+    },
+    {
+     "t": 642,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 652,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "욕실"
+    },
+    {
+     "t": 662,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 672,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 카드"
+    },
+    {
+     "t": 681,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내",
+     "face_front": null,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 691,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 701,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 711,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "욕실"
+    },
+    {
+     "t": 721,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 731,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "다리"
+    },
+    {
+     "t": 741,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "현관 소품"
+    },
+    {
+     "t": 751,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 760,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "욕실"
+    },
+    {
+     "t": 770,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "취조실",
+     "face_front": true,
+     "figure_style": "clothed+mono"
+    },
+    {
+     "t": 780,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "증거 보드"
+    },
+    {
+     "t": 790,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "부두",
+     "face_front": true,
+     "figure_style": "mono"
+    },
+    {
+     "t": 800,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "서류 카드"
+    },
+    {
+     "t": 810,
+     "kind": "archive",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "회의실 사진"
+    },
+    {
+     "t": 820,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "인용 카드"
+    },
+    {
+     "t": 830,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 839,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "실내",
+     "face_front": true,
+     "figure_style": "clothed+mono"
+    },
+    {
+     "t": 849,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "카드"
+    },
+    {
+     "t": 859,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "인용 카드"
+    },
+    {
+     "t": 869,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "복도",
+     "face_front": false,
+     "figure_style": "clothed+mono"
+    },
+    {
+     "t": 879,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 카드"
+    },
+    {
+     "t": 889,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 899,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "욕실"
+    },
+    {
+     "t": 909,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "욕실",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 918,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "욕실"
+    },
+    {
+     "t": 928,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "수사 보드",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 938,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "인물 아이콘"
+    },
+    {
+     "t": 948,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 아이콘"
+    },
+    {
+     "t": 958,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "법원 사진"
+    },
+    {
+     "t": 968,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "모니터"
+    },
+    {
+     "t": 978,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "법정",
+     "face_front": null,
+     "figure_style": null
+    },
+    {
+     "t": 988,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "서류 카드"
+    },
+    {
+     "t": 997,
+     "kind": "archive",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "보도 사진"
+    },
+    {
+     "t": 1007,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "법정",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 1017,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "판결 도식"
+    },
+    {
+     "t": 1027,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-light",
+     "set": "교도소 복도"
+    },
+    {
+     "t": 1037,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 카드"
+    },
+    {
+     "t": 1047,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 1057,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "바다"
+    },
+    {
+     "t": 1067,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 1076,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 1086,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 1096,
+     "kind": "title",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "막 전환 글자"
+    },
+    {
+     "t": 1106,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    }
+   ],
+   "stats": {
+    "frames": 113,
+    "kind_pct": {
+     "3d": 59.3,
+     "diagram": 31.0,
+     "archive": 8.0,
+     "title": 1.8,
+     "black": 0.0,
+     "unclassified": 0.0
+    },
+    "change_ratio_10s": 0.92,
+    "archive_frames": 9,
+    "archive_runs": 9,
+    "first_archive_t": 49,
+    "figure_in_3d_pct": 47.8,
+    "figure_style_3d": {
+     "clothed": 26,
+     "mono": 11,
+     "unknown": 1
+    },
+    "face_front_3d": 9,
+    "face_visible_3d": 0,
+    "face_visible_archive": 2,
+    "accent_pct": {
+     "red-light": 1.8,
+     "red-mark": 27.4
+    },
+    "text_on_screen_pct": {
+     "none": 58.4,
+     "label": 31.0,
+     "panel": 10.6
+    },
     "captions_per_min": null,
     "chars_per_min": 419,
     "first_question_pct": null,
@@ -104,26 +2969,1048 @@
     "jyo_pct": 30
    },
    "stats_source": {
-    "chars_per_min": "summary.json (자동 자막, 2026-11-17 수집)",
-    "questions": "summary.json 질문형(~까?) 수",
-    "jyo_pct": "summary.json 어미 수: ~죠 / (~죠 + ~습니다)"
+    "chars_per_min/questions/jyo_pct": "summary.json 자동 자막(2026-11-17 수집, 이번 재수집에서 자막은 못 받음)",
+    "change_ratio_10s": "blind_sheet.py cells (parity_check 와 같은 밝기 차 방식)"
    }
   },
   {
    "video": "kXHIhuQLRvY",
    "duration_s": 993,
-   "source": null,
-   "status": "frames_not_collected",
-   "frames": [],
-   "stats": {
-    "kind_pct": {
-     "3d": null,
-     "diagram": null,
-     "archive": null,
-     "title": null
+   "source": "storyboard sb0 3x3, 칸 9.83초 → 10초 표본 102장 (칸 102장 중 1칸마다) / 320px",
+   "status": "classified",
+   "frames": [
+    {
+     "t": 0,
+     "kind": "3d",
+     "figure": null,
+     "face_visible": null,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주택 외경"
     },
-    "change_ratio_10s": null,
-    "archive_frames": null,
+    {
+     "t": 10,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "차고"
+    },
+    {
+     "t": 20,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 29,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 39,
+     "kind": "3d",
+     "figure": null,
+     "face_visible": null,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "거실"
+    },
+    {
+     "t": 49,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "시계 아이콘"
+    },
+    {
+     "t": 59,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "차고",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 69,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "서류 카드"
+    },
+    {
+     "t": 79,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "주택가",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 88,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "아이콘"
+    },
+    {
+     "t": 98,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "근접",
+     "face_front": null,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 108,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 118,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "증거 카드"
+    },
+    {
+     "t": 128,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "서류 카드"
+    },
+    {
+     "t": 138,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "평면도"
+    },
+    {
+     "t": 147,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 157,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 167,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "숫자 카운터"
+    },
+    {
+     "t": 177,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 187,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "사무실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 197,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내",
+     "face_front": false,
+     "figure_style": null
+    },
+    {
+     "t": 206,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "서류 근접",
+     "face_front": null,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 216,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "빈 무대",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 226,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "차 내부",
+     "face_front": null,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 236,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "아이콘"
+    },
+    {
+     "t": 246,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "서류 카드"
+    },
+    {
+     "t": 256,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "창고",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 265,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접",
+     "face_front": null,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 275,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "복도"
+    },
+    {
+     "t": 285,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "사무실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 295,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "보관실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 305,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "서류 근접"
+    },
+    {
+     "t": 315,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "서류 카드"
+    },
+    {
+     "t": 324,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "서류 카드"
+    },
+    {
+     "t": 334,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "서류 카드"
+    },
+    {
+     "t": 344,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 아이콘"
+    },
+    {
+     "t": 354,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "사무실",
+     "face_front": null,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 364,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "보관실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 374,
+     "kind": "black",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "검은 화면"
+    },
+    {
+     "t": 383,
+     "kind": "title",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "연도 타이틀"
+    },
+    {
+     "t": 393,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "사진 보드"
+    },
+    {
+     "t": 403,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "사진 보드"
+    },
+    {
+     "t": 413,
+     "kind": "title",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "글자 화면"
+    },
+    {
+     "t": 423,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 아이콘"
+    },
+    {
+     "t": 433,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 아이콘"
+    },
+    {
+     "t": 442,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "서류 근접",
+     "face_front": null,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 452,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "서류 카드"
+    },
+    {
+     "t": 462,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "인물 아이콘"
+    },
+    {
+     "t": 472,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "관계도"
+    },
+    {
+     "t": 482,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "복도",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 492,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "거실",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 501,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "아이콘"
+    },
+    {
+     "t": 511,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 521,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 531,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "아이콘"
+    },
+    {
+     "t": 541,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "경찰서",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 551,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "아이콘"
+    },
+    {
+     "t": 560,
+     "kind": "black",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "검은 화면"
+    },
+    {
+     "t": 570,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "타임라인"
+    },
+    {
+     "t": 580,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "관계도"
+    },
+    {
+     "t": 590,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "복도",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 600,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "취조실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 610,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "창고",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 619,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "비교 도식"
+    },
+    {
+     "t": 629,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "빈 무대",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 639,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 649,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "취조실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 659,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "경찰서 복도",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 669,
+     "kind": "archive",
+     "figure": true,
+     "face_visible": true,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "심문 영상"
+    },
+    {
+     "t": 678,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "취조실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 688,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "취조실",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 698,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "취조실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 708,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "취조실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 718,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "취조실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 728,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "취조실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 737,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "취조실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 747,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "취조실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 757,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "서류 근접",
+     "face_front": null,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 767,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "취조실",
+     "face_front": true,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 777,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "취조실",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 787,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "취조실",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 796,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "영상 프레임"
+    },
+    {
+     "t": 806,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "타임라인"
+    },
+    {
+     "t": 816,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "증거 카드"
+    },
+    {
+     "t": 826,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "검색 UI"
+    },
+    {
+     "t": 836,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "경찰서 벽"
+    },
+    {
+     "t": 846,
+     "kind": "title",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "연도 타이틀"
+    },
+    {
+     "t": 855,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "인물 아이콘"
+    },
+    {
+     "t": 865,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "지문 도식"
+    },
+    {
+     "t": 875,
+     "kind": "title",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "글자 화면"
+    },
+    {
+     "t": 885,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "서류 근접"
+    },
+    {
+     "t": 895,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "서류 근접"
+    },
+    {
+     "t": 905,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "법정",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 914,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "법정",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 924,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "서류 카드"
+    },
+    {
+     "t": 934,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "숫자 카운터"
+    },
+    {
+     "t": 944,
+     "kind": "archive",
+     "figure": true,
+     "face_visible": true,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "기자회견 영상"
+    },
+    {
+     "t": 954,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "none",
+     "set": "영상 플레이어 UI"
+    },
+    {
+     "t": 964,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "침실",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 973,
+     "kind": "black",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "검은 화면"
+    },
+    {
+     "t": 983,
+     "kind": "black",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "검은 화면"
+    },
+    {
+     "t": 993,
+     "kind": "black",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "검은 화면"
+    }
+   ],
+   "stats": {
+    "frames": 102,
+    "kind_pct": {
+     "3d": 54.9,
+     "diagram": 34.3,
+     "archive": 2.0,
+     "title": 3.9,
+     "black": 4.9,
+     "unclassified": 0.0
+    },
+    "change_ratio_10s": 0.891,
+    "archive_frames": 2,
+    "archive_runs": 2,
+    "first_archive_t": 669,
+    "figure_in_3d_pct": 73.2,
+    "figure_style_3d": {
+     "clothed": 40,
+     "unknown": 1
+    },
+    "face_front_3d": 18,
+    "face_visible_3d": 0,
+    "face_visible_archive": 2,
+    "accent_pct": {
+     "red-light": 0.0,
+     "red-mark": 20.6
+    },
+    "text_on_screen_pct": {
+     "none": 58.8,
+     "label": 28.4,
+     "panel": 12.7
+    },
     "captions_per_min": null,
     "chars_per_min": 404,
     "first_question_pct": null,
@@ -131,14 +4018,735 @@
     "jyo_pct": 49
    },
    "stats_source": {
-    "chars_per_min": "summary.json (자동 자막, 2026-11-17 수집)",
-    "questions": "summary.json 질문형(~까?) 수",
-    "jyo_pct": "summary.json 어미 수: ~죠 / (~죠 + ~습니다)"
+    "chars_per_min/questions/jyo_pct": "summary.json 자동 자막(2026-11-17 수집, 이번 재수집에서 자막은 못 받음)",
+    "change_ratio_10s": "blind_sheet.py cells (parity_check 와 같은 밝기 차 방식)"
+   }
+  },
+  {
+   "video": "TpyIVmDYd3k",
+   "duration_s": 664,
+   "source": "storyboard sb0 3x3, 칸 4.96초 → 10초 표본 67장 (칸 134장 중 2칸마다) / 320px",
+   "status": "classified",
+   "frames": [
+    {
+     "t": 0,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주택 모형"
+    },
+    {
+     "t": 10,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주택 마당",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 20,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "거실",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 30,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "현관",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 40,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "어두운 실내"
+    },
+    {
+     "t": 50,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "꽃집"
+    },
+    {
+     "t": 59,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주택 사진"
+    },
+    {
+     "t": 69,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "달력 카드"
+    },
+    {
+     "t": 79,
+     "kind": "black",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "검은 화면"
+    },
+    {
+     "t": 89,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 99,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "꽃집",
+     "face_front": false,
+     "figure_style": "silhouette"
+    },
+    {
+     "t": 109,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내",
+     "face_front": false,
+     "figure_style": "silhouette"
+    },
+    {
+     "t": 119,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "지문 도식"
+    },
+    {
+     "t": 129,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "근접",
+     "face_front": null,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 139,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "빈 무대",
+     "face_front": false,
+     "figure_style": "silhouette"
+    },
+    {
+     "t": 149,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주택 외경",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 159,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "회의실",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 168,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "교실"
+    },
+    {
+     "t": 178,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "red-mark",
+     "set": "주택가"
+    },
+    {
+     "t": 188,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "도식"
+    },
+    {
+     "t": 198,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "빈 무대",
+     "face_front": false,
+     "figure_style": "clothed+silhouette"
+    },
+    {
+     "t": 208,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "창고"
+    },
+    {
+     "t": 218,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주택 외경"
+    },
+    {
+     "t": 228,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "비교 도식"
+    },
+    {
+     "t": 238,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 248,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "병실"
+    },
+    {
+     "t": 258,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 268,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "신문 그래픽"
+    },
+    {
+     "t": 277,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "서류 카드"
+    },
+    {
+     "t": 287,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 297,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "숫자 카운터"
+    },
+    {
+     "t": 307,
+     "kind": "black",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "검은 화면"
+    },
+    {
+     "t": 317,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "지도"
+    },
+    {
+     "t": 327,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "공사장"
+    },
+    {
+     "t": 337,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 347,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "아이콘"
+    },
+    {
+     "t": 357,
+     "kind": "title",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "panel",
+     "accent": "red-mark",
+     "set": "글자 화면"
+    },
+    {
+     "t": 367,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "지도"
+    },
+    {
+     "t": 377,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "현관"
+    },
+    {
+     "t": 387,
+     "kind": "archive",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "수배 전단"
+    },
+    {
+     "t": 396,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 406,
+     "kind": null,
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "공장 굴뚝"
+    },
+    {
+     "t": 416,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 426,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "지도"
+    },
+    {
+     "t": 436,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "도로",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 446,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "도로",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 456,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "도로",
+     "face_front": false,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 466,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "주택가"
+    },
+    {
+     "t": 476,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 486,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "편의점"
+    },
+    {
+     "t": 496,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 505,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "현관"
+    },
+    {
+     "t": 515,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "시계 카드"
+    },
+    {
+     "t": 525,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "거실",
+     "face_front": false,
+     "figure_style": null
+    },
+    {
+     "t": 535,
+     "kind": "black",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "검은 화면"
+    },
+    {
+     "t": 545,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "실내"
+    },
+    {
+     "t": 555,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 565,
+     "kind": "diagram",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "label",
+     "accent": "red-mark",
+     "set": "도식"
+    },
+    {
+     "t": 575,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "사무실"
+    },
+    {
+     "t": 585,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "차고"
+    },
+    {
+     "t": 595,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "소품 근접"
+    },
+    {
+     "t": 605,
+     "kind": "3d",
+     "figure": true,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "근접",
+     "face_front": null,
+     "figure_style": "clothed"
+    },
+    {
+     "t": 614,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "서류 근접"
+    },
+    {
+     "t": 624,
+     "kind": "3d",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "전철"
+    },
+    {
+     "t": 634,
+     "kind": "archive",
+     "figure": true,
+     "face_visible": null,
+     "text_on_screen": "label",
+     "accent": "none",
+     "set": "보도 영상"
+    },
+    {
+     "t": 644,
+     "kind": "archive",
+     "figure": true,
+     "face_visible": null,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "보도 영상"
+    },
+    {
+     "t": 654,
+     "kind": "black",
+     "figure": false,
+     "face_visible": false,
+     "text_on_screen": "none",
+     "accent": "none",
+     "set": "검은 화면"
+    }
+   ],
+   "stats": {
+    "frames": 67,
+    "kind_pct": {
+     "3d": 65.7,
+     "diagram": 19.4,
+     "archive": 6.0,
+     "title": 1.5,
+     "black": 6.0,
+     "unclassified": 1.5
+    },
+    "change_ratio_10s": 1.0,
+    "archive_frames": 4,
+    "archive_runs": 3,
+    "first_archive_t": 59,
+    "figure_in_3d_pct": 34.1,
+    "figure_style_3d": {
+     "clothed": 11,
+     "silhouette": 4,
+     "unknown": 1
+    },
+    "face_front_3d": 0,
+    "face_visible_3d": 0,
+    "face_visible_archive": 0,
+    "accent_pct": {
+     "red-light": 0.0,
+     "red-mark": 14.9
+    },
+    "text_on_screen_pct": {
+     "none": 79.1,
+     "label": 16.4,
+     "panel": 4.5
+    },
+    "captions_per_min": null,
+    "chars_per_min": null,
+    "first_question_pct": null,
+    "questions": null,
+    "jyo_pct": null
+   },
+   "stats_source": {
+    "chars_per_min/questions/jyo_pct": "자막 없음",
+    "change_ratio_10s": "blind_sheet.py cells (parity_check 와 같은 밝기 차 방식)"
    }
   }
  ],
+ "total": {
+  "frames": 464,
+  "kind_pct": {
+   "3d": 52.4,
+   "diagram": 37.1,
+   "archive": 6.0,
+   "title": 1.5,
+   "black": 2.4,
+   "unclassified": 0.6
+  },
+  "kind_pct_range": {
+   "3d": [
+    29.6,
+    65.7
+   ],
+   "diagram": [
+    19.4,
+    59.1
+   ],
+   "archive": [
+    2.0,
+    8.7
+   ]
+  },
+  "change_ratio_10s_range": [
+   0.772,
+   1.0
+  ],
+  "archive_runs_range": [
+   2,
+   9
+  ],
+  "figure_style_3d": {
+   "unknown": 7,
+   "clothed": 89,
+   "mono": 30,
+   "silhouette": 5
+  }
+ },
  "prior_observations": {
-  "note": "2026-11-18 스토리보드·자막 관찰(docs/benchmark-report.md '샘플 대비 비교'). 영상별 값·프레임이 남아 있지 않아 이 팩에서 재현·재확인하지 못했다. 판정 근거로 쓸 때는 '미재확인'으로 적는다.",
+  "note": "2026-11-18 관찰(미재확인). 2026-11-22 프레임 분류로 대체: 화면 변화율은 videos[].stats.change_ratio_10s, 3D 인물은 conclusion_3d_figure.",
   "videos": [
    "kXHIhuQLRvY",
    "0pU_k2OUC1I",
