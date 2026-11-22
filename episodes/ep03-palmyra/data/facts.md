@@ -2,8 +2,8 @@
 
 담당 fact-checker, 검수 source-verifier. ✅ = 원문 확인, ⚠️ = 요약·2차 자료에서만 확인 또는 자료끼리 다름(업로드 전 0), ❌ = 틀린 통념(쓰지 않음).
 자막과 사실의 연결은 data/fact_map.json {"captions": {"<자막>": ["F01"]}} — parity_check "자막 근거 연결".
-집계(2026-11-22 fact_map 작성 때 갱신): 사실 행 152개(F01~F146과 보충 행 a) — ✅ 141 · ⚠️ 11 / 틀린 통념 ❌ 11개(X01~X11).
-갱신 내역(2026-11-22, fact-checker): F115 를 월과 무관한 계산으로 고쳐 ✅, 1차 자료로 F133~F144 추가(✅), F12a → F146 으로 번호 바꿈, 대본의 '배심' 표현 근거를 F145(⚠️)로 분리. 출처 [17]·[18] 추가.
+집계(2026-11-22 fact_map 작성 때 갱신): 사실 행 159개(F01~F153과 보충 행 a) — ✅ 147 · ⚠️ 12 / 틀린 통념 ❌ 12개(X01~X12).
+갱신 내역(2026-11-22, fact-checker): F115 를 월과 무관한 계산으로 고쳐 ✅, 1차 자료로 F133~F144 추가(✅), F12a → F146 으로 번호 바꿈. 이어서(쇼러너 요청) 1974 수색 세부 F147~F152(✅) 추가, F116 문구·시기 재확인(시기는 F153 ⚠️로 분리), X12 추가, 대본의 '배심' 표현 근거를 F145(⚠️)로 분리. 출처 [17]·[18] 추가.
 
 표기 규칙(위험 검토): 함께 있던 여성은 이 문서에서도 **"동행 여성"** 으로만 쓴다. 판결문·기사에 나오는 그녀의 이름·가명·이후 이름은 '이름 생략'.
 사건과 무관한 제3자(사진을 맡아 준 지인, 수색 참가 민간인, 유골 발견 부부)도 이름을 쓰지 않는다.
@@ -192,7 +192,7 @@
 | F113 | 워커의 변호인은 호놀룰루의 얼 파팅턴 | [9] 「Walker's former attorney, Earle Partington」 ; [11] 「represented Walker in the murder trial」 ; [1]·[3] 변호인란 「Earle A. Partington」 ; [18] 「Earle Partington was appointed to represent Walker」 | ✅ |
 | F114 | 재판 장소: 애드버타이저(2010)는 '킹 판사가 공정한 재판을 우려해 샌프란시스코로 옮김', UPI(1986)는 '지난해 호놀룰루에서 유죄', 스타불레틴(2007)은 '재판받은 곳 호놀룰루' | [11] 「moved to San Francisco because Hawai'i Judge Samuel King …」 ; [13] 「convicted of murder in Honolulu last year」 ; [9] 「the place he was tried, Honolulu」 ; [18](1995 판결) 「the Palmyra Island murder cases, which took place in the federal district court in Honolulu」 ; [17] 변호인 「since the trial in San Francisco」 | ⚠️ 자료끼리 다름 → 워커 재판 장소는 화면에 쓰지 않음 |
 | F115 | 실종(1974년 8월)에서 워커 유죄(1985년)까지 10년이 넘는다 | 계산: 1974-08-28 → 1985-01-01 이 이미 10년 4개월 → 1985년 어느 달이든 "10년 넘게"가 맞다. 평결 월(6월)은 F112 에만 기대므로 이 행은 월을 쓰지 않는다(6월이면 10년 10개월). 연도 차이는 11 → "11년 만에" 금지(X09) | ✅(계산) |
-| F116 | 워커의 결백 주장: 출소 뒤 자비 출판한 895쪽 책에서 살해를 부인했다 | [9] 「a recent, self-published 895-page book in which Walker still denies he killed the Grahams」 ; [10] ; [11] | ✅(주요 언론) |
+| F116 | 워커는 895쪽짜리 자비 출판 책에서 자기 쪽 이야기를 쓰며 살해를 부인했다(무죄 주장) | [9] 「a recent, self-published 895-page book in which Walker still denies he killed the Grahams」 ; [10] 「Walker still denies he killed the couple and wrote a self-published 895-page book telling his side of the story」 ; [11] 「self-published an 895-page book in which he maintained his innocence」. 책 제목은 세 기사 모두 없음. '자서전'이라는 말은 원문에 없음 → "자기 쪽 이야기를 쓴 책". 출판 시기는 F153 | ✅(주요 언론 3곳) |
 
 ### 10. 동행 여성의 살인 재판 (1986, 이름 없이)
 | ID | 사실(자막이 될 단위, 한 줄) | 출처(#·쪽·원문 짧은 인용) | 상태 |
@@ -234,6 +234,13 @@
 | F143 | 살인 기소(1981)에서 워커 유죄(1985)까지 4년 | 계산: 연도 차이 1985 − 1981 = 4(F98, F110). 두 날짜 모두 월은 1차로 확인되지 않아 만 기간은 3년 몇 개월~4년 몇 개월 → 화면은 "4년 뒤"(연도 기준)까지 | ✅(계산, 연도 차) |
 | F144 | 가석방(2007-08-28)에서 사망(2010-04-26)까지 2년 8개월 | 계산: F127 → F129 = 2년 7개월 29일. 연도 차이는 3 → "3년 뒤"는 반올림, 화면은 "3년이 채 안 돼" 또는 "2010년" | ✅(계산) |
 | F145 | 1985년 워커의 유죄와 1986년 동행 여성의 무죄는 배심 평결이었다 | 워커: [14] NYT 제목 「Jury Finds Boat Thief Guilty …」(URL·제목만, 본문 막힘). 동행 여성: [18] 안에 인용된 부글리오시 책 구절 「I had [이름 생략] read each one to the jury」「The Walker jury had never heard this fact」(책 = 2차). 판결문 본문·당시 보도 발췌([9]~[13], [17])에는 '배심'이 없음 | ⚠️ → 자막에서 '배심'·'평결'을 빼고 "유죄를 받았다/무죄를 받았다"로 |
+| F147 | 수색대 가운데 두 사람(연방 검사보, 그리고 당시 섬에 있었고 지형을 잘 아는 남자)이 환초 둘레의 작은 섬들을 모두 걸어서 뒤졌다 — 수로 가까운 남서쪽 모퉁이에서 시작해 시계 반대 방향으로, 섬과 섬 사이 물을 걸어 건너며 북서쪽 모퉁이에서 끝냈다 | [4] THE 1974 INVESTIGATION 「searched, on foot, all of the small islands making up the perimeter of the atoll. They started at the southwest corner, near the channel entering the lagoon, and worked counterclockwise, wading from island to island, ending up at the northwest corner」(FBI 요원 증언, 인명 생략) | ✅ |
+| F148 | 수색을 이끈 FBI 요원은 '시신이 들어 있을 수 있는 구조물을 만나면 들여다봤다'고 증언했다 | [4] 「stated further that "if we came across any structures that bodies could have been inside, we would have looked into them."」 ; [4] III 「any structure that could have contained bodies was looked into」(법원이 증언을 받아들임) | ✅(증언, 법원 인정) |
+| F149 | 섬에는 55갤런 기름통이 수백 개쯤 흩어져 있었고, 그 요원은 그 통을 다 열어 보지는 않았다고 인정했다 — 통은 밀봉돼 있거나 작은 꼭지 구멍만 나 있었다는 증언. 구조선과 큰 기름 탱크를 뒤진 기억은 없다고 했다(질문은 수색 7년 반 뒤) | [4] 「He admitted he did not look into every one of the apparently hundreds of 55 gallon oil drums scattered about the island, but testified that the drums were still sealed, or opened only by a small tap hole」 ; 「did not recall having found a number of large oil storage tanks … nor did he specifically recollect seeing or searching through an Air Force rescue boat」 ; III 「The questions were put to him seven and one half years after the search」 | ✅ |
+| F150 | 수색 이틀째 오후까지 아무 흔적이 없자, 해안경비대 지휘관은 보고서에 '팔미라에 하루 더 머물 이유가 없는 것이 분명했다'고 적었다 | [4] 「By mid-afternoon the second day, no evidence of foul play or other clues … had been discovered. In the words of Lieutenant Commander [이름 생략], "it was obvious there would be no reason to stay at Palmyra another day."」(해안경비대 보고서) | ✅ |
+| F151 | 부부가 살아서 섬에 갇혀 있을 가능성이 있었으므로, 수색은 일부 구조 임무이기도 했다 — 동시에 시신과 범죄·사고의 흔적을 찾는 수색 | [4] 「First, there was the possibility that the Grahams were still alive and stranded on Palmyra. Because of this possibility, the search was in part a rescue mission」 ; 「the search was one for bodies, afloat or on land, and other evidence of foul play, or of accidental death」(FBI 요원 증언) | ✅(증언, "일부" 살려 쓰기) |
+| F152 | 실제 수색 시간: 첫날 오후 4시 30분부터 해 질 때까지, 이튿날 오전 6시 30분부터 오후 4시 무렵 떠날 때까지 — 9명 기준 90~120인시(人時) | [4] 「actively searching from 4:30 PM until dark the first day and from 6:30 AM the second day until departing at approximately 4:00 PM. With nine men actually reported as participating, the search would have consumed from 90 to 120 man-hours」 | ✅ |
+| F153 | 워커 책의 출판 시기: [9](2007년 7월, 아직 수감 중)는 「recent」, [11](2010)은 「After his release」 — 자료끼리 다름 | [9] 「he recently published a book claiming to be innocent」(빅터빌 교도소 수감 중 기사) ; [11] 「After his release, Walker self-published an 895-page book」 | ⚠️ → 출판 시기는 화면에 쓰지 않음 |
 
 ### ❌ 틀린 통념 (쓰지 않음)
 | ID | 통념 | 근거 | 상태 |
@@ -249,6 +256,7 @@
 | X09 | "11년 만에 유죄" | 1974-08 → 1985 = 만 10년(+α). F115 | ❌ |
 | X10 | "부부는 8월 29일 실종" / "8월 28~30일" | 1차는 마지막 교신 8월 28일과 「late August」까지. 실종 날짜 자체는 확정 기록 없음 | ❌(날짜 단정 금지) |
 | X11 | "Sea Wind 는 38피트" | [1] 37피트, [5] 37½피트 | ❌ |
+| X12 | "수색대는 밀봉된 기름통까지 열어 봤다" | 요원은 수백 개 기름통을 다 열어 보지 않았다고 인정했고, 통은 밀봉되거나 작은 구멍만 있었다고 증언([4], F149). 열어 본 것은 '시신이 들어갈 수 있는 구조물'(F148) | ❌ |
 
 ## 일부러 쓰지 않은 것
 - **동행 여성의 실명·별칭·가명·이후 이름·거주지·생존 여부**: 판결문 사건명과 본문, 기사에 실명이 있지만 이 문서와 화면에서는 '동행 여성'. 1975년 재판 때 쓴 가명(판결문 머리말·[2] ¶2), 그녀 쪽 변호인단 명단, 이후 개명·거주지 보도는 모으지 않았다. 워커가 쓴 가명([1] 머리말)도 그녀의 가명과 성이 같으므로 쓰지 않는다.
