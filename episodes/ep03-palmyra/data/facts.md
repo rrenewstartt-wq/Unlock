@@ -2,7 +2,8 @@
 
 담당 fact-checker, 검수 source-verifier. ✅ = 원문 확인, ⚠️ = 요약·2차 자료에서만 확인 또는 자료끼리 다름(업로드 전 0), ❌ = 틀린 통념(쓰지 않음).
 자막과 사실의 연결은 data/fact_map.json {"captions": {"<자막>": ["F01"]}} — parity_check "자막 근거 연결".
-집계(2026-11-22 표본 대조 반영): 사실 행 139개(F01~F132와 보충 행 a) — ✅ 128 · ⚠️ 11(F115 는 월만 ⚠️ 라 ⚠️ 로 셈) / 틀린 통념 ❌ 11개(X01~X11).
+집계(2026-11-22 fact_map 작성 때 갱신): 사실 행 152개(F01~F146과 보충 행 a) — ✅ 141 · ⚠️ 11 / 틀린 통념 ❌ 11개(X01~X11).
+갱신 내역(2026-11-22, fact-checker): F115 를 월과 무관한 계산으로 고쳐 ✅, 1차 자료로 F133~F144 추가(✅), F12a → F146 으로 번호 바꿈, 대본의 '배심' 표현 근거를 F145(⚠️)로 분리. 출처 [17]·[18] 추가.
 
 표기 규칙(위험 검토): 함께 있던 여성은 이 문서에서도 **"동행 여성"** 으로만 쓴다. 판결문·기사에 나오는 그녀의 이름·가명·이후 이름은 '이름 생략'.
 사건과 무관한 제3자(사진을 맡아 준 지인, 수색 참가 민간인, 유골 발견 부부)도 이름을 쓰지 않는다.
@@ -26,6 +27,8 @@
 | 13 | UPI, "Piracy-murder trial ends in acquital"(1986-03-01, SAN FRANCISCO) | 주요 언론·당시 보도 | https://www.upi.com/Archives/1986/03/01/Piracy-murder-trial-ends-in-acquital/6355510037200/ — WebFetch 발췌로만 열람 | 2026-11-22 |
 | 14 | The New York Times, "Jury Finds Boat Thief Guilty In 1974 Pacific Island Murder"(1985-06-13) | 주요 언론·당시 보도 | https://www.nytimes.com/1985/06/13/us/jury-finds-boat-thief-guilty-in-1974-pacific-island-murder.html — **막힘**(curl 403, WebFetch 도구 차단). 제목·날짜는 URL로만 | 2026-11-22 |
 | 15 | The New York Times, "Mystery on Pacific Atoll Leads to Murder Charge"(1981-07-13) | 주요 언론·당시 보도 | https://www.nytimes.com/1981/07/13/us/mystery-on-pacific-atoll-leads-to-murder-charge.html — **막힘**(위와 같음) | 2026-11-22 |
+| 17 | Honolulu Star-Bulletin, "Quiet life after prison ends for convicted killer"(2010-06-03) | 주요 언론(부고) | https://archives.starbulletin.com/content/20100603_quiet_life_after_prison_ends_for_convicted_killer — WebFetch 발췌 | 2026-11-22 |
+| 18 | 미국 제9순회항소법원, Partington v. Bugliosi, 56 F.3d 1147 (1995년 6월 7일) — 워커 변호인이 부글리오시 책·TV 영화를 상대로 낸 명예훼손 소송. BACKGROUND 절에 두 살인 재판 요약 | 1차(판결문) | Harvard CAP https://static.case.law/f3d/56/cases/1147-01.json , REINHARDT 판사 의견 BACKGROUND 1~3문단(본문 안의 책 인용 구절은 2차로 봄) | 2026-11-22 |
 | 16 | Wikipedia "And the Sea Will Tell", 블로그·요트 잡지(Latitude 38, Cruising World), Grokipedia | 2차(단서용) | 이번에는 단서 확인용 검색 요약만 봄. 사실 근거로 쓰지 않음 | 2026-11-22 |
 
 막힌 곳(우회하지 않음): nytimes.com(1981·1985 기사), newspapers.com(LA Times 1985 지면 OCR, 403), law.justia.com(546 F.Supp. 805, 403), courtlistener.com(API 401·웹 403), law.counselstack.com(429, 두 번 시도), upi.com 직접 접속(403 — WebFetch 발췌만), paperspast.natlib.govt.nz(1981·1985 기사 후보 3건, Incapsula 봇 확인 — 우회 안 함). LA Times 1985년 6월 기사는 검색으로도 원문 URL을 찾지 못함.
@@ -44,11 +47,11 @@
 | F06 | 팔미라는 하와이와 아메리칸사모아의 중간쯤, 라인 제도 가장 북쪽 환초 | [6] 「about halfway between Hawaiʻi and America Samoa」「the northernmost atoll in the Line Islands」 ; [8] 1문단 | ✅ |
 | F07 | 환초는 고리 모양으로 늘어선 약 26개의 작은 섬과 석호들로 이뤄져 있다 | [6] 「a circular string of about 26 islets nestled among several lagoons」 | ✅ |
 | F08 | 1940년대 미 해군이 머물며 활주로를 만들었고, 1974년엔 버려진 해군 기지가 남아 있었다 | [8] 「During the 1940's the U.S. Navy stationed six thousand sailors in the atoll」「a land plane runway about one mile long」 ; [1] ¶25 「the abandoned naval base」 | ✅ |
-| F09 | 팔미라는 하와이주가 아니라 미국 속령 — 사건은 하와이 연방지방법원 관할 | [3] ¶3 「Palmyra Island is a possession of the United States」「48 U.S.C. Sec. 644a (placing Palmyra … under the jurisdiction of the District of Hawaii)」 ; [8] 「Congress expressly excluded Palmyra from the State of Hawaii」(1959) | ✅ |
+| F09 | 팔미라는 하와이주가 아니라 미국 속령 — 사건은 하와이 연방지방법원 관할 | [3] ¶3 「Palmyra Island is a possession of the United States」「48 U.S.C. Sec. 644a (placing Palmyra … under the jurisdiction of the District of Hawaii)」 ; [8] 「the Congress expressly excluded Palmyra from the State of Hawaii by section 2 of the Hawaii Statehood Act」(하와이 주 승격법 = 1959년) | ✅ |
 | F10 | 워커와 동행 여성의 배는 30피트 돛배 Iola, 주인은 워커 | [5] 550 F.2d 1167, 1169(=[4] II. FACTS 인용) 「The Iola, a 30-foot vessel」「one Buck Walker …, the Iola's owner」 ; [1] ¶4 「Walker's boat, the Iola」 | ✅ |
 | F11 | Iola 는 1974년 6월 25일 또는 26일 하와이에서 팔미라에 도착 | [5]·[4] II. FACTS 「arrived in Palmyra harbor from Hawaii on June 25 or 26, 1974」 | ✅ |
 | F12 | 보통 4~7일 걸리는 뱃길을 Iola 는 한 달 걸려 왔다 | [1] ¶4 「had taken a month to make the trip … although most vessels make it in four to seven days」 | ✅ |
-| F12a | (참고) 오늘날 정부 안내도 호놀룰루에서 배로 5~7일 | [7] 「boat travel takes five to seven days from Honolulu」 | ✅ |
+| F146 | (참고, 옛 F12a — parity_check 가 숫자 ID 만 읽어 2026-11-22 번호를 바꿈) 오늘날 정부 안내도 호놀룰루에서 배로 5~7일 | [7] 「boat travel takes five to seven days from Honolulu」 | ✅ |
 | F13 | 석호로 들어가는 수로는 좁고 지나가기 어렵다 | [5]·[4] II. FACTS 「The channel leading into the lagoon on Palmyra is narrow and difficult to navigate」 | ✅ |
 | F14 | Iola 는 엔진이 고장 나 먼저 와 있던 두 배의 작은 보트들에 끌려 수로를 지났다 | [5]·[4] 「had a broken motor had to be towed through the channel by dinghies from two ships already anchored」 ; [1] ¶4 「had to be towed into the lagoon because of their sailboat's broken engine」 | ✅ |
 | F15 | 두 사람은 돈도 식량도 없이 코코넛과 물고기로 버텼다 | [1] ¶4 「Without money and provisions, they survived on a diet of coconuts and fish」 | ✅ |
@@ -69,7 +72,7 @@
 |---|---|---|---|
 | F26 | 8월 말, 다른 배들은 모두 떠나고 석호에는 Sea Wind 와 Iola 두 척만 남았다 | [1] ¶5 「In late August the Sea Wind and the Iola were the only vessels left in the lagoon」 ; [5]·[4] 「all other vessels had departed」 | ✅ |
 | F27 | 부부는 하와이의 무선사와 미리 정한 일정대로 교신했다 | [5]·[4] 「a prearranged pattern of radio contact with an operator in Hawaii」 ; [1] ¶5 | ✅ |
-| F28 | 마지막 교신은 1974년 8월 28일, 상대는 맥 그레이엄 | [5]·[4] 「The operator's last radio conversation with Mr. Graham took place on August 28, 1974」 ; [4] THE 1974 INVESTIGATION 「had been missing since August 28,1974」 | ✅ |
+| F28 | 마지막 교신은 1974년 8월 28일, 상대는 맥 그레이엄 | [5]·[4] 「The operator's last radio conversation with Mr. Graham took place on August 28, 1974」 ; [4] THE 1974 INVESTIGATION 「had been missing since August 28,1974」 ; [1] ¶5 「On August 28th the Grahams made radio contact with Hawaii」(교신은 부부 쪽에서 했다고 적음) | ✅ |
 | F29 | 그 뒤 Sea Wind 를 부른 교신은 모두 응답이 없었다 | [5]·[4] 「All attempts to make further radio contact with the Sea Wind proved unsuccessful」 ; [1] ¶5 「fruitless」 | ✅ |
 | F30 | 부부는 1974년 8월, 흔적 없이 사라졌다 | [1] ¶1 「disappeared without a trace in August 1974」 ; ¶5 「They were never heard from again」 | ✅ |
 | F31 | 검찰은 엘리너가 8월 말이나 9월 초에 숨졌다고 기소했다(기소 내용) | [4] INTRODUCTION 「Mrs. Graham was allegedly killed in late August or early September of 1974」(allegedly = 기소상 주장) | ✅ |
@@ -160,7 +163,7 @@
 | F92 | 그 상자는 항공기 구조선에 보급품을 넣어 두던 종류의 상자였다 | [4] 각주8 「the container found with Mrs. Graham's remains is of the type used to store supplies aboard the rescue boat」 | ✅ |
 | F93 | 그 항공기 구조선은 1974년 10월엔 창고 건물 안에 있었고, 뒤에 수상기 경사로 끝에 가라앉혀졌다가 다시 떠올려졌다(양측 합의 사실) | [4] 각주9 「The parties agree that the rescue boat was present in the storage building in October of 1974, was later removed and sunk at the end of the seaplane ramp, and still later was refloated」 | ✅ |
 | F94 | 유골은 치과 기록으로 엘리너 그레이엄으로 확인됐다 | [11] 「Inside were Eleanor Graham's remains, identified with dental records」 | ✅(주요 언론) |
-| F95 | FBI 는 1974년 이후 이때(1981년 2월) 처음 팔미라로 돌아갔다 | [4] 「The FBI did not return to Palmyra until February 1981」 | ✅ |
+| F95 | FBI 는 1974년 이후 이때(1981년 2월) 처음 팔미라로 돌아갔다 | [4] 「The FBI did not return to Palmyra until February 1981」. 계산: 수색(1974-11) → 1981-02 = 6년 3개월 → "6년이 넘게" | ✅ |
 | F96 | 실종에서 유골 발견까지 약 6년 반 | 계산: 1974-08(마지막 교신 8/28) → 1981-02 = 6년 5~6개월 → "약 6년 반" | ✅(계산) |
 | F97 | 맥 그레이엄의 시신은 끝내 찾지 못했다 | [9] 「Malcolm Graham's body was never found」 ; [13] 「Mr. Graham's remains have never been found」 ; [4] 「The whereabouts of Mr. Graham remains unknown」(1982) ; [11] | ✅ |
 
@@ -186,20 +189,20 @@
 | F110 | 워커는 1985년 엘리너(머프) 그레이엄 살인으로 유죄를 받았다 | [12] 「Walker, now 48, was convicted in 1985 and sentenced to life in prison」(1986-02-25 당시 보도) ; [9] 「In 1985, Walker was convicted」「convicted of the murder of Eleanor "Muff" Graham」(사진 설명) | ✅ |
 | F111 | 형은 종신형 | [12] 「sentenced to life in prison」 ; [9] 「sentenced to life in federal prison」 | ✅ |
 | F112 | 유죄 평결은 1985년 6월 | [14] NYT 기사 URL 날짜 1985/06/13 과 제목 「Jury Finds Boat Thief Guilty In 1974 Pacific Island Murder」 — 본문 막힘. 6월 12일 설은 Grokipedia(2차) | ⚠️ → 화면은 "1985년"까지 |
-| F113 | 워커의 변호인은 호놀룰루의 얼 파팅턴 | [9] 「Walker's former attorney, Earle Partington」 ; [11] 「represented Walker in the murder trial」 ; [1]·[3] 변호인란 「Earle A. Partington」 | ✅ |
-| F114 | 재판 장소: 애드버타이저(2010)는 '킹 판사가 공정한 재판을 우려해 샌프란시스코로 옮김', UPI(1986)는 '지난해 호놀룰루에서 유죄', 스타불레틴(2007)은 '재판받은 곳 호놀룰루' | [11] 「moved to San Francisco because Hawai'i Judge Samuel King …」 ; [13] 「convicted of murder in Honolulu last year」 ; [9] 「the place he was tried, Honolulu」 | ⚠️ 자료끼리 다름 → 워커 재판 장소는 화면에 쓰지 않음 |
-| F115 | 실종에서 워커 유죄까지 만 10년 10개월(연도 차이는 11) | 계산: 1974-08 → 1985-06 = 10년 10개월. 단 '6월'은 F112(⚠️)에 기댐 → 화면은 "10년 넘게" 또는 "11년 뒤(1974→1985)"로. "11년 만에" 금지 | ✅(계산, 월은 ⚠️) |
+| F113 | 워커의 변호인은 호놀룰루의 얼 파팅턴 | [9] 「Walker's former attorney, Earle Partington」 ; [11] 「represented Walker in the murder trial」 ; [1]·[3] 변호인란 「Earle A. Partington」 ; [18] 「Earle Partington was appointed to represent Walker」 | ✅ |
+| F114 | 재판 장소: 애드버타이저(2010)는 '킹 판사가 공정한 재판을 우려해 샌프란시스코로 옮김', UPI(1986)는 '지난해 호놀룰루에서 유죄', 스타불레틴(2007)은 '재판받은 곳 호놀룰루' | [11] 「moved to San Francisco because Hawai'i Judge Samuel King …」 ; [13] 「convicted of murder in Honolulu last year」 ; [9] 「the place he was tried, Honolulu」 ; [18](1995 판결) 「the Palmyra Island murder cases, which took place in the federal district court in Honolulu」 ; [17] 변호인 「since the trial in San Francisco」 | ⚠️ 자료끼리 다름 → 워커 재판 장소는 화면에 쓰지 않음 |
+| F115 | 실종(1974년 8월)에서 워커 유죄(1985년)까지 10년이 넘는다 | 계산: 1974-08-28 → 1985-01-01 이 이미 10년 4개월 → 1985년 어느 달이든 "10년 넘게"가 맞다. 평결 월(6월)은 F112 에만 기대므로 이 행은 월을 쓰지 않는다(6월이면 10년 10개월). 연도 차이는 11 → "11년 만에" 금지(X09) | ✅(계산) |
 | F116 | 워커의 결백 주장: 출소 뒤 자비 출판한 895쪽 책에서 살해를 부인했다 | [9] 「a recent, self-published 895-page book in which Walker still denies he killed the Grahams」 ; [10] ; [11] | ✅(주요 언론) |
 
 ### 10. 동행 여성의 살인 재판 (1986, 이름 없이)
 | ID | 사실(자막이 될 단위, 한 줄) | 출처(#·쪽·원문 짧은 인용) | 상태 |
 |---|---|---|---|
-| F117 | 동행 여성은 별도 재판을 받았다 — 샌프란시스코 연방지방법원 | [12] 데이트라인 「SAN FRANCISCO」「the U.S. District Court trial」 ; [13] 데이트라인 「SAN FRANCISCO」「acquitted Friday in U.S. District Court」 | ✅ |
+| F117 | 동행 여성은 별도 재판을 받았다 — 샌프란시스코 연방지방법원 | [12] 데이트라인 「SAN FRANCISCO」「the U.S. District Court trial」 ; [13] 데이트라인 「SAN FRANCISCO」「acquitted Friday in U.S. District Court」 ; [18] 「hired Vincent Bugliosi to represent her in a separate trial」 | ✅ |
 | F118 | 증언 심리는 3주 동안 이어졌다 | [12] 「At the end of three weeks of testimony in the U.S. District Court trial」 | ✅(WebFetch 발췌) |
-| F119 | 그녀는 살인 혐의에 무죄 평결을 받았다 | [13] 제목 「Piracy-murder trial ends in acquital」「acquitted Friday」 ; [9] 「[이름 생략] was acquitted」 | ✅ |
+| F119 | 그녀는 살인 혐의에 무죄 평결을 받았다 | [13] 제목 「Piracy-murder trial ends in acquital」「acquitted Friday」 ; [9] 「[이름 생략] was acquitted」 ; [18] 「Partington's client was convicted and Bugliosi's acquitted」 | ✅ |
 | F120 | 무죄 평결일은 1986년 2월 28일(금) | 계산: UPI 1986-03-01(토) 기사의 「acquitted Friday」 → 직전 금요일 = 1986-02-28 | ✅(계산) |
-| F121 | 변호인은 빈센트 부글리오시 — 뒤에 이 사건을 다룬 책 『And the Sea Will Tell』을 썼다 | [9] 「her attorney, Vincent Bugliosi, wrote a book about the case, "And the Sea Will Tell"」 ; [10] 같은 문장 | ✅(주요 언론) |
-| F122 | 책은 1991년 TV 영화로 만들어졌다(제임스 브롤린이 그레이엄 역) | [9]·[10] 「made into a 1991 TV movie starring James Brolin as Graham」 ; [11] 「a TV miniseries」(표현 다름) | ✅(주요 언론, "TV 드라마로"로 묶어 쓰기) |
+| F121 | 변호인은 빈센트 부글리오시 — 뒤에 이 사건을 다룬 책 『And the Sea Will Tell』을 썼다 | [9] 「her attorney, Vincent Bugliosi, wrote a book about the case, "And the Sea Will Tell"」 ; [10] 같은 문장 ; [18] 「wrote And The Sea Will Tell, an account of his successful defense」 | ✅ |
+| F122 | 책은 1991년 TV 영화로 만들어졌다(제임스 브롤린이 그레이엄 역) | [9]·[10] 「made into a 1991 TV movie starring James Brolin as Graham」 ; [11] 「a TV miniseries」(표현 다름) ; [18] 「In 1991 CBS … produced a made-for-television movie based on Bugliosi's book」 | ✅("TV 드라마로"로 묶어 쓰기) |
 
 ### 11. 이후 (팔미라가 '미국 땅'인지, 가석방, 사망)
 | ID | 사실(자막이 될 단위, 한 줄) | 출처(#·쪽·원문 짧은 인용) | 상태 |
@@ -210,10 +213,27 @@
 | F126 | 2007년, 종신형 22년을 복역하고 가석방됐다 | [10] 「released on parole from federal prison on Tuesday after serving 22 years of a life sentence」 | ✅(주요 언론) |
 | F127 | 가석방일은 2007년 8월 28일(화) — 33년 전 마지막 교신과 같은 날짜 | 계산: [10] 2007-09-02(일) 기사 「on Tuesday」 → 직전 화요일 2007-08-28. [9] 「the Aug. 28 "projected" release date」와 일치. 마지막 교신 F28(1974-08-28). 2007 − 1974 = 33 | ✅(계산) |
 | F128 | 가석방 때 나이는 만 69세(70세 생일 3주 전) | [10] 「Just weeks from his 70th birthday on Sept. 18」 ; [9] 「Buck Duane Walker, 69」 | ✅(주요 언론) |
-| F129 | 워커는 2010년 4월 26일 캘리포니아에서 숨졌다, 72세 | [11] 「has died in California at age 72」「died April 26 after several months in a nursing home, according to several friends」 | ✅(주요 언론, 날짜는 지인 전언 보도) |
+| F129 | 워커는 2010년 4월 26일 캘리포니아에서 숨졌다, 72세 | [11] 「has died in California at age 72」「died April 26 after several months in a nursing home, according to several friends」 ; [17] 「He died April 26, according to the Lake County Records Office」 | ✅(주요 언론, 날짜는 [17]이 군 기록청 근거로 보도) |
 | F130 | 2001년 팔미라는 국립야생동물보호구역이 됐다 | [6] 「The refuge was established in January 18, 2001」 ; [8] 「Secretary's Order No. 3224」 | ✅ |
 | F131 | 지금은 허가 없이 들어갈 수 없다 | [7] 「Entry onto Palmyra Atoll National Wildlife Refuge is by permit only」 | ✅ |
 | F132 | 맥 그레이엄에게 무슨 일이 있었는지는 어떤 판결로도 가려지지 않았다 | [4] INTRODUCTION(기소 대상 엘리너뿐) ; [4] III 「the location of the Grahams, or their remains, in 1974 will probably never be known to the government」 ; [11] 변호인 「I'll never know what happened down on that island」 | ✅ |
+
+### 12. 보충 (2026-11-22 fact_map 작성 때 1차 자료로 추가)
+| ID | 사실(자막이 될 단위, 한 줄) | 출처(#·쪽·원문 짧은 인용) | 상태 |
+|---|---|---|---|
+| F133 | 워커의 1975년 절도 재판에서 판사는 '팔미라는 미국의 특별 해양·영토 관할 안에 있다'는 것을 사법적으로 인지했다고 배심에 말했고, 하와이주 경계는 육지에서 바다 쪽으로 3마일까지라고 덧붙였다 | [2] ¶13 「The Court has taken judicial notice that the island of Palmyra is within the special maritime and territorial jurisdiction of the United States」「the boundaries of Hawaii extend three miles seaward from the land」 | ✅ |
+| F134 | 필름을 맡긴 쪽은 지인에게 쪽지를 써서 약국에서 사진을 찾아 달라고 했고, 사진값 5달러를 함께 넣었다 | [2] ¶2 「later wrote a note to a Mrs. [이름 생략] asking her to pick up the prints」「enclosed five dollars to pay for the prints」(맡긴 사람 = 동행 여성, 판결문은 다른 이름으로 맡겼다고 적음 — 이름·가명 생략) | ✅ |
+| F135 | 사진을 찾은 지인은 경찰 본부에 가져가 경찰관에게 보였고, 경찰관은 '별 의미가 없는 사진'이라고 했다. 그 뒤 지인은 사진을 우편으로 부쳤다 | [2] ¶3 「took the photographs to the police headquarters and showed them to an officer. The officer told [이름 생략] that the pictures were of no particular significance」「then mailed the folder … in an 8 X 10 brown manila envelope」 | ✅ |
+| F136 | 할라와 구치소 입구엔 '반입 물품은 모두 검사한다'는 큰 경고문이 있었고, 봉투는 정기 보안 검사에서 열렸다. FBI 요원은 사진을 본 뒤 영장 진술서를 써서 압수했다 | [2] ¶4 「A large sign at the entrance warned that all items introduced into the facility were subject to search」 ; ¶5 「As part of a routine security check, the prison authorities opened the envelope」「signed an affidavit for a warrant to seize the pictures」 | ✅ |
+| F137 | 1974년 잠수부들은 스쿠버 장비만 썼고, 그래서 석호 바닥 수색은 수심·조류·시야·상어에 막혔다 | [1] ¶26 「Because the divers used only scuba gear, the search of the lagoon bottom was limited by depth, current, visibility, and sharks」 ; [4] III 「divers using only SCUBA gear」 | ✅ |
+| F138 | 항소법원: 더 철저한 수색도 가능했을 수 있다 — 추적견(블러드하운드)과 땅에 묻힌 시신을 찾는 전문가를 쓸 수도 있었다 | [1] ¶26 「A more thorough search may have been possible. Bloodhounds and an expert on discovery of bodies buried on land might have been used」 | ✅ |
+| F139 | 항소법원: 석호 전체를 뒤지려면 잠수 지원선과 엄청난 시간·노력·돈이 필요했고, 당시 알려진 사실로는 성실 의무가 그런 특별한 방법까지 요구하지 않았다 | [1] ¶26 「A complete search of the lagoon, however, would have required a diving vessel and an extraordinary amount of time, effort, and money. Due diligence did not require these extraordinary methods at this remote site」 ; [4] III 「a diving vessel of some sort」 | ✅ |
+| F140 | 동행 여성의 절도 재판은 1975년 6월에 열렸다 — 피고 측 주장(F32~F34)과 Iola 사진 5장(F37)이 나온 재판 | [5] 각주1 「The trial in this action took place in June 1975」 | ✅ |
+| F141 | 두 사람의 첫 공동 기소장은 1974년 사건번호(CR-74-160)였고, 워커는 뒤에 따로 4개 죄목으로 기소됐다(법원은 이를 '1975년 기소장'이라 부름) | [4] 각주2 「the original indictment, CR-74-160」 ; [4] II 「He was subsequently charged separately in a 4 count indictment」「the theft count of the 1975 indictment」 ; [1] ¶7 | ✅ |
+| F142 | 법원: 구조선을 다시 띄우면서 상자가 떨어져 나와 물가로 밀려왔다는 주장은 '너무 추측이라 진지하게 검토할 수 없다' | [4] 각주9 「The contention that the refloating of the boat dislodged the container … causing it to ultimately wash up on the shore of the lagoon, is too speculative for serious consideration」 | ✅ |
+| F143 | 살인 기소(1981)에서 워커 유죄(1985)까지 4년 | 계산: 연도 차이 1985 − 1981 = 4(F98, F110). 두 날짜 모두 월은 1차로 확인되지 않아 만 기간은 3년 몇 개월~4년 몇 개월 → 화면은 "4년 뒤"(연도 기준)까지 | ✅(계산, 연도 차) |
+| F144 | 가석방(2007-08-28)에서 사망(2010-04-26)까지 2년 8개월 | 계산: F127 → F129 = 2년 7개월 29일. 연도 차이는 3 → "3년 뒤"는 반올림, 화면은 "3년이 채 안 돼" 또는 "2010년" | ✅(계산) |
+| F145 | 1985년 워커의 유죄와 1986년 동행 여성의 무죄는 배심 평결이었다 | 워커: [14] NYT 제목 「Jury Finds Boat Thief Guilty …」(URL·제목만, 본문 막힘). 동행 여성: [18] 안에 인용된 부글리오시 책 구절 「I had [이름 생략] read each one to the jury」「The Walker jury had never heard this fact」(책 = 2차). 판결문 본문·당시 보도 발췌([9]~[13], [17])에는 '배심'이 없음 | ⚠️ → 자막에서 '배심'·'평결'을 빼고 "유죄를 받았다/무죄를 받았다"로 |
 
 ### ❌ 틀린 통념 (쓰지 않음)
 | ID | 통념 | 근거 | 상태 |
