@@ -244,7 +244,7 @@ def cmd_sheet(a):
                 # 하단 자막 띠를 양쪽 똑같이 잘라 낸다(자막 글꼴·크기로 정답이 드러나지 않게). 칸은 320 x (180 x (1 - 비율)).
                 im = im.crop((0, 0, CW, round(CH * (1 - a.crop_bottom))))     # 다시 늘리지 않는다(양옆이 잘리지 않게)
             cells.append(im)
-        key = f"{area}-{k + 1}"
+        key = f"{area}-{k + a.first}"
         path = sdir / f"{key}.jpg"
         draw_sheet(cells, labels).save(path, quality=90)          # Pillow 는 EXIF·파일명을 시트에 넣지 않는다
         answers["sheets"][key] = {
@@ -292,6 +292,7 @@ def main():
     s.add_argument("--ref-from-pack", action="store_true", help="reference-pack.json 에서 kind == area 인 프레임")
     s.add_argument("--ref-list", help='고른 레퍼런스 프레임 목록 JSON({"areas": {"3d": [경로...]}}, 예: raw/blind/<ep>/ref_frames.json)')
     s.add_argument("--n", type=int, default=3, help="시트 수(기본 3)")
+    s.add_argument("--first", type=int, default=1, help="시트 번호 시작(같은 영역 시트를 여러 번에 나눠 만들 때, 예: 인물·소품 짝을 맞춰 --n 1 씩)")
     s.add_argument("--seed", type=int, help="재현용(기본: 무작위)")
     s.add_argument("--crop-bottom", type=float, default=0.15, help="양쪽 칸 아래쪽 자막 띠를 이 비율만큼 잘라 냄(0 이면 안 함)")
     s.add_argument("--ours-q", type=int, default=55, help="우리 칸을 한 번 JPEG 로 다시 저장할 품질(0 이면 안 함)")
