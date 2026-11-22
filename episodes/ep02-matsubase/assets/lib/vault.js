@@ -111,7 +111,7 @@ export function createVault(stage, opts) {
     let man = [];
 
     if (mode === "open") {
-      // Open box (cardboard walls), lid beside it, a paper tag on the box front, the cloth end inside.
+      // Open box (cardboard walls), lid beside it, a paper tag on the box side, the cloth end inside.
       const boxRef = await f.model("cardboard_box_01", { pos: [0, -5, 0], height: 0.3 });
       let cardMat = null;
       boxRef.traverse((o) => { if (o.isMesh) cardMat = o.material; });
@@ -131,8 +131,8 @@ export function createVault(stage, opts) {
       }
       // lid lying on the table to the right
       f.box({ size: [bw + 0.02, 0.05, bd + 0.02], radius: 0.004, material: card, pos: [0.42, TOP + 0.025, 0.12], rot: [0, 0.32, 0] });
-      // tag on the box front (no real text: grey bars), with a string
-      f.sheet({ w: 0.07, h: 0.12, lines: 4, paper: "#cdbf9e", age: 0.4, torn: 0, px: 256, pos: [BX + 0.1, TOP + 0.09, BZ + bd / 2 + 0.004], rot: [0, 0, 0.06] });
+      // paper tag on the box side (no real text: grey bars)
+      f.sheet({ w: 0.07, h: 0.12, lines: 7, paper: "#cdbf9e", age: 0.4, torn: 0, px: 256, pos: [BX + bw / 2 + 0.0045, TOP + 0.085, BZ + 0.02], rot: [0, Math.PI / 2, 0.06] });
       // the cloth inside: the lower-right piece, folded into the box (sits on the box floor, one end draped on the rim)
       const inBox = clothPiece(f, cloth, "lowerR", { pos: [BX - 0.12, TOP + 0.01, BZ + 0.15], rotY: 0.2, wrinkle: 0.012, res: 1600, spread: false });
       inBox.scale.setScalar(0.62);

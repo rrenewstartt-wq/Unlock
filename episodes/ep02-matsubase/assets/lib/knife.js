@@ -239,13 +239,12 @@ export function createKnife(stage, opts) {
         } else {                              // c6, c7: at 4.7 the blade is 2.1 wide; the 0.6 over the gauge in amber
           G.gauge.set(4.7, 0, 4.7, 1.5); G.gauge.visible = true;
           G.over.set(4.7, 1.5, 4.7, 2.1, T + 0.07, false); G.over.visible = true;
-          G.along.set(0, -0.55, 4.7, -0.55); G.along.visible = true;
           G.width.set(5.15, 0, 5.15, 2.1, T + 0.05); G.width.visible = true;   // the blade's width at 4.7, drawn beside
-          at(P.p47, 2.35, -1.2);
           at(P.p06, 3.6, 1.8);
           at(P.p21, 6.25, 1.05);
           if (t >= c(7)) {                    // c7 (whole knife): one large plate under the overflow, the others off
-            P.p47.visible = P.p21.visible = false;
+            P.p21.visible = false;
+            G.along.set(0, -0.55, 4.7, -0.55); G.along.visible = true;
             at(P.p06, 4.7, 3.9);
             P.p06.scale.setScalar(2.2);
           }

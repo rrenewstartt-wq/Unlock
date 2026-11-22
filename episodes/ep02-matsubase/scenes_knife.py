@@ -37,8 +37,8 @@ def blade_width(sid, dur, q):
         set_label(sid, 0, 0.3, q[1] - 0.1, "입구 약 1.5cm", "상처 하나"),
         set_label(sid, 1, q[1], q[2] - 0.1, "깊이 약 4.7cm"),
         set_label(sid, 2, q[2], ins_at - 0.05, "이 지점 폭 ≤ 1.5cm 여야", "상처대로라면"),
-        set_label(sid, 3, q[4], q[5] - 0.1, "폭 1.5cm는 여기", "끝에서 약 3.2cm"),
-        set_label(sid, 4, q[5], q[6] - 0.1, "입구가 0.6cm 좁다", "4.7cm 지점 날 폭 2.1cm"),
+        set_label(sid, 3, q[4], q[5] - 0.1, "폭 1.5cm는 여기", "끝에서 약 3.2cm", right=True),
+        set_label(sid, 4, q[5], q[6] - 0.1, "입구가 0.6cm 좁다", "4.7cm 지점 날 폭 2.1cm", right=True),
         set_label(sid, 5, q[6], dur, "“미묘한 차이라 할 수 없다”", "후쿠오카고법 (2017)", quote=True),
     ]
     m = "\n".join(x for x, _ in labels) + "\n" + im
