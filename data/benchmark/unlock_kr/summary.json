@@ -2,23 +2,23 @@
  "handle": "@unlock_kr",
  "channel": {
   "name": "unlock_kr",
-  "followers": 32400,
+  "followers": 33600,
   "id": "UCdLuH2ViFGmdAbdcNy7EsQQ"
  },
- "count": 4,
+ "count": 5,
  "views": {
-  "median": 393863.0,
-  "max": 2520800
+  "median": 161847,
+  "max": 2540591
  },
  "duration_s": {
-  "median": 1054.5
+  "median": 993
  },
  "title_pattern_counts": {
-  "N년만에 풀린/밝혀진": 2,
+  "N년만에 풀린/밝혀진": 3,
   "역사상 가장 ~한": 1,
   "실제로 존재했던": 1,
-  "국가명 포함": 3,
-  "미제/미스터리 단어": 2
+  "국가명 포함": 4,
+  "미제/미스터리 단어": 3
  },
  "videos": [
   {
@@ -26,16 +26,16 @@
    "title": "13년만에 풀린 일본 미제사건",
    "upload_date": "20261020",
    "duration_s": 656,
-   "views": 2520800,
-   "likes": 14070,
+   "views": 2540591,
+   "likes": 14103,
    "comments": 1400,
    "tags": [
     "미제사건",
     "미스테리",
     "미스터리"
    ],
-   "width": 1920,
-   "height": 1080,
+   "width": null,
+   "height": null,
    "title_patterns": [
     "N년만에 풀린/밝혀진",
     "국가명 포함",
@@ -52,16 +52,17 @@
     },
     "opens_with_date": true,
     "has_rewind_line": true
-   }
+   },
+   "transcript_note": "2026-11-17 수집 자막 기준(2026-11-22 재수집 때 자막은 받지 못함)"
   },
   {
    "id": "0pU_k2OUC1I",
    "title": "실제로 존재했던 인간 도살장",
    "upload_date": "20261030",
    "duration_s": 1136,
-   "views": 141172,
-   "likes": 1671,
-   "comments": 139,
+   "views": 145881,
+   "likes": 1696,
+   "comments": 143,
    "tags": [
     "미스테리",
     "미스터리",
@@ -73,8 +74,8 @@
     "未解決事件",
     "미제사건"
    ],
-   "width": 1920,
-   "height": 1080,
+   "width": null,
+   "height": null,
    "title_patterns": [
     "실제로 존재했던"
    ],
@@ -89,16 +90,17 @@
     },
     "opens_with_date": false,
     "has_rewind_line": false
-   }
+   },
+   "transcript_note": "2026-11-17 수집 자막 기준(2026-11-22 재수집 때 자막은 받지 못함)"
   },
   {
    "id": "t5BgBYoW_zg",
    "title": "일본 역사상 가장 기괴하고 역겨운 사건",
    "upload_date": "20261102",
    "duration_s": 1116,
-   "views": 646554,
-   "likes": 5459,
-   "comments": 469,
+   "views": 720656,
+   "likes": 5924,
+   "comments": 511,
    "tags": [
     "기타큐슈",
     "기타큐슈 감금살인사건",
@@ -109,8 +111,8 @@
     "미스테리",
     "범죄사건"
    ],
-   "width": 1920,
-   "height": 1080,
+   "width": null,
+   "height": null,
    "title_patterns": [
     "역사상 가장 ~한",
     "국가명 포함"
@@ -126,16 +128,17 @@
     },
     "opens_with_date": true,
     "has_rewind_line": false
-   }
+   },
+   "transcript_note": "2026-11-17 수집 자막 기준(2026-11-22 재수집 때 자막은 받지 못함)"
   },
   {
    "id": "kXHIhuQLRvY",
    "title": "23년만에 풀린 미국 미제사건",
    "upload_date": "20261111",
    "duration_s": 993,
-   "views": 135184,
-   "likes": 1363,
-   "comments": 82,
+   "views": 161847,
+   "likes": 1562,
+   "comments": 88,
    "tags": [
     "미제사건",
     "미스터리",
@@ -153,8 +156,8 @@
     "범죄사건",
     "실제사건"
    ],
-   "width": 1920,
-   "height": 1080,
+   "width": null,
+   "height": null,
    "title_patterns": [
     "N년만에 풀린/밝혀진",
     "국가명 포함",
@@ -171,7 +174,33 @@
     },
     "opens_with_date": true,
     "has_rewind_line": false
-   }
+   },
+   "transcript_note": "2026-11-17 수집 자막 기준(2026-11-22 재수집 때 자막은 받지 못함)"
+  },
+  {
+   "id": "TpyIVmDYd3k",
+   "title": "14년만에 풀린 일본 장기 미제사건",
+   "upload_date": "20261120",
+   "duration_s": 664,
+   "views": 53381,
+   "likes": 531,
+   "comments": 31,
+   "tags": [
+    "미제사건",
+    "미스테리",
+    "미스터리",
+    "일본미제사건",
+    "일본미스테리",
+    "일본사건"
+   ],
+   "width": null,
+   "height": null,
+   "title_patterns": [
+    "N년만에 풀린/밝혀진",
+    "국가명 포함",
+    "미제/미스터리 단어"
+   ],
+   "transcript": null
   }
  ]
 }

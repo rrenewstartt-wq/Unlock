@@ -11,6 +11,8 @@ which belong to the channel and are for viewing only). No video files are downlo
 """
 import argparse
 import json
+import shlex
+import os
 import pathlib
 import re
 import shutil
@@ -29,6 +31,10 @@ TITLE_PATTERNS = {
 
 
 def run(cmd):
+    # YTDLP_ARGS: extra yt-dlp options, e.g. a JS runtime and player client when YouTube asks datacenter IPs to sign in
+    # (사용자 지시 2026-11-22: --js-runtimes deno:<path> --extractor-args youtube:player_client=web_safari). 쿠키는 쓰지 않는다.
+    if cmd and cmd[0] == "yt-dlp" and os.environ.get("YTDLP_ARGS"):
+        cmd = cmd[:1] + shlex.split(os.environ["YTDLP_ARGS"]) + cmd[1:]
     return subprocess.run(cmd, capture_output=True, text=True)
 
 

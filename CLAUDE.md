@@ -47,7 +47,9 @@ QA(fact-checker, visual-critic, parity-judge). HyperFrames 작업 전에는 `/hy
 2. **사실 확인:** 자막의 모든 사실은 `facts.md` 에 출처와 함께. 요약·2차 자료에서만 본 것은 ⚠️ 로 표시하고 업로드 전에 1차 자료로 확인.
    사인·범인이 확정되지 않았으면 단정하지 않는다. 미확정 관련자·생존자·유족 실명은 쓰지 않는다. 원문에 없는 세부를 그림으로 만들지 않는다.
 3. **도식 원칙:** `docs/visual-style.md` 의 7개 원칙. 검수에서 어긴 장면은 고친다.
-4. **접근 제한 우회 금지:** YouTube 봇 확인이 뜨면 우회하지 말고 `--offline` 으로 기존 자료를 쓰거나 나중에 다시 수집.
+4. **YouTube 봇 확인:** 사용자 지시(2026-11-22)로 yt-dlp 표준 옵션으로 다시 시도한다 — JS 실행기(deno)와 다른 플레이어 클라이언트
+   (`YTDLP_ARGS="--js-runtimes deno:<경로> --extractor-args youtube:player_client=web_safari" python3 scripts/benchmark.py ...`).
+   쿠키·남의 계정·신원을 속이는 프록시는 쓰지 않는다. 그래도 막히면 `--offline` 으로 기존 자료를 쓴다. 받은 원본은 `raw/` 에만(커밋 금지).
 5. **check 를 통과시키려고 기준을 낮추지 않는다.** 경고도 읽고, 남기는 경고는 이유를 보고한다.
 6. **목소리는 본인 것만**(`config/voice.json → consent: own`). 녹음·생성 음성은 커밋하지 않는다.
 7. **업로드는 사람이 결정한다.** 이 하네스에는 업로드 단계가 없다. 결과물 파일과 썸네일까지만 만든다.
