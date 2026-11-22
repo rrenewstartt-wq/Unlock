@@ -144,7 +144,7 @@ def cmd_ours(a):
             done.append(p)
     else:
         for t in [float(x) for x in a.at.split(",") if x.strip()]:
-            p = out / f"{tag}{t:.1f}.jpg"
+            p = out / f"{tag}{t + a.offset:.1f}.jpg"          # 파일명은 전체 시각(조각 렌더면 --offset 으로 구간 시작을 더함)
             r = subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t:.3f}", "-i", str(a.video), "-frames:v", "1",
                                 "-vf", f"scale={CW}:-2", "-q:v", "2", str(p)], capture_output=True, text=True)
             if r.returncode != 0 or not p.exists():
@@ -188,6 +188,7 @@ def ref_from_pack(area):
 
 
 def draw_sheet(cells, labels):
+    CW, CH = cells[0].size
     W = CW * 2 + GAP * 3
     H = (CH + LABEL) * 2 + GAP * 3
     sheet = Image.new("RGB", (W, H), (24, 24, 24))
@@ -239,8 +240,8 @@ def cmd_sheet(a):
             if side == "ours" and a.ours_q:
                 im = degrade(im, a.ours_q)
             if a.crop_bottom:
-                # 하단 자막 띠를 양쪽 똑같이 잘라 낸다(자막 글꼴·크기로 정답이 드러나지 않게). 칸 크기는 다시 320x180 으로.
-                im = fit(im.crop((0, 0, CW, round(CH * (1 - a.crop_bottom)))))
+                # 하단 자막 띠를 양쪽 똑같이 잘라 낸다(자막 글꼴·크기로 정답이 드러나지 않게). 칸은 320 x (180 x (1 - 비율)).
+                im = im.crop((0, 0, CW, round(CH * (1 - a.crop_bottom))))     # 다시 늘리지 않는다(양옆이 잘리지 않게)
             cells.append(im)
         key = f"{area}-{k + 1}"
         path = sdir / f"{key}.jpg"
@@ -278,6 +279,7 @@ def main():
     o.add_argument("--images", nargs="*", help="mp4 대신 이미지(스냅샷)")
     o.add_argument("--ep", help="에피소드 이름(기본: 경로의 episodes/<ep>)")
     o.add_argument("--tag", help="영역 이름을 파일명 앞에(3d/diagram/archive)")
+    o.add_argument("--offset", type=float, default=0.0, help="조각 렌더의 구간 시작(초). 파일명에만 더한다")
     o.add_argument("--out")
     s = sub.add_parser("sheet", help="무작위 2x2 블라인드 시트 + 정답표")
     s.add_argument("ep")
