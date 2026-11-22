@@ -131,7 +131,7 @@ function bladeParts() {
 function studioEnv(renderer) {
   const sc = new THREE.Scene();
   sc.background = new THREE.Color("#1c1d1f");
-  const room = new THREE.Mesh(new THREE.BoxGeometry(6, 4, 6), new THREE.MeshBasicMaterial({ color: "#26282a", side: THREE.BackSide }));
+  const room = new THREE.Mesh(new THREE.BoxGeometry(6, 4, 6), new THREE.MeshBasicMaterial({ color: "#3a3c3f", side: THREE.BackSide }));
   sc.add(room);
   const panel = (w, h, pos, look, v) => {
     const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(v, v, v), side: THREE.DoubleSide }));

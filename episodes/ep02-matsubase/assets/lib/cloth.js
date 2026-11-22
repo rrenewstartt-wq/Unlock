@@ -12,10 +12,10 @@ import { THREE } from "../kit3d/film.js";
 
 // Colour values (sRGB) and the repeat. Change here and every set follows.
 export const SHIRT_CLOTH = {
-  ground: "#c99c80",   // 살색(살구색) 바탕
-  brown: "#573b2e",    // 갈색 띠
-  red: "#86383a",      // 빨강 선 (차갑고 채도 낮게)
-  white: "#e9e3d8",    // 흰 선
+  ground: "#c09b84",   // 살색(살구색) 바탕 (채도 낮게)
+  brown: "#4d372e",    // 갈색 띠
+  red: "#7c393f",      // 빨강 선 (차갑고 채도 낮게, 주황기 없음)
+  white: "#e2ded6",    // 흰 선
   period: 0.06,        // one repeat of the check, metres (6 cm)
   // stripe sequence across one repeat: [colour key, fraction]. Warp and weft use the same sequence (a square check).
   stripes: [["ground", 0.22], ["brown", 0.18], ["ground", 0.04], ["red", 0.06], ["ground", 0.04], ["brown", 0.18],
@@ -74,7 +74,9 @@ export async function shirtClothMaterial(f) {
   map.colorSpace = THREE.SRGBColorSpace;
   map.wrapS = map.wrapT = THREE.RepeatWrapping;
   map.anisotropy = 8;
-  const m = new THREE.MeshStandardMaterial({ map, normalMap: poplin.normalMap, roughness: 0.9, metalness: 0, side: THREE.DoubleSide });
+  // flannel (ネル地): matte with a soft fibre sheen at grazing angles
+  const m = new THREE.MeshPhysicalMaterial({ map, normalMap: poplin.normalMap, roughness: 0.92, metalness: 0, side: THREE.DoubleSide,
+    sheen: 0.35, sheenRoughness: 0.8, sheenColor: new THREE.Color("#b9b2a8") });
   m.normalScale = new THREE.Vector2(0.6, 0.6);
   m.userData.period = SHIRT_CLOTH.period;
   return m;

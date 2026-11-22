@@ -76,10 +76,10 @@ def arrest_wish(sid, dur, q):
     opts = f'{{ mode: "night", camera: {cam} }}'
     m, t = _join([
         set_label(sid, 0, 0.3, q[1] - 0.1, "1월 18일 밤 · 경찰관"),
-        set_label(sid, 1, q[1], q[2] - 0.1, "“죽였다는 이야기를 한다고 한 줄 알았는데”", "1월 18일 밤 · 경찰관", quote=True),
+        set_label(sid, 1, q[1], q[2] - 0.1, "경찰관의 말", "1월 18일 밤"),
         set_label(sid, 2, q[2], q[3] - 0.1, "19일 · 12시간 45분"),
-        set_label(sid, 3, q[3], q[4] - 0.1, "“부인한 채로 체포해 달라”", "19일 · 그의 말", quote=True),
-        set_label(sid, 4, q[4], q[5] - 0.1, "“체포되면 놀랄 만큼 술술”", quote=True),
-        set_label(sid, 5, q[6], dur, "“저는 이제 견딜 수 없습니다”", "19일 밤", quote=True),
+        set_label(sid, 3, q[3], q[4] - 0.1, "그의 요청", "1월 19일"),
+        set_label(sid, 4, q[4], q[5] - 0.1, "그의 말", "1월 19일"),
+        set_label(sid, 5, q[6], dur, "그날 밤", "1월 19일"),
     ])
     return scene3d(sid, dur, "police", "createPolice", opts, m, t, SET_CSS)
