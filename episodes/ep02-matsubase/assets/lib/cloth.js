@@ -30,6 +30,7 @@ const n1 = (x, s) => { const i = Math.floor(x), f = x - i, u = f * f * (3 - 2 * 
 const fbm = (x, s) => 0.55 * n1(x, s) + 0.3 * n1(x * 2.7, s + 3) + 0.15 * n1(x * 7.3, s + 7) - 0.5;
 
 let CHECK = null;
+const GRAINS = new WeakMap();   // base material → { grain: [map, normalMap] }
 // One repeat of the woven check as a canvas: twill 2/2, each thread shows warp or weft colour, a little shading per thread.
 export function shirtCheckCanvas() {
   if (CHECK) return CHECK;
@@ -178,15 +179,22 @@ export function clothPiece(f, base, name, { pos = [0, 0, 0], rotY = 0, wrinkle =
   // straight on the body, along the sleeve axis on the sleeves (a sleeve is cut on its own grain).
   alpha.repeat.set(1 / bw, 1 / bh);
   alpha.offset.set(-x0 / bw, -y0 / bh);
+  // one texture per grain angle (shared by pieces with the same grain) keeps GPU memory low: several sets share a page
   const grain = GRAIN[name] || 0;
-  m.map = base.map.clone();
-  m.map.repeat.set(1 / SHIRT_CLOTH.period, 1 / SHIRT_CLOTH.period);
-  m.map.rotation = grain;
-  m.map.needsUpdate = true;
-  m.normalMap = base.normalMap.clone();
-  m.normalMap.repeat.set(1 / 0.05, 1 / 0.05);
-  m.normalMap.rotation = grain;
-  m.normalMap.needsUpdate = true;
+  if (!GRAINS.has(base)) GRAINS.set(base, {});
+  const cache = GRAINS.get(base);
+  if (!cache[grain]) {
+    const map = base.map.clone();
+    map.repeat.set(1 / SHIRT_CLOTH.period, 1 / SHIRT_CLOTH.period);
+    map.rotation = grain;
+    map.needsUpdate = true;
+    const nor = base.normalMap.clone();
+    nor.repeat.set(1 / 0.05, 1 / 0.05);
+    nor.rotation = grain;
+    nor.needsUpdate = true;
+    cache[grain] = [map, nor];
+  }
+  [m.map, m.normalMap] = cache[grain];
   // geometry: a fine grid with soft wrinkles (folds running diagonally) and a slight lift toward torn edges
   const sx = Math.max(24, Math.round(bw / 0.004)), sy = Math.max(24, Math.round(bh / 0.004));
   const geo = new THREE.PlaneGeometry(bw, bh, sx, sy);

@@ -57,18 +57,19 @@ def main():
     ep, module, factory, opts, out = pathlib.Path(a[0]).resolve(), a[1], a[2], a[3], pathlib.Path(a[4]).resolve()
     times = a[5] if len(a) > 5 else "0"
     json.loads(opts)
-    page = ep / "_set_preview.html"
+    tag = __import__("os").getpid()  # one page per run: two previews at once must not shoot each other's set
+    page = ep / f"_set_preview_{tag}.html"
     page.write_text(PAGE.format(module=module, factory=factory, opts=opts), encoding="utf-8")
     handler = lambda *x, **k: http.server.SimpleHTTPRequestHandler(*x, directory=str(ep), **k)  # noqa: E731
     http.server.SimpleHTTPRequestHandler.log_message = lambda *x: None
     srv = socketserver.TCPServer(("127.0.0.1", 0), handler)
     port = srv.server_address[1]
     threading.Thread(target=srv.serve_forever, daemon=True).start()
-    js = ep / "_set_preview_shoot.cjs"
+    js = ep / f"_set_preview_shoot_{tag}.cjs"
     js.write_text(SHOOT, encoding="utf-8")
     try:
         out.parent.mkdir(parents=True, exist_ok=True)
-        r = subprocess.run(["node", str(js), f"http://127.0.0.1:{port}/_set_preview.html", str(out), times],
+        r = subprocess.run(["node", str(js), f"http://127.0.0.1:{port}/{page.name}", str(out), times],
                            env={**__import__("os").environ, "NODE_PATH": subprocess.run(["npm", "root", "-g"], capture_output=True, text=True).stdout.strip()},
                            capture_output=True, text=True, timeout=600)
         if r.stdout.strip() or r.stderr.strip():

@@ -117,7 +117,7 @@ export function createVault(stage, opts) {
       boxRef.traverse((o) => { if (o.isMesh) cardMat = o.material; });
       boxRef.visible = false;
       const card = new THREE.MeshStandardMaterial({ color: "#8f7556", roughness: 0.93 });
-      const BX = -0.32, BZ = 0.02, bw = 0.42, bd = 0.32, bh = 0.24, th = 0.006;
+      const BX = -0.32, BZ = 0.02, bw = 0.42, bd = 0.32, bh = 0.17, th = 0.006;
       f.box({ size: [bw, th, bd], radius: 0.001, material: card, pos: [BX, TOP + th / 2, BZ] });
       f.box({ size: [bw, bh, th], radius: 0.001, material: card, pos: [BX, TOP + bh / 2, BZ + bd / 2] });
       f.box({ size: [bw, bh, th], radius: 0.001, material: card, pos: [BX, TOP + bh / 2, BZ - bd / 2] });
@@ -132,10 +132,10 @@ export function createVault(stage, opts) {
       // lid lying on the table to the right
       f.box({ size: [bw + 0.02, 0.05, bd + 0.02], radius: 0.004, material: card, pos: [0.42, TOP + 0.025, 0.12], rot: [0, 0.32, 0] });
       // tag on the box front (no real text: grey bars), with a string
-      f.sheet({ w: 0.07, h: 0.12, lines: 4, paper: "#cdbf9e", age: 0.4, torn: 0, px: 256, pos: [BX + 0.1, TOP + 0.13, BZ + bd / 2 + 0.004], rot: [0, 0, 0.06] });
+      f.sheet({ w: 0.07, h: 0.12, lines: 4, paper: "#cdbf9e", age: 0.4, torn: 0, px: 256, pos: [BX + 0.1, TOP + 0.09, BZ + bd / 2 + 0.004], rot: [0, 0, 0.06] });
       // the cloth inside: the lower-right piece, folded into the box (sits on the box floor, one end draped on the rim)
       const inBox = clothPiece(f, cloth, "lowerR", { pos: [BX - 0.12, TOP + 0.01, BZ + 0.15], rotY: 0.2, wrinkle: 0.012, res: 1600, spread: false });
-      inBox.scale.setScalar(0.95);
+      inBox.scale.setScalar(0.62);
       // Amber focus: a small warm light into the box.
       amber = new THREE.SpotLight(AMBER, 3.2, 1.6, 0.22, 0.6, 1.6);
       amber.position.set(BX + 0.25, TOP + 0.95, BZ + 0.35);
@@ -158,7 +158,7 @@ export function createVault(stage, opts) {
       // Five pieces of the one shirt, laid flat into its outline.
       for (const [i, name] of PIECES.entries()) {
         const pc = clothPiece(f, cloth, name, { pos: [0, TOP, 0.36], wrinkle: name.startsWith("sleeve") ? 0.016 : 0.008,
-          res: name === "sleeveL" ? 5200 : 2400, seed: 3 + i });
+          res: name === "sleeveL" ? 3600 : 1600, seed: 3 + i });
         pc.userData.name = name;
         pieces.push(pc);
       }

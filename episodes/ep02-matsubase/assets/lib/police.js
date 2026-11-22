@@ -279,8 +279,8 @@ export function createPolice(stage, opts) {
       const l = new THREE.SpotLight("#e9f2ef", on ? (mode === "night" ? 30 : 22) : 0, 9, 1.15, 0.95, 1.6);
       l.position.set(rx, H - 0.1, 0);
       l.target.position.set(mode === "night" && ri === 0 ? rx - 0.5 : rx * 0.6, 0, 0);
-      l.castShadow = !!on;
-      l.shadow.mapSize.set(2048, 2048);
+      l.castShadow = !!on && ri === 0;   // one shadow-casting row keeps the build light (many sets share a page)
+      l.shadow.mapSize.set(1536, 1536);
       l.shadow.bias = -0.0004;
       l.shadow.radius = 5;
       Object.assign(l.shadow.camera, { near: 0.3, far: 8 });
