@@ -8,6 +8,7 @@
     # 2) Ours: frames from a render (or pilot) at the same size, 320 px wide
     python3 scripts/blind_sheet.py ours episodes/<ep>/renders/pilot.mp4 --at 12,31.5,48 --tag 3d
         → data/benchmark/unlock_kr/raw/blind/<ep>/ours/3d_12.0.jpg ...   (or --images a.png b.png for snapshots)
+    python3 scripts/blind_sheet.py ours .../renders/pilot/p2.mp4 --at 6.5,9 --offset 50 --tag diagram   # chunk render: file names use whole-pilot time
 
     # 3) Sheets: per area, 2 ours + 2 reference in random order on a 2x2 sheet, labels A~D only
     python3 scripts/blind_sheet.py sheet <ep> --area 3d --ours <ours...> --ref <ref frames...> [--n 3]
