@@ -62,7 +62,7 @@ const wp = (fig, name) => fig.bone(name).getWorldPosition(new THREE.Vector3());
 
 // A tube shell along a bone segment: radius profile from the vertices of `bones`, `rings` slices, elliptic sections
 // (semi-axes measured along two perpendicular directions), slightly inflated.
-function tube(verts, bones, a, b, { rings = 8, extend = [0.03, 0.03], inflate = 1.0, pad = 0.008, segs = 28, side = null, close = false, pct = 0.8 } = {}) {
+function tube(verts, bones, a, b, { rings = 8, extend = [0.03, 0.03], inflate = 1.0, pad = 0.008, segs = 28, side = null, close = false, pct = 0.8, taperTop = 0 } = {}) {
   const axis = b.clone().sub(a);
   const len = axis.length();
   axis.normalize();
@@ -95,6 +95,12 @@ function tube(verts, bones, a, b, { rings = 8, extend = [0.03, 0.03], inflate = 
     const avg = (key) => nb.reduce((s, x) => s + x[key], 0) / nb.length;
     return { cu: avg("cu"), cw: avg("cw"), ru: Math.max(p.ru, avg("ru")), rw: Math.max(p.rw, avg("rw")) };
   });
+  if (taperTop) {     // sloped shoulders / collar: narrow the top rings toward the neck
+    for (let k = rings - 3; k < rings; k++) {
+      const f = 1 - taperTop * ((k - (rings - 3) + 1) / 3);
+      sm[k].ru *= f; sm[k].rw *= 0.9 + 0.1 * f;
+    }
+  }
   const posArr = [], idx = [], uvArr = [];
   for (let k = 0; k < rings; k++) {
     const t = t0 + (t1 - t0) * (k + 0.5) / rings;
@@ -176,20 +182,25 @@ export function dress(fig, { suit = "#2b2a28", trousers = null, shirt = "#b9b4aa
   const pelvis = wp(fig, "pelvis"), neck = wp(fig, "neck_01");
   const torsoBones = ["pelvis", "spine_01", "spine_02", "spine_03", "clavicle_l", "clavicle_r"];
   const body = tube(V, torsoBones, pelvis.clone().add(new THREE.Vector3(0, -0.12, 0)), neck.clone().add(new THREE.Vector3(0, -0.02, 0)),
-    { rings: 12, extend: [0, 0], pct: 0.72, inflate: 1.0, pad: 0.014, segs: 40, side: (p) => Math.abs(p.x) < 0.24 });
+    { rings: 12, extend: [0, 0.03], pct: 0.72, inflate: 1.0, pad: 0.014, segs: 40, side: (p) => Math.abs(p.x) < 0.24, taperTop: 0.3 });
   add(body.geo, cloth, "spine_02");
 
   // sleeves (jacket) and trouser legs, with joint caps so bends do not open gaps
   for (const s of ["l", "r"]) {
     const sh = wp(fig, `upperarm_${s}`), el = wp(fig, `lowerarm_${s}`), wr = wp(fig, `hand_${s}`);
-    const up = tube(V, [`upperarm_${s}`], sh, el, { rings: 6, extend: [0.05, 0.03], pct: 0.75, pad: 0.012 });
+    const up = tube(V, [`upperarm_${s}`], sh, el, { rings: 7, extend: [0.015, 0.03], pct: 0.75, pad: 0.012 });
     add(up.geo, cloth, `upperarm_${s}`);
+    { // a small rounded cap where sleeve meets jacket (scaled along the arm so it does not stick out as a pad)
+      const rr = Math.max(up.prof[0].ru, up.prof[0].rw) * 0.95;
+      const cap = new THREE.SphereGeometry(rr, 20, 14);
+      cap.scale(1, 0.75, 1);
+      cap.applyMatrix4(new THREE.Matrix4().makeRotationFromQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), up.axis)));
+      cap.translate(sh.x, sh.y, sh.z);
+      add(cap, cloth, `upperarm_${s}`);
+    }
     const lo = tube(V, [`lowerarm_${s}`], el, wr, { rings: 6, extend: [0.03, -0.02], pct: 0.85, pad: 0.012 });
     add(lo.geo, cloth, `lowerarm_${s}`);
-    const r0 = Math.max(up.prof[0].ru, up.prof[0].rw);
-    const cap = new THREE.SphereGeometry(r0 * 0.86, 20, 14); cap.translate(sh.x, sh.y, sh.z);
-    add(cap, cloth, `upperarm_${s}`);
-    const re = Math.max(lo.prof[0].ru, lo.prof[0].rw);
+        const re = Math.max(lo.prof[0].ru, lo.prof[0].rw);
     const elb = new THREE.SphereGeometry(re * 1.0, 18, 12); elb.translate(el.x, el.y, el.z);
     add(elb, cloth, `lowerarm_${s}`);
     // shirt cuff just showing at the wrist
@@ -215,11 +226,6 @@ export function dress(fig, { suit = "#2b2a28", trousers = null, shirt = "#b9b4aa
   nr = Math.min(nr, 0.075);
   const sc = ringBand(neck.clone().addScaledVector(nAxis, 0.028), nAxis, nr * 0.9 + 0.006, 0.036);
   add(sc, shirtMat, "neck_01");
-  const jc = new THREE.TorusGeometry(nr + 0.022, 0.012, 10, 36);
-  jc.scale(1.12, 1, 1.0);
-  jc.rotateX(Math.PI / 2 - 0.25);
-  jc.translate(neck.x, neck.y - 0.012, neck.z - 0.012);
-  add(jc, cloth, "spine_03");
 
   // hair: an ellipsoid cap fitted to the head, cut at a hairline (forehead high, sides above the ears, nape low)
   const headV = V.filter((q) => q.bone === "Head");
@@ -235,7 +241,7 @@ export function dress(fig, { suit = "#2b2a28", trousers = null, shirt = "#b9b4aa
   const keep = [];
   const ix = sph.index.array;
   const ok = (i) => { const y = (P.getY(i) - hc.y) / he.y, z = (P.getZ(i) - hc.z) / he.z;
-    return y > 0.14 + 0.55 * Math.max(0, z) - 0.6 * Math.max(0, -z); };
+    return y > 0.14 + 0.55 * Math.max(0, z) - 0.95 * Math.max(0, -z); };
   for (let t = 0; t < ix.length; t += 3) if (ok(ix[t]) && ok(ix[t + 1]) && ok(ix[t + 2])) keep.push(ix[t], ix[t + 1], ix[t + 2]);
   sph.setIndex(keep);
   sph.computeVertexNormals();

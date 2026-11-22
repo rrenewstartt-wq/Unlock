@@ -23,13 +23,13 @@ def vault_open(sid, dur, q):
     c3 M into the open box, amber cloth, centre-left / c4 D the paper tag, lower centre / c5 M the lid, right /
     c6 D box corner against the dark, left / c7 W from the south-west, figures back-lit, wash centre-right."""
     cam = cam_shots([
-        (0, [0.5, 1.4, 3.2], [0.0, 0.95, -0.8], 40),
+        (0, [0.95, 1.6, 4.5], [-0.15, 0.95, 0.1], 38),
         (q[1] - 0.05, [1.25, 0.98, 0.25], [-0.35, 0.86, 0.15], 36),
         (q[2] - 0.05, [-0.18, 1.42, 0.42], [-0.32, 0.76, 0.0], 38),
         (q[3] - 0.05, [0.22, 0.9, 0.12], [-0.11, 0.83, 0.02], 30),
         (q[4] - 0.05, [0.75, 1.35, 0.75], [0.42, 0.74, 0.1], 36),
         (q[5] - 0.05, [-0.95, 0.9, 0.5], [-0.5, 0.86, 0.12], 32),
-        (q[6] - 0.05, [-1.7, 1.3, 2.7], [0.15, 1.0, -0.9], 40),
+        (q[6] - 0.05, [-2.3, 1.45, 3.7], [0.0, 0.95, 0.2], 38),
     ], dur)
     opts = f'{{ mode: "open", camera: {cam} }}'
     m, t = _join([

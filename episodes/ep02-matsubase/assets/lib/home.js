@@ -19,7 +19,8 @@ const HOLE = { x0: -2.45, x1: -1.55, z0: -0.6, z1: 1.95 };  // stairwell opening
 export const BENCH = [0.75, -1.4];                          // workbench centre (x, z), under the window
 
 const MODES = {
-  workshop: { hdri: "winter_orchard", env: 0.35, bg: 0.62, exposure: 1.0, sun: 1.1, sunColor: "#e9edf1", fill: 1.15 },
+  // overcast: no sun, soft sky through the window; outside a hazy low-roof neighbourhood (not the victim's orchard view)
+  workshop: { hdri: "kloofendal_misty_morning_puresky", env: 0.3, bg: 0.55, exposure: 0.9, fill: 1.0, fog: ["#a3aab2", 0.028] },
 };
 
 // Desaturate a loaded model's materials toward grey (generic, out-of-focus props should not draw the eye).
@@ -41,6 +42,7 @@ export function createHome(stage, opts) {
   const M = MODES[mode];
   return film(stage, `home-${mode}-${stage.id}`, {
     hdri: M.hdri, envIntensity: M.env, exposure: M.exposure, envBackground: true, background: "#0b0d10",
+    fog: { color: M.fog[0], density: M.fog[1] },
   }, async (f) => {
     const S = f.scene;
     S.backgroundIntensity = M.bg;
@@ -144,10 +146,10 @@ export function createHome(stage, opts) {
     // ---------------------------------------------------------------- props (generic, muted): workbench + vice, shelf + toolbox
     const bench = await f.model("painted_wooden_table", { pos: [BENCH[0], 0, BENCH[1]], width: 1.8 });
     // the model is painted blue: pull it to a worn grey-brown (multiply by a warm grey)
-    const benchWood = f.tiled(wood, 1, 1);
-    benchWood.color = new THREE.Color("#9a8c7e");
+    const benchWood = f.tiled(floorTex, 0.6, 0.6);                  // rough, matte, worn planks — not a polished table
+    benchWood.color = new THREE.Color("#7d746b");
     benchWood.roughness = 1;
-    benchWood.envMapIntensity = 0.5;
+    benchWood.envMapIntensity = 0.3;
     bench.traverse((o) => { if (o.isMesh) o.material = benchWood; });
     const benchTop = new THREE.Box3().setFromObject(bench).max.y;
     const vice = await f.model("bench_vice_01", { pos: [BENCH[0] - 0.85, benchTop, BENCH[1] + 0.28], rot: [0, Math.PI / 2, 0], height: 0.17 });
@@ -158,31 +160,42 @@ export function createHome(stage, opts) {
     f.box({ size: [0.42, 0.03, 0.09], radius: 0.004, material: offcut, pos: [BENCH[0] + 0.25, benchTop + 0.009, BENCH[1] - 0.05], rot: [0, 0.12, 0] });
     f.box({ size: [0.3, 0.025, 0.07], radius: 0.004, material: offcut, pos: [BENCH[0] + 0.32, benchTop + 0.031, BENCH[1] - 0.02], rot: [0, -0.2, 0] });
     const shelf = await f.model("Shelf_01", { pos: [X1 - 0.16, 0, 0.2], rot: [0, -Math.PI / 2, 0], height: 1.75 });
-    mute(shelf, 0.5, 0.7);
+    // dark stained wood with worn edges, not white: multiply the pale paint down to a dark brown
+    shelf.traverse((o) => { if (o.isMesh) for (const m of [].concat(o.material)) { m.color = new THREE.Color("#3b332c"); m.roughness = 0.9; } });
     const box = await f.model("metal_toolbox", { pos: [X1 - 0.18, 0.0, 1.1], rot: [0, -Math.PI / 2 + 0.2, 0], height: 0.16 });
     mute(box, 0.6, 0.75);
 
     // ---------------------------------------------------------------- light: overcast window daylight
-    const sun = new THREE.DirectionalLight(M.sunColor, M.sun);       // soft break of daylight through the window
-    sun.position.set(wx - 2.2, 4.8, Z0 - 6);
-    sun.target.position.set(BENCH[0] + 0.1, benchTop, BENCH[1] + 0.6);
-    sun.castShadow = true;
-    sun.shadow.mapSize.set(2048, 2048);
-    Object.assign(sun.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4, near: 1, far: 16 });
-    sun.shadow.bias = -0.0004;
-    sun.shadow.normalBias = 0.01;
-    S.add(sun, sun.target);
+    // c5: a narrow band of window light across the dark bench top (a soft spot at a grazing angle → a long thin strip)
+    const band = new THREE.SpotLight("#e3e8ee", 6, 0, 0.11, 0.9, 1.2);
+    band.position.set(wx - 0.4, 1.75, Z0 - 0.25);
+    band.target.position.set(BENCH[0] - 0.05, benchTop, BENCH[1] + 0.35);
+    S.add(band, band.target);
     const fill = new THREE.SpotLight("#d3dce6", 40 * M.fill, 0, 1.15, 1, 1.2);   // sky through the window
     fill.position.set(wx, 1.9, Z0 - 1.6);
     fill.target.position.set(wx - 0.4, 0.4, 1.0);
-    fill.castShadow = true;
-    fill.shadow.mapSize.set(1024, 1024);
-    fill.shadow.bias = -0.0006;
+    fill.castShadow = false;                                       // overcast: no hard window-frame shadows
     S.add(fill, fill.target);
     const below = new THREE.PointLight("#c9d1da", 2.2, 0, 2);       // daylight from the entrance pane, in the hall below
     below.position.set(-2.0, -1.3, 3.7);
     S.add(below);
-    S.add(new THREE.HemisphereLight("#a9b6c4", "#3b342c", 0.25));
+    S.add(new THREE.HemisphereLight("#a9b6c4", "#3b342c", 0.3));
+
+    // ---------------------------------------------------------------- outside the window: low roofs of the neighbourhood in haze
+    const roofDark = new THREE.MeshStandardMaterial({ color: "#3a3d42", roughness: 0.9 });
+    const wallOut = new THREE.MeshStandardMaterial({ color: "#7d7a74", roughness: 1 });
+    for (let i = 0; i < 14; i++) {
+      const x = -14 + i * 2.4 + 1.2 * hash(i + 5), z = Z0 - 9 - 7 * hash(i + 9) - (i % 3) * 6, w = 4 + 2 * hash(i), d = 5, h = 3.2 + 2.6 * hash(i + 2);
+      const body = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), wallOut);
+      body.position.set(x, h / 2 - 3.5, z);                         // we look out from the 2nd floor: their roofs sit lower
+      S.add(body);
+      for (const sgn of [-1, 1]) {
+        const roof = new THREE.Mesh(new THREE.BoxGeometry(w + 0.5, 0.12, d / 2 / Math.cos(0.45) + 0.3), roofDark);
+        roof.position.set(x, h - 3.5 + Math.tan(0.45) * d / 4, z + sgn * d / 4);
+        roof.rotation.x = sgn * 0.45;
+        S.add(roof);
+      }
+    }
 
     return (t) => { f.shot(opts.camera, t); };
   });

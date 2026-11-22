@@ -2,8 +2,8 @@
 // model, evening sky HDRI kept very dark). Mode "night" → night_road (SPEC row 7). "river" (river_search) is not built yet.
 // Rules kept: no signs, no lettering, no people; the camera never walks. Generic narrow residential road with block walls,
 // plain dark houses behind them, wooden utility poles and wires; one sodium lamp (the scene's only amber) and two dimmer
-// cool mercury lamps further down; far away on the left a lit building mass (toward the police station, shape unclear:
-// fog + soft windows, no detail). Nothing here is from a record except "a night street in the town".
+// cool mercury lamps further down; far away a lower skyline of unlit 2-3 storey masses in the haze (toward the police
+// station; no windows or lights, nothing to read). Nothing here is from a record except "a night street in the town".
 // Coordinates (metres): road along z (camera side +z, far end -z), road x ∈ [-2.4, 2.4], block walls at x = ±2.75.
 import { film, THREE } from "../kit3d/film.js";
 import { GLTFLoader } from "../kit3d/addons/loaders/GLTFLoader.js";
@@ -22,24 +22,6 @@ export const LAMPS = {                      // [x, head y, z] of each lamp head 
 const MODES = {
   night: { hdri: "evening_road_01_puresky", env: 0.02, bg: 0.03, exposure: 1.2, fog: ["#0a0e15", 0.0085], moon: 0.22 },
 };
-
-// Facade of the far building: dark wall with a grid of soft, cool windows (some unlit). Deterministic.
-function facadeTexture() {
-  const c = document.createElement("canvas");
-  c.width = 512; c.height = 256;
-  const x = c.getContext("2d");
-  x.fillStyle = "#15181d"; x.fillRect(0, 0, 512, 256);
-  for (let r = 0; r < 4; r++) for (let k = 0; k < 14; k++) {
-    if (hash(r * 31 + k) < 0.38) continue;
-    const px = 18 + k * 35, py = 30 + r * 52;
-    x.shadowColor = "rgba(215,228,240,0.9)"; x.shadowBlur = 26;
-    x.fillStyle = `rgba(214,226,236,${0.55 + 0.4 * hash(r * 7 + k + 3)})`;
-    x.fillRect(px + 3, py + 4, 16, 18);
-  }
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  return t;
-}
 
 export function createOutside(stage, opts) {
   const mode = opts.mode || "night";
@@ -109,19 +91,16 @@ export function createOutside(stage, opts) {
       }
     }
 
-    // ---------------------------------------------------------------- the far, lit building mass (left, toward the station)
-    const fac = facadeTexture();
-    const farMat = new THREE.MeshStandardMaterial({ color: "#ffffff", map: fac, emissive: "#ffffff", emissiveMap: fac, emissiveIntensity: 0.6, roughness: 0.9, fog: false });
-    const dark = new THREE.MeshStandardMaterial({ color: "#14171c", roughness: 1 });   // the far masses keep their fogged sides
-    const far = new THREE.Mesh(new THREE.BoxGeometry(34, 16, 16), [dark, dark, dark, dark, farMat, dark]);
-    far.position.set(-14, 8, -178);
-    far.rotation.y = 0.25;
-    S.add(far);
-    const farMat2 = farMat.clone();
-    const far2 = new THREE.Mesh(new THREE.BoxGeometry(18, 10, 12), [dark, dark, dark, dark, farMat2, dark]);
-    far2.position.set(-3, 5, -152);
-    far2.rotation.y = 0.15;
-    S.add(far2);
+    // ---------------------------------------------------------------- far away: low 2-3 storey masses, unlit, lost in the haze
+    // (toward the station; no windows, no lights, no shapes to read — just a lower skyline than the houses near by)
+    const dark = new THREE.MeshStandardMaterial({ color: "#1a1d23", roughness: 1 });
+    const FAR = [[-16, -150, 22, 8.5, 14, 0.25], [-1, -158, 16, 10, 12, 0.1], [10, -165, 20, 7, 12, -0.15], [-30, -140, 14, 6.5, 10, 0.3]];
+    for (const [x, z, w, h, d, ry] of FAR) {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), dark);
+      m.position.set(x, h / 2, z);
+      m.rotation.y = ry;
+      S.add(m);
+    }
 
     // ---------------------------------------------------------------- utility poles (preset_02 of modular_electricity_poles)
     const g = await new GLTFLoader().loadAsync(`${CACHE}/models/modular_electricity_poles/modular_electricity_poles.gltf`);
@@ -171,43 +150,69 @@ export function createOutside(stage, opts) {
     grad.addColorStop(0.5, "rgba(255,255,255,0.06)"); grad.addColorStop(1, "rgba(255,255,255,0)");
     gx.fillStyle = grad; gx.fillRect(0, 0, 128, 128);
     const glowTex = new THREE.CanvasTexture(gc);
+    // lens emissive: bright at the pole (centre of the dome), falling off to the rim (sphere v runs pole → rim)
+    const lc = document.createElement("canvas");
+    lc.width = 4; lc.height = 64;
+    const lx = lc.getContext("2d");
+    const lg = lx.createLinearGradient(0, 0, 0, 64);
+    lg.addColorStop(0, "#202020"); lg.addColorStop(0.55, "#9a9a9a"); lg.addColorStop(1, "#ffffff");
+    lx.fillStyle = lg; lx.fillRect(0, 0, 4, 64);
+    const lensTex = new THREE.CanvasTexture(lc);
     const lampLights = {};
     const addLamp = (key, color, power, shadow) => {
       const [hx, hy, hz] = LAMPS[key];
       const side = Math.sign(hx);
       const poleX = side * 2.95;
-      const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, Math.abs(poleX - hx) + 0.2, 10), metal);
-      arm.rotation.z = Math.PI / 2 - side * 0.12;
-      arm.position.set((poleX + hx) / 2, hy + 0.12, hz);
+      // arm: a pipe from the pole that rises and runs out to the back of the head (no gap)
+      const back = hx + side * 0.3;
+      const armCurve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(poleX, hy - 0.25, hz), new THREE.Vector3(poleX - side * 0.12, hy + 0.12, hz),
+        new THREE.Vector3((poleX + back) / 2, hy + 0.16, hz), new THREE.Vector3(back, hy + 0.05, hz)]);
+      const arm = new THREE.Mesh(new THREE.TubeGeometry(armCurve, 40, 0.028, 10, false), metal);
       arm.castShadow = true;
       S.add(arm);
-      const brace = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.9, 8), metal);
-      brace.rotation.z = side * 0.9;
-      brace.position.set(poleX - side * 0.32, hy - 0.2, hz);
-      S.add(brace);
-      const housing = f.box({ size: [0.62, 0.16, 0.28], radius: 0.05, material: metal, pos: [hx, hy, hz] });
-      housing.rotation.z = side * 0.1;
-      const lensMat = new THREE.MeshBasicMaterial({ color });
-      const lens = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.02, 0.2), lensMat);
-      lens.position.set(hx, hy - 0.085, hz);
-      S.add(lens);
+      const head = new THREE.Group();
+      head.position.set(hx, hy, hz);
+      head.rotation.z = side * 0.08;
+      S.add(head);
+      // housing: the upper half of a long ellipsoid, open underneath
+      const housing = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 12, 0, Math.PI * 2, 0, Math.PI / 2), metal);
+      housing.scale.set(0.34, 0.11, 0.16);
+      housing.castShadow = true;
+      head.add(housing);
+      // reflector: the polished inside of the housing, lit by the lamp
+      const refl = new THREE.Mesh(new THREE.SphereGeometry(0.98, 32, 12, 0, Math.PI * 2, 0, Math.PI / 2),
+        new THREE.MeshStandardMaterial({ color: "#d9d4cc", roughness: 0.3, metalness: 0.8, emissive: color, emissiveIntensity: 0.25, side: THREE.BackSide }));
+      refl.scale.set(0.34, 0.11, 0.16);
+      head.add(refl);
+      // lens: a shallow glowing dome under the housing, brightest in the middle (the lamp seen through it)
+      const lensMat = new THREE.MeshStandardMaterial({ color: "#1a1712", emissive: color, emissiveMap: lensTex, emissiveIntensity: 2.2,
+        roughness: 0.35, transparent: true, opacity: 0.95 });
+      const lens = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 10, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), lensMat);
+      lens.scale.set(0.3, 0.06, 0.135);
+      lens.position.y = 0.004;
+      head.add(lens);
+      const rimRing = new THREE.Mesh(new THREE.TorusGeometry(1, 0.06, 6, 40), metal);
+      rimRing.scale.set(0.31, 0.14, 0.14);
+      rimRing.rotation.x = Math.PI / 2;
+      head.add(rimRing);
       const l = new THREE.SpotLight(color, power, 40, 1.05, 0.55, 1.7);
       l.position.set(hx, hy - 0.12, hz);
       l.target.position.set(key === "left" ? -2.5 : hx - side * 1.2, 0, hz + 0.5);
       if (shadow) { l.castShadow = true; l.shadow.mapSize.set(2048, 2048); l.shadow.bias = -0.0004; l.shadow.radius = 3; }
       S.add(l, l.target);
       // a faint halo in the night air around the lens (fog catches the light)
-      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color, transparent: true, opacity: 0.9,
+      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color, transparent: true, opacity: 0.55,
         depthWrite: false, blending: THREE.AdditiveBlending, fog: false }));
-      halo.scale.set(3.2, 3.2, 1);
-      halo.position.set(hx, hy - 0.15, hz);
+      halo.scale.set(2.0, 2.0, 1);
+      halo.position.set(hx, hy - 0.08, hz);
       S.add(halo);
       lampLights[key] = { l, lens, halo };
     };
     addLamp("hero", "#ffb45a", 560, true);     // low-pressure sodium look: the one amber in the scene
     addLamp("left", "#d6e3f2", 380, true);     // mercury: cool white
     addLamp("far", "#d6e3f2", 200, false);
-    lampLights.hero.lens.material.color.set(AMBER);
+    lampLights.hero.lens.material.emissive.set(AMBER);
 
     // ---------------------------------------------------------------- moonlight (cool, weak) for the shapes of roofs and walls
     const moon = new THREE.DirectionalLight("#8ea4c8", M.moon);
