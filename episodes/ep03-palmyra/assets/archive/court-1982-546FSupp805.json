@@ -1,0 +1,340 @@
+{
+  "id": 5682026,
+  "name": "UNITED STATES of America, Plaintiff, v. Buck Duane WALKER, also known as Roy A. Allen (01), and Stephanie Kay Stearns, also known as Stephanie Allen (02), Defendants",
+  "name_abbreviation": "United States v. Walker",
+  "decision_date": "1982-09-07",
+  "docket_number": "Cr. No. 81-00310-10",
+  "first_page": "805",
+  "last_page": "813",
+  "citations": [
+    {
+      "type": "official",
+      "cite": "546 F. Supp. 805"
+    }
+  ],
+  "court": {
+    "name_abbreviation": "D. Haw.",
+    "id": 9051,
+    "name": "United States District Court for the District of Hawaii"
+  },
+  "jurisdiction": {
+    "id": 39,
+    "name_long": "United States",
+    "name": "U.S."
+  },
+  "cites_to": [
+    {
+      "cite": "279 F.2d 407",
+      "category": "reporters:federal",
+      "reporter": "F.2d",
+      "case_ids": [
+        2019810
+      ],
+      "year": 1960,
+      "opinion_index": 0,
+      "case_paths": [
+        "/f2d/279/0407-01"
+      ]
+    },
+    {
+      "cite": "246 F.Supp. 522",
+      "category": "reporters:federal",
+      "reporter": "F. Supp.",
+      "case_ids": [
+        399361
+      ],
+      "year": 1965,
+      "opinion_index": 0,
+      "case_paths": [
+        "/f-supp/246/0522-01"
+      ]
+    },
+    {
+      "cite": "174 F.2d 959",
+      "category": "reporters:federal",
+      "reporter": "F.2d",
+      "case_ids": [
+        306352
+      ],
+      "year": 1949,
+      "pin_cites": [
+        {
+          "parenthetical": "Defendant's effort to locate a witness before trial met requirement of due diligence"
+        }
+      ],
+      "opinion_index": 0,
+      "case_paths": [
+        "/f2d/174/0959-01"
+      ]
+    },
+    {
+      "cite": "539 F.Supp. 296",
+      "category": "reporters:federal",
+      "reporter": "F. Supp.",
+      "case_ids": [
+        5670683
+      ],
+      "year": 1982,
+      "opinion_index": 0,
+      "case_paths": [
+        "/f-supp/539/0296-01"
+      ]
+    },
+    {
+      "cite": "447 U.S. 410",
+      "category": "reporters:federal",
+      "reporter": "U.S.",
+      "case_ids": [
+        6185347
+      ],
+      "weight": 3,
+      "year": 1980,
+      "opinion_index": 0,
+      "case_paths": [
+        "/us/447/0410-01"
+      ]
+    },
+    {
+      "cite": "433 U.S. 682",
+      "category": "reporters:federal",
+      "reporter": "U.S.",
+      "case_ids": [
+        6181519
+      ],
+      "weight": 3,
+      "year": 1977,
+      "opinion_index": 0,
+      "case_paths": [
+        "/us/433/0682-01"
+      ]
+    },
+    {
+      "cite": "46 L.Ed.2d 646",
+      "category": "reporters:federal",
+      "reporter": "L. Ed. 2d",
+      "year": 1976,
+      "opinion_index": 0
+    },
+    {
+      "cite": "96 S.Ct. 790",
+      "category": "reporters:federal",
+      "reporter": "S. Ct.",
+      "year": 1976,
+      "opinion_index": 0
+    },
+    {
+      "cite": "423 U.S. 1056",
+      "category": "reporters:federal",
+      "reporter": "U.S.",
+      "case_ids": [
+        6490561,
+        6490150,
+        6490759,
+        6490472,
+        6490377,
+        6491471,
+        6491378,
+        6490871,
+        6491162,
+        6490652,
+        6490301
+      ],
+      "year": 1976,
+      "opinion_index": 0,
+      "case_paths": [
+        "/us/423/1056-05",
+        "/us/423/1056-01",
+        "/us/423/1056-07",
+        "/us/423/1056-04",
+        "/us/423/1056-03",
+        "/us/423/1056-11",
+        "/us/423/1056-10",
+        "/us/423/1056-08",
+        "/us/423/1056-09",
+        "/us/423/1056-06",
+        "/us/423/1056-02"
+      ]
+    },
+    {
+      "cite": "516 F.2d 873",
+      "category": "reporters:federal",
+      "reporter": "F.2d",
+      "case_ids": [
+        1132735
+      ],
+      "year": 1975,
+      "pin_cites": [
+        {
+          "page": "875"
+        }
+      ],
+      "opinion_index": 0,
+      "case_paths": [
+        "/f2d/516/0873-01"
+      ]
+    },
+    {
+      "cite": "575 F.2d 209",
+      "category": "reporters:federal",
+      "reporter": "F.2d",
+      "case_ids": [
+        930185
+      ],
+      "weight": 2,
+      "year": 1978,
+      "opinion_index": 0,
+      "case_paths": [
+        "/f2d/575/0209-01"
+      ]
+    },
+    {
+      "cite": "18 U.S.C. \u00a7 1542",
+      "category": "laws:leg_statute",
+      "reporter": "U.S.C.",
+      "opinion_index": 0
+    },
+    {
+      "cite": "18 U.S.C. \u00a7 2314",
+      "category": "laws:leg_statute",
+      "reporter": "U.S.C.",
+      "weight": 3,
+      "opinion_index": 0
+    },
+    {
+      "cite": "18 U.S.C. \u00a7 661",
+      "category": "laws:leg_statute",
+      "reporter": "U.S.C.",
+      "weight": 3,
+      "opinion_index": 0
+    },
+    {
+      "cite": "550 F.2d 1167",
+      "category": "reporters:federal",
+      "reporter": "F.2d",
+      "case_ids": [
+        988748
+      ],
+      "year": 1977,
+      "pin_cites": [
+        {
+          "page": "1169"
+        }
+      ],
+      "opinion_index": 0,
+      "case_paths": [
+        "/f2d/550/1167-01"
+      ]
+    },
+    {
+      "cite": "223 U.S. 442",
+      "category": "reporters:federal",
+      "reporter": "U.S.",
+      "case_ids": [
+        3663096
+      ],
+      "weight": 8,
+      "year": 1912,
+      "pin_cites": [
+        {
+          "page": "449"
+        },
+        {
+          "page": "251"
+        }
+      ],
+      "opinion_index": 0,
+      "case_paths": [
+        "/us/223/0442-01"
+      ]
+    },
+    {
+      "cite": "397 U.S. 436",
+      "category": "reporters:federal",
+      "reporter": "U.S.",
+      "case_ids": [
+        12054849
+      ],
+      "weight": 3,
+      "year": 1970,
+      "opinion_index": 0,
+      "case_paths": [
+        "/us/397/0436-01"
+      ]
+    },
+    {
+      "cite": "432 U.S. 137",
+      "category": "reporters:federal",
+      "reporter": "U.S.",
+      "case_ids": [
+        6177531
+      ],
+      "weight": 3,
+      "year": 1977,
+      "opinion_index": 0,
+      "case_paths": [
+        "/us/432/0137-01"
+      ]
+    },
+    {
+      "cite": "432 U.S. 161",
+      "category": "reporters:federal",
+      "reporter": "U.S.",
+      "case_ids": [
+        6177649
+      ],
+      "weight": 5,
+      "year": 1977,
+      "opinion_index": 0,
+      "case_paths": [
+        "/us/432/0161-01"
+      ]
+    },
+    {
+      "cite": "18 U.S.C. \u00a7 1111",
+      "category": "laws:leg_statute",
+      "reporter": "U.S.C.",
+      "opinion_index": 0
+    }
+  ],
+  "analysis": {
+    "cardinality": 1273,
+    "char_count": 29595,
+    "ocr_confidence": 0.745,
+    "pagerank": {
+      "raw": 1.2956738880720172e-07,
+      "percentile": 0.6210178662925908
+    },
+    "sha256": "84b6355168ec20cd7a1e09adc71ae256d5d5c035680656f368fbcd553a55273a",
+    "simhash": "1:9a999bffcd38e17d",
+    "word_count": 4944
+  },
+  "last_updated": "2024-02-27T21:59:23.350579+00:00",
+  "provenance": {
+    "date_added": "2019-08-29",
+    "source": "Harvard",
+    "batch": "2018"
+  },
+  "casebody": {
+    "judges": [],
+    "parties": [
+      "UNITED STATES of America, Plaintiff, v. Buck Duane WALKER, also known as Roy A. Allen (01), and Stephanie Kay Stearns, also known as Stephanie Allen (02), Defendants."
+    ],
+    "opinions": [
+      {
+        "text": "OPINION and ORDER\nJAMES M. BURNS, District Judge.\nINTRODUCTION\nStearns and Walker were indicted in 1981 for the first degree murder of Eleanor Graham in violation of 18 U.S.C. \u00a7 1111. Mrs. Graham was allegedly killed in late August or early September of 1974 on Palmyra Island, an atoll approximately 1000 miles south of Hawaii. Mrs. Graham and her husband, on a cruise on the Pacific in their ketch the Sea Wind, disappeared while moored at Palmyra. The Sea Wind was discovered in Hawaii in October of 1974 manned by Stearns and Walker. They were charged and convicted of, inter alia, theft of the Sea Wind.\nMrs. Graham\u2019s skeletal remains were discovered on Palmyra by other sailors in February of 1981. The whereabouts of Mr. Graham remains unknown. Because the indictment under \u00a7 1111 charges that Mrs. Graham was killed \u201cduring the perpetration of or attempt to perpetrate a burglary or robbery,\u201d Stearns and Walker have moved to dismiss the indictment on the ground that their previous convictions for theft of the Sea Wind raise a double jeopardy bar to a subsequent prosecution for felony murder with robbery as the predicate felony.\nTheir line of reasoning is as follows: (1) All charges arise from the same set of circumstances. (2) Theft is a lesser included offense of robbery. (3) Robbery is a lesser included offense of felony murder with robbery as the predicate felony. Therefore, theft is a lesser included offense of felony murder with robbery as the predicate felony and the previous convictions for theft of the Sea Wind bar the present felony murder prosecution for a robbery of the Grahams that resulted in a taking of the Sea Wind.\nThe government contends that the circumstances of this case bring it within an exception to the bar of double jeopardy described in several Supreme Court cases:\nAn exception may exist where the State is unable to proceed on the more serious charge at the outset because the additional facts necessary to sustain the charge have not occurred or have not been discovered despite the exercise of due diligence.\nBrown v. Ohio, 432 U.S. 161, 169 n. 7, 97 S.Ct. 2221, 2227 n. 7, 53 L.Ed.2d 187 (1977). See also, Jeffers v. United States, 432 U.S. 137, 97 S.Ct. 2207, 53 L.Ed.2d 168 (1977); Ashe v. Swenson, 397 U.S. 436, 90 S.Ct. 1189, 25 L.Ed.2d 469 (1970); Diaz v. United States, 223 U.S. 442, 32 S.Ct. 250, 56 L.Ed. 500 (1912).\nApplication of the Brown exception requires a careful examination of the circumstances surrounding the arrival of Stearns, Walker and the Grahams at Palmyra, the disappearance of the Grahams, and the investigative activities undertaken by law enforcement authorities leading to the original indictments and convictions. The parties rely on the records of the first trials, appeals, and the grand jury proceedings on the 1981 felony murder indictment. I received, over defense objection, evidence (testimony and exhibits) at a hearing on the motions to dismiss held March 12, 1982 at Honolulu, Hawaii. From these sources, I find the following.\nII. FACTS\nThe court of appeals opinion affirming Stearns\u2019 convictions contains a summary of the evidence adduced at her trial concerning the events at Palmyra. I reproduce the pertinent sections here for clarity.\n[W]e must recount the voyages of two sailing vessels, the Iola and the Sea Wind, and describe their encounter at Palmyra, an uninhabited island in the Pacific, about one thousand miles south of Hawaii.\nThe Iola, a 30-foot vessel, arrived in Palmyra harbor from Hawaii on June 25 or 26,1974. The channel leading into the lagoon on Palmyra is narrow and difficult to navigate. The Iola, which had a broken motor had to be towed through the channel by dinghies from two ships already anchored in the lagoon. The persons sailing on the Iola were the defendant Stephanie Stearns and one Buck Walker (alias Roy Allen), the Iola\u2019s owner.\nApparently Steam\u2019s and Walker\u2019s voyage from Hawaii had been an arduous one. It is doubtful whether the Iola was sufficiently seaworthy either for a return voyage to Hawaii or for a trip to Fanning Island, 172 miles further south and the nearest available place to obtain equipment and supplies. Stearns and Walker apparently intended to remain at Palmyra until friends arrived on another boat. The Iola had meagre supplies, and Stearns and Walker found it hard to adjust to a diet of coconut and fish. They tried to grow vegetables, with little success. One witness testified that Stearns told him she and Walker had ten dollars and some equipment, which she offered to exchange for food.\nOn July 1, the Sea Wind dropped anchor in the lagoon at Palmyra, where the Iola and other boats were located. The Sea Wind, a ketch 37V2 feet long, equipped with auxiliary engines, stocked with abundant food and stores, and fitted with a complete tool shop, was owned by a Mr. Graham, who, with his wife, was on a cruise of the South Pacific. The Grahams had spent over two years planning the trip and provisioning the Sea Wind.\nIn late August 1974, all other vessels had departed from Palmyra, and only the Iola and the Sea Wind remained at the Island. The Grahams had a prearranged pattern of radio contact with an operator in Hawaii. The operator\u2019s last radio conversation with Mr. Graham took place on August 28, 1974. All attempts to make further radio contact with the Sea Wind proved unsuccessful. The Grahams had mysteriously disappeared ....\nThree [sic] months later, the Sea Wind was recognized in a Honolulu yacht harbor. Stearns and Walker were now its crew. The ketch had been re-registered under another name and had been partially repainted ....\nStearns contended that the Grahams disappeared while the Sea Wind remained anchored in Palmyra harbor, and that after a search she and Walker had found the Grahams\u2019 dinghy overturned on a beach of the lagoon.\nUnited States v. Stearns, 550 F.2d 1167, 1169 (9th Cir. 1977).\nStearns was charged with theft of the Sea Wind within the special maritime and territorial jurisdiction of the United States, 18 U.S.C. \u00a7 661, theft of approximately $400 from aboard the Sea Wind, 18 U.S.C. \u00a7 661, and transportation of stolen property (goods, wares and merchandise aboard the Sea Wind) in interstate or foreign commerce, 18 U.S.C. \u00a7 2314. Her convictions on each count were affirmed on appeal. Id.\nWalker was originally charged in a 7 count indictment with Stearns. He was subsequently charged separately in a 4 count indictment. After trial on the second indictment, the first indictment was dismissed as to Walker. He was convicted of theft of the Sea Wind, 18 U.S.C. \u00a7 661, transportation of stolen property (the Sea Wind, her engines, tackles, goods, wares and merchandise) in interstate or foreign commerce, 18 U.S.C. \u00a7 2314, and making a false statement in an application for a passport, 18 U.S.C. \u00a7 1542. His convictions for transporting stolen property and making false statements were affirmed. The conviction for theft of the Sea Wind was reversed because of an erroneous supplemental jury instruction. United States v. Walker, 575 F.2d 209 (9th Cir. 1978). The government did not attempt to retry Walker on the theft count until the recovery of Mrs. Graham\u2019s remains brought the case back to light. I recently dismissed the theft count of the 1975 indictment on Constitutional and Speedy Trial Act grounds. That dismissal is the ground for Walker\u2019s motion to dismiss the murder indictment on res judicata grounds. Disposition of that motion will follow in a separate opinion.\nTHE 1974 INVESTIGATION\nAt the hearing on the motions to dismiss, the government called FBI Special Agent Calvin Shishido to testify to the conduct of the investigation following the discovery of the Sea Wind in Hawaii. Agent Shishido testified that on October 28, 1974 he received information from the United States Coast Guard about the sighting of the Sea Wind in Hawaii, the fact that its owners, the Grahams, had been missing since August 28,1974, and that Stearns and Walker were the last persons known to be on Palmyra with the Grahams. A report of the resulting trip to Palmyra prepared by Coast Guard Lieutenant Commander Busick (Defendants\u2019 Exh. 1) shows that the. investigative team departed by aircraft from Hawaii for Fanning Island, enroute to Palmyra, at 7:20 AM on October 31, 1974.\nUpon reaching Palmyra at 4:30 PM on November 1, the investigative team was composed of Lieutenant Commander Busick plus three Coast Guard divers; Russel Apple from the Department of Interior; Jack Wheeler, a Hawaiian Telephone Company employee who had spent considerable time on Palmyra; Assistant United States Attorney (AUSA) William Eggers; FBI Special Agents Tom Bridges and Shishido and Dr. Martin Vitousek, a University of Hawaii researcher who provided transportation from Fanning to Palmyra on the research tug Tatarax, (R.T. 20-21; Defendants\u2019 Exh. 1).\nAgent Shishido, who was in charge of the investigation, testified that the search of Palmyra was conducted for several reasons. First, there was the possibility that the Grahams were still alive and stranded on Palmyra. Because of this possibility, the search was in part a rescue mission. Second, there was the possibility that the Grahams were dead, having been killed, or having died while stranded. They may also have drowned in the lagoon consistent with Stearn\u2019s story. In that regard, the search was one for bodies, afloat or on land, and other evidence of foul play, or of accidental death.\nAgent Shishido\u2019s testimony indicates the search was divided in several parts. AUSA Eggers and Jack Wheeler (who was familiar with the topography of the islands and had been there contemporaneously with the Grahams and Stearns and Walker) searched, on foot, all of the small islands making up the perimeter of the atoll. They started at the southwest comer, near the channel entering the lagoon, and worked counterclockwise, wading from island to island, ending up at the northwest corner.\nAgents Shishido and Bridges began their search with the area of Cooper Island, the largest island in the group, where the Grahams and Steams and Walker had camped on shore. They searched the campsites (still intact with tent and furnishings) for the Grahams or evidence of foul play. They found neither.\nThe agents then searched the buildings, bunkers and other fixtures of the abandoned naval base on Cooper Island. The island was covered with extremely dense vegetation and the search was for the most part restricted to existing clearings and pathways. The two agents also took a dinghy and searched the islands from inside the lagoon.\nAgent Shishido did not recall having found a number of large oil storage tanks later observed by defense counsel on the northeast side of Cooper Island, nor did he specifically recollect seeing or searching through an Air Force rescue boat in one of the buildings near the Grahams\u2019 campsite. He admitted he did not look into every one of the apparently hundreds of 55 gallon oil drums scattered about the island, but testified that the drums were still sealed, or opened only by a small tap hole, and stated further that \u201cif we came across any structures that bodies could have been inside, we would have looked into them.\u201d (R.T. 58)\nLieutenant Commander Busick participated in the search of Cooper Island. His report provides a detailed account of the condition of the two campsites and indicates that he and Russel Apple also \u201cchecked the area around the cove [where the Grahams\u2019 ketch had been anchored] .. . and inspected several other of the main buildings.\u201d (Defendants\u2019 Exh. 1 at 2). The report further indicates that Busick inspected the entire runway and the several military vehicles remaining on Cooper Island.\nBusick also directed the water search by his divers. The first day, Busick and his divers searched \u201calong the shore of a small bay on the north side of the island.\u201d (Defendants\u2019 Exh. 1 at 2). The following morning, the divers searched \u201ca small cove where the Graham\u2019s [sic] boat had been moored plus the area immediately offshore of the Graham\u2019s [sic] camp.\u201d Id.\nIn all, the team was at the island for approximately 24 hours; actively searching from 4:30 PM until dark the first day and from 6:30 AM the second day until departing at approximately 4:00 PM. With nine men actually reported as participating, the search would have consumed from 90 to 120 man-hours. By mid-afternoon the second day, no evidence of foul play or other clues to the whereabouts of the Grahams had been discovered. In the words of Lieutenant Commander Busick, \u201cit was obvious there would be no reason to stay at Palmyra another day.\u201d (Defendants\u2019 Exh. 1 at 2.)\nBecause the lagoon was in places very deep, the water was murky and there were sharks present, a complete underwater search of the lagoon was not made. After returning to Hawaii,' Agent Shishido inquired of the Navy as to the availability of appropriate equipment to make a further search of the lagoon and a search of the nearby ocean for the sunken Iola, but abandoned the idea because of prohibitive cost. The FBI did not return to Palmyra until February 1981, when Mrs. Graham\u2019s remains were discovered in and around a metal container (with a lid) that had apparently washed up on the coral shelf near the shore of the northwest corner of the lagoon.\nIII. THE DOUBLE JEOPARDY CLAIM\nStearns contends that her previous convictions for theft of the Sea Wind and theft of the $400 from the Sea Wind bar a subsequent prosecution for robbery/felony murder where the robbery and thefts are based on the same set of facts. She urges that because theft is a lesser included offense of robbery, e.g., United States v. Belt, 516 F.2d 873, 875 (8th Cir. 1975) cert. denied 423 U.S. 1056, 96 S.Ct. 790, 46 L.Ed.2d 646 (1976) , and robbery is a lesser included offense of felony murder with robbery as the predicate felony, e.g., Harris v. Oklahoma, 433 U.S. 682, 97 S.Ct. 2912, 53 L.Ed.2d 1054 (1977) , that on the facts of this case, theft is a lesser included offense of robbery/felony murder.\nThe government, while not conceding that Steam\u2019s characterization of the lesser included offense situation is correct, relies on the exception to double jeopardy in Brown, supra. Because I find the due.diligence prong of the Brown exception applicable, assuming that a lesser included offense situation is present, I need not decide the validity of Steam\u2019s lesser included offense theory.\nUnited States v. Diaz, 223 U.S. 442, 32 S.Ct. 250, 56 L.Ed. 500 (1912), is the origin of the modern expression of the exception. In Diaz, the defendant was tried and convicted of assault and battery in a Phillipine justice of the peace court for inflicting blows and kicks upon one Cornelio Alcanzaren. Twenty seven days after the assault and battery and after Diaz\u2019 conviction on that charge, Alcanzaren died. Diaz was then charged with and convicted of non-capital homicide.\nIn upholding the Phillipine courts\u2019 denial of his plea of former jeopardy, the Court stated:\nThe death of the injured person was the principal element of the homicide, but was no part of the assault and battery. At the time of the trial for the latter the death had not ensued, and not until it did ensue was the homicide committed. Then, and not before, was it possible to put the accused in jeopardy for that offense.\n223 U.S. at 449, 32 S.Ct. at 251.\nThe Diaz case falls squarely within the first prong of the exception, being one in which \u201cadditional facts necessary to sustain the charge have not occurred.\u201d Brown, supra, 432 U.S. at 169 n. 7, 97 S.Ct. at 2227 n. 7. The government does not contend that this case is of the Diaz type. If Stearns and Walker murdered the Grahams, the act was complete before they were tried for theft.\nIf the Brown exception applies here, it must apply by force of the second prong:\nAn exception may exist where the State is unable to proceed on the more serious charge at the outset because the additional facts necessary to sustain the charge ... have not been discovered despite the exercise of due diligence.\nId. (Emphasis added).\nTwo requirements must be met for the due diligence exception to apply: 1) the facts of this case must fall into the sequence contemplated by the exception; and 2) despite a duly diligent investigation of the Grahams\u2019 disappearance, additional facts necessary to sustain a murder charge were not discovered in 1974; i.e. virtually no evidence was turned up pointing to the Grahams\u2019 having met with foul play. Stearns contends that neither requirement is met here.\nStearns urges that the due diligence exception is inapplicable where the government has, at the time of the first prosecution, some evidence of the more serious charge, but elects not to prosecute because it is not, in effect, the best or most probative evidence, citing, inter alia, Illinois v. Vitale, 447 U.S. 410, 100 S.Ct. 2260, 65 L.Ed.2d 228 (1980) and United States v. Allen, 539 F.Supp. 296 (C.D. Calif. 1982).\nVitale is inapplicable because it falls within (or more precisely, does not fall within) the first or Diaz-type prong of the exception. The victims were dead at the time of the first prosecution and the government was aware of that fact. It was not a question of an investigation failing to uncover evidence of the deaths or of the cause of the deaths.\nAllen involved a long term investigation into a supplier-kickback scheme at Hughes aircraft which was prosecuted as mail fraud and conspiracy to commit mail fraud. The government sought to divide the scheme into two parts on the basis of different groups of suppliers and charged one while the investigation continued on the second. The government fully intended from the start to charge the defendants twice, seeking later to justify its choice by relying on, inter alia, the \u201cadditional facts necessary to sustain the charge have not been discovered\u201d language in Brown.\nAllen is distinguishable on the bare fact that the \u201csecond\u201d investigation had not yet concluded when the first indictment was returned, but was apparently in full swing and expected to result in the return of a second indictment. Here the investigation into the Grahams\u2019 disappearance had concluded without results before the first indictment was returned. Additionally, the relationship of the two groups of defendants and the elements of mail fraud and conspiracy introduced complications in Allen that are not present here. Allen is simply too far removed from this case both factually and legally to be controlling.\nStearns\u2019 contention that the government could have brought a murder charge in the first instance but chose to refrain for lack of a body misses a significant aspect of this case. Not only did the investigation fail to turn up a body, it failed to turn up any evidence, aside from the defendants being in possession of the Sea Wind, that the Grahams met with foul play of any kind. The Grahams\u2019 camp on Palmyra showed no sign of a struggle or confrontation. The search of the islands and lagoon gave no clue to the whereabouts of the Grahams or the cause of their disappearance.\nAgent Shishido readily admitted that the search of Palmyra was conducted in part upon a suspicion that Stearns and Walker were responsible for the disappearance of the Grahams. It would strain reason and common sense, however, to read Brown as foreclosing later prosecution for a greater offense any time facts initially available raise a mere suspicion that the greater offense had been committed. Such an interpretation would in fact render the due diligence prong of the exception largely meaningless. The exception, by its terms, assumes a reason for an investigation in the first place. Surely suspicion that a greater offense had been committed cannot be excluded as such a reason.\nHaving found that the facts of this case bring it within the due diligence prong of the exception, it must next be determined whether the investigative efforts in 1974 amounted to due diligence. There are apparently no cases, aside from Allen, that apply the due diligence standard set out in Brown. The due diligence standard applied in a motion for a new trial on the basis of newly discovered evidence, F.R. Cr. P. 33, is analogous, but the cases rarely involve an effort to discover evidence that failed. But see, Coates v. United States, 174 F.2d 959 (D.C. Cir. 1949) (Defendant\u2019s effort to locate a witness before trial met requirement of due diligence). However, some guidelines may be gleaned from these cases.\nDue diligence means ordinary, rather than extraordinary, diligence, United States v. Gordon, 246 F.Supp. 522 (D.C.D.C. 1965), and it is within the discretion of the trial judge to determine the diligence required under the circumstances. Prlia v. United States, 279 F.2d 407 (9th Cir. 1960).\nAlthough I will address each of the specific contentions raised by Stearns, I find the search of Palmyra meets the due diligence requirement of Brown on the basis of what was done in light of the facts known to the government at the time \u2014 without regard to what might have been done. Were this a case where the location of Mrs. Graham\u2019s remains during the period of the 1974 search was ultimately known with certainty, it would be possible for me to judge the thoroughness of that search in terms of what additional effort would have been required to find the remains. However, the location of the Grahams, or their remains, in 1974 will probably never be known to the government. Therefore, any analysis on the grounds urged by Stearns would be highly speculative.\nStearns\u2019 contention that the search of Palmyra was not conducted with due diligence can be divided into the search of the islands and the search of the lagoon. She attempts to discredit the search of the islands by pointing out that no expert on the discovery of bodies buried on land was consulted, bloodhounds were not used to search the islands, and the search allegedly failed to discover an Air Force rescue boat housed in a building near the Grahams\u2019 campsite and some large oil storage tanks on the northeast side of Cooper Island.\nThe contentions involving failure to consult an expert or to use bloodhounds ignore the fact that two FBI agents participated in and directed the search. Their training and experience in the investigation of criminal activity, together with Agent Shishido\u2019s testimony that they looked for any disturbance of the ground or vegetation indicating the possibility of a burial site, shows that the land search was conducted with due diligence in light of the facts known to the government at the time. Had the government known the Grahams were buried on one of the islands, the failure to employ experts or bloodhounds may have constituted a lack of due diligence.\nThe fact that Agent Shishido did not specifically recall finding or searching the rescue boat or the large oil storage tanks similarly does not discredit the search. The questions were put to him seven and one half years after the search. Other portions of his testimony and his statement that any structure that could have contained bodies was looked into indicate that the searchers were concerned with the concealment or burial of bodies on land and employed appropriate search methods.\nStearns seeks to establish lack of due diligence in the search of the lagoon on several grounds. Generally, she points out that the underwater search was conducted by divers using only SCUBA gear and therefore limited by depth, current, visibility and sharks. She contends that the failure to assemble more sophisticated diving equipment capable of a more complete search of the lagoon constitutes a lack of due diligence.\nIn light of the information available to the search party, I find the search of the lagoon meets the requirement of due diligence. Jack Wheeler identified the areas of the lagoon frequented by the Grahams, Stearns and Walker. The divers searched those areas and others. It is apparent from the evidence concerning currents, visibility, depth and sharks that a more thorough search of the lagoon bottom would have required use of a diving vessel of some sort. Judging from the size of the lagoon (see the chart of Palmyra, Plaintiff\u2019s Exh. 1) and the limited visibility, a complete search of the lagoon bottom would have been a lengthy and extraordinary undertaking. Facts known to the government, before and after the 1974 search was conducted, did not justify such an extraordinary effort.\nIn specific terms, Stearns takes issue with the lack of diving at the end of the seaplane ramp and an apparent failure of the search party to traverse the lagoon shoreline (coral shelf) at low tide in the area where Mrs. Graham\u2019s remains were discovered in 1981. Stearns has offered no reason why a dive at the end of the seaplane ramp would have been indicated or appropriate in October of 1974. The facts surrounding the discovery of Mrs. Graham\u2019s remains in 1981 indicate they were sunk in the lagoon and not on the coral shelf in 1974. However, I find that the search party took account of prevailing winds and searched the area thoroughly by boat and on foot in 1974.\nIn addition to the aspects of the search related to the specific issues raised by Stearns, I find that the search was, as a whole, conducted with due diligence. Agent Shishido could hardly have assembled a more qualified or appropriate search team. They departed for Palmyra soon after the sighting of the Sea Wind in Hawaii. Jack Wheeler was familiar with the islands, currents, prevailing winds, where the Sea Wind and Iola had been moored, and the location of the campsites on shore. With that information, the search was directed to every area most likely to contain evidence of the Grahams\u2019 disappearance, both on land and in the lagoon. Additionally, the search was extended to cover virtually every accessible area of the atoll. The party employed search methods appropriate to the locale and conditions. It departed from Palmyra only after it seemed clear that further searching was useless. There was no evidence that the search was stopped for any reason other than the failure to turn up any evidence bearing on the Grahams\u2019 disappearance.\nThe investigation covered every possibility of discovering evidence of the Grahams\u2019 disappearance reasonably apparent from the information available to the searchers. I find that the investigation was therefore conducted with sufficient diligence to meet the requirement of Brown. The motion to dismiss the murder indictment on the ground of double jeopardy is DENIED.\nThe foregoing constitute findings and conclusions, Rule 23, Fed. R. Crim. P.\nIt is so ORDERED.\nThe Honorable James M. Burns, Chief United States District Judge, District of Oregon, sitting by designation.\n. The parties have filed stipulations evidencing their agreement that the robbery charged in the present indictment and the theft charged in the previous indictments arise from identical circumstances, i.e., the taking of the Sea Wind and its contents. The burglary aspect of the present indictment has been abandoned.\n. Steams was charged jointly with Walker in the original indictment, CR-74-160. She was named in four of seven counts. Count IV, relating to the transportation of marijuana, was dismissed as to Steams.\n. The fourth count, relating to bail jumping on a drug charge, was dismissed.\n. After assisting in the search of the campsite area the first evening, see infra.\n. Agent Shishido\u2019s testimony indicates all of the diving was done in the lagoon. Thus, references to the \u201cnorth side of the island\u201d presumably are to the lagoon side of the northern perimeter of the atoll.\n. Dr. Vitousek and his two crew members were not mentioned as participating apart from operation of the Tatarax.\n. Walker joins Stearns in her motion to dismiss on the ground of double jeopardy, in addition to his separate motion to dismiss on the ground of res judicata. All references in this section of the opinion to Stearns include Walker. To the extent Walker may have a double jeopardy claim, the disposition would be identical to that reached for Stearns.\n. Concern over the location and discovery of the rescue boat arises from the fact that the container found with Mrs. Graham\u2019s remains is of the type used to store supplies aboard the rescue boat. Both the container and the remains were subjected to high temperature, indicating that the remains were originally concealed within the container, though there is no evidence of a similar burning of the boat.\n. The parties agree that the rescue boat was present in the storage building in October of 1974, was later removed and sunk at the end of the seaplane ramp, and still later was refloated. Given this sequence of events, the container and remains, if present aboard the rescue boat in 1974, would not have been sunk at the end of the ramp. The contention that the refloating of the boat dislodged the container, previously sunk there, causing it to ultimately wash up. on the shore of the lagoon, is too speculative for serious consideration.",
+        "type": "majority",
+        "author": "JAMES M. BURNS, District Judge."
+      }
+    ],
+    "attorneys": [
+      "Daniel A. Bent, U.S. Atty., D. Hawaii, Elliot Enoki, Asst. U.S. Atty., Honolulu, Hawaii, for plaintiff.",
+      "Leonard I. Weinglass, Los Angeles, Cal., Brook Hart, Peter C. Wolff, Jr., Honolulu, Hawaii, for defendant Stephanie Kay Stearns.",
+      "Earle A. Partington, Don Dzura, Honolulu, Hawaii, for defendant Buck Duane Walker."
+    ],
+    "corrections": "",
+    "head_matter": "UNITED STATES of America, Plaintiff, v. Buck Duane WALKER, also known as Roy A. Allen (01), and Stephanie Kay Stearns, also known as Stephanie Allen (02), Defendants.\nCr. No. 81-00310-10.\nUnited States District Court, D. Hawaii.\nSept. 7, 1982.\nDaniel A. Bent, U.S. Atty., D. Hawaii, Elliot Enoki, Asst. U.S. Atty., Honolulu, Hawaii, for plaintiff.\nLeonard I. Weinglass, Los Angeles, Cal., Brook Hart, Peter C. Wolff, Jr., Honolulu, Hawaii, for defendant Stephanie Kay Stearns.\nEarle A. Partington, Don Dzura, Honolulu, Hawaii, for defendant Buck Duane Walker."
+  },
+  "file_name": "0805-01",
+  "first_page_order": 865,
+  "last_page_order": 873
+}
