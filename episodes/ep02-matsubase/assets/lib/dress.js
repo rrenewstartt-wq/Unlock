@@ -182,22 +182,14 @@ export function dress(fig, { suit = "#2b2a28", trousers = null, shirt = "#b9b4aa
   const pelvis = wp(fig, "pelvis"), neck = wp(fig, "neck_01");
   const torsoBones = ["pelvis", "spine_01", "spine_02", "spine_03", "clavicle_l", "clavicle_r"];
   const body = tube(V, torsoBones, pelvis.clone().add(new THREE.Vector3(0, -0.12, 0)), neck.clone().add(new THREE.Vector3(0, -0.02, 0)),
-    { rings: 12, extend: [0, 0.03], pct: 0.72, inflate: 1.0, pad: 0.014, segs: 40, side: (p) => Math.abs(p.x) < 0.24, taperTop: 0.3 });
+    { rings: 12, extend: [0, 0.03], pct: 0.72, inflate: 1.0, pad: 0.014, segs: 40, side: (p) => Math.abs(p.x) < 0.24, taperTop: 0.12 });
   add(body.geo, cloth, "spine_02");
 
   // sleeves (jacket) and trouser legs, with joint caps so bends do not open gaps
   for (const s of ["l", "r"]) {
     const sh = wp(fig, `upperarm_${s}`), el = wp(fig, `lowerarm_${s}`), wr = wp(fig, `hand_${s}`);
-    const up = tube(V, [`upperarm_${s}`], sh, el, { rings: 7, extend: [0.015, 0.03], pct: 0.75, pad: 0.012 });
+    const up = tube(V, [`upperarm_${s}`], sh, el, { rings: 7, extend: [0.0, 0.03], pct: 0.62, pad: 0.012 });
     add(up.geo, cloth, `upperarm_${s}`);
-    { // a small rounded cap where sleeve meets jacket (scaled along the arm so it does not stick out as a pad)
-      const rr = Math.max(up.prof[0].ru, up.prof[0].rw) * 0.95;
-      const cap = new THREE.SphereGeometry(rr, 20, 14);
-      cap.scale(1, 0.75, 1);
-      cap.applyMatrix4(new THREE.Matrix4().makeRotationFromQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), up.axis)));
-      cap.translate(sh.x, sh.y, sh.z);
-      add(cap, cloth, `upperarm_${s}`);
-    }
     const lo = tube(V, [`lowerarm_${s}`], el, wr, { rings: 6, extend: [0.03, -0.02], pct: 0.85, pad: 0.012 });
     add(lo.geo, cloth, `lowerarm_${s}`);
         const re = Math.max(lo.prof[0].ru, lo.prof[0].rw);

@@ -151,7 +151,7 @@ export function createVault(stage, opts) {
       for (const [x, z, ry, suit] of [[-0.62, 0.98, Math.PI + 0.32, "#2a2927"], [0.28, 1.12, Math.PI - 0.22, "#34332f"]]) {
         const p = await f.figure("film");
         dress(p, { suit, trousers: suit, shirt: "#a29e96", fabric: wool.normalMap });
-        poseArmsDown(p, 0.1);
+        poseArmsDown(p, 0.03);
         turn(p, "spine_02", [1, 0, 0], 0.16);
         turn(p, "neck_01", [1, 0, 0], 0.42);
         settle(p, 0);

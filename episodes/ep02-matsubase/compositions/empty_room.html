@@ -33,17 +33,17 @@
     <div id="empty_room-lb0" class="clip rlabel disp" data-start="3.01" data-duration="2.78">목격자 없음</div>
     <div id="empty_room-lb1" class="clip rlabel disp" data-start="5.89" data-duration="2.65">다른 증거 없음</div>
     <div id="empty_room-lb2" class="clip rlabel disp amber" data-start="8.64" data-duration="3.09">자백 하나</div>
-    <div id="empty_room-ins0" class="clip ar-shot ar-ins" data-start="11.73" data-duration="3.82" data-layout-allow-overlap><div id="empty_room-ins0-cam" class="ar-cam"><figure class="ar-print" style="width:1240px;height:123px;transform:translate(-50%,-50%) rotate(0deg)"><img class="ar-img" src="assets/archive/saishin-p2-l16.png" alt="" style="width:1240px;height:123px" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/><svg class="ar-ring" viewBox="0 0 1240 123" width="1240" height="123"><ellipse id="empty_room-ins0-r" cx="428" cy="37" rx="149" ry="122" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100"/></svg></figure></div><div class="ar-credit">구마모토지법 재심 판결(2019) · 사건 경위</div><div class="tag-re tag-ar">기록</div></div>
+    <div id="empty_room-ins0" class="clip ar-shot ar-ins" data-start="11.73" data-duration="3.82" data-layout-allow-overlap><div id="empty_room-ins0-cam" class="ar-cam"><figure class="ar-print" style="width:1760px;height:175px;transform:translate(-50%,-50%) rotate(0deg)"><img class="ar-img" src="assets/archive/saishin-p2-l16.png" alt="" style="width:1760px;height:175px" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/><svg class="ar-ring" viewBox="0 0 1760 175" width="1760" height="175"><ellipse id="empty_room-ins0-r" cx="598" cy="47" rx="194" ry="159" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100"/></svg></figure></div><div class="ar-cap">「…징역 13년에 처한다는 판결을 선고했다…」</div><div class="ar-credit">구마모토지법 재심 판결(2019) · 사건 경위</div><div class="tag-re tag-ar">기록</div></div>
   </div>
   <script type="module">
     import { createRoom } from "./assets/lib/room.js";
     const render = createRoom(document.getElementById("empty_room-stage"), { mode: "still", camera: [
-      { t: 0, pos: [-2.34, 0.3, -1.0], look: [1.2, 0.62, 0.3], fov: 50 },
-      { t: 2.94, pos: [-2.128, 0.319, -0.922], look: [1.2, 0.62, 0.3], fov: 50, ease: "linear" },
+      { t: 0, pos: [-2.1, 0.24, -1.0], look: [-0.5, 0.4, 1.8], fov: 38 },
+      { t: 2.94, pos: [-2.004, 0.25, -0.832], look: [-0.5, 0.4, 1.8], fov: 38, ease: "linear" },
       { t: 2.96, pos: [0.35, 1.25, 1.5], look: [2.25, 1.2, -0.05], fov: 40, cut: true },
       { t: 5.82, pos: [0.464, 1.247, 1.407], look: [2.25, 1.2, -0.05], fov: 40, ease: "linear" },
-      { t: 5.84, pos: [-0.55, 1.15, 0.2], look: [-1.35, 0.0, -1.0], fov: 40, cut: true },
-      { t: 8.57, pos: [-0.598, 1.081, 0.128], look: [-1.35, 0.0, -1.0], fov: 40, ease: "linear" },
+      { t: 5.84, pos: [-1.5, 1.1, 0.9], look: [-2.0, 0.0, -1.0], fov: 40, cut: true },
+      { t: 8.57, pos: [-1.53, 1.034, 0.786], look: [-2.0, 0.0, -1.0], fov: 40, ease: "linear" },
       { t: 8.59, pos: [0.0, 0.95, 1.68], look: [0.0, 0.36, 0.0], fov: 44, cut: true },
       { t: 15.55, pos: [0.0, 0.915, 1.579], look: [0.0, 0.36, 0.0], fov: 44, ease: "linear" }
     ] });
@@ -57,7 +57,7 @@
     tl.fromTo("#empty_room-lb2", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 8.69);
     tl.to("#empty_room-lb2", { opacity: 0, duration: 0.3, ease: "power2.in" }, 11.38);
     tl.to("#empty_room-ins0-r", { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, 12.13);
-    tl.fromTo("#empty_room-ins0-cam", { scale: 1.0 }, { scale: 1.06, duration: 3.82, ease: "none" }, 11.73);
+    tl.fromTo("#empty_room-ins0-cam", { scale: 1.0 }, { scale: 1.05, duration: 3.82, ease: "none" }, 11.73);
     render(0);
     window.__timelines["empty_room"] = tl;
   </script>

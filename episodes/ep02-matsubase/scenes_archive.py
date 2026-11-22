@@ -40,10 +40,10 @@ def place(sid, dur, q):
         {"src": A + "map-kumamoto.png", "size": (2560, 1440), "mode": "cover", "at": 1, "push": (1.0, 1.08), "cls": "map-dim",
          "caption": "구마모토현 서부", "credit": GSI},
         {"src": A + "map-matsubase.png", "size": (2560, 1440), "mode": "cover", "at": 2, "push": (1.55, 1.65), "pan": (0, 0), "cls": "map-near",
-         "focus": [(2, 0.49, 0.50, 0.035)], "caption": "지금의 우키시 마쓰바세 · 마쓰바세역 부근(집 위치는 표시하지 않음)", "credit": GSI},
+         "focus": [(2, 0.49, 0.50, 0.035)], "caption": "지금의 우키시 마쓰바세 일대 · 동그라미는 마쓰바세역(사건 장소 아님)", "credit": GSI},
         {"src": A + "saishin-p2.png", "size": (2481, 3508), "at": 3, "push": (1.0, 1.08), "pan": (20, -20),
          "focus": [(3, 0.33, 0.188, 0.11)], "caption": "재심 판결문 2쪽 — 사건의 발견", "credit": SAISHIN},
         {"src": A + "saishin-p2-l5.png", "size": (2652, 406), "mode": "strip", "at": 4, "push": (1.0, 1.04),
-         "focus": [(4, 0.42, 0.83, 0.17)],
+         "focus": [(4, 0.84, 0.17, 0.09)],
          "caption": "「1985년 1월 8일 오전 9시 30분경 … 자택 방 안에서 … 발견되었다」", "credit": SAISHIN},
     ])

@@ -1,5 +1,5 @@
-// The kiridashi kogatana on a workbench (film kit: CC0 Poly Haven dark_wood bench, hinoki_planks handle, carpentry_shop_01
-// HDRI for the steel's reflections). SPEC "3D 세트" knife.js. Only recorded dimensions are drawn:
+// The kiridashi kogatana on a workbench (film kit: CC0 Poly Haven dark_wood bench, hinoki_planks handle; the steel
+// reflects a neutral grey studio environment built in this file — no HDRI colour cast). SPEC "3D 세트" knife.js. Only recorded dimensions are drawn:
 //   blade length about 11 cm, width about 2.2 cm, back about 0.3 cm thick ([13] 85쪽, F65);
 //   width 2.1 cm at 4.7 cm from the tip ([2] 9쪽 21~22행, F137), 1.5 cm at about 3.2 cm from the tip (F138).
 // The shape between those stations is a plain straight slant (kiridashi = "끝이 비스듬"), the handle a plain wooden
@@ -29,45 +29,46 @@ const BEVEL = 0.75;   // single bevel band along the slanted edge, measured alon
 
 const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 
-// Brushed-steel roughness streaks along the blade (deterministic canvas).
-function streaks() {
+// Brushed-steel grain: short fine scratches (deterministic canvas), tiled in centimetres (uv = cm), never stretched.
+function grain(angleJitter = 0.04, seed = 0) {
   const c = document.createElement("canvas");
-  c.width = 1024; c.height = 256;
+  c.width = c.height = 512;
   const x = c.getContext("2d");
-  x.fillStyle = "#5a5a5a"; x.fillRect(0, 0, 1024, 256);
-  for (let i = 0; i < 900; i++) {
-    const y = hash(i * 1.7) * 256, l = 80 + hash(i * 3.1) * 500, x0 = hash(i * 5.3) * 1024;
-    const v = 60 + Math.floor(hash(i * 7.9) * 80);
-    x.fillStyle = `rgba(${v},${v},${v},0.5)`;
-    x.fillRect(x0, y, l, 0.6 + hash(i) * 1.2);
+  x.fillStyle = "#7a7a7a"; x.fillRect(0, 0, 512, 512);
+  for (let i = 0; i < 2600; i++) {
+    const px = hash(i * 1.7 + seed) * 512, py = hash(i * 3.1 + seed) * 512, l = 6 + hash(i * 5.3 + seed) * 34;
+    const a = (hash(i * 7.9 + seed) - 0.5) * angleJitter;
+    const v = 70 + Math.floor(hash(i * 9.7 + seed) * 90);
+    x.strokeStyle = `rgba(${v},${v},${v},0.55)`;
+    x.lineWidth = 0.6 + hash(i * 2.2 + seed) * 0.8;
+    x.beginPath(); x.moveTo(px, py); x.lineTo(px + Math.cos(a) * l, py + Math.sin(a) * l); x.stroke();
   }
   const t = new THREE.CanvasTexture(c);
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(1 / 2.5, 1 / 2.5);   // one tile = 2.5 cm
   return t;
 }
 
-// Blade mesh: flat bottom at y = 0, flat top at y = T, a ground bevel band along the slant (top falls to the edge).
-function bladeGeometry() {
-  const pos = [], uv = [];
-  const P = (u, w, y) => [u * CM, y * CM, w * CM];   // (u along the back, w toward the edge) → world
-  const tri = (a, b, c) => { for (const p of [a, b, c]) { pos.push(...p); uv.push(p[0] / (L * CM), p[2] / (WMAX * CM)); } };
+// Blade as separate parts (own materials): flat face (top), bevel (single ground bevel along the slant), bottom face,
+// back (spine) wall, other edge walls. uv = planar centimetres, so the grain keeps its scale on every face.
+function bladeParts() {
+  const parts = { flat: [], bevel: [], bottom: [], back: [], walls: [] };
+  const P = (u, w, y) => [u * CM, y * CM, w * CM];
+  let cur = null;
+  const tri = (a, b, c) => { for (const p of [a, b, c]) cur.push(p); };
   const quad = (a, b, c, d) => { tri(a, b, c); tri(a, c, d); };
   const N = 48;
-  // slant polyline (edge) and its bevel line (shifted +BEVEL in u, clamped to the back)
   const edge = [], inner = [];
-  for (let i = 0; i <= N; i++) {
-    const u = SLANT[3][0] * i / N;
-    edge.push([u, bladeWidth(u)]);
-  }
+  for (let i = 0; i <= N; i++) { const u = SLANT[3][0] * i / N; edge.push([u, bladeWidth(u)]); }
   for (const [u, w] of edge) inner.push([u + BEVEL, w]);
   const EDGE_T = 0.025;
-  // bevel band (top): from edge (thin) to inner line (full thickness). At the back the band meets the spine.
+  cur = parts.bevel;
   for (let i = 0; i < N; i++) {
-    const [u0, w0] = edge[i], [u1, w1] = edge[i + 1];
-    const [v0, x0] = inner[i], [v1, x1] = inner[i + 1];
+    const [u0, w0] = edge[i], [u1, w1] = edge[i + 1], [v0, x0] = inner[i], [v1, x1] = inner[i + 1];
     quad(P(u0, w0, EDGE_T), P(v0, x0, T), P(v1, x1, T), P(u1, w1, EDGE_T));
   }
-  // flat top: strips in u from the inner line to the handle, between back (w = 0) and the width at that u
+  quad(P(0, 0, EDGE_T), P(BEVEL, 0, T), P(BEVEL, 0, T), P(0, 0, EDGE_T));
+  cur = parts.flat;
   const US = [];
   for (let i = 0; i <= 60; i++) US.push(BEVEL + (L - BEVEL) * i / 60);
   const innerW = (u) => (u - BEVEL >= SLANT[3][0] ? WMAX : bladeWidth(u - BEVEL));
@@ -75,54 +76,72 @@ function bladeGeometry() {
     const a = US[i], b = US[i + 1];
     quad(P(a, 0, T), P(b, 0, T), P(b, innerW(b), T), P(a, innerW(a), T));
   }
-  // the bevel triangle near the tip between back and inner line (u in [0, BEVEL]): top ramps from the tip
-  quad(P(0, 0, EDGE_T), P(BEVEL, 0, T), P(BEVEL, 0, T), P(0, 0, EDGE_T));
-  // bottom (flat, full outline)
+  cur = parts.bottom;
   for (let i = 0; i < N; i++) {
     const [u0, w0] = edge[i], [u1, w1] = edge[i + 1];
     quad(P(u0, 0, 0), P(u0, w0, 0), P(u1, w1, 0), P(u1, 0, 0));
   }
   quad(P(SLANT[3][0], 0, 0), P(SLANT[3][0], WMAX, 0), P(L, WMAX, 0), P(L, 0, 0));
-  // walls: back (spine) w = 0, long edge w = WMAX, slant edge (thin)
+  cur = parts.back;
   const backTop = (u) => (u < BEVEL ? EDGE_T + (T - EDGE_T) * u / BEVEL : T);
   for (let i = 0; i < 60; i++) {
     const a = L * i / 60, b = L * (i + 1) / 60;
     quad(P(a, 0, 0), P(a, 0, backTop(a)), P(b, 0, backTop(b)), P(b, 0, 0));
   }
+  cur = parts.walls;
   quad(P(SLANT[3][0], WMAX, 0), P(L, WMAX, 0), P(L, WMAX, T), P(SLANT[3][0] + BEVEL, WMAX, T));
   quad(P(SLANT[3][0], WMAX, 0), P(SLANT[3][0] + BEVEL, WMAX, T), P(SLANT[3][0] + BEVEL, WMAX, T), P(SLANT[3][0], WMAX, EDGE_T));
   for (let i = 0; i < N; i++) {
     const [u0, w0] = edge[i], [u1, w1] = edge[i + 1];
     quad(P(u0, w0, 0), P(u0, w0, EDGE_T), P(u1, w1, EDGE_T), P(u1, w1, 0));
   }
-  const g = new THREE.BufferGeometry();
-  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
-  g.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
-  g.computeVertexNormals();
-  // make every face's normal face away from the solid: flip faces whose normal points into the blade
-  const p = g.attributes.position, n = g.attributes.normal;
-  const cx = (L / 2) * CM, cy = (T / 2) * CM, cz = (WMAX / 2) * CM;
-  for (let i = 0; i < p.count; i += 3) {
-    const mx = (p.getX(i) + p.getX(i + 1) + p.getX(i + 2)) / 3, my = (p.getY(i) + p.getY(i + 1) + p.getY(i + 2)) / 3, mz = (p.getZ(i) + p.getZ(i + 1) + p.getZ(i + 2)) / 3;
-    const ax = p.getX(i + 1) - p.getX(i), ay = p.getY(i + 1) - p.getY(i), az = p.getZ(i + 1) - p.getZ(i);
-    const bx = p.getX(i + 2) - p.getX(i), by = p.getY(i + 2) - p.getY(i), bz = p.getZ(i + 2) - p.getZ(i);
-    let nx = ay * bz - az * by, ny = az * bx - ax * bz, nz = ax * by - ay * bx;
-    // outward reference: top/bottom faces by y, walls by their side
-    let ox = 0, oy = my > 1e-6 ? 1 : -1, oz = 0;   // top faces up, the bottom (y = 0) down
-    if (Math.abs(ny) < 0.5 * Math.hypot(nx, ny, nz)) { ox = mx - cx; oy = 0; oz = mz - cz; if (mz < 1e-5) { ox = 0; oz = -1; } }
-    if (nx * ox + ny * oy + nz * oz < 0) {
-      // swap vertices 1 and 2
-      for (const attr of [p, g.attributes.uv]) {
-        const k = attr.itemSize, arr = attr.array;
-        for (let j = 0; j < k; j++) { const t = arr[(i + 1) * k + j]; arr[(i + 1) * k + j] = arr[(i + 2) * k + j]; arr[(i + 2) * k + j] = t; }
+  const cx = (L / 2) * CM, cz = (WMAX / 2) * CM;
+  const out = {};
+  for (const [k, pts] of Object.entries(parts)) {
+    const pos = [], uv = [], nor = [];
+    for (let i = 0; i < pts.length; i += 3) {
+      let [a, b, c] = [pts[i], pts[i + 1], pts[i + 2]];
+      const ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], ac = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
+      let n = [ab[1] * ac[2] - ab[2] * ac[1], ab[2] * ac[0] - ab[0] * ac[2], ab[0] * ac[1] - ab[1] * ac[0]];
+      const l = Math.hypot(...n);
+      if (l < 1e-12) continue;                       // degenerate (the tip)
+      n = n.map((x) => x / l);
+      const my = (a[1] + b[1] + c[1]) / 3, mx = (a[0] + b[0] + c[0]) / 3, mz = (a[2] + b[2] + c[2]) / 3;
+      let o;
+      if (Math.abs(n[1]) > 0.5) o = [0, my > 1e-6 ? 1 : -1, 0];
+      else o = k === "back" ? [0, 0, -1] : [mx - cx, 0, mz - cz];
+      if (n[0] * o[0] + n[1] * o[1] + n[2] * o[2] < 0) { [b, c] = [c, b]; n = n.map((x) => -x); }
+      for (const p of [a, b, c]) {
+        pos.push(...p); nor.push(...n);
+        // planar uv in cm: faces lying flat use (x, z); walls use (x, y)
+        uv.push(p[0] / CM, Math.abs(n[1]) > 0.5 ? p[2] / CM : p[1] / CM * 4);
       }
-      nx = -nx; ny = -ny; nz = -nz;
     }
-    const l = Math.hypot(nx, ny, nz) || 1;
-    for (let j = 0; j < 3; j++) n.setXYZ(i + j, nx / l, ny / l, nz / l);
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute("normal", new THREE.Float32BufferAttribute(nor, 3));
+    g.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+    out[k] = g;
   }
-  p.needsUpdate = true; n.needsUpdate = true;
-  return g;
+  return out;
+}
+
+// Neutral studio reflections for the steel (no HDRI colour casts): a dark grey room with a large overhead softbox,
+// a long strip on the far side and a small card on the near side. Built once, deterministic.
+function studioEnv(renderer) {
+  const sc = new THREE.Scene();
+  sc.background = new THREE.Color("#1c1d1f");
+  const room = new THREE.Mesh(new THREE.BoxGeometry(6, 4, 6), new THREE.MeshBasicMaterial({ color: "#26282a", side: THREE.BackSide }));
+  sc.add(room);
+  const panel = (w, h, pos, look, v) => {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(v, v, v), side: THREE.DoubleSide }));
+    m.position.set(...pos); m.lookAt(...look); sc.add(m);
+  };
+  panel(1.6, 0.8, [-0.9, 1.9, -0.9], [0, 0, 0], 1.3);    // overhead softbox (off-axis: the top view sees mid grey)
+  panel(3.5, 0.35, [0, 0.5, -2.8], [0, 0.3, 0], 2.4);     // far strip (catches the back and the bevel)
+  panel(1.2, 0.8, [1.4, 0.9, 2.4], [0, 0, 0], 1.1);       // near card (lights the bevel)
+  const pm = new THREE.PMREMGenerator(renderer);
+  return pm.fromScene(sc, 0.02).texture;
 }
 
 // Number plate: dark plate + ink numerals (canvas), lying flat on the bench, readable from the top-view camera.
@@ -171,7 +190,7 @@ export function createKnife(stage, opts) {
   const mode = opts.mode || "blade_macro";
   const cue = (opts.cues || {}).c || [];
   return film(stage, `knife-${mode}-${stage.id}`, {
-    hdri: "carpentry_shop_01", envIntensity: 0.5, exposure: 1.0, background: "#0a0b0c",
+    hdri: null, exposure: 1.0, background: "#0a0b0c",
   }, async (f) => {
     const S = f.scene;
     const [benchTex, hinoki] = await Promise.all([f.material("dark_wood", { normalScale: 0.8 }), f.material("hinoki_planks", { normalScale: 0.6 })]);
@@ -186,12 +205,21 @@ export function createKnife(stage, opts) {
     S.add(bench);
 
     // Blade (steel) and a plain wooden handle.
-    const rough = streaks();
-    rough.repeat.set(1, 1);
-    const steel = new THREE.MeshStandardMaterial({ color: "#cfd3d5", metalness: 1, roughness: 0.32, roughnessMap: rough, envMapIntensity: 1.2 });
-    const blade = new THREE.Mesh(bladeGeometry(), steel);
-    blade.castShadow = true; blade.receiveShadow = true;
-    S.add(blade);
+    S.environment = studioEnv(f.renderer);
+    S.environmentIntensity = 1.0;
+    // steel by part: brushed flat faces (short grain along the blade), a finer brighter ground bevel (grain across the
+    // edge), a satin back. Neutral grey; only the overflow gauge is amber.
+    const gFlat = grain(0.05, 1), gBevel = grain(0.05, 7);
+    gBevel.rotation = Math.PI / 2 - 0.44;            // grind lines run across the slanted edge
+    const flatMat = new THREE.MeshStandardMaterial({ color: "#b8bbbd", metalness: 1, roughness: 0.42, roughnessMap: gFlat });
+    const bevelMat = new THREE.MeshStandardMaterial({ color: "#d3d6d8", metalness: 1, roughness: 0.2, roughnessMap: gBevel });
+    const backMat = new THREE.MeshStandardMaterial({ color: "#8e9193", metalness: 1, roughness: 0.55 });
+    const parts = bladeParts();
+    for (const [k, mat] of [["flat", flatMat], ["bevel", bevelMat], ["bottom", flatMat], ["back", backMat], ["walls", backMat]]) {
+      const m = new THREE.Mesh(parts[k], mat);
+      m.castShadow = true; m.receiveShadow = true;
+      S.add(m);
+    }
     const handleMat = f.tiled(hinoki, 0.4, 0.15);
     handleMat.color = new THREE.Color("#d8c3a3");
     const HL = 9.5, HW = 2.6, HT = 1.4;

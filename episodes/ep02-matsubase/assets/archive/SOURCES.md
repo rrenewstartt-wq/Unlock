@@ -108,3 +108,7 @@
 | saishin-p5-l5.png | 2652x264 | eaa8f63402664c47c2b712d92c7691885614eed07eac57df1effe8cd8ca19a48 |
 
 원본 PDF: [2] hanrei-pdf-87326 7460afea5342c765428e13d0774fbda47714d8e8399faac0d900223970ec2ef4 · [1] hanrei-pdf-88645 57184000868dbe330765fa5006ddcdc86a7e51eef4237e18dafa6d835ff2b90b · [13] hanrei-pdf-93972 0ff00c5f012c47fa96fbe19d51d21cdad5de15ac3700cbc4f2cfd388cda04c9b · [14] hanrei-pdf-96871 0895605f34e68223e482274eea9db70d5af9733d16fdf82ab8133cd7abf2ec2c
+
+## 원본 PDF 위치 (2026-11-22, 위험 검토 P2)
+판결문·결정문 원본 PDF(hanrei-pdf-87326/88645/93972)는 렌더 자산 폴더 밖 `data/sources/` 로 옮겼다. PDF 에는 재판관·변호인 이름 쪽이 들어 있지만
+**이미지로 만들지 않으며 화면에 쓰지 않는다**(위 "받지 않음"은 "이미지로 만들지 않음"의 뜻). [14] hanrei-pdf-96871.pdf 는 URL·sha256 으로 다시 받을 수 있어 보관하지 않는다.
