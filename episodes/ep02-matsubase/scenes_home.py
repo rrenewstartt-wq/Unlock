@@ -37,7 +37,7 @@ def workshop_intro(sid, dur, q):
     opts = f'{{ mode: "workshop", streakAt: {round(q[4] - 0.05, 2)}, camera: {cam} }}'
     card_end = q[2] - 0.1
     card = (f'<div class="pcard-wrap">{person_card(380, 440, fill="rgba(14,15,17,.72)")}'
-            f'<div class="pc-name disp">미야타 씨</div><div id="{sid}-pcsub" class="pc-sub">당시 50대 초반 · 장기 친구</div></div>')
+            f'<div class="pc-name disp">미야타 씨</div><div id="{sid}-pcsub" class="pc-sub" data-layout-allow-overflow>당시 50대 초반 · 장기 친구</div></div>')
     overlay = "    " + clip(f"{sid}-pc", 0.05, card_end - 0.05, "", card)
     labels = [_room_label(sid, 0, q[2], q[3] - 0.1, "경찰서까지 약 300m"),
               _room_label(sid, 1, q[3], q[4] - 0.1, "2층 작업장", right=True)]
