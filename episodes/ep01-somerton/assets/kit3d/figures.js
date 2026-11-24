@@ -237,3 +237,32 @@ export function settle(fig, ground = 0, wallZ = null, gap = 0.02) {
   fig.root.position.y += ground - box.min.y;
   if (wallZ !== null) fig.root.position.z += wallZ + gap - box.min.z;
 }
+
+// Seated. chair: thighs level, shins down — call settle(fig, 0) so the feet stand on the floor, then put the seat
+// under the pelvis (about 0.45 m). seiza: kneeling on the floor,
+// shins folded under the thighs (tatami). forearms: forearms forward as if resting on a table/kotatsu (0..1).
+export function poseSeated(fig, { style = "chair", forearms = 0.8, lean = 0.05 } = {}) {
+  poseArmsDown(fig, 0.14);
+  if (style === "seiza") {
+    turn(fig, "thigh_l", [1, 0, 0], -Math.PI / 2 + 0.05);
+    turn(fig, "thigh_r", [1, 0, 0], -Math.PI / 2 + 0.05);
+    turn(fig, "calf_l", [1, 0, 0], Math.PI - 0.12);
+    turn(fig, "calf_r", [1, 0, 0], Math.PI - 0.12);
+    turn(fig, "foot_l", [1, 0, 0], 0.9);
+    turn(fig, "foot_r", [1, 0, 0], 0.9);
+  } else {
+    turn(fig, "thigh_l", [1, 0, 0], -Math.PI / 2);
+    turn(fig, "thigh_r", [1, 0, 0], -Math.PI / 2);
+    turn(fig, "thigh_l", [0, 1, 0], -0.06);
+    turn(fig, "thigh_r", [0, 1, 0], 0.06);
+    turn(fig, "calf_l", [1, 0, 0], Math.PI / 2);
+    turn(fig, "calf_r", [1, 0, 0], Math.PI / 2);
+  }
+  turn(fig, "spine_02", [1, 0, 0], lean);
+  if (forearms) {
+    turn(fig, "upperarm_l", [1, 0, 0], -0.35 * forearms);
+    turn(fig, "upperarm_r", [1, 0, 0], -0.35 * forearms);
+    turn(fig, "lowerarm_l", [1, 0, 0], -1.15 * forearms);
+    turn(fig, "lowerarm_r", [1, 0, 0], -1.15 * forearms);
+  }
+}

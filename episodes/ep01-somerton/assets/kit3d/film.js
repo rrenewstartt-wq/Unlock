@@ -15,9 +15,9 @@
 // Determinism: everything is built once inside a window.__hf.buildReady promise (the first seek waits for it);
 // render(t) is a pure function of t. Bone animation: call f.rest(fig) at the top of each frame, then pose.
 import { Thumb, THREE, CACHE } from "./thumbkit.js";
-import { loadFigure, turn, settle, poseArmsDown, poseReclined, setFabric } from "./figures.js";
+import { loadFigure, turn, settle, poseArmsDown, poseReclined, poseSeated, setFabric } from "./figures.js";
 
-export { THREE, turn, settle, poseArmsDown, poseReclined, setFabric };
+export { THREE, turn, settle, poseArmsDown, poseReclined, poseSeated, setFabric };
 
 export const ease = {
   inOut: (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2),
