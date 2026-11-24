@@ -13,7 +13,8 @@ Pilot fix 2 (judge-pilot-1 blind 3/4: "same counter frame repeated, empty slots,
 Facts: facts.md F14 F17 F30 F33 F34 F36 F37 F38 F60 F64 F67 F73 F74 F75 F76 F81 F178 F186 F221 (✅ only; X05 respected).
 """
 from scenes_kit import *  # noqa: F401,F403
-from scenes_kit import wrap, clip, BOARD, person_card, ARCHIVE_GRADE, AMBER, INK
+from scenes_kit import wrap, clip, BOARD, person_card, AMBER, INK
+from scenes_archive import record_insert
 
 PAPER = "#D9D5CC"
 DARK = "#1E2125"
@@ -363,48 +364,11 @@ def calendar(sid, dur, q):
 
 # ============================================================================ feb5_change (SHOTS 20)
 
-INS_CSS = f"""
-    .ar-shot {{ position: absolute; inset: 0; background: {BOARD}; overflow: hidden; }}
-    .ar-ins {{ z-index: 20; }}
-    .ar-cam {{ position: absolute; inset: 0; transform-origin: 50% 43%; }}
-    .ar-print {{ position: absolute; left: 50%; top: 43%; margin: 0; padding: 0; background: #EDE8DE;
-      outline: 22px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }}
-    .ar-crop {{ position: absolute; inset: 0; overflow: hidden; }}
-    .ar-img {{ display: block; position: absolute; top: 0; }}
-    .ar-ul {{ position: absolute; height: 8px; background: {AMBER}; border-radius: 4px; transform-origin: left center; }}
-    .ar-cap {{ position: absolute; left: 0; right: 0; top: 690px; text-align: center; font-size: 48px; color: rgba(233,229,221,.9); }}
-    .ar-credit {{ position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }}
-    .tag-ar {{ border-color: {AMBER}; }}"""
-
-
-def _strip_insert(sid, at, dur, src, size, crop, caption, credit, n=0):
-    """~3 s record cut of one document line as a wide paper strip, cropped to the quoted phrase (crop = (x0, x1) in 0..1 of
-    the line image) so the original glyphs are as large as the 1760 px strip allows; amber underline under the whole crop,
-    drawn 0.45 s after the cut. Returns (markup, tweens). Scene boards end at `at` and resume at `at + dur`."""
-    w, h = size
-    cw = (crop[1] - crop[0]) * w
-    k = min(1760 / cw, 320 / h, 2.6)
-    grade = ARCHIVE_GRADE.replace('"vignette":0.18', '"vignette":0')
-    pw, ph, iw = round(cw * k), round(h * k), round(w * k)
-    iid = f"{sid}-ins{n}"
-    fig = (f'<figure class="ar-print" style="width:{pw}px;height:{ph}px;transform:translate(-50%,-50%)">'
-           f'<div class="ar-crop"><img class="ar-img" src="{src}" alt="" style="width:{iw}px;height:{ph}px;left:{-round(crop[0] * w * k)}px" '
-           f'data-color-grading=\'{grade}\'/></div>'
-           f'<i id="{iid}-ul" class="ar-ul h" style="left:0;width:{pw}px;top:{ph + 6}px"></i>'
-           f'</figure>')
-    inner = (f'<div id="{iid}-cam" class="ar-cam">{fig}</div><div class="ar-cap">{caption}</div>'
-             f'<div class="ar-credit">{credit}</div><div class="tag-re tag-ar">기록</div>')
-    markup = "    " + clip(iid, round(at, 2), dur, "ar-shot ar-ins", inner, extra=" data-layout-allow-overlap")
-    tw = [f'    tl.fromTo("#{iid}-cam", {{ scale: 1.0 }}, {{ scale: 1.05, duration: {round(dur, 2)}, ease: "none" }}, {round(at, 2)});',
-          _grow(f"#{iid}-ul", at + 0.45, 0.6, "X", "power2.out")]
-    return markup, "\n".join(tw)
-
-
 def feb5_change(sid, dur, q):
     """Before → after ledger (columns: 이전 진술 / 2월 5일 자 조서), one row enlarged at a time (no three-card line-up).
     ▶c1 board A paper card "2월 5일 자 조서" + date line 1/20 첫 자백 → 2/5 / c2 rows ① 장갑 ② 칼자루 ③ 구두 /
     ▶c3 re-frame: row ① big band, 1/20 "다리에서 강에 던져 버림" struck → "아궁이에서 태움" /
-    ▶c4 board B the statement frame "경찰관에게서 「?」 라는 물음을 받았다" / ▶c5 record 3 s: [2] p.4 l.20 strip /
+    ▶c4 board B the statement frame "경찰관에게서 「?」 라는 물음을 받았다" / ▶c5 record 3 s: [2] p.4 l.20 strip (shared desk look scenes_archive.record_insert) /
     ▶c6 board C the whole ledger, row ② (amber, the scene's one focus) / ▶c7 re-frame: row ③ big band.
     F73 F67 F74 F75 F76 F81 (X05: the cloth first appears in the 2/5 statement)."""
     c = _cuts(q, dur, [2, 3, 4, 5, 6])  # c[3] = record cut start, c[4] = board C
@@ -444,14 +408,16 @@ def feb5_change(sid, dur, q):
       <div class="paper band b3"><div class="it"><b class="disp">③</b><span class="disp">구두</span></div>
         <div class="ct"><span class="k2">2월 5일 자 조서</span><div class="old o3">가죽 구두</div>
           <div id="{p}-new3" class="new disp h">→ 고무 구두로 갈아 신음</div></div></div>"""
-    im, itw = _strip_insert(p, c[3], round(c[4] - c[3], 2), "assets/archive/kousai-p4-l20.png", (2798, 122), (0.158, 0.948),
-                            "2월 5일 자 조서 속 그의 설명 — 고법 결정문 4쪽 20행", "후쿠오카고법 결정문(2017) · 조서 요약 부분")
+    im, icss, itw = record_insert(p, c[3], round(c[4] - c[3], 2), "assets/archive/kousai-p4-l20.png", (2798, 122),
+                                  crop=(0.158, 0.948), underline=True, lean=9, tilt=1.2,
+                                  caption="2월 5일 자 조서 속 그의 설명 — 고법 결정문 4쪽 20행",
+                                  credit="후쿠오카고법 결정문(2017) · 조서 요약 부분", hide=f"#{p}-b2, #{p}-tg0")
     tagt = "도식 · 실제 조서 아님"
     markup = "\n".join([
         _board(p, 0, c[0], c[1], A), _board(p, 1, c[1], c[2], A2), _board(p, 2, c[2], c[3], B), im,
         _board(p, 3, c[4], c[5], C), _board(p, 4, c[5], c[6], D),
         _tag(p, 0, c[0], c[3], tagt), _tag(p, 1, c[4], c[6], tagt)])
-    css = BASE_CSS + INS_CSS + f"""
+    css = BASE_CSS + icss + f"""
     .k {{ display: block; font-size: 48px; opacity: .75; }}
     .doc {{ left: 96px; top: 140px; width: 800px; height: 750px; padding: 64px 70px; }}
     .doc b {{ display: block; font-weight: 400; font-size: 110px; line-height: 1.1; margin-top: 34px; }}

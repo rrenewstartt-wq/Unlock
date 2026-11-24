@@ -16,17 +16,42 @@
     .paper { position: absolute; background: #D9D5CC; color: #1E2125; box-shadow: 0 24px 60px rgba(0,0,0,.5); }
     .lab { position: absolute; background: rgba(12,13,15,.8); border-left: 8px solid #E9E5DD; color: #F3F0EA; padding: 12px 28px 14px; }
 
-    .ar-shot { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); overflow: hidden; }
-    .ar-ins { z-index: 20; }
-    .ar-cam { position: absolute; inset: 0; transform-origin: 50% 43%; }
-    .ar-print { position: absolute; left: 50%; top: 43%; margin: 0; padding: 0; background: #EDE8DE;
-      outline: 22px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }
-    .ar-crop { position: absolute; inset: 0; overflow: hidden; }
-    .ar-img { display: block; position: absolute; top: 0; }
-    .ar-ul { position: absolute; height: 8px; background: #F0A23B; border-radius: 4px; transform-origin: left center; }
-    .ar-cap { position: absolute; left: 0; right: 0; top: 690px; text-align: center; font-size: 48px; color: rgba(233,229,221,.9); }
-    .ar-credit { position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }
-    .tag-ar { border-color: #F0A23B; }
+    .rc-shot { position: absolute; inset: 0; background: #0B0C0D; overflow: hidden; }
+    .rc-cam { position: absolute; inset: 0; }
+    .rc-plane { position: absolute; inset: 0; transform-style: preserve-3d; }
+    .rc-desk { position: absolute; left: -900px; top: -760px; width: 3720px; height: 2600px; display: block; }
+    .rc-paper { position: absolute; margin: 0; padding: 0; background: #DCDAD6;
+      box-shadow: 0 1px 1px rgba(0,0,0,.7), 0 3px 6px rgba(0,0,0,.55), 0 26px 60px rgba(0,0,0,.6), 0 60px 140px rgba(0,0,0,.45); }
+    .rc-crop { position: absolute; overflow: hidden; }
+    .rc-crop img { position: absolute; display: block; }
+    .rc-ul { position: absolute; height: 8px; background: #F0A23B; border-radius: 4px; transform-origin: left center; }
+    .rc-sheen { position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(172deg, rgba(255,250,240,.05) 0%, rgba(0,0,0,0) 38%, rgba(0,0,0,.16) 100%); }
+    .rc-shade { position: absolute; inset: 0; pointer-events: none; background: #0B0C0E; }
+    .rc-ring { position: absolute; left: 0; top: 0; overflow: visible; }
+    .rc-ring ellipse { fill: none; stroke: #F0A23B; stroke-width: 7; stroke-linecap: round; }
+    .rc-fall { position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 120% 95% at 50% 30%, rgba(0,0,0,0) 45%, rgba(0,0,0,.42) 100%),
+                  linear-gradient(to bottom, rgba(6,7,8,0) 56%, rgba(6,7,8,.62) 78%, rgba(6,7,8,.9) 100%); }
+    .rc-gloss { position: absolute; left: 50%; top: 786px; transform: translateX(-50%); white-space: nowrap;
+      padding: 12px 32px 15px 30px; background: rgba(12,13,15,.84); border-left: 8px solid #E9E5DD;
+      font-size: 44px; line-height: 1.25; color: #F3F0EA; }
+    .rc-credit { position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.8);
+      text-shadow: 0 0 3px #000, 0 2px 8px #000; }
+    .rc-map { position: absolute; inset: 0; }
+    .rc-map img { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: block; }
+    .rc-place { position: absolute; transform: translate(-50%, -50%); }
+    .rc-node { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%;
+      border: 4px solid #F3F0EA; background: rgba(12,13,15,.6); box-shadow: 0 0 0 3px rgba(12,13,15,.6); }
+    .rc-name { position: absolute; white-space: nowrap; padding: 8px 20px 10px 18px; background: rgba(12,13,15,.84);
+      border-left: 8px solid #E9E5DD; font-size: 38px; line-height: 1.2; color: #F3F0EA; }
+    .rc-name small { display: block; font-size: 32px; color: rgba(243,240,234,.86); margin-top: 2px; }
+    .rc-date { position: absolute; left: 96px; top: 150px; padding: 16px 32px 20px 30px; background: rgba(12,13,15,.86);
+      border-left: 8px solid #E9E5DD; font-size: 58px; line-height: 1.1; color: #F3F0EA; }
+    .rc-date small { display: block; font-family: "Gothic A1", sans-serif; font-size: 36px; margin-top: 8px; color: rgba(243,240,234,.9); }
+    .rc-tag { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD;
+      background: rgba(20,22,25,.72); border: 2px solid #F0A23B; padding: 4px 14px 6px; }
+    .rc-ins { z-index: 20; }
     .k { display: block; font-size: 48px; opacity: .75; }
     .doc { left: 96px; top: 140px; width: 800px; height: 750px; padding: 64px 70px; }
     .doc b { display: block; font-weight: 400; font-size: 110px; line-height: 1.1; margin-top: 34px; }
@@ -117,7 +142,7 @@
         <div class="qq disp"><i>「</i><b>?</b><i>」</i></div>
         <b class="disp">라는 물음을 받았다</b>
         <em id="feb5_change-qn" class="h">원문 → 고법 결정문 4쪽 20행</em></div></div>
-    <div id="feb5_change-ins0" class="clip ar-shot ar-ins" data-start="10.95" data-duration="3.01" data-layout-allow-overlap><div id="feb5_change-ins0-cam" class="ar-cam"><figure class="ar-print" style="width:1760px;height:97px;transform:translate(-50%,-50%)"><div class="ar-crop"><img class="ar-img" src="assets/archive/kousai-p4-l20.png" alt="" style="width:2228px;height:97px;left:-352px" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/></div><i id="feb5_change-ins0-ul" class="ar-ul h" style="left:0;width:1760px;top:103px"></i></figure></div><div class="ar-cap">2월 5일 자 조서 속 그의 설명 — 고법 결정문 4쪽 20행</div><div class="ar-credit">후쿠오카고법 결정문(2017) · 조서 요약 부분</div><div class="tag-re tag-ar">기록</div></div>
+    <div id="feb5_change-ins0" class="clip rc-shot rc-ins" data-start="10.95" data-duration="3.01" data-layout-allow-overlap><div id="feb5_change-ins0-cam" class="rc-cam" data-layout-allow-overflow style="perspective:1900px;perspective-origin:960px 270px;transform-origin:960px 430px"><div class="rc-plane" data-layout-allow-overflow style="transform-origin:960px 430px;transform:rotateX(9deg) rotateZ(1.2deg)"><img class="rc-desk" data-layout-allow-overflow src="assets/kit3d/cache/textures/dark_wood/diff.jpg" alt="" data-color-grading='{"preset":"mono-fade","intensity":0.9,"adjust":{"exposure":-1.35,"contrast":0.12},"details":{"vignette":0.55,"grain":0.16,"grainSize":0.22,"grainRoughness":0.6}}'/><figure class="rc-paper" data-layout-allow-overflow style="left:80px;top:320px;width:1760px;height:220px"><div class="rc-crop" style="left:80px;top:66px;width:1600px;height:88px"><img src="assets/archive/kousai-p4-l20.png" alt="" style="left:-320px;top:0;width:2025px;height:88px" data-color-grading='{"preset":"mono-fade","intensity":0.9,"adjust":{"exposure":0.0,"contrast":0.0},"details":{"vignette":0.0,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/></div><i id="feb5_change-ins0-ul" class="rc-ul" style="left:80px;top:158px;width:1600px"></i><div class="rc-sheen"></div><div class="rc-shade" style="opacity:0.11"></div></figure></div></div><div class="rc-fall"></div><div class="rc-gloss">2월 5일 자 조서 속 그의 설명 — 고법 결정문 4쪽 20행</div><div class="rc-credit">후쿠오카고법 결정문(2017) · 조서 요약 부분</div><div class="rc-tag">기록</div></div>
     <div id="feb5_change-b3" class="clip pn" data-start="13.96" data-duration="3.27"><div class="hd3">2월 5일 자 조서 · 바뀐 진술</div>
       <div class="chd" style="left:576px">이전 진술</div><div class="chd" style="left:1016px">2월 5일 자 조서</div>
       <div class="paper row r1"><b class="disp">① 장갑</b><span class="c2">강에 던져 버림</span><span class="c3">아궁이에서 태움</span></div>
@@ -142,8 +167,10 @@
     tl.fromTo("#feb5_change-strike", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.35, ease: "power2.out" }, 5.83);
     tl.fromTo("#feb5_change-new1", { opacity: 0, x: -36 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 6.38);
     tl.fromTo("#feb5_change-qn", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 8.8);
-    tl.fromTo("#feb5_change-ins0-cam", { scale: 1.0 }, { scale: 1.05, duration: 3.01, ease: "none" }, 10.95);
-    tl.fromTo("#feb5_change-ins0-ul", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.6, ease: "power2.out" }, 11.4);
+    tl.fromTo("#feb5_change-ins0-ul", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.out" }, 11.35);
+    tl.fromTo("#feb5_change-ins0-cam", { scale: 1.0, x: 0, y: 0 }, { scale: 1.05, x: 0, y: 0, duration: 3.01, ease: "none" }, 10.95);
+    tl.set("#feb5_change-b2, #feb5_change-tg0", { opacity: 0 }, 10.97);
+    tl.set("#feb5_change-b2, #feb5_change-tg0", { opacity: 1 }, 13.96);
     tl.fromTo("#feb5_change-new2", { opacity: 0, x: -36 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 14.61);
     tl.fromTo("#feb5_change-ul2", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.5, ease: "power2.out" }, 15.51);
     tl.fromTo("#feb5_change-new3", { opacity: 0, x: -36 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 18.38);
