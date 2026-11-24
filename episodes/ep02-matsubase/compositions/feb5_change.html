@@ -20,109 +20,133 @@
     .ar-ins { z-index: 20; }
     .ar-cam { position: absolute; inset: 0; transform-origin: 50% 43%; }
     .ar-print { position: absolute; left: 50%; top: 43%; margin: 0; padding: 0; background: #EDE8DE;
-      outline: 18px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }
-    .ar-img { display: block; }
+      outline: 22px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }
+    .ar-crop { position: absolute; inset: 0; overflow: hidden; }
+    .ar-img { display: block; position: absolute; top: 0; }
     .ar-ul { position: absolute; height: 8px; background: #F0A23B; border-radius: 4px; transform-origin: left center; }
-    .ar-cap { position: absolute; left: 0; right: 0; top: 680px; text-align: center; font-size: 48px; color: rgba(233,229,221,.9); }
+    .ar-cap { position: absolute; left: 0; right: 0; top: 690px; text-align: center; font-size: 48px; color: rgba(233,229,221,.9); }
     .ar-credit { position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }
     .tag-ar { border-color: #F0A23B; }
-    .k { display: block; font-size: 48px; opacity: .72; }
-    .doc { left: 120px; top: 140px; width: 780px; height: 750px; padding: 64px 70px; }
+    .k { display: block; font-size: 48px; opacity: .75; }
+    .doc { left: 96px; top: 140px; width: 800px; height: 750px; padding: 64px 70px; }
     .doc b { display: block; font-weight: 400; font-size: 110px; line-height: 1.1; margin-top: 34px; }
     .doc b.big { font-size: 230px; margin-top: 0; }
-    .doc em { position: absolute; left: 70px; right: 70px; bottom: 60px; font-style: normal; font-size: 46px; padding-top: 22px;
+    .doc em { position: absolute; left: 70px; right: 70px; bottom: 60px; font-style: normal; font-size: 48px; padding-top: 22px;
       border-top: 4px solid rgba(30,33,37,.5); }
-    .fh { position: absolute; left: 980px; top: 110px; font-size: 48px; color: rgba(233,229,221,.9); }
-    .frm { position: absolute; left: 980px; width: 844px; height: 190px; border: 4px solid rgba(233,229,221,.55); border-radius: 6px;
-      transform-origin: left center; }
-    .frm b { position: absolute; left: 34px; top: 40px; font-size: 100px; line-height: 1; font-weight: 400; color: #E9E5DD; }
-    .hd3 { position: absolute; left: 96px; top: 140px; font-size: 48px; color: rgba(233,229,221,.9); }
+    .tln { position: absolute; left: 980px; top: 130px; width: 844px; height: 220px; }
+    .tln .ln { position: absolute; left: 18px; right: 18px; top: 38px; height: 4px; background: rgba(233,229,221,.6); }
+    .tln .nd { position: absolute; top: 22px; width: 36px; height: 36px; border-radius: 50%; border: 4px solid #E9E5DD; background: #121316; }
+    .tln .nd.a { left: 0; } .tln .nd.b { right: 0; background: #E9E5DD; }
+    .tla, .tlb { position: absolute; top: 84px; }
+    .tla { left: 0; } .tlb { right: 0; text-align: right; }
+    .tla b, .tlb b { display: block; font-weight: 400; font-size: 64px; line-height: 1; color: #E9E5DD; }
+    .tla span, .tlb span { display: block; font-size: 48px; margin-top: 8px; color: rgba(233,229,221,.86); }
+    .frm { position: absolute; left: 980px; width: 844px; height: 150px; border: 4px solid rgba(233,229,221,.6); border-radius: 6px;
+      transform-origin: left center; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
+    .frm b { font-size: 88px; line-height: 1; font-weight: 400; color: #E9E5DD; }
+    .frm span { font-size: 48px; color: rgba(233,229,221,.8); }
+    .hd3 { position: absolute; left: 96px; top: 136px; font-size: 52px; color: rgba(233,229,221,.9); }
     .hd3 b { font-weight: 400; }
     .band { left: 96px; width: 1728px; display: flex; align-items: center; }
-    .b1 { top: 232px; height: 480px; } .b3 { top: 400px; height: 490px; }
+    .b1 { top: 226px; height: 510px; } .b3 { top: 400px; height: 490px; }
     .band .it { width: 400px; padding-left: 60px; display: flex; flex-direction: column; }
     .band .it b { font-weight: 400; font-size: 110px; line-height: 1; }
     .band .it span { font-size: 130px; line-height: 1.1; }
-    .band .ct { flex: 1; border-left: 4px solid rgba(30,33,37,.4); padding: 20px 0 20px 64px; }
-    .old { position: relative; display: inline-block; font-size: 72px; color: rgba(30,33,37,.62); }
-    .strike { position: absolute; left: -10px; right: -10px; top: 48%; height: 8px; background: #1E2125; transform-origin: left center; }
-    .new { font-size: 112px; line-height: 1.15; margin-top: 28px; }
-    .ghost { position: absolute; top: 760px; width: 856px; height: 120px; border: 4px solid rgba(233,229,221,.55); border-radius: 6px; opacity: .25; }
-    .ghost b { position: absolute; left: 28px; top: 18px; font-size: 76px; line-height: 1; font-weight: 400; color: #E9E5DD; }
+    .band .ct { flex: 1; border-left: 4px solid rgba(30,33,37,.4); padding: 10px 0 10px 64px; }
+    .k2 { display: block; font-size: 46px; color: rgba(30,33,37,.7); margin-bottom: 6px; }
+    .k2.kb { margin-top: 40px; }
+    .old { position: relative; display: inline-block; font-size: 70px; line-height: 1.15; color: rgba(30,33,37,.68); }
+    .strike { position: absolute; left: -10px; right: -10px; top: 50%; height: 8px; background: #1E2125; transform-origin: left center; }
+    .new { font-size: 112px; line-height: 1.1; }
+    .o3 { color: #1E2125; font-size: 80px; }
+    .b3 .new { margin-top: 16px; font-size: 104px; }
+    .ghost { position: absolute; top: 760px; width: 856px; height: 120px; border: 4px solid rgba(233,229,221,.55); border-radius: 6px; opacity: .25;
+      display: flex; align-items: center; padding-left: 36px; }
+    .ghost b { font-size: 72px; line-height: 1; font-weight: 400; color: #E9E5DD; }
     .mini { position: absolute; left: 96px; top: 400px; width: 560px; height: 200px; background: #D9D5CC; color: #1E2125; opacity: .25;
       padding: 30px 40px; }
-    .mini b { display: block; font-weight: 400; font-size: 64px; } .mini span { font-size: 46px; }
+    .mini b { display: block; font-weight: 400; font-size: 66px; } .mini span { font-size: 48px; }
     .link { position: absolute; left: 656px; top: 498px; width: 164px; height: 4px; background: rgba(233,229,221,.6); border-radius: 2px; }
-    .qc { left: 820px; top: 96px; width: 1004px; height: 794px; padding: 70px 76px; }
-    .qc b { display: block; font-weight: 400; font-size: 150px; line-height: 1.1; margin-top: 30px; }
-    .qq { position: absolute; left: 76px; right: 76px; top: 390px; display: flex; justify-content: center; align-items: center; gap: 40px; }
-    .qq i { font-style: normal; font-size: 200px; line-height: 1; color: rgba(30,33,37,.4); }
-    .qq b { font-weight: 400; font-size: 220px; line-height: 1; margin: 0; }
-    .qc em { position: absolute; left: 76px; right: 76px; bottom: 60px; font-style: normal; font-size: 48px; text-align: center; }
-    .row { position: absolute; left: 96px; width: 1728px; display: flex; align-items: center; padding-left: 60px; }
-    .row b { font-weight: 400; width: 420px; }
-    .r1 { top: 206px; height: 110px; opacity: .25; } .r1 b { font-size: 68px; } .r1 span { font-size: 50px; }
-    .r2 { top: 338px; height: 290px; flex-wrap: wrap; align-content: center; }
-    .r2 b { font-size: 100px; line-height: 1; }
-    .r2 .was { font-size: 50px; color: rgba(30,33,37,.66); }
+    .qc { left: 820px; top: 96px; width: 1004px; height: 794px; padding: 62px 76px; }
+    .qc > b { display: block; font-weight: 400; font-size: 96px; line-height: 1.1; margin-top: 30px; }
+    .qq { margin: 26px 0 0; height: 220px; border: 5px dashed rgba(30,33,37,.45); border-radius: 6px;
+      display: flex; justify-content: center; align-items: center; gap: 40px; }
+    .qq i { font-style: normal; font-size: 170px; line-height: 1; color: rgba(30,33,37,.45); }
+    .qq b { font-weight: 400; font-size: 170px; line-height: 1; }
+    .qc em { position: absolute; left: 76px; right: 76px; bottom: 56px; font-style: normal; font-size: 48px; text-align: center; }
+    .chd { position: absolute; top: 210px; font-size: 48px; color: rgba(233,229,221,.85); }
+    .row { position: absolute; left: 96px; width: 1728px; display: flex; align-items: center; padding-left: 56px; }
+    .row b { font-weight: 400; width: 424px; flex: none; white-space: nowrap; }
+    .row .c2 { width: 440px; flex: none; }
+    .r1 { top: 280px; height: 110px; opacity: .25; } .r1 b { font-size: 66px; } .r1 span { font-size: 52px; }
+    .r2 { top: 410px; height: 300px; }
+    .r2 b { font-size: 88px; line-height: 1; }
+    .r2 .was { font-size: 52px; color: rgba(30,33,37,.66); }
     .am { position: absolute; left: 0; top: 0; bottom: 0; width: 16px; background: #F0A23B; }
-    .new2 { width: 100%; font-size: 100px; line-height: 1.1; margin-top: 30px; }
+    .new2 { font-size: 92px; line-height: 1.12; }
     .new2 u { position: relative; text-decoration: none; }
-    .new2 u i { position: absolute; left: 0; right: 0; bottom: -8px; height: 12px; background: #F0A23B; transform-origin: left center; }
-    .r3 { top: 656px; height: 140px; border: 4px solid rgba(233,229,221,.55); border-radius: 6px; }
-    .r3 b { font-size: 90px; color: #E9E5DD; }
-    .sm { left: 96px; width: 1728px; height: 80px; display: flex; align-items: center; padding-left: 50px; opacity: .25; box-shadow: none; }
-    .sm b { font-weight: 400; font-size: 54px; width: 360px; } .sm span { font-size: 50px; }
-    .s1 { top: 212px; } .s2 { top: 304px; }
+    .new2 u i { position: absolute; left: 0; right: 0; bottom: -6px; height: 12px; background: #F0A23B; transform-origin: left center; }
+    .r3 { top: 730px; height: 130px; border: 4px solid rgba(233,229,221,.55); border-radius: 6px; opacity: .25; }
+    .r3 b { font-size: 72px; color: #E9E5DD; }
+    .sm { left: 96px; width: 1728px; height: 84px; display: flex; align-items: center; padding-left: 50px; opacity: .25; box-shadow: none; }
+    .sm b { font-weight: 400; font-size: 56px; width: 360px; } .sm span { font-size: 50px; }
+    .s1 { top: 214px; } .s2 { top: 308px; }
+    .s2 .am { width: 12px; }
 
   </style>
   <div id="root" data-composition-id="feb5_change" data-width="1920" data-height="1080">
     <div id="feb5_change-b0" class="clip pn" data-start="0.0" data-duration="4.93"><div class="paper doc"><span class="k">경찰 조서</span><b class="disp">2월 5일 자</b><b class="disp big">조서</b>
         <em>1985년 · 고법 결정문의 요약</em></div>
-      <div id="feb5_change-fh" class="fh h">바뀐 진술</div>
-      <div id="feb5_change-f1" class="frm h" style="top:200px"><b class="disp">①</b></div>
-      <div id="feb5_change-f2" class="frm h" style="top:420px"><b class="disp">②</b></div>
-      <div id="feb5_change-f3" class="frm h" style="top:640px"><b class="disp">③</b></div></div>
+      <div class="tln"><i class="ln"></i><i class="nd a"></i><i class="nd b"></i>
+        <div class="tla"><b class="disp">1월 20일</b><span>첫 자백 조서</span></div>
+        <div class="tlb"><b class="disp">2월 5일</b><span>이 조서</span></div></div>
+      <div id="feb5_change-f1" class="frm h" style="top:380px"><b class="disp">① 장갑</b><span>바뀜</span></div>
+      <div id="feb5_change-f2" class="frm h" style="top:550px"><b class="disp">② 칼자루</b><span>바뀜</span></div>
+      <div id="feb5_change-f3" class="frm h" style="top:720px"><b class="disp">③ 구두</b><span>바뀜</span></div></div>
     <div id="feb5_change-b1" class="clip pn" data-start="4.93" data-duration="3.27"><div class="hd3">2월 5일 자 조서 · 바뀐 진술 <b class="disp">①</b></div>
       <div class="paper band b1"><div class="it"><b class="disp">①</b><span class="disp">장갑</span></div>
-        <div class="ct"><div class="old">강에 버림<i id="feb5_change-strike" class="strike h"></i></div>
-          <div id="feb5_change-new1" class="new disp h">→ 아궁이에서 태움</div></div></div>
-      <div class="ghost" style="left:96px"><b class="disp">②</b></div><div class="ghost" style="left:968px"><b class="disp">③</b></div></div>
+        <div class="ct"><span class="k2">이전 진술 · 1월 20일 첫 자백</span>
+          <div class="old">다리에서 강에 던져 버림<i id="feb5_change-strike" class="strike h"></i></div>
+          <span class="k2 kb">2월 5일 자 조서</span>
+          <div id="feb5_change-new1" class="new disp h">아궁이에서 태움</div></div></div>
+      <div class="ghost" style="left:96px"><b class="disp">② 칼자루</b></div>
+      <div class="ghost" style="left:968px"><b class="disp">③ 구두</b></div></div>
     <div id="feb5_change-b2" class="clip pn" data-start="8.2" data-duration="2.75"><div class="mini"><b class="disp">① 장갑</b><span>강 → 아궁이</span></div><i class="link"></i>
       <div class="paper qc"><span class="k">2월 5일 자 조서 속 그의 설명</span>
-        <b class="disp">경찰의 물음</b><div class="qq disp"><i>「</i><b>?</b><i>」</i></div>
-        <em id="feb5_change-qn" class="h">원문은 고법 결정문 4쪽 20행</em></div></div>
-    <div id="feb5_change-ins0" class="clip ar-shot ar-ins" data-start="10.95" data-duration="3.01" data-layout-allow-overlap><div id="feb5_change-ins0-cam" class="ar-cam"><figure class="ar-print" style="width:1760px;height:77px;transform:translate(-50%,-50%)"><img class="ar-img" src="assets/archive/kousai-p4-l20.png" alt="" style="width:1760px;height:77px" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/><i id="feb5_change-ins0-ul" class="ar-ul h" style="left:296px;width:1262px;top:79px"></i></figure></div><div class="ar-cap">2월 5일 자 조서 속 그의 설명 — 고법 결정문 4쪽 20행</div><div class="ar-credit">후쿠오카고법 결정문(2017) · 조서 요약 부분</div><div class="tag-re tag-ar">기록</div></div>
+        <b class="disp">경찰관에게서</b>
+        <div class="qq disp"><i>「</i><b>?</b><i>」</i></div>
+        <b class="disp">라는 물음을 받았다</b>
+        <em id="feb5_change-qn" class="h">원문 → 고법 결정문 4쪽 20행</em></div></div>
+    <div id="feb5_change-ins0" class="clip ar-shot ar-ins" data-start="10.95" data-duration="3.01" data-layout-allow-overlap><div id="feb5_change-ins0-cam" class="ar-cam"><figure class="ar-print" style="width:1760px;height:97px;transform:translate(-50%,-50%)"><div class="ar-crop"><img class="ar-img" src="assets/archive/kousai-p4-l20.png" alt="" style="width:2228px;height:97px;left:-352px" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/></div><i id="feb5_change-ins0-ul" class="ar-ul h" style="left:0;width:1760px;top:103px"></i></figure></div><div class="ar-cap">2월 5일 자 조서 속 그의 설명 — 고법 결정문 4쪽 20행</div><div class="ar-credit">후쿠오카고법 결정문(2017) · 조서 요약 부분</div><div class="tag-re tag-ar">기록</div></div>
     <div id="feb5_change-b3" class="clip pn" data-start="13.96" data-duration="3.27"><div class="hd3">2월 5일 자 조서 · 바뀐 진술</div>
-      <div class="paper row r1"><b class="disp">① 장갑</b><span>강 → 아궁이에서 태움</span></div>
+      <div class="chd" style="left:576px">이전 진술</div><div class="chd" style="left:1016px">2월 5일 자 조서</div>
+      <div class="paper row r1"><b class="disp">① 장갑</b><span class="c2">강에 던져 버림</span><span class="c3">아궁이에서 태움</span></div>
       <div class="paper row r2"><i class="am"></i><b class="disp">② 칼자루</b>
-        <span class="was">이전 진술에 없던 이야기</span>
-        <div id="feb5_change-new2" class="new2 disp h">낡은 플란넬 <u>셔츠 천<i id="feb5_change-ul2" class="h"></i></u>을 감음</div></div>
-      <div class="row r3"><b class="disp">③</b></div></div>
+        <span class="c2 was">천 이야기 없음</span>
+        <div id="feb5_change-new2" class="c3 new2 disp h">낡은 플란넬<br><u>셔츠 천<i id="feb5_change-ul2" class="h"></i></u>을 감음</div></div>
+      <div class="row r3"><b class="disp">③ 구두</b></div></div>
     <div id="feb5_change-b4" class="clip pn" data-start="17.23" data-duration="3.69"><div class="hd3">2월 5일 자 조서 · 바뀐 진술 <b class="disp">③</b></div>
       <div class="paper sm s1"><b class="disp">① 장갑</b><span>강 → 아궁이에서 태움</span></div>
       <div class="paper sm s2"><i class="am"></i><b class="disp">② 칼자루</b><span>낡은 플란넬 셔츠 천을 감음</span></div>
       <div class="paper band b3"><div class="it"><b class="disp">③</b><span class="disp">구두</span></div>
-        <div class="ct"><div id="feb5_change-old3" class="old h">가죽 구두</div>
+        <div class="ct"><span class="k2">2월 5일 자 조서</span><div class="old o3">가죽 구두</div>
           <div id="feb5_change-new3" class="new disp h">→ 고무 구두로 갈아 신음</div></div></div></div>
     <div id="feb5_change-tg0" class="clip tag-re" data-start="0.3" data-duration="10.65">도식 · 실제 조서 아님</div>
     <div id="feb5_change-tg1" class="clip tag-re" data-start="13.96" data-duration="6.96">도식 · 실제 조서 아님</div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#feb5_change-fh", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 2.41);
     tl.fromTo("#feb5_change-f1", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power3.out" }, 2.46);
     tl.fromTo("#feb5_change-f2", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power3.out" }, 2.71);
     tl.fromTo("#feb5_change-f3", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power3.out" }, 2.96);
-    tl.fromTo("#feb5_change-strike", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.35, ease: "power2.out" }, 5.88);
-    tl.fromTo("#feb5_change-new1", { opacity: 0, x: -36 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 6.53);
+    tl.fromTo("#feb5_change-strike", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.35, ease: "power2.out" }, 5.83);
+    tl.fromTo("#feb5_change-new1", { opacity: 0, x: -36 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 6.38);
     tl.fromTo("#feb5_change-qn", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 8.8);
     tl.fromTo("#feb5_change-ins0-cam", { scale: 1.0 }, { scale: 1.05, duration: 3.01, ease: "none" }, 10.95);
     tl.fromTo("#feb5_change-ins0-ul", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.6, ease: "power2.out" }, 11.4);
-    tl.fromTo("#feb5_change-new2", { opacity: 0, x: -36 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 14.81);
-    tl.fromTo("#feb5_change-ul2", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.5, ease: "power2.out" }, 15.61);
-    tl.fromTo("#feb5_change-old3", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 17.73);
-    tl.fromTo("#feb5_change-new3", { opacity: 0, x: -36 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 18.78);
+    tl.fromTo("#feb5_change-new2", { opacity: 0, x: -36 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 14.61);
+    tl.fromTo("#feb5_change-ul2", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.5, ease: "power2.out" }, 15.51);
+    tl.fromTo("#feb5_change-new3", { opacity: 0, x: -36 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 18.38);
     window.__timelines["feb5_change"] = tl;
   </script>
 </template>

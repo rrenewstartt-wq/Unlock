@@ -16,74 +16,88 @@
     .paper { position: absolute; background: #D9D5CC; color: #1E2125; box-shadow: 0 24px 60px rgba(0,0,0,.5); }
     .lab { position: absolute; background: rgba(12,13,15,.8); border-left: 8px solid #E9E5DD; color: #F3F0EA; padding: 12px 28px 14px; }
 
-    .hd { position: absolute; left: 212px; top: 104px; font-size: 52px; color: rgba(233,229,221,.88); }
-    .hd.sm { left: 96px; top: 176px; font-size: 50px; }
+    .hd { position: absolute; left: 212px; top: 104px; font-size: 54px; color: rgba(233,229,221,.9); }
+    .hd.sm { left: 96px; top: 176px; font-size: 52px; }
+    .hd.hc { left: 96px; top: 120px; }
     .cell { position: absolute; border: 3px solid rgba(233,229,221,.5); border-radius: 6px; overflow: hidden; }
     .cell > i { position: absolute; inset: -3px; }
-    .cell .fl { background: #D9D5CC; }
+    .cell .fl { background: #D9D5CC; font-style: normal; }
     .cell .ht { background: repeating-linear-gradient(135deg, rgba(233,229,221,.34) 0 10px, rgba(233,229,221,0) 10px 26px); }
-    .cell b { position: absolute; left: 22px; top: 14px; font-size: 104px; line-height: 1; font-weight: 400; color: rgba(233,229,221,.7); }
-    .cell em { position: absolute; left: 22px; bottom: 12px; font-style: normal; font-size: 54px; color: #1E2125; }
-    .cell .fl ~ b { color: #1E2125; }
+    .cell > b { position: absolute; left: 22px; top: 14px; font-size: 104px; line-height: 1; font-weight: 400; color: rgba(233,229,221,.82); }
+    .cell .fl b { position: absolute; left: 25px; top: 17px; font-size: 104px; line-height: 1; font-weight: 400; color: #1E2125; }
+    .cell .fl em { position: absolute; left: 25px; bottom: 15px; font-style: normal; font-size: 54px; color: #1E2125; }
     .cell.sm { border-width: 2px; border-radius: 4px; }
-    .cell.sm b { left: 7px; top: 6px; font-size: 48px; }
+    .cell.sm > b { left: 7px; top: 6px; font-size: 48px; }
+    .cell.sm .fl b { left: 9px; top: 8px; font-size: 48px; }
+    .leg { position: absolute; }
+    .leg p { display: flex; align-items: center; gap: 16px; font-size: 48px; color: rgba(233,229,221,.92); margin-bottom: 22px; white-space: nowrap; }
+    .leg i { display: block; width: 52px; height: 52px; border-radius: 4px; }
+    .leg .lf { background: #D9D5CC; }
+    .leg .le { border: 3px solid rgba(233,229,221,.5); }
+    .leg .lh { border: 3px solid rgba(233,229,221,.5);
+      background: repeating-linear-gradient(135deg, rgba(233,229,221,.4) 0 7px, rgba(233,229,221,0) 7px 16px); }
     .lab b { font-weight: 400; }
-    .l1 { left: 212px; top: 704px; font-size: 52px; } .l1 b { font-size: 64px; }
+    .l1 { left: 212px; top: 704px; font-size: 54px; } .l1 b { font-size: 66px; }
+    .l1s { left: 96px; top: 470px; width: 540px; font-size: 52px; line-height: 1.3; } .l1s b { display: block; font-size: 96px; line-height: 1.1; }
     .wr { left: 690px; top: 96px; width: 1134px; height: 794px; }
     .wr .dash { position: absolute; inset: 26px; border: 6px dashed rgba(30,33,37,.55); border-radius: 4px; }
-    .wt { position: absolute; left: 80px; top: 64px; font-size: 96px; letter-spacing: .12em; }
-    .blank { position: absolute; left: 80px; right: 80px; top: 230px; }
-    .blank i { display: block; height: 0; border-top: 4px dashed rgba(30,33,37,.4); margin-bottom: 80px; }
-    .stamp { position: absolute; left: 150px; top: 330px; width: 834px; padding: 30px 0 34px; text-align: center;
+    .wt { position: absolute; left: 80px; top: 64px; font-size: 92px; letter-spacing: .06em; }
+    .fd { position: absolute; left: 80px; right: 80px; padding-bottom: 14px; border-bottom: 4px dashed rgba(30,33,37,.4); }
+    .fd span { display: block; font-size: 46px; color: rgba(30,33,37,.72); }
+    .fd b { display: block; font-weight: 400; font-size: 66px; line-height: 1.15; }
+    .fd em { font-style: normal; font-size: 96px; }
+    .f1 { top: 180px; } .f2 { top: 324px; }
+    .stamp { position: absolute; left: 170px; top: 498px; width: 794px; padding: 14px 0 18px; text-align: center;
       border: 12px solid #1E2125; border-radius: 14px; transform: rotate(-4deg); background: #D9D5CC; }
-    .stamp b { display: block; font-weight: 400; font-size: 168px; line-height: 1; }
-    .stamp span { display: block; font-size: 54px; margin-top: 16px; }
-    .l2 { left: 96px; top: 560px; width: 560px; font-size: 52px; line-height: 1.3; } .l2 b { display: block; font-size: 96px; line-height: 1.1; }
-    .l3 { left: 212px; top: 704px; font-size: 64px; }
-    .chip { position: absolute; top: 112px; width: 104px; height: 96px; border: 3px solid rgba(233,229,221,.5); border-radius: 6px; overflow: hidden; }
-    .chip i { position: absolute; inset: -3px; }
-    .chip i.fl { background: #D9D5CC; }
-    .chip i.ht { background: repeating-linear-gradient(135deg, rgba(233,229,221,.34) 0 8px, rgba(233,229,221,0) 8px 20px); }
-    .chip b { position: absolute; left: 0; right: 0; top: 20px; text-align: center; font-size: 54px; line-height: 1; font-weight: 400; color: rgba(233,229,221,.7); }
-    .chip i.fl ~ b { color: #1E2125; }
-    .bc { top: 262px; width: 340px; height: 620px; }
-    .bc span { position: absolute; left: 34px; top: 26px; font-size: 52px; }
-    .bc b { position: absolute; left: 26px; top: 120px; font-size: 250px; line-height: 1; font-weight: 400; }
-    .bc em { position: absolute; left: 34px; bottom: 40px; font-style: normal; font-size: 64px; }
-    .ctr { position: absolute; left: 1360px; top: 300px; width: 470px; text-align: center; }
-    .ctr span, .ctr em { display: block; font-style: normal; font-size: 56px; color: rgba(233,229,221,.9); }
-    .ctr b { display: block; font-weight: 400; font-size: 280px; line-height: 1.02; color: #E9E5DD; }
-    .ctr b i { font-style: normal; }
-    .hd2 { position: absolute; left: 0; right: 0; top: 96px; text-align: center; font-size: 54px; color: rgba(233,229,221,.9); }
-    .hr { position: absolute; left: 0; right: 0; top: 170px; text-align: center; font-size: 280px; line-height: 1; color: #F0A23B; }
-    .hr b { font-weight: 400; } .hr i { font-style: normal; display: inline-block; }
-    .hax { position: absolute; left: 260px; top: 640px; width: 1400px; height: 16px; }
-    .hax .base, .hax .fill { position: absolute; left: 0; top: 0; height: 16px; border-radius: 8px; transform-origin: left center; }
-    .hax .base { width: 1400px; background: rgba(233,229,221,.28); }
-    .hax .fill { width: 1089px; background: #E9E5DD; }
-    .hax .z { position: absolute; left: -10px; top: 34px; font-size: 50px; color: rgba(233,229,221,.8); }
-    .mk { position: absolute; top: 0; }
-    .mk i { position: absolute; left: -3px; width: 6px; height: 70px; background: #E9E5DD; }
-    .mk span { position: absolute; white-space: nowrap; font-size: 52px; color: #E9E5DD; transform: translateX(-50%); }
-    .mk.up i { top: -70px; } .mk.up span { top: -138px; }
-    .mk.dn i { top: 16px; } .mk.dn span { top: 92px; }
+    .stamp b { display: block; font-weight: 400; font-size: 134px; line-height: 1; }
+    .stamp span { display: block; font-size: 54px; margin-top: 12px; }
+    .l3 { left: 212px; top: 704px; font-size: 54px; } .l3 b { font-size: 66px; }
+    .col { position: absolute; top: 200px; width: 122px; height: 290px; border: 3px solid rgba(233,229,221,.5); border-radius: 6px; overflow: hidden; }
+    .col > i { position: absolute; inset: -3px; }
+    .col .fl { background: #D9D5CC; font-style: normal; }
+    .col .ht { background: repeating-linear-gradient(135deg, rgba(233,229,221,.34) 0 9px, rgba(233,229,221,0) 9px 22px); }
+    .col > b, .col .fl b { position: absolute; left: 0; right: 0; top: 22px; text-align: center; font-size: 76px; line-height: 1; font-weight: 400; }
+    .col > b { color: rgba(233,229,221,.82); }
+    .col .fl b { top: 25px; color: #1E2125; }
+    .col .fl em { position: absolute; left: 0; right: 0; bottom: 22px; text-align: center; font-style: normal; font-size: 48px; color: #1E2125; }
+    .tally { left: 96px; top: 540px; width: 1728px; height: 340px; }
+    .tl1 { position: absolute; left: 80px; top: 70px; font-size: 110px; line-height: 1; }
+    .tl2 { position: absolute; left: 84px; top: 210px; font-size: 68px; }
+    .tn { position: absolute; right: 90px; top: 22px; font-size: 140px; line-height: 300px; transform-origin: 80% 60%; }
+    .tn b { font-weight: 400; font-size: 290px; }
+    .hd2 { position: absolute; left: 96px; top: 150px; font-size: 56px; color: rgba(233,229,221,.9); }
+    .hr { position: absolute; right: 96px; top: 70px; font-size: 230px; line-height: 1; color: #F0A23B; transform-origin: right center; }
+    .bl { position: absolute; left: 96px; font-size: 92px; line-height: 1; color: #E9E5DD; }
+    .bar { position: absolute; left: 300px; height: 130px; background: #D9D5CC; overflow: hidden; border-radius: 0 6px 6px 0; }
+    .bar span { position: absolute; left: 32px; top: 38px; font-size: 48px; color: #1E2125; white-space: nowrap; }
+    .bv { position: absolute; font-size: 70px; line-height: 1; color: #E9E5DD; white-space: nowrap; }
+    .xax { position: absolute; left: 300px; top: 724px; width: 1300px; height: 4px; background: rgba(233,229,221,.45); }
+    .xt { position: absolute; top: 742px; font-size: 48px; color: rgba(233,229,221,.8); transform: translateX(-50%); }
+    .t70 { color: #E9E5DD; }
+    .l70 { position: absolute; top: 350px; width: 6px; height: 386px; background: #FFFFFF; mix-blend-mode: difference; }
 
   </style>
   <div id="root" data-composition-id="calendar" data-width="1920" data-height="1080">
-    <div id="calendar-b0" class="clip pn" data-start="0.0" data-duration="6.49"><div class="hd">1985년 1월 · 그가 조사받은 날</div><div class="cell" style="left:212px;top:190px;width:200px;height:230px"><i id="calendar-a8" class="fl h"></i><b class="disp">8</b><em>조사</em></div><div class="cell" style="left:428px;top:190px;width:200px;height:230px"><i id="calendar-a9" class="fl h"></i><b class="disp">9</b><em>조사</em></div><div class="cell" style="left:644px;top:190px;width:200px;height:230px"><i id="calendar-a10" class="fl h"></i><b class="disp">10</b><em>조사</em></div><div class="cell" style="left:860px;top:190px;width:200px;height:230px"><b class="disp">11</b></div><div class="cell" style="left:1076px;top:190px;width:200px;height:230px"><i id="calendar-a12" class="fl h"></i><b class="disp">12</b><em>조사</em></div><div class="cell" style="left:1292px;top:190px;width:200px;height:230px"><i id="calendar-a13" class="fl h"></i><b class="disp">13</b><em>조사</em></div><div class="cell" style="left:1508px;top:190px;width:200px;height:230px"><i id="calendar-a14" class="fl h"></i><b class="disp">14</b><em>조사</em></div><div class="cell" style="left:212px;top:436px;width:200px;height:230px"><b class="disp">15</b></div><div class="cell" style="left:428px;top:436px;width:200px;height:230px"><b class="disp">16</b></div><div class="cell" style="left:644px;top:436px;width:200px;height:230px"><b class="disp">17</b></div><div class="cell" style="left:860px;top:436px;width:200px;height:230px"><b class="disp">18</b></div><div class="cell" style="left:1076px;top:436px;width:200px;height:230px"><b class="disp">19</b></div><div class="cell" style="left:1292px;top:436px;width:200px;height:230px"><b class="disp">20</b></div><div id="calendar-l1" class="lab l1 h">체포 없이 · <b class="disp">임의 조사</b></div></div>
-    <div id="calendar-b1" class="clip pn" data-start="6.49" data-duration="5.76"><div class="hd sm">1985년 1월</div><div class="cell sm" style="left:96px;top:250px;width:72px;height:83px"><i class="fl"></i><b class="disp">8</b></div><div class="cell sm" style="left:174px;top:250px;width:72px;height:83px"><i class="fl"></i><b class="disp">9</b></div><div class="cell sm" style="left:252px;top:250px;width:72px;height:83px"><i class="fl"></i><b class="disp">10</b></div><div class="cell sm" style="left:330px;top:250px;width:72px;height:83px"><b class="disp">11</b></div><div class="cell sm" style="left:408px;top:250px;width:72px;height:83px"><i class="fl"></i><b class="disp">12</b></div><div class="cell sm" style="left:486px;top:250px;width:72px;height:83px"><i class="fl"></i><b class="disp">13</b></div><div class="cell sm" style="left:564px;top:250px;width:72px;height:83px"><i class="fl"></i><b class="disp">14</b></div><div class="cell sm" style="left:96px;top:339px;width:72px;height:83px"><b class="disp">15</b></div><div class="cell sm" style="left:174px;top:339px;width:72px;height:83px"><b class="disp">16</b></div><div class="cell sm" style="left:252px;top:339px;width:72px;height:83px"><b class="disp">17</b></div><div class="cell sm" style="left:330px;top:339px;width:72px;height:83px"><b class="disp">18</b></div><div class="cell sm" style="left:408px;top:339px;width:72px;height:83px"><b class="disp">19</b></div><div class="cell sm" style="left:486px;top:339px;width:72px;height:83px"><b class="disp">20</b></div><div class="paper wr"><i class="dash"></i>
-            <div class="wt disp">체포영장</div>
-            <div class="blank"><i></i><i></i><i></i></div>
-            <div id="calendar-st" class="stamp h"><b class="disp">청구 못 함</b><span>자백 전까지</span></div></div>
-          <div id="calendar-l2" class="lab l2 h">범인을 가리키는<b class="disp">증거 없음</b></div></div>
-    <div id="calendar-b2" class="clip pn" data-start="12.25" data-duration="3.27"><div class="hd">1985년 1월 · 그가 조사받은 날</div><div class="cell" style="left:212px;top:190px;width:200px;height:230px"><i class="fl"></i><b class="disp">8</b><em>조사</em></div><div class="cell" style="left:428px;top:190px;width:200px;height:230px"><i class="fl"></i><b class="disp">9</b><em>조사</em></div><div class="cell" style="left:644px;top:190px;width:200px;height:230px"><i class="fl"></i><b class="disp">10</b><em>조사</em></div><div class="cell" style="left:860px;top:190px;width:200px;height:230px"><b class="disp">11</b></div><div class="cell" style="left:1076px;top:190px;width:200px;height:230px"><i class="fl"></i><b class="disp">12</b><em>조사</em></div><div class="cell" style="left:1292px;top:190px;width:200px;height:230px"><i class="fl"></i><b class="disp">13</b><em>조사</em></div><div class="cell" style="left:1508px;top:190px;width:200px;height:230px"><i class="fl"></i><b class="disp">14</b><em>조사</em></div><div class="cell" style="left:212px;top:436px;width:200px;height:230px"><i id="calendar-b15" class="ht h"></i><b class="disp">15</b></div><div class="cell" style="left:428px;top:436px;width:200px;height:230px"><i id="calendar-b16" class="ht h"></i><b class="disp">16</b></div><div class="cell" style="left:644px;top:436px;width:200px;height:230px"><i id="calendar-b17" class="ht h"></i><b class="disp">17</b></div><div class="cell" style="left:860px;top:436px;width:200px;height:230px"><b class="disp">18</b></div><div class="cell" style="left:1076px;top:436px;width:200px;height:230px"><b class="disp">19</b></div><div class="cell" style="left:1292px;top:436px;width:200px;height:230px"><b class="disp">20</b></div><div id="calendar-l3" class="lab l3 h"><b class="disp">조사 없음</b></div></div>
-    <div id="calendar-b3" class="clip pn" data-start="15.52" data-duration="3.4"><div class="chip" style="left:212px"><i class="fl"></i><b class="disp">8</b></div><div class="chip" style="left:328px"><i class="fl"></i><b class="disp">9</b></div><div class="chip" style="left:444px"><i class="fl"></i><b class="disp">10</b></div><div class="chip" style="left:560px"><i class=""></i><b class="disp">11</b></div><div class="chip" style="left:676px"><i class="fl"></i><b class="disp">12</b></div><div class="chip" style="left:792px"><i class="fl"></i><b class="disp">13</b></div><div class="chip" style="left:908px"><i class="fl"></i><b class="disp">14</b></div><div class="chip" style="left:1024px"><i class="ht"></i><b class="disp">15</b></div><div class="chip" style="left:1140px"><i class="ht"></i><b class="disp">16</b></div><div class="chip" style="left:1256px"><i class="ht"></i><b class="disp">17</b></div><div class="chip" style="left:1372px"><i class="fl"></i><b class="disp">18</b></div><div class="chip" style="left:1488px"><i class="fl"></i><b class="disp">19</b></div><div class="chip" style="left:1604px"><i class="fl"></i><b class="disp">20</b></div><div class="paper bc" style="left:212px"><span>1월</span><b class="disp">18</b><em>조사</em></div><div class="paper bc" style="left:582px"><span>1월</span><b class="disp">19</b><em>조사</em></div><div class="paper bc" style="left:952px"><span>1월</span><b class="disp">20</b><em>자백</em></div><div class="ctr"><span>13일 가운데</span><b id="calendar-n9b" class="disp h"><i id="calendar-n9">0</i>일</b><em>조사한 날</em></div></div>
+    <div id="calendar-b0" class="clip pn" data-start="0.0" data-duration="6.49"><div class="hd">1985년 1월 · 그가 조사받은 날</div><div class="cell" style="left:212px;top:190px;width:200px;height:230px" data-layout-allow-overlap><b class="disp">8</b><i id="calendar-a8" class="fl h"><b class="disp">8</b><em>조사</em></i></div><div class="cell" style="left:428px;top:190px;width:200px;height:230px" data-layout-allow-overlap><b class="disp">9</b><i id="calendar-a9" class="fl h"><b class="disp">9</b><em>조사</em></i></div><div class="cell" style="left:644px;top:190px;width:200px;height:230px" data-layout-allow-overlap><b class="disp">10</b><i id="calendar-a10" class="fl h"><b class="disp">10</b><em>조사</em></i></div><div class="cell" style="left:860px;top:190px;width:200px;height:230px"><b class="disp">11</b></div><div class="cell" style="left:1076px;top:190px;width:200px;height:230px" data-layout-allow-overlap><b class="disp">12</b><i id="calendar-a12" class="fl h"><b class="disp">12</b><em>조사</em></i></div><div class="cell" style="left:1292px;top:190px;width:200px;height:230px" data-layout-allow-overlap><b class="disp">13</b><i id="calendar-a13" class="fl h"><b class="disp">13</b><em>조사</em></i></div><div class="cell" style="left:1508px;top:190px;width:200px;height:230px" data-layout-allow-overlap><b class="disp">14</b><i id="calendar-a14" class="fl h"><b class="disp">14</b><em>조사</em></i></div><div class="cell" style="left:212px;top:436px;width:200px;height:230px"><b class="disp">15</b></div><div class="cell" style="left:428px;top:436px;width:200px;height:230px"><b class="disp">16</b></div><div class="cell" style="left:644px;top:436px;width:200px;height:230px"><b class="disp">17</b></div><div class="cell" style="left:860px;top:436px;width:200px;height:230px"><b class="disp">18</b></div><div class="cell" style="left:1076px;top:436px;width:200px;height:230px"><b class="disp">19</b></div><div class="cell" style="left:1292px;top:436px;width:200px;height:230px"><b class="disp">20</b></div><div class="leg" style="left:1508px;top:476px"><p><i class="lf"></i>조사</p></div><div id="calendar-l1" class="lab l1 h">체포 없이 · <b class="disp">임의 조사</b></div></div>
+    <div id="calendar-b1" class="clip pn" data-start="6.49" data-duration="5.76"><div class="hd sm">1985년 1월</div><div class="cell sm" style="left:96px;top:250px;width:72px;height:83px"><i class="fl"><b class="disp">8</b></i></div><div class="cell sm" style="left:174px;top:250px;width:72px;height:83px"><i class="fl"><b class="disp">9</b></i></div><div class="cell sm" style="left:252px;top:250px;width:72px;height:83px"><i class="fl"><b class="disp">10</b></i></div><div class="cell sm" style="left:330px;top:250px;width:72px;height:83px"><b class="disp">11</b></div><div class="cell sm" style="left:408px;top:250px;width:72px;height:83px"><i class="fl"><b class="disp">12</b></i></div><div class="cell sm" style="left:486px;top:250px;width:72px;height:83px"><i class="fl"><b class="disp">13</b></i></div><div class="cell sm" style="left:564px;top:250px;width:72px;height:83px"><i class="fl"><b class="disp">14</b></i></div><div class="cell sm" style="left:96px;top:339px;width:72px;height:83px"><b class="disp">15</b></div><div class="cell sm" style="left:174px;top:339px;width:72px;height:83px"><b class="disp">16</b></div><div class="cell sm" style="left:252px;top:339px;width:72px;height:83px"><b class="disp">17</b></div><div class="cell sm" style="left:330px;top:339px;width:72px;height:83px"><b class="disp">18</b></div><div class="cell sm" style="left:408px;top:339px;width:72px;height:83px"><b class="disp">19</b></div><div class="cell sm" style="left:486px;top:339px;width:72px;height:83px"><b class="disp">20</b></div><div class="lab l1s">체포 없이<b class="disp">임의 조사</b></div>
+          <div class="paper wr"><i class="dash"></i>
+            <div class="wt disp">체포영장 청구</div>
+            <div class="fd f1"><span>청구하는 쪽</span><b class="disp">경찰</b></div>
+            <div class="fd f2"><span>근거</span><b class="disp">범인을 가리키는 증거<em id="calendar-none" class="h"> 없음</em></b></div>
+            <div id="calendar-st" class="stamp h"><b class="disp">청구 못 함</b><span>자백 전까지</span></div></div></div>
+    <div id="calendar-b2" class="clip pn" data-start="12.25" data-duration="3.27"><div class="hd">1985년 1월 · 그가 조사받은 날</div><div class="cell" style="left:212px;top:190px;width:200px;height:230px"><i class="fl"><b class="disp">8</b><em>조사</em></i></div><div class="cell" style="left:428px;top:190px;width:200px;height:230px"><i class="fl"><b class="disp">9</b><em>조사</em></i></div><div class="cell" style="left:644px;top:190px;width:200px;height:230px"><i class="fl"><b class="disp">10</b><em>조사</em></i></div><div class="cell" style="left:860px;top:190px;width:200px;height:230px"><b class="disp">11</b></div><div class="cell" style="left:1076px;top:190px;width:200px;height:230px"><i class="fl"><b class="disp">12</b><em>조사</em></i></div><div class="cell" style="left:1292px;top:190px;width:200px;height:230px"><i class="fl"><b class="disp">13</b><em>조사</em></i></div><div class="cell" style="left:1508px;top:190px;width:200px;height:230px"><i class="fl"><b class="disp">14</b><em>조사</em></i></div><div class="cell" style="left:212px;top:436px;width:200px;height:230px"><b class="disp">15</b><i id="calendar-b15" class="ht h"></i></div><div class="cell" style="left:428px;top:436px;width:200px;height:230px"><b class="disp">16</b><i id="calendar-b16" class="ht h"></i></div><div class="cell" style="left:644px;top:436px;width:200px;height:230px"><b class="disp">17</b><i id="calendar-b17" class="ht h"></i></div><div class="cell" style="left:860px;top:436px;width:200px;height:230px"><b class="disp">18</b></div><div class="cell" style="left:1076px;top:436px;width:200px;height:230px"><b class="disp">19</b></div><div class="cell" style="left:1292px;top:436px;width:200px;height:230px"><b class="disp">20</b></div><div class="leg" style="left:1508px;top:476px"><p><i class="lf"></i>조사</p><p><i class="lh"></i>조사 없음</p></div><div id="calendar-l3" class="lab l3 h">15~17일 · <b class="disp">조사 없음</b></div></div>
+    <div id="calendar-b3" class="clip pn" data-start="15.52" data-duration="3.4"><div class="hd hc">자백하는 날까지 · 1월 8일 ~ 20일</div><div class="col" style="left:96px"><i class="fl"><b class="disp">8</b><em>조사</em></i></div><div class="col" style="left:230px"><i class="fl"><b class="disp">9</b><em>조사</em></i></div><div class="col" style="left:364px"><i class="fl"><b class="disp">10</b><em>조사</em></i></div><div class="col" style="left:498px"><b class="disp">11</b></div><div class="col" style="left:632px"><i class="fl"><b class="disp">12</b><em>조사</em></i></div><div class="col" style="left:766px"><i class="fl"><b class="disp">13</b><em>조사</em></i></div><div class="col" style="left:900px"><i class="fl"><b class="disp">14</b><em>조사</em></i></div><div class="col" style="left:1034px"><b class="disp">15</b><i class="ht"></i></div><div class="col" style="left:1168px"><b class="disp">16</b><i class="ht"></i></div><div class="col" style="left:1302px"><b class="disp">17</b><i class="ht"></i></div><div class="col" style="left:1436px" data-layout-allow-overlap><b class="disp">18</b><i id="calendar-c18" class="fl h"><b class="disp">18</b><em>조사</em></i></div><div class="col" style="left:1570px" data-layout-allow-overlap><b class="disp">19</b><i id="calendar-c19" class="fl h"><b class="disp">19</b><em>조사</em></i></div><div class="col" style="left:1704px" data-layout-allow-overlap><b class="disp">20</b><i id="calendar-c20" class="fl h"><b class="disp">20</b><em>자백</em></i></div><div class="paper tally"><div class="tl1 disp">13일 가운데</div><div class="tl2">조사한 날</div>
+           <div id="calendar-n9b" class="tn disp"><b id="calendar-n9">6</b>일</div></div></div>
     <div id="calendar-b4" class="clip pn" data-start="18.92" data-duration="3.95"><div class="hd2">법원이 따진 조사 시간</div>
-      <div class="hr disp"><b id="calendar-n70">0</b>시간<i id="calendar-plus" class="h">+</i></div>
-      <div class="hax"><i class="base"></i><i id="calendar-hf" class="fill h"></i>
-        <span class="z">0</span>
-        <div id="calendar-m1" class="mk up h" style="left:1151px"><i></i><span>1심 약 74시간</span></div>
-        <div id="calendar-m2" class="mk dn h" style="left:1260px"><i></i><span>2심 약 81시간</span></div></div></div>
+      <div id="calendar-hr" class="hr disp h">70시간+</div>
+      <div class="bl disp" style="top:388px">1심</div><div class="bl disp" style="top:568px">2심</div>
+      <div id="calendar-bar1" class="bar" style="top:380px;width:1069px"><span>식사·휴식 포함</span></div>
+      <div id="calendar-bar2" class="bar" style="top:560px;width:1170px"><span>폴리그래프 검사 포함</span></div>
+      <div id="calendar-v1" class="bv disp h" style="top:396px;left:1397px">약 74시간</div>
+      <div id="calendar-v2" class="bv disp h" style="top:576px;left:1498px">약 81시간</div>
+      <i class="xax"></i><span class="xt" style="left:300px">0</span><span class="xt" style="left:589px">20</span><span class="xt" style="left:878px">40</span><span class="xt" style="left:1166px">60</span><span class="xt" style="left:1455px">80</span>
+      <i id="calendar-l70" class="l70 h" style="left:1308px"></i>
+      <span id="calendar-t70" class="xt t70 h" style="left:1311px">70</span></div>
     <div id="calendar-tg0" class="clip tag-re" data-start="0.3" data-duration="6.19">도식</div>
     <div id="calendar-tg1" class="clip tag-re" data-start="6.49" data-duration="5.76">도식 · 실제 영장 아님</div>
     <div id="calendar-tg2" class="clip tag-re" data-start="12.25" data-duration="10.62">도식</div>
@@ -98,18 +112,23 @@
     tl.fromTo("#calendar-a14", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out" }, 2.19);
     tl.fromTo("#calendar-l1", { opacity: 0, x: -28 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 3.5);
     tl.fromTo("#calendar-st", { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power3.out" }, 7.89);
-    tl.fromTo("#calendar-l2", { opacity: 0, x: -28 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 9.65);
+    tl.fromTo("#calendar-none", { opacity: 0, scale: 1.3 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power3.out" }, 10.45);
     tl.fromTo("#calendar-b15", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 12.5);
     tl.fromTo("#calendar-b16", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 12.7);
     tl.fromTo("#calendar-b17", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 12.9);
     tl.fromTo("#calendar-l3", { opacity: 0, x: -28 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 13.5);
-    tl.fromTo("#calendar-n9b", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 16.47);
-    (() => { const o = { v: 0 }; tl.to(o, { v: 9, duration: 1.9, ease: "power2.out", onUpdate: () => { document.getElementById("calendar-n9").textContent = Math.round(o.v); } }, 16.47); })();
-    tl.fromTo("#calendar-hf", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 1.9, ease: "power2.inOut" }, 19.12);
-    (() => { const o = { v: 0 }; tl.to(o, { v: 70, duration: 1.9, ease: "power2.out", onUpdate: () => { document.getElementById("calendar-n70").textContent = Math.round(o.v); } }, 19.12); })();
-    tl.fromTo("#calendar-plus", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power3.out" }, 21.07);
-    tl.fromTo("#calendar-m1", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 21.37);
-    tl.fromTo("#calendar-m2", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 21.77);
+    (() => { const o = { v: 6 }; tl.to(o, { v: 9, duration: 1.8, ease: "none", onUpdate: () => { document.getElementById("calendar-n9").textContent = Math.floor(o.v + 1e-6); } }, 16.17); })();
+    tl.fromTo("#calendar-c18", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power2.out" }, 16.72);
+    tl.fromTo("#calendar-c19", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power2.out" }, 17.32);
+    tl.fromTo("#calendar-c20", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power2.out" }, 17.92);
+    tl.fromTo("#calendar-n9b", { scale: 1.14 }, { scale: 1, duration: 0.3, ease: "power3.out" }, 17.97);
+    tl.fromTo("#calendar-bar1", { width: 0 }, { width: 1069, duration: 1.15, ease: "power2.out" }, 19.07);
+    tl.fromTo("#calendar-bar2", { width: 0 }, { width: 1170, duration: 1.25, ease: "power2.out" }, 19.07);
+    tl.fromTo("#calendar-v1", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out" }, 20.07);
+    tl.fromTo("#calendar-v2", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out" }, 20.17);
+    tl.fromTo("#calendar-l70", { opacity: 0, scaleY: 0 }, { opacity: 1, scaleY: 1, duration: 0.3, ease: "power2.out" }, 20.42);
+    tl.fromTo("#calendar-t70", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out" }, 20.42);
+    tl.fromTo("#calendar-hr", { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, 20.67);
     window.__timelines["calendar"] = tl;
   </script>
 </template>
