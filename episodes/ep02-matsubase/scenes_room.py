@@ -3,46 +3,9 @@
 scenes.py imports these (`from scenes_room import ...`). Each function: def <id>(sid, dur, q) -> composition HTML.
 """
 from scenes_kit import *  # noqa: F401,F403
-from scenes_kit import clip, scene3d, cam_shots, STRIP_GRADE, BOARD, AMBER
+from scenes_kit import clip, scene3d, cam_shots
+from scenes_archive import record_insert
 
-
-def strip_insert(sid, at, dur, src, size, focus=None, caption="", credit="", n=0):
-    """A record cut inside a 3D scene, drawn like archive_scene's "strip" shots (hook): a document line as a wide paper
-    strip (up to 1760 px), no tilt, the strip grade, an amber ring, a Korean gloss line (.ar-cap) and the source line.
-    Returns (markup, css, tweens). A full-frame cut on purpose: it covers the 3D stage for `dur` seconds."""
-    w, h = size
-    k_fit = min(1760 / w, 320 / h, 2.6)
-    pw, ph = round(w * k_fit), round(h * k_fit)
-    iid = f"{sid}-ins{n}"
-    ring, tw = "", []
-    if focus:
-        cx, cy, r = focus
-        ring = (f'<svg class="ar-ring" viewBox="0 0 {pw} {ph}" width="{pw}" height="{ph}">'
-                f'<ellipse id="{iid}-r" cx="{round(cx * pw)}" cy="{round(cy * ph)}" rx="{round(r * pw)}" ry="{round(r * pw * 0.82)}" '
-                f'pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100"/></svg>')
-        tw.append(f'    tl.to("#{iid}-r", {{ strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }}, {round(at + 0.4, 2)});')
-    fig = (f'<figure class="ar-print" style="width:{pw}px;height:{ph}px;transform:translate(-50%,-50%) rotate(0deg)">'
-           f'<img class="ar-img" src="{src}" alt="" style="width:{pw}px;height:{ph}px" data-color-grading=\'{STRIP_GRADE}\'/>{ring}</figure>')
-    inner = (f'<div id="{iid}-cam" class="ar-cam">{fig}</div>'
-             + (f'<div class="ar-cap">{caption}</div>' if caption else "")
-             + (f'<div class="ar-credit">{credit}</div>' if credit else "")
-             + '<div class="tag-re tag-ar">기록</div>')
-    markup = "    " + clip(iid, round(at, 2), dur, "ar-shot ar-ins", inner, extra=" data-layout-allow-overlap")
-    tw.append(f'    tl.fromTo("#{iid}-cam", {{ scale: 1.0 }}, {{ scale: 1.05, duration: {dur}, ease: "none" }}, {round(at, 2)});')
-    css = f"""
-    .ar-shot {{ position: absolute; inset: 0; background: {BOARD}; overflow: hidden; }}
-    .ar-ins {{ z-index: 20; }}
-    .ar-cam {{ position: absolute; inset: 0; transform-origin: 50% 43%; }}
-    .ar-print {{ position: absolute; left: 50%; top: 43%; margin: 0; padding: 0; background: #EDE8DE;
-      outline: 18px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }}
-    .ar-img {{ display: block; }}
-    .ar-ring {{ position: absolute; left: 0; top: 0; overflow: visible; }}
-    .ar-ring ellipse {{ fill: none; stroke: {AMBER}; stroke-width: 7; stroke-linecap: round; }}
-    .ar-cap {{ position: absolute; left: 0; right: 0; top: 806px; text-align: center; font-size: 44px; color: rgba(243,240,234,.95);
-      text-shadow: 0 0 3px #000, 0 2px 10px #000; }}
-    .ar-credit {{ position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }}
-    .tag-ar {{ border-color: {AMBER}; }}"""
-    return markup, css, "\n".join(tw)
 
 # ---------------------------------------------------------------- room.js (피해자 집 방) — set-builder
 # Room coordinates (assets/lib/room.js): floor y=0, x ∈ [-2.25, 2.25] (east +x = window wall), z ∈ [-1.8, 1.8] (south +z),
@@ -98,9 +61,10 @@ def empty_room(sid, dur, q):
     labels = [_room_label(sid, 0, q[1], q[2] - 0.1, "목격자 없음"),
               _room_label(sid, 1, q[2], q[3] - 0.1, "다른 증거 없음"),
               _room_label(sid, 2, q[3], ins_at, "자백 하나", amber=True)]
-    im, icss, itw = strip_insert(sid, ins_at, round(min(4.0, dur - ins_at), 2), "assets/archive/saishin-p2-l16.png", (2653, 264),
-                                 focus=(0.34, 0.27, 0.11), caption="「…징역 13년에 처한다는 판결을 선고했다…」",
-                                 credit="구마모토지법 재심 판결(2019) · 사건 경위")
+    # record cut in the shared desk look (scenes_archive.record_insert, same strip width as hook); ring on 「懲役１３年に処する旨」 (F16)
+    im, icss, itw = record_insert(sid, ins_at, round(min(4.0, dur - ins_at), 2), "assets/archive/saishin-p2-l16.png", (2653, 264),
+                                  focus=(0.36, 0.27, 0.12), caption="「…징역 13년에 처한다는 판결을 선고했다…」",
+                                  credit="구마모토지법 재심 판결(2019) · 사건 경위", hide=f"#{sid}-re")
     overlay = "\n".join(m for m, _ in labels) + "\n" + im
     tweens = "\n".join(t for _, t in labels) + "\n" + itw
     return scene3d(sid, dur, "room", "createRoom", opts, overlay, tweens, ROOM_CSS + icss)
