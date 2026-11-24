@@ -44,7 +44,9 @@ RC_CSS = f"""
     .rc-desk {{ position: absolute; left: -900px; top: -760px; width: 3720px; height: 2600px; display: block; }}
     .rc-paper {{ position: absolute; margin: 0; padding: 0; background: #DCDAD6;
       box-shadow: 0 1px 1px rgba(0,0,0,.7), 0 3px 6px rgba(0,0,0,.55), 0 26px 60px rgba(0,0,0,.6), 0 60px 140px rgba(0,0,0,.45); }}
-    .rc-paper img {{ position: absolute; display: block; }}
+    .rc-crop {{ position: absolute; overflow: hidden; }}
+    .rc-crop img {{ position: absolute; display: block; }}
+    .rc-ul {{ position: absolute; height: 8px; background: {AMBER}; border-radius: 4px; transform-origin: left center; }}
     .rc-sheen {{ position: absolute; inset: 0; pointer-events: none;
       background: linear-gradient(172deg, rgba(255,250,240,.05) 0%, rgba(0,0,0,0) 38%, rgba(0,0,0,.16) 100%); }}
     .rc-shade {{ position: absolute; inset: 0; pointer-events: none; background: #0B0C0E; }}
@@ -94,14 +96,18 @@ def record_cut(cid, t0, t1, s, ring_at=None):
       light   how much lamp light the sheet gets (-0.6 .. 0.1; <0 = a shade layer over the sheet), default 0; desk follows it
       push    (scale_from, scale_to), default (1.0, 1.06);  drift (dx, dy) px over the cut, default (0, 0)
       focus   [(cx, cy, r)] amber ring on the file (0..1 of its width/height, r = half width / file width), drawn at ring_at
+      crop    (x0, x1) strip mode only: show just this part of the line (0..1 of the file width) at STRIP_W, so a short
+              quoted phrase gets bigger glyphs on the same slip width; focus / anchor are then 0..1 of the visible part
+      underline  True: an amber underline under the whole visible line (drawn at ring_at) instead of / with the ring
       caption Korean gloss line (name plate, 44 px);  credit  licence line
     """
     w, h = s["size"]
+    x0, x1 = s.get("crop", (0.0, 1.0)) if s.get("mode") == "strip" else (0.0, 1.0)
     mode = s.get("mode", "page")
     focus = s.get("focus", [])
     if mode == "strip":
         iw = STRIP_W
-        ih = round(h * iw / w)
+        ih = round(h * iw / ((x1 - x0) * w))
         padx, pady = STRIP_PAD
         pw, ph = iw + 2 * padx, ih + 2 * pady
         ox, oy = padx, pady
@@ -113,11 +119,20 @@ def record_cut(cid, t0, t1, s, ring_at=None):
     ax, ay = s.get("spot", (960, 430))
     left, top = ax - (ox + fx * iw), ay - (oy + fy * ih)
     lean, tilt, light = s.get("lean", 16), s.get("tilt", 0), s.get("light", 0.0)
-    img = (f'<img src="{s["src"]}" alt="" style="left:{ox}px;top:{oy}px;width:{iw}px;height:{ih}px" '
+    fw = round(iw / (x1 - x0))  # full file width on the sheet (= iw unless cropped)
+    img = (f'<img src="{s["src"]}" alt="" style="left:{-round(x0 * fw)}px;top:0;width:{fw}px;height:{ih}px" '
            f"data-color-grading='{_grade(0.0, 0.0 if mode == 'strip' else 0.14)}'/>")
+    img = f'<div class="rc-crop" style="left:{ox}px;top:{oy}px;width:{iw}px;height:{ih}px">{img}</div>'
+    if s.get("underline"):
+        uid = f"{cid}-ul"
+        img += f'<i id="{uid}" class="rc-ul" style="left:{ox}px;top:{oy + ih + 4}px;width:{iw}px"></i>'
+        if ring_at is not None:
+            tw0 = [f'    tl.fromTo("#{uid}", {{ scaleX: 0 }}, {{ scaleX: 1, duration: 0.6, ease: "power2.out" }}, {round(ring_at + 0.15, 2)});']
+    else:
+        uid = None
     # Light falls on the whole sheet (image + its paper margin alike), so the shade is one layer over both.
     shade = f'<div class="rc-shade" style="opacity:{round(min(0.75, max(0.0, -light) * 1.1), 3)}"></div>' if light < 0 else ""
-    rings, tw = "", []
+    rings, tw = "", (tw0 if uid and ring_at is not None else [])
     nlines = max(1, round(h / LINE_PX)) if mode == "strip" else 1
     for j, (cx, cy, r) in enumerate(focus):
         rid = f"{cid}-r{j}"
@@ -231,7 +246,7 @@ def record_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens=
     ends = starts[1:] + [dur]
     markup, tw = [], []
     for k, (s, t0, t1) in enumerate(zip(shots, starts, ends)):
-        ring_at = max(t0, t_of(s.get("ring_cue", s["at"]))) if (s.get("focus") or s.get("ring")) else None
+        ring_at = max(t0, t_of(s.get("ring_cue", s["at"]))) if (s.get("focus") or s.get("ring") or s.get("underline")) else None
         fn = map_cut if s.get("kind") == "map" else record_cut
         inner, stw = fn(f"{sid}-c{k}", t0, t1, s, ring_at)
         markup.append(clip(f"{sid}-ph{k}", round(t0, 2), t1 - t0, "rc-shot", inner))
@@ -253,7 +268,7 @@ def record_insert(sid, at, dur, src, size, focus=None, caption="", credit="", n=
     s = {"src": src, "size": size, "mode": mode, "caption": caption, "credit": credit,
          "focus": [focus] if focus else [], "lean": 12, "tilt": -1.5, "light": -0.1, "push": (1.0, 1.05)}
     s.update(look)
-    inner, tw = record_cut(iid, at, at + dur, s, ring_at=at + 0.25 if focus else None)
+    inner, tw = record_cut(iid, at, at + dur, s, ring_at=at + 0.25 if (focus or look.get("underline")) else None)
     inner += f'<div class="rc-tag">기록</div>'
     markup = "    " + clip(iid, round(at, 2), dur, "rc-shot rc-ins", inner, extra=" data-layout-allow-overlap")
     if hide:
