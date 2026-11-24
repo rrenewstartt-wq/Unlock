@@ -299,7 +299,7 @@ def place(sid, dur, q):
          "places": [(*ky(KUMAMOTO_PREF), "구마모토현", "", "r", False)], "credit": GSI},
         {"kind": "map", "src": A + "map-kumamoto.png", "size": (2560, 1440), "at": 1, "zoom": 1.25, "origin": km(MATSUBASE_STN),
          "push": (1.0, 1.06), "push_to": km(MATSUBASE_STN),
-         "places": [(*km(KUMAMOTO_CITY), "구마모토시", "", "r")], "ring": (*km(MATSUBASE_STN), 150),
+         "places": [(*km(KUMAMOTO_CITY), "구마모토시", "", "r")], "ring": (*km(MATSUBASE_STN), 105),
          "caption": "옛 시모마시키군 마쓰바세정 일대", "credit": GSI},
         {"kind": "map", "src": A + "map-matsubase.png", "size": (2560, 1440), "at": 2, "zoom": 1.3, "origin": ms(MATSUBASE_STN),
          "push": (1.0, 1.05), "push_to": ms(MATSUBASE_STN),
