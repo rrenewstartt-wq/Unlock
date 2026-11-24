@@ -17,3 +17,4 @@ episodes/*/thumbnail/out/mask-*.png
 .venv-voice
 # 세트 미리보기 임시 파일(scripts/set_preview.py)
 episodes/*/_set_preview*
+episodes/*/index.full.html.bak
