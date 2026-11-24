@@ -25,8 +25,8 @@ const WIN = { x0: -1.0, x1: 0.9, y0: 1.05, y1: 2.05 };          // frosted windo
 const DOOR = { z0: 1.6, z1: 2.5, y1: 2.0 };                     // door in the east wall
 
 const MODES = {
-  interrogation: { hdri: "blinds", env: 0.12, exposure: 1.0, rows: [1, 1], tube: 1.0, winGlow: "#9ea7aa", winLight: 3.2,
-    amb: 0.05, lamp: 1, fill: 0.65 },
+  interrogation: { hdri: "blinds", env: 0.12, exposure: 1.0, rows: [1, 1], tube: 1.0, winGlow: "#7f888b", winLight: 2.4,
+    amb: 0.04, lamp: 1, fill: 0.32 },
   night: { hdri: "blinds", env: 0.01, exposure: 1.0, rows: [1, 0], tube: 1.0, winGlow: "#10161f", winLight: 0,
     amb: 0.006, lamp: 1, fill: 0 },
 };
@@ -47,7 +47,8 @@ export function grade(mat, sat = 0.5, tint = "#ffffff") {
 }
 
 // A plain office chair (faces +z): steel tube legs and back posts, wooden seat and back board. Seat top at 0.45 m.
-function officeChair(f, wood, pos, rotY) {
+function officeChair(f, wood, pos, rotY, seatH = 0.456) {
+  const k = seatH / 0.456;                                 // legs scale with the seat height
   const g = new THREE.Group();
   const steel = new THREE.MeshStandardMaterial({ color: "#5d605f", metalness: 0.75, roughness: 0.38 });
   const tubeAt = (x0, y0, z0, x1, y1, z1, r = 0.011) => {
@@ -58,14 +59,14 @@ function officeChair(f, wood, pos, rotY) {
     m.castShadow = m.receiveShadow = true;
     g.add(m);
   };
-  for (const [x, z] of [[-0.19, -0.18], [0.19, -0.18], [-0.19, 0.18], [0.19, 0.18]]) tubeAt(x, 0, z, x, 0.43, z);
+  for (const [x, z] of [[-0.19, -0.18], [0.19, -0.18], [-0.19, 0.18], [0.19, 0.18]]) tubeAt(x, 0, z, x, 0.43 * k, z);
   tubeAt(-0.19, 0.14, -0.18, -0.19, 0.14, 0.18); tubeAt(0.19, 0.14, -0.18, 0.19, 0.14, 0.18);
   tubeAt(-0.19, 0.14, 0.0, 0.19, 0.14, 0.0, 0.009);
-  for (const x of [-0.17, 0.17]) tubeAt(x, 0.44, -0.19, x, 0.86, -0.26);
+  for (const x of [-0.17, 0.17]) tubeAt(x, seatH - 0.016, -0.19, x, seatH + 0.4, -0.26);
   const seat = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.024, 0.41), wood);
-  seat.position.set(0, 0.444, 0);
+  seat.position.set(0, seatH - 0.012, 0);
   const back = new THREE.Mesh(new THREE.BoxGeometry(0.39, 0.13, 0.016), wood);
-  back.position.set(0, 0.76, -0.245);
+  back.position.set(0, seatH + 0.3, -0.245);
   back.rotation.x = -0.17;
   for (const m of [seat, back]) { m.castShadow = m.receiveShadow = true; g.add(m); }
   g.position.set(...pos);
@@ -117,7 +118,7 @@ export function createPolice(stage, opts) {
     // Floor, walls (painted lower band + plaster above), ceiling.
     const W = X1 - X0, D = Z1 - Z0;
     const floorMat = f.tiled(lino, W / 1.2, D / 1.2);
-    floorMat.color = new THREE.Color("#a9aea6");
+    floorMat.color = new THREE.Color("#7a7e78");
     grade(floorMat, 0.22);
     floorMat.roughnessMap = null;
     floorMat.roughness = 0.62;
@@ -127,20 +128,20 @@ export function createPolice(stage, opts) {
     floor.receiveShadow = true;
     S.add(floor);
     const ceilMat = f.tiled(plaster, W / 1.5, D / 1.5);
-    ceilMat.color = new THREE.Color("#d8d6d0");
-    grade(ceilMat, 0.2);
+    ceilMat.color = new THREE.Color("#c9ccc9");
+    grade(ceilMat, 0.08);
     const ceil = new THREE.Mesh(new THREE.PlaneGeometry(W, D), ceilMat);
     ceil.rotation.x = Math.PI / 2;
     ceil.position.set((X0 + X1) / 2, H, (Z0 + Z1) / 2);
     S.add(ceil);
 
     const BAND = 1.0;
-    const upperTint = new THREE.Color("#e6e3d8"), lowerTint = new THREE.Color("#8d9a93");
+    const upperTint = new THREE.Color("#d3d8d3"), lowerTint = new THREE.Color("#8d9a93");
     // wall(len, height, y0) as a plane facing into the room; holes are made by splitting into pieces.
     const wallPiece = (w, h, y0, along, at, ry, upper) => {
       const m = f.tiled(upper ? plaster : lower, w / 1.6, h / 1.6);
       m.color = (upper ? upperTint : lowerTint).clone();
-      grade(m, upper ? 0.3 : 0.45);
+      grade(m, upper ? 0.14 : 0.45);
       const p = new THREE.Mesh(new THREE.PlaneGeometry(w, h), m);
       p.rotation.y = ry;
       if (along === "x") p.position.set(at[0] + w / 2, y0 + h / 2, at[1]);
@@ -173,7 +174,7 @@ export function createPolice(stage, opts) {
     for (const [y0, y1, up] of [[0, BAND, false], [BAND, H, true]]) {
       const m = f.tiled(up ? plaster : lower, W / 1.6, (y1 - y0) / 1.6);
       m.color = (up ? upperTint : lowerTint).clone();
-      grade(m, up ? 0.3 : 0.45);
+      grade(m, up ? 0.14 : 0.45);
       const p = new THREE.Mesh(new THREE.PlaneGeometry(W, y1 - y0), m);
       p.rotation.y = Math.PI;
       p.position.set(0, (y0 + y1) / 2, Z1);
@@ -184,7 +185,7 @@ export function createPolice(stage, opts) {
       for (const [y0, y1, up] of [[0, BAND, false], [BAND, H, true]]) {
         const m = f.tiled(up ? plaster : lower, (z1 - z0) / 1.6, (y1 - y0) / 1.6);
         m.color = (up ? upperTint : lowerTint).clone();
-      grade(m, up ? 0.3 : 0.45);
+      grade(m, up ? 0.14 : 0.45);
         const p = new THREE.Mesh(new THREE.PlaneGeometry(z1 - z0, y1 - y0), m);
         p.rotation.y = Math.PI / 2;
         p.position.set(X0, (y0 + y1) / 2, (z0 + z1) / 2);
@@ -199,7 +200,7 @@ export function createPolice(stage, opts) {
         if (b - a < 1e-3) continue;
         const m = f.tiled(up ? plaster : lower, (z1 - z0) / 1.6, (b - a) / 1.6);
         m.color = (up ? upperTint : lowerTint).clone();
-      grade(m, up ? 0.3 : 0.45);
+      grade(m, up ? 0.14 : 0.45);
         const p = new THREE.Mesh(new THREE.PlaneGeometry(z1 - z0, b - a), m);
         p.rotation.y = -Math.PI / 2;
         p.position.set(X1, (a + b) / 2, (z0 + z1) / 2);
@@ -274,7 +275,6 @@ export function createPolice(stage, opts) {
     // Office chairs: steel tube frame + wooden seat and back (generic 1980s office chair, built here).
     const seatWood = f.tiled(wood, 0.5, 0.5);
     seatWood.color = new THREE.Color("#a08c78");
-    officeChair(f, seatWood, [0.05, 0, SEAT_Z + 0.1], Math.PI);
     officeChair(f, seatWood, [-0.1, 0, -1.5], 0.12);
     // the stand stands at the desk's right end (seen from the man's back) so it never sits behind his head
     const lamp = await f.model("desk_lamp_arm_01", { pos: [0.8, 0.74, -0.86], rot: [0, 2.3, 0], height: 0.5 });
@@ -308,7 +308,7 @@ export function createPolice(stage, opts) {
         tubes.push(tube);
       }
       const on = M.rows[ri];
-      const l = new THREE.SpotLight("#e9f2ef", on ? (mode === "night" ? 30 : 22) : 0, 9, 1.15, 0.95, 1.6);
+      const l = new THREE.SpotLight("#e9f2ef", on ? (mode === "night" ? 30 : 26) : 0, 9, mode === "night" ? 1.15 : 0.85, 0.9, 1.6);
       l.position.set(rx, H - 0.1, 0);
       l.target.position.set(mode === "night" && ri === 0 ? rx - 0.5 : rx * 0.6, 0, 0);
       l.castShadow = !!on && ri === 0;   // one shadow-casting row keeps the build light (many sets share a page)
@@ -320,6 +320,11 @@ export function createPolice(stage, opts) {
       rowLights.push(l);
     }
     if (mode === "night") {
+      // a faint cold rim from the west wall side: hair, collar and shoulder edges separate from the washed wall
+      const nrim = new THREE.SpotLight("#dfe8ec", 9, 6, 0.26, 0.7, 1.4);
+      nrim.position.set(-2.3, 1.85, 0.55);
+      nrim.target.position.set(0.05, 1.25, 0.1);
+      S.add(nrim, nrim.target);
       // The one lit row washes the west wall: a grazing spot so the wall behind the man (seen from the east) reads bright.
       const wash = new THREE.SpotLight("#dfeae8", 26, 6, 0.6, 0.85, 1.5);
       wash.position.set(-1.75, H - 0.12, 0.0);
@@ -335,6 +340,11 @@ export function createPolice(stage, opts) {
       sun.shadow.mapSize.set(1024, 1024);
       sun.shadow.bias = -0.0005;
       S.add(sun, sun.target);
+      // window-side rim: from the window, level with his shoulders, so his hair, collar and shoulders get an edge
+      const wrim = new THREE.SpotLight("#e2eaee", 26, 6, 0.28, 0.7, 1.3);
+      wrim.position.set(wx - 0.2, 1.55, Z0 + 0.15);
+      wrim.target.position.set(0.05, 1.2, 0.2);
+      S.add(wrim, wrim.target);
       const fill = new THREE.HemisphereLight("#dfe6e6", "#77746c", M.fill);
       S.add(fill);
     }
@@ -358,12 +368,26 @@ export function createPolice(stage, opts) {
 
     // The man: seated (chair), forearms toward the desk, facing north (-z), back to the camera side.
     const man = await f.figure("film");
-    dress(man, { suit: "#2d2c2a", trousers: "#33312e", shirt: "#aaa69d", fabric: wool.normalMap });
+    await dress(man, { suit: "#2d2c2a", trousers: "#33312e", shirt: "#aaa69d", fabric: wool.normalMap, seated: true });
     poseSeated(man, { style: "chair", forearms: 0.75, lean: 0.12 });
     turn(man, "neck_01", [1, 0, 0], 0.18);
     man.root.rotation.y = Math.PI;
     settle(man, 0);
     man.root.position.set(0.05, man.root.position.y, SEAT_Z);
+    // his chair goes under him: seat top at the underside of his thighs, the back just behind his pelvis
+    man.root.updateMatrixWorld(true);
+    const pv = man.bone("pelvis").getWorldPosition(new THREE.Vector3());
+    let seatY = 1, vv = new THREE.Vector3();
+    man.scene.traverse((o) => {
+      if (!o.isSkinnedMesh || !o.visible) return;
+      const za = o.geometry.attributes.zone, ps = o.geometry.attributes.position;
+      for (let i = 0; i < ps.count; i += 2) {
+        if (za && za.getX(i) !== 3 && za.getX(i) !== 2) continue;
+        o.getVertexPosition(i, vv); vv.applyMatrix4(o.matrixWorld);
+        if (Math.abs(vv.x - pv.x) < 0.16 && vv.z > pv.z - 0.25 && vv.z < pv.z + 0.12) seatY = Math.min(seatY, vv.y);
+      }
+    });
+    officeChair(f, seatWood, [pv.x, 0, pv.z - 0.05], Math.PI, seatY);
     f.hold(man);
     const empty = cue.empty || null;
 

@@ -99,13 +99,21 @@ export function createVault(stage, opts) {
     wash.position.set(-0.3, 2.6, -1.6);
     wash.target.position.set(-0.5, 1.2, Z0);
     S.add(wash, wash.target);
-    const rim = new THREE.SpotLight("#e8eef2", mode === "open" ? 55 : 0, 6, 0.55, 0.7, 1.5);
-    rim.position.set(0.0, 2.45, -1.5);          // from beyond the table onto the people's shoulders and collars
-    rim.target.position.set(-0.1, 1.3, 1.0);
-    rim.castShadow = mode === "open";
-    rim.shadow.mapSize.set(1024, 1024);
-    rim.shadow.bias = -0.0005;
-    S.add(rim, rim.target);
+    // Rims: two low, near-level spots from beyond the table onto the people's collars, shoulders and sleeves (no floor
+    // stripes: aimed level, their cones run out past the camera), and a faint cold fill from the camera side so the
+    // jackets read as cloth, not cut-outs.
+    if (mode === "open") {
+      for (const [px, tx, tz] of [[-1.5, -0.62, 0.98], [1.4, 0.28, 1.12]]) {
+        const rim = new THREE.SpotLight("#e4ebf0", 34, 7, 0.32, 0.6, 1.4);
+        rim.position.set(px, 1.95, -1.3);
+        rim.target.position.set(tx, 1.42, tz);
+        S.add(rim, rim.target);
+      }
+      const fill = new THREE.SpotLight("#cfd9e0", 5, 9, 0.38, 0.9, 1.2);
+      fill.position.set(1.6, 2.6, 4.2);
+      fill.target.position.set(-0.2, 1.25, 1.0);
+      S.add(fill, fill.target);
+    }
     S.add(new THREE.AmbientLight("#a9b4bd", 0.02));
 
     const cloth = await shirtClothMaterial(f);
@@ -148,9 +156,9 @@ export function createVault(stage, opts) {
       // Two standing people on the camera side of the table, seen from behind / 3/4 behind, looking down at the box;
       // back-lit from beyond the table (rim on collars and sleeves). Suits are generic dark neutrals (no record).
       const wool = await f.material("poly_wool_herringbone");
-      for (const [x, z, ry, suit] of [[-0.62, 0.98, Math.PI + 0.32, "#2a2927"], [0.28, 1.12, Math.PI - 0.22, "#34332f"]]) {
+      for (const [x, z, ry, suit] of [[-0.62, 0.98, Math.PI - 0.3, "#2a2927"], [0.46, 1.1, Math.PI + 0.5, "#34332f"]]) {
         const p = await f.figure("film");
-        dress(p, { suit, trousers: suit, shirt: "#a29e96", fabric: wool.normalMap });
+        await dress(p, { suit, trousers: suit, shirt: "#a29e96", fabric: wool.normalMap });
         poseArmsDown(p, 0.03);
         turn(p, "spine_02", [1, 0, 0], 0.16);
         turn(p, "neck_01", [1, 0, 0], 0.42);

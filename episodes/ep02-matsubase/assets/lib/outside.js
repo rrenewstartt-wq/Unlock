@@ -76,6 +76,11 @@ export function createOutside(stage, opts) {
         const hx = side * (WALL + 2.2 + hd / 2), hz = z - 6.5;
         mesh(new THREE.BoxGeometry(hd, hh, hw), houseWall, [hx, hh / 2, hz]);
         const pitch = 0.42, half = hd / 2 + 0.5;
+        // gable: the triangle under the roof is solid wall (an open gable showed the moonlit box top as a pale slab)
+        const gs = new THREE.Shape([new THREE.Vector2(-hd / 2, 0), new THREE.Vector2(hd / 2, 0), new THREE.Vector2(0, Math.tan(pitch) * hd / 2)]);
+        const gable = new THREE.ExtrudeGeometry(gs, { depth: hw, bevelEnabled: false });
+        gable.translate(0, 0, -hw / 2);
+        mesh(gable, houseWall, [hx, hh - 0.01, hz]);
         for (const s of [-1, 1]) {
           const roof = mesh(new THREE.BoxGeometry(half / Math.cos(pitch) + 0.1, 0.12, hw + 0.8), roofMat,
             [hx + s * half / 2, hh + Math.tan(pitch) * half / 2, hz], [0, 0, -s * pitch]);
@@ -93,8 +98,9 @@ export function createOutside(stage, opts) {
 
     // ---------------------------------------------------------------- far away: low 2-3 storey masses, unlit, lost in the haze
     // (toward the station; no windows, no lights, no shapes to read — just a lower skyline than the houses near by)
-    const dark = new THREE.MeshStandardMaterial({ color: "#1a1d23", roughness: 1 });
-    const FAR = [[-16, -150, 22, 8.5, 14, 0.25], [-1, -158, 16, 10, 12, 0.1], [10, -165, 20, 7, 12, -0.15], [-30, -140, 14, 6.5, 10, 0.3]];
+    const dark = new THREE.MeshStandardMaterial({ color: "#20252d", roughness: 1 });
+    const FAR = [[-16, -150, 24, 6.2, 14, 0.25], [-1, -162, 18, 7.4, 12, 0.1], [13, -170, 22, 5.6, 12, -0.15], [-33, -142, 16, 5.2, 10, 0.3],
+      [28, -178, 20, 6.6, 12, 0.2]];
     for (const [x, z, w, h, d, ry] of FAR) {
       const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), dark);
       m.position.set(x, h / 2, z);
@@ -202,7 +208,7 @@ export function createOutside(stage, opts) {
       if (shadow) { l.castShadow = true; l.shadow.mapSize.set(2048, 2048); l.shadow.bias = -0.0004; l.shadow.radius = 3; }
       S.add(l, l.target);
       // a faint halo in the night air around the lens (fog catches the light)
-      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color, transparent: true, opacity: 0.55,
+      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color, transparent: true, opacity: key === "hero" ? 0.8 : 0.55,
         depthWrite: false, blending: THREE.AdditiveBlending, fog: false }));
       halo.scale.set(2.0, 2.0, 1);
       halo.position.set(hx, hy - 0.08, hz);

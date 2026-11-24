@@ -80,6 +80,37 @@ function contactTexture() {
   return t;
 }
 
+// dark_wood is a red mahogany. Keep its grain but pull it toward a neutral grey-brown in the shader (luminance mix +
+// tint), so the kotatsu top and the posts never read red (a red top under the amber read as a blood pool, review P1 2).
+function desat(mat, sat, tint) {
+  const tc = new THREE.Color(tint);
+  mat.color = new THREE.Color("#ffffff");
+  mat.onBeforeCompile = (sh) => {
+    sh.fragmentShader = sh.fragmentShader.replace("#include <map_fragment>", `#include <map_fragment>
+      { float l_ = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+        diffuseColor.rgb = mix(vec3(l_), diffuseColor.rgb, ${sat.toFixed(3)}) * vec3(${tc.r.toFixed(3)}, ${tc.g.toFixed(3)}, ${tc.b.toFixed(3)}); }`);
+  };
+  mat.customProgramCacheKey = () => `desat-${sat}-${tint}`;
+  mat.needsUpdate = true;
+  return mat;
+}
+
+// Contact darkening for things lying on the top: albedo falls off over the last few cm above the board (world y), so a
+// fruit's belly and the net where they touch the top go dark (a lit belly made the heap read as floating, review P0 1).
+function contact(mat, y0, h, floor = 0.22) {
+  const prev = mat.onBeforeCompile;
+  mat.onBeforeCompile = (sh, r) => {
+    if (prev) prev(sh, r);
+    sh.vertexShader = "varying float vWy_;\n" + sh.vertexShader.replace("#include <project_vertex>",
+      "#include <project_vertex>\n  vWy_ = (modelMatrix * vec4(transformed, 1.0)).y;");
+    sh.fragmentShader = "varying float vWy_;\n" + sh.fragmentShader.replace("#include <map_fragment>",
+      `#include <map_fragment>\n  diffuseColor.rgb *= mix(${floor.toFixed(3)}, 1.0, smoothstep(${y0.toFixed(4)}, ${(y0 + h).toFixed(4)}, vWy_));`);
+  };
+  mat.customProgramCacheKey = () => `contact-${y0}-${h}-${floor}`;
+  mat.needsUpdate = true;
+  return mat;
+}
+
 export function createRoom(stage, opts) {
   const mode = opts.mode || "morning";
   const M = MODES[mode];
@@ -139,11 +170,9 @@ export function createRoom(stage, opts) {
     slab(1.3, 0.05, 1.6, hall, [X0 - 0.65, H, (DOOR.z0 + DOOR.z1) / 2]);
 
     // Wooden posts at the corners and a plain lintel rail (generic room structure, no alcove or furniture).
-    const post = f.tiled(wood, 0.06, 1.2);
-    post.color = new THREE.Color("#a08f80");
+    const post = desat(f.tiled(wood, 0.06, 1.2), 0.45, "#a39484");
     for (const [x, z] of [[X0, Z0], [X1, Z0], [X0, Z1], [X1, Z1]]) slab(0.12, H, 0.12, post, [x + Math.sign(-x) * 0.04, H / 2, z + Math.sign(-z) * 0.04]);
-    const rail = f.tiled(wood, 2, 0.05);
-    rail.color = new THREE.Color("#a08f80");
+    const rail = desat(f.tiled(wood, 2, 0.05), 0.45, "#a39484");
     slab(W, 0.07, 0.04, rail, [0, 1.9, Z0 + 0.02]);
     slab(W, 0.07, 0.04, rail, [0, 1.9, Z1 - 0.02]);
     slab(0.04, 0.07, D, rail, [X0 + 0.02, 1.9, 0]);
@@ -153,8 +182,7 @@ export function createRoom(stage, opts) {
     slab(0.12, 0.06, DOOR.z1 - DOOR.z0 + 0.12, post, [X0, DOOR.y1 + 0.03, (DOOR.z0 + DOOR.z1) / 2]);
 
     // ---------------------------------------------------------------- window (east): wooden frame, two sashes, glass
-    const frame = f.tiled(wood, 0.1, 1);
-    frame.color = new THREE.Color("#8a7a6c");
+    const frame = desat(f.tiled(wood, 0.1, 1), 0.45, "#8f8072");
     const wz = (WIN.z0 + WIN.z1) / 2, wy = (WIN.y0 + WIN.y1) / 2, ww = WIN.z1 - WIN.z0, wh = WIN.y1 - WIN.y0;
     slab(0.14, 0.05, ww + 0.1, frame, [X1, WIN.y0 - 0.02, wz]);               // sill
     slab(0.12, 0.05, ww + 0.1, frame, [X1, WIN.y1 + 0.02, wz]);               // head
@@ -208,16 +236,22 @@ export function createRoom(stage, opts) {
     futMat.side = THREE.DoubleSide;
     mesh(futGeo, futMat, [0, 0, 0]);
     // top: dark wood board with a rounded edge
-    const topMat = f.tiled(wood, 0.45, 0.45);
-    topMat.color = new THREE.Color("#a9a597");   // pulls the red out of dark_wood: a brown-grey top
-    topMat.roughness = 0.95;
-    topMat.envMapIntensity = 0.6;
+    const topMat = desat(f.tiled(wood, 0.6, 0.6), 0.32, "#b3a28c");   // a matte brown-grey board: grain kept, red gone
+    topMat.roughness = 0.92;
+    topMat.roughnessMap = null;                        // the scan's glossy patches made a silver sheen at the low c3 angle
+    topMat.normalScale = new THREE.Vector2(0.35, 0.35);
+    topMat.envMapIntensity = 0.35;
+    for (const k of ["map", "normalMap", "roughnessMap"]) if (topMat[k]) topMat[k].anisotropy = 8;   // no smeared grain at grazing angles
     f.box({ size: [0.86, 0.032, 0.86], radius: 0.008, material: topMat, pos: [0, TOP - 0.016, 0] });
 
     // ---------------------------------------------------------------- mikan (desaturated, cool), the red net, the peel
     const dimple = dimpleTexture();
-    const mikanMat = new THREE.MeshStandardMaterial({ color: "#c0661f", roughness: 0.74, bumpMap: dimple, bumpScale: 1.4 });
-    const mikanGeo = new THREE.SphereGeometry(0.032, 28, 20);
+    // matte, pitted skin (not a glossy ball): three close orange tones so the heap is not one plastic colour
+    const mikanMats = ["#d7711c", "#cf6818", "#dc7a22"].map((c) => new THREE.MeshStandardMaterial({
+      color: c, roughness: 0.86, bumpMap: dimple, bumpScale: 2.2, envMapIntensity: 0.5 }));
+    for (const m of mikanMats) contact(m, TOP, 0.026);
+    const mikanMat = mikanMats[0];
+    const mikanGeo = new THREE.SphereGeometry(0.032, 32, 24);
     const onTop = [];   // everything that sits on the kotatsu top (hidden in night mode, faded during the dissolve)
     // The bag lies on its side and the 19 fruit slump inside it. Settled once at build time by a deterministic
     // relaxation (seeded start, gravity, no overlap, kept inside the bag's ellipsoid, resting on the table).
@@ -244,7 +278,7 @@ export function createRoom(stage, opts) {
       }
     }
     const mikans = P.map((p, i) => {
-      const m = new THREE.Mesh(mikanGeo, mikanMat);
+      const m = new THREE.Mesh(mikanGeo, mikanMats[i % 3]);
       const s = 0.95 + 0.08 * hash(i + 40);
       m.scale.set(s, s * 0.84, s);
       m.position.copy(p);
@@ -255,28 +289,48 @@ export function createRoom(stage, opts) {
       return m;
     });
     // calyx: a small dark stem scar on each fruit
-    const calyxGeo = new THREE.CylinderGeometry(0.0045, 0.006, 0.003, 12);
-    const calyxMat = new THREE.MeshStandardMaterial({ color: "#3f4030", roughness: 0.8 });
-    for (const m of mikans) { const c = new THREE.Mesh(calyxGeo, calyxMat); c.position.y = 0.032; m.add(c); }
+    const calyxShape = new THREE.Shape();
+    for (let i = 0; i <= 10; i++) {
+      const a = (i / 10) * Math.PI * 2, r = i % 2 ? 0.0032 : 0.0068;
+      if (i === 0) calyxShape.moveTo(r * Math.cos(a), r * Math.sin(a)); else calyxShape.lineTo(r * Math.cos(a), r * Math.sin(a));
+    }
+    const calyxGeo = new THREE.ExtrudeGeometry(calyxShape, { depth: 0.0012, bevelEnabled: false });
+    calyxGeo.rotateX(-Math.PI / 2);
+    const calyxMat = new THREE.MeshStandardMaterial({ color: "#4a4a26", roughness: 0.85 });
+    const stemGeo = new THREE.CylinderGeometry(0.0011, 0.0016, 0.004, 6);
+    const stemMat = new THREE.MeshStandardMaterial({ color: "#5a4a2c", roughness: 0.9 });
+    for (const m of mikans) {
+      const c = new THREE.Mesh(calyxGeo, calyxMat); c.position.y = 0.0313; m.add(c);
+      const st = new THREE.Mesh(stemGeo, stemMat); st.position.y = 0.0335; m.add(st);
+    }
     // The net: two families of helical strands (a diamond mesh) around the bag axis (x). Each strand point is found by
     // marching in from outside toward the axis until it touches a mikan (or the table); the radius is then smoothed hard
     // along the strand and never sinks more than 1.5 mm, so it reads as one layer wrapped round the whole bundle.
     // Past the last fruit there is nothing to stop the march, so both ends gather onto the axis; one end is tied off.
     const xs = P.map((p) => p.x), yMid = P.reduce((a, p) => a + p.y, 0) / P.length;
-    const xA = Math.min(...xs) - RX - 0.04, xB = Math.max(...xs) + RX + 0.04, L = xB - xA;   // ends gather in the air: a bag tail
+    const xL = Math.min(...xs) - RX, xR = Math.max(...xs) + RX;
+    const xA = xL - 0.008, xB = xR + 0.008, L = xB - xA;  // the mesh is pulled tight and gathered against the end fruit
+    const endL = P.reduce((a, p) => (p.x < a.x ? p : a)), endR = P.reduce((a, p) => (p.x > a.x ? p : a));
+    const axisY = (x) => {                                // bag axis: level over the heap, easing to the end fruit's middle at each end
+      const BL = 0.05;
+      if (x < xL + BL) { const o = Math.min(1, (xL + BL - x) / (BL + 0.008)); return yMid + (endL.y - yMid) * o * o * (3 - 2 * o); }
+      if (x > xR - BL) { const o = Math.min(1, (x - xR + BL) / (BL + 0.008)); return yMid + (endR.y - yMid) * o * o * (3 - 2 * o); }
+      return yMid;
+    };
     const Rn = 0.0342;
     const inFruit = (x, y, z) => P.some((c) => (c.x - x) ** 2 + ((c.y - y) / 0.84) ** 2 + (c.z - z) ** 2 < Rn * Rn);
     const surf = (x, th) => {                  // radius at which a ray from the axis at angle th first meets the heap
-      const cy = Math.cos(th), cz = Math.sin(th);
+      const cy = Math.cos(th), cz = Math.sin(th), ay = axisY(x);
       let r = 0.18;
       while (r > 0.003) {
         const rr = r - 0.0012;
-        if (inFruit(x, yMid + cy * rr, cz * rr)) break;
+        if (inFruit(x, ay + cy * rr, cz * rr)) break;
         r = rr;
       }
       return r;
     };
-    const netMat = new THREE.MeshStandardMaterial({ color: "#6e3530", roughness: 0.9 });
+    const netMat = new THREE.MeshStandardMaterial({ color: "#5a2e2a", roughness: 0.95 });   // red net, low chroma
+    contact(netMat, TOP, 0.02, 0.3);
     const N = 30, NP = 120, TURNS = 0.62;
     const ends = [];
     for (const fam of [1, -1]) for (let k = 0; k < N; k++) {
@@ -289,21 +343,23 @@ export function createRoom(stage, opts) {
       for (let pass = 0; pass < 10; pass++) sm = sm.map((r, j) => (j === 0 || j === NP) ? r : (sm[j - 1] + 2 * r + sm[j + 1]) / 4);
       const pts = rP.map((r, j) => {
         const rr = Math.max(r, sm[j] - 0.0015) + 0.0008;
-        const y = Math.max(0.0012, yMid + Math.cos(thP[j]) * rr);
+        const y = Math.max(0.0006, axisY(xsP[j]) + Math.cos(thP[j]) * rr);
         return new THREE.Vector3(xsP[j], y, Math.sin(thP[j]) * rr);
       });
-      ends.push(pts[NP]);
+      ends.push(pts[NP], pts[0]);
       const tube = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), NP * 2, 0.0004, 3, false), netMat);
       tube.castShadow = true;
       inner.add(tube);
     }
     const endMat = netMat;
-    const knot = ends.reduce((a, p) => a.add(p), new THREE.Vector3()).multiplyScalar(1 / ends.length);
-    const tie = new THREE.Mesh(new THREE.CylinderGeometry(0.0035, 0.006, 0.03, 10), new THREE.MeshStandardMaterial({ color: "#6a3034", roughness: 0.6 }));
-    tie.rotation.z = -Math.PI / 2 + 0.3;
-    tie.position.set(knot.x + 0.012, Math.max(0.006, knot.y - 0.004), knot.z);
-    tie.castShadow = true;
-    inner.add(tie);
+    const knotGeo = new THREE.SphereGeometry(0.0045, 12, 8);
+    for (const [x, dir, y] of [[xA, -1, endL.y], [xB, 1, endR.y]]) {   // gathered end: a small knot pressed to the end fruit (no loose tail)
+      const k = new THREE.Mesh(knotGeo, netMat);
+      k.scale.set(0.8, 1, 1);
+      k.position.set(x - dir * 0.001, y, 0);
+      k.castShadow = true;
+      inner.add(k);
+    }
     const pile = new THREE.Group();
     pile.add(inner);
     // contact shadow under the bundle (ambient occlusion where the fruit meet the top)
@@ -314,6 +370,15 @@ export function createRoom(stage, opts) {
     ao.rotation.x = -Math.PI / 2;
     ao.position.set((xA + xB) / 2, 0.0006, 0);
     inner.add(ao);
+    const spotMat = new THREE.MeshBasicMaterial({ map: aoTex, transparent: true, depthWrite: false, opacity: 0.9,
+      polygonOffset: true, polygonOffsetFactor: -3 });
+    const spotGeo = new THREE.PlaneGeometry(0.05, 0.05);
+    for (const m of mikans) if (m.position.y < RY + 0.006) {
+      const c = new THREE.Mesh(spotGeo, spotMat);
+      c.rotation.x = -Math.PI / 2;
+      c.position.set(m.position.x, 0.0009, m.position.z);
+      inner.add(c);
+    }
     pile.position.set(NET[0], TOP, NET[1]);
     pile.rotation.y = -0.785;   // the bag lies side-on to the c2/c3 cameras (ends left and right, not toward the lens)
     S.add(pile);
@@ -322,8 +387,10 @@ export function createRoom(stage, opts) {
     // One mikan's worth of peel: three torn, curled pieces of a thick shell (2.5 mm), lying mostly skin-up so the orange
     // outer face reads; the white pith only on the inner face and the torn rim. Each piece is a jagged patch of the sphere (outer + inner surface + rim walls).
     const peel = new THREE.Group();
-    const peelOut = new THREE.MeshStandardMaterial({ color: "#c8692a", roughness: 0.5, bumpMap: dimple, bumpScale: 0.5 });
-    const peelIn = new THREE.MeshStandardMaterial({ color: "#ead9b8", roughness: 0.95, side: THREE.DoubleSide });
+    const peelOut = new THREE.MeshStandardMaterial({ color: "#d06a1a", roughness: 0.85, bumpMap: dimple, bumpScale: 2.0, envMapIntensity: 0.5 });
+    const peelIn = new THREE.MeshStandardMaterial({ color: "#d9cbb0", roughness: 0.98, side: THREE.DoubleSide, envMapIntensity: 0.4 });
+    contact(peelOut, TOP, 0.008, 0.45);
+    contact(peelIn, TOP, 0.008, 0.45);
     const PR = 0.033, PT = 0.0025;
     const shellPiece = (seed, phiW, th0, th1) => {
       const NUu = 22, NVv = 16, pos = [], idxO = [], idxI = [];
@@ -368,9 +435,9 @@ export function createRoom(stage, opts) {
     };
     // [seed, phi width, theta range, rotation (Euler XYZ: z rolls the convex side down/up, y yaws), flatten, position (x, z)]
     const PIECES = [
-      [1, 1.7, 0.4, 2.35, [0, 0.2, -Math.PI * 0.5], 0.55, [0.0, 0.0]],       // skin up: a shallow curled piece
-      [2, 0.8, 0.25, 2.75, [Math.PI * 0.5, 0.45, 0], 1.0, [0.035, -0.028]],  // a long strip lying flat in a C, skin side to the room
-      [3, 1.1, 0.6, 2.0, [0, 3.6, -Math.PI * 0.5], 0.6, [-0.03, 0.03]],      // a smaller piece, skin up
+      [1, 1.7, 0.4, 2.35, [0, 0.2, -Math.PI * 0.5], 0.62, [0.0, 0.0]],       // skin up: a broad curled piece
+      [2, 0.75, 0.25, 2.6, [0, 1.35, -Math.PI * 0.5], 0.8, [0.045, -0.03]],   // a long strip, skin up, curled along its length
+      [3, 1.1, 0.6, 2.0, [0, 3.6, -Math.PI * 0.5], 0.66, [-0.035, 0.035]],   // a smaller piece, skin up
     ];
     for (const [seed, w, a, b, rot, flat, [px, pz]] of PIECES) {
       const piece = shellPiece(seed, w, a, b);
@@ -402,13 +469,36 @@ export function createRoom(stage, opts) {
     const bulb = await f.model("lightbulb_01", { pos: [0, 1.962, 0], rot: [Math.PI, 0, 0] });   // hangs down from the socket mouth
     const bulbMats = [];
     bulb.traverse((o) => { if (o.isMesh) { o.castShadow = false; if (o.material.emissive) bulbMats.push(o.material); } });
-    const glowMat = new THREE.MeshBasicMaterial({ color: AMBER, transparent: true, opacity: 0 });
-    const glow = new THREE.Mesh(new THREE.SphereGeometry(0.031, 20, 14), glowMat);
+    // The lit bulb: a soft radial core (hot yellow-white centre → amber edge) + a faint halo in the air around it,
+    // both camera-facing sprites (a flat-shaded sphere read as an orange coin, review P1 4).
+    const radial = (stops) => {
+      const c = document.createElement("canvas");
+      c.width = c.height = 128;
+      const x = c.getContext("2d");
+      const g = x.createRadialGradient(64, 64, 0, 64, 64, 64);
+      for (const [o, col] of stops) g.addColorStop(o, col);
+      x.fillStyle = g; x.fillRect(0, 0, 128, 128);
+      const t = new THREE.CanvasTexture(c);
+      t.colorSpace = THREE.SRGBColorSpace;
+      return t;
+    };
+    const glowMat = new THREE.SpriteMaterial({ map: radial([[0, "rgba(255,246,222,1)"], [0.3, "rgba(255,214,140,0.98)"], [0.55, "rgba(240,162,59,0.9)"],
+      [0.75, "rgba(240,162,59,0.35)"], [1, "rgba(240,162,59,0)"]]), transparent: true, opacity: 0, depthWrite: false });
+    const glow = new THREE.Sprite(glowMat);
+    glow.scale.set(0.095, 0.095, 1);
     glow.position.set(0, 1.9, 0);
     S.add(glow);
-    const shadeProf = [[0.058, 0.11], [0.075, 0.1], [0.13, 0.07], [0.19, 0.03], [0.225, 0.0], [0.228, -0.006]].map(([r, y]) => new THREE.Vector2(r, y));
+    const haloMat = new THREE.SpriteMaterial({ map: radial([[0, "rgba(240,162,59,0.55)"], [0.25, "rgba(240,162,59,0.18)"], [1, "rgba(240,162,59,0)"]]),
+      transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending });
+    const halo = new THREE.Sprite(haloMat);
+    halo.scale.set(0.42, 0.42, 1);
+    halo.position.set(0, 1.89, 0);
+    S.add(halo);
+    // a smooth enamel bowl (sampled spline: no crease rings in the lit inside), closed round the socket
+    const shadeProf = new THREE.SplineCurve([[0.024, 0.114], [0.058, 0.11], [0.09, 0.094], [0.13, 0.07], [0.19, 0.03], [0.225, 0.003], [0.228, -0.006]]
+      .map(([r, y]) => new THREE.Vector2(r, y))).getPoints(40);
     const shadeMat = f.tiled(plaster, 0.25, 0.25);                    // enamelled metal shade: slightly mottled, matte
-    shadeMat.color = new THREE.Color("#a9a49b");
+    shadeMat.color = new THREE.Color("#9c968c");
     shadeMat.roughness = 0.7;
     shadeMat.side = THREE.DoubleSide;
     shadeMat.emissive = new THREE.Color("#000000");
@@ -441,14 +531,14 @@ export function createRoom(stage, opts) {
     S.add(fill, fill.target);
     // Bounce: the sunlit tatami throws a little soft light back onto the kotatsu top from the room side.
     const bounce = new THREE.SpotLight("#dfe2e4", 0, 0, 0.75, 1, 1.5);
-    bounce.position.set(-1.3, 0.3, 0.7);   // below the top surface: lights the fruit, never glints on the varnish
-    bounce.target.position.set(0.15, 0.55, 0.15);
+    bounce.position.set(-1.3, 0.72, 0.9);  // above the top (a light from under it lit the fruit bellies and lifted the heap off the board)
+    bounce.target.position.set(0.15, TOP + 0.05, 0.2);
     S.add(bounce, bounce.target);
     const amb = new THREE.HemisphereLight("#9fb0c4", "#3b342c", M.amb);
     S.add(amb);
     // Amber: one tight warm pool on the peel only.
-    const amber = new THREE.SpotLight("#ffc25e", 0, 3, 0.05, 0.7, 1.6);   // yellow side of the amber, a small pool
-    amber.position.set(PEEL[0] - 0.55, TOP + 1.25, PEEL[1] + 0.35);
+    const amber = new THREE.SpotLight("#ffcf6e", 0, 3, 0.042, 0.8, 1.6);   // yellow side of the amber, a pool barely wider than the peel
+    amber.position.set(PEEL[0] - 0.3, TOP + 1.35, PEEL[1] + 0.2);
     amber.target.position.set(PEEL[0], TOP, PEEL[1]);
     S.add(amber, amber.target);
     // Dusk: the same tight amber pool on the top mikan of the net.
@@ -471,7 +561,7 @@ export function createRoom(stage, opts) {
     S.add(lampSpill);
 
     // Objects on the top: night mode removes them; during the dissolve they fade out.
-    const fadeMats = [mikanMat, netMat, endMat, peelOut, peelIn];
+    const fadeMats = [...mikanMats, netMat, endMat, peelOut, peelIn];
     const dissolve = mode === "night" ? (cue.dissolve ?? 0) : 0;
     if (mode === "night") for (const m of fadeMats) m.transparent = true;   // the net keeps its alphaTest cut-out
     const AM = MODES.morning;
@@ -488,12 +578,13 @@ export function createRoom(stage, opts) {
       fill.color.set(M.fillColor);
       amb.intensity = lerp(from.amb, M.amb);
       bounce.intensity = 7 * lerp(from.bounce ?? 0, M.bounce ?? 0);
-      amber.intensity = 22 * lerp(from.amberPeel, M.amberPeel);
+      amber.intensity = 10 * lerp(from.amberPeel, M.amberPeel);
       amberMikan.intensity = 9 * (M.amberMikan || 0);
       const lamp = lerp(from.lamp, M.lamp);
       lampDown.intensity = 26 * lamp;
       lampSpill.intensity = 0.7 * lamp;
-      glowMat.opacity = 0.95 * lamp;
+      glowMat.opacity = lamp;
+      haloMat.opacity = 0.8 * lamp;
       shadeMat.emissive.set("#1c140b").multiplyScalar(lamp);
       for (const m of bulbMats) m.emissiveIntensity = lamp;
       const show = M.top ? 1 : 1 - k;

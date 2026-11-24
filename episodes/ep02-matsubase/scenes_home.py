@@ -20,19 +20,21 @@ def workshop_intro(sid, dur, q):
     """SHOTS 8 (home/workshop): the 2nd-floor workshop by overcast winter daylight, nobody in it (SPEC v3); tools are a
     plain generic bench, vice and shelf. The amber is the person card's name band "미야타 씨" (an outline card, no face,
     left 30 % of the frame, c1-c2).
-    c1 W the workshop from the window corner: floor, shelf, window light on the side wall, card left / c2 M bench, window behind the card, + "당시 50대 초반 · 장기 친구" /
-    c3 W the window, overcast day outside "경찰서까지 약 300m" / c4 W from the top of the stairs down to the empty
-    entrance "2층 작업장" / c5 D a streak of window light on the bench, no label (the silence over Q1).
-    Bright area per cut: window-lit side wall, right half -> window upper left + bench top centre -> window centre -> entrance pane at the bottom of the
-    stairwell, centre + lit floor left -> sunlit bench top filling the lower left."""
+    c1 W the workshop from beside the window: the window-lit floor and back wall, card left (shelf behind the camera) / c2 M bench, window behind the card, + "당시 50대 초반 · 장기 친구" /
+    c3 W the window, overcast day outside (low roofs in haze, not the victim's orchard) "경찰서까지 약 300m" / c4 W from the top of the stairs down to the empty
+    entrance "2층 작업장" / c5 D one narrow streak of window light on the dark bench top, no label (the silence over Q1).
+    Light: overcast, no sun (soft window light, VSM-blurred shadows). Bright area per cut: window-lit floor patch and back wall,
+    centre-right -> window upper left + bench top centre -> window centre -> entrance pane at the bottom of the stairwell,
+    centre + lit floor left -> the streak across the dark bench top, lower left-centre."""
     cam = cam_keys([
-        (0, [-0.2, 1.6, -1.7], [2.2, 0.6, 1.5], 50, 0.05),
+        (0, [-1.35, 1.6, -1.0], [1.7, 0.2, 1.8], 50, 0.05),
         (q[1] - 0.05, [-1.3, 1.25, -0.25], [0.9, 0.8, -1.45], 40, 0.05),
         (q[2] - 0.05, [-1.0, 1.35, 1.2], [0.8, 1.35, -2.0], 40, 0.05),
         (q[3] - 0.05, [-2.0, 1.6, -1.2], [-2.0, -1.1, 1.6], 52, 0.04),
         (q[4] - 0.05, [0.2, 1.0, -0.6], [0.7, 0.74, -1.45], 34, 0.05),
     ], dur)
-    opts = f'{{ mode: "workshop", camera: {cam} }}'
+    # c5: the sky light drops and one streak of window light comes up on the dark bench top (home.js streakAt)
+    opts = f'{{ mode: "workshop", streakAt: {round(q[4] - 0.05, 2)}, camera: {cam} }}'
     card_end = q[2] - 0.1
     card = (f'<div class="pcard-wrap">{person_card(380, 440, fill="rgba(14,15,17,.72)")}'
             f'<div class="pc-name disp">미야타 씨</div><div id="{sid}-pcsub" class="pc-sub">당시 50대 초반 · 장기 친구</div></div>')

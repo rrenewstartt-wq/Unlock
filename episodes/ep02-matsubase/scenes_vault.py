@@ -23,7 +23,7 @@ def vault_open(sid, dur, q):
     c3 M into the open box, amber cloth, centre-left / c4 D the paper tag, lower centre / c5 M the lid, right /
     c6 D box corner against the dark, left / c7 W from the south-west, figures back-lit, wash centre-right."""
     cam = cam_shots([
-        (0, [0.95, 1.6, 4.5], [-0.15, 0.95, 0.1], 38),
+        (0, [1.15, 1.6, 4.4], [-0.2, 0.95, 0.15], 37),
         (q[1] - 0.05, [1.25, 0.98, 0.25], [-0.35, 0.86, 0.15], 36),
         (q[2] - 0.05, [-0.18, 1.42, 0.42], [-0.32, 0.76, 0.0], 38),
         (q[3] - 0.05, [0.22, 0.9, 0.12], [-0.11, 0.83, 0.02], 30),
