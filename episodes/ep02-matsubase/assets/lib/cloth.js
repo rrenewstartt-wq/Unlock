@@ -12,9 +12,9 @@ import { THREE } from "../kit3d/film.js";
 
 // Colour values (sRGB) and the repeat. Change here and every set follows.
 export const SHIRT_CLOTH = {
-  ground: "#c09b84",   // 살색(살구색) 바탕 (채도 낮게)
+  ground: "#b4a091",   // 살색 바탕 (채도 한 단계 더 낮게: 복숭아·주황으로 읽히지 않게)
   brown: "#4d372e",    // 갈색 띠
-  red: "#7c393f",      // 빨강 선 (차갑고 채도 낮게, 주황기 없음)
+  red: "#74414a",      // 빨강 선 (차갑고 채도 낮게, 주황기 없음)
   white: "#e2ded6",    // 흰 선
   period: 0.06,        // one repeat of the check, metres (6 cm)
   // stripe sequence across one repeat: [colour key, fraction]. Warp and weft use the same sequence (a square check).
@@ -63,6 +63,22 @@ export function shirtCheckCanvas() {
     }
   }
   x.putImageData(img, 0, 0);
+  // flannel (ネル地): brushed, so the check edges and the twill are soft, and loose surface fibres lie over it
+  const soft = document.createElement("canvas");
+  soft.width = soft.height = N;
+  const sx = soft.getContext("2d");
+  for (const [dx, dy] of [[0, 0], [N, 0], [-N, 0], [0, N], [0, -N]]) { sx.filter = "blur(2.2px)"; sx.drawImage(c, dx, dy); }
+  sx.filter = "none";
+  x.globalAlpha = 0.72; x.drawImage(soft, 0, 0); x.globalAlpha = 1;
+  for (let i = 0; i < 9000; i++) {
+    const px = hash(i * 1.37) * N, py = hash(i * 2.71) * N, len = 6 + hash(i * 3.9) * 22, a = hash(i * 5.3) * Math.PI * 2;
+    const light = hash(i * 7.1) > 0.45;
+    x.strokeStyle = light ? "rgba(236,228,216,0.16)" : "rgba(40,30,26,0.07)";
+    x.lineWidth = 0.6 + hash(i * 8.3) * 0.8;
+    x.beginPath(); x.moveTo(px, py);
+    x.quadraticCurveTo(px + Math.cos(a + 0.6) * len * 0.5, py + Math.sin(a + 0.6) * len * 0.5, px + Math.cos(a) * len, py + Math.sin(a) * len);
+    x.stroke();
+  }
   CHECK = c;
   return c;
 }
@@ -76,8 +92,8 @@ export async function shirtClothMaterial(f) {
   map.anisotropy = 8;
   // flannel (ネル地): matte with a soft fibre sheen at grazing angles
   const m = new THREE.MeshPhysicalMaterial({ map, normalMap: poplin.normalMap, roughness: 0.92, metalness: 0, side: THREE.DoubleSide,
-    sheen: 0.35, sheenRoughness: 0.8, sheenColor: new THREE.Color("#b9b2a8") });
-  m.normalScale = new THREE.Vector2(0.6, 0.6);
+    sheen: 0.6, sheenRoughness: 0.9, sheenColor: new THREE.Color("#bdb7ae") });
+  m.normalScale = new THREE.Vector2(0.3, 0.3);   // brushed nap hides most of the weave relief
   m.userData.period = SHIRT_CLOTH.period;
   return m;
 }

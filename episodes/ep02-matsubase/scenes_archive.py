@@ -47,6 +47,7 @@ RC_CSS = f"""
     .rc-paper img {{ position: absolute; display: block; }}
     .rc-sheen {{ position: absolute; inset: 0; pointer-events: none;
       background: linear-gradient(172deg, rgba(255,250,240,.05) 0%, rgba(0,0,0,0) 38%, rgba(0,0,0,.16) 100%); }}
+    .rc-shade {{ position: absolute; inset: 0; pointer-events: none; background: #0B0C0E; }}
     .rc-ring {{ position: absolute; left: 0; top: 0; overflow: visible; }}
     .rc-ring ellipse {{ fill: none; stroke: {AMBER}; stroke-width: 7; stroke-linecap: round; }}
     .rc-fall {{ position: absolute; inset: 0; pointer-events: none;
@@ -90,7 +91,7 @@ def record_cut(cid, t0, t1, s, ring_at=None):
       spot    (x, y) frame px where the anchor sits (default (960, 430)); the desk tilts around this point, the push goes to it
       lean    rotateX degrees (top edge away from the camera; desk-shot look), default 16
       tilt    rotateZ degrees, default 0
-      light   paper exposure (-0.6 .. 0.1), default 0; desk follows it
+      light   how much lamp light the sheet gets (-0.6 .. 0.1; <0 = a shade layer over the sheet), default 0; desk follows it
       push    (scale_from, scale_to), default (1.0, 1.06);  drift (dx, dy) px over the cut, default (0, 0)
       focus   [(cx, cy, r)] amber ring on the file (0..1 of its width/height, r = half width / file width), drawn at ring_at
       caption Korean gloss line (name plate, 44 px);  credit  licence line
@@ -113,7 +114,9 @@ def record_cut(cid, t0, t1, s, ring_at=None):
     left, top = ax - (ox + fx * iw), ay - (oy + fy * ih)
     lean, tilt, light = s.get("lean", 16), s.get("tilt", 0), s.get("light", 0.0)
     img = (f'<img src="{s["src"]}" alt="" style="left:{ox}px;top:{oy}px;width:{iw}px;height:{ih}px" '
-           f"data-color-grading='{_grade(light, 0.0 if mode == 'strip' else 0.14)}'/>")
+           f"data-color-grading='{_grade(0.0, 0.0 if mode == 'strip' else 0.14)}'/>")
+    # Light falls on the whole sheet (image + its paper margin alike), so the shade is one layer over both.
+    shade = f'<div class="rc-shade" style="opacity:{round(min(0.75, max(0.0, -light) * 1.1), 3)}"></div>' if light < 0 else ""
     rings, tw = "", []
     nlines = max(1, round(h / LINE_PX)) if mode == "strip" else 1
     for j, (cx, cy, r) in enumerate(focus):
@@ -123,12 +126,12 @@ def record_cut(cid, t0, t1, s, ring_at=None):
         rings += _ring_svg(rid, pw, ph, ox + cx * iw, oy + cy * ih, rx, ry)
         if ring_at is not None:
             tw.append(f'    tl.to("#{rid}", {{ strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }}, {round(ring_at + 0.15, 2)});')
-    paper = (f'<figure class="rc-paper" style="left:{round(left)}px;top:{round(top)}px;width:{pw}px;height:{ph}px">'
-             f'{img}<div class="rc-sheen"></div>{rings}</figure>')
-    desk = f"<img class=\"rc-desk\" src=\"{DESK}\" alt=\"\" data-color-grading='{_grade(-1.25 + light, 0.55, 0.16, 0.12)}'/>"
-    plane = (f'<div class="rc-plane" style="transform-origin:{ax}px {ay}px;'
+    paper = (f'<figure class="rc-paper" data-layout-allow-overflow style="left:{round(left)}px;top:{round(top)}px;width:{pw}px;height:{ph}px">'
+             f'{img}<div class="rc-sheen"></div>{shade}{rings}</figure>')
+    desk = f"<img class=\"rc-desk\" data-layout-allow-overflow src=\"{DESK}\" alt=\"\" data-color-grading='{_grade(-1.25 + light, 0.55, 0.16, 0.12)}'/>"
+    plane = (f'<div class="rc-plane" data-layout-allow-overflow style="transform-origin:{ax}px {ay}px;'
              f'transform:rotateX({lean}deg) rotateZ({tilt}deg)">{desk}{paper}</div>')
-    cam = (f'<div id="{cid}-cam" class="rc-cam" style="perspective:1900px;perspective-origin:{ax}px {ay - 160}px;'
+    cam = (f'<div id="{cid}-cam" class="rc-cam" data-layout-allow-overflow style="perspective:1900px;perspective-origin:{ax}px {ay - 160}px;'
            f'transform-origin:{ax}px {ay}px">{plane}</div>')
     inner = (cam + '<div class="rc-fall"></div>'
              + (f'<div class="rc-gloss">{s["caption"]}</div>' if s.get("caption") else "")
@@ -171,7 +174,7 @@ def map_cut(cid, t0, t1, s, ring_at=None):
     img = f"<img src=\"{s['src']}\" alt=\"\" data-color-grading='{s.get('grade', MAP_GRADE)}'/>"
     mx = ox * k
     my = oy * k
-    mapdiv = (f'<div class="rc-map" style="transform-origin:{round(mx)}px {round(my)}px;'
+    mapdiv = (f'<div class="rc-map" data-layout-allow-overflow style="transform-origin:{round(mx)}px {round(my)}px;'
               f'transform:translate({round(960 - mx)}px,{round(540 - my)}px) scale({zoom})">{img}</div>')
     marks, tw = [], []
     for j, (x, y, text, small, side, *rest) in enumerate(s.get("places", [])):
@@ -196,13 +199,13 @@ def map_cut(cid, t0, t1, s, ring_at=None):
         if ring_at is not None:
             tw.append(f'    tl.to("#{rid}", {{ strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }}, {round(ring_at + 0.15, 2)});')
     fx, fy = scr(*s["push_to"]) if s.get("push_to") else (960, 470)
-    cam = (f'<div id="{cid}-cam" class="rc-cam" style="transform-origin:{round(fx)}px {round(fy)}px">'
-           f'{mapdiv}{"".join(marks)}</div>')
+    cam = (f'<div id="{cid}-cam" class="rc-cam" data-layout-allow-overflow style="transform-origin:{round(fx)}px {round(fy)}px">'
+           f'{mapdiv}<div class="rc-fall"></div>{"".join(marks)}</div>')
     date = ""
     if s.get("date"):
         dt, ds = s["date"]
         date = f'<div class="rc-date disp">{dt}<small>{ds}</small></div>'
-    inner = (cam + '<div class="rc-fall"></div>' + date
+    inner = (cam + date
              + (f'<div class="rc-gloss">{s["caption"]}</div>' if s.get("caption") else "")
              + (f'<div class="rc-credit">{s["credit"]}</div>' if s.get("credit") else ""))
     s0, s1 = s.get("push", (1.0, 1.05))
@@ -271,7 +274,7 @@ def hook(sid, dur, q):
         {"src": A + "kousai-p16-l6.png", "size": (2651, 122), "mode": "strip", "at": 1, "lean": 6, "tilt": 1.4, "light": 0.05,
          "spot": (960, 400), "push": (1.02, 1.08), "drift": (-40, 0),
          "focus": [(0.57, 0.5, 0.11)], "caption": "「…범행 뒤 목욕 아궁이에서 태워 버린 것이다…」", "credit": KOUSAI},
-        {"src": A + "saishin-p3-l5.png", "size": (2653, 264), "mode": "strip", "at": 2, "lean": 26, "tilt": -3.5, "light": -0.45,
+        {"src": A + "saishin-p3-l5.png", "size": (2653, 264), "mode": "strip", "at": 2, "lean": 26, "tilt": -3.5, "light": -0.35,
          "spot": (960, 520), "push": (1.08, 1.14), "drift": (30, -6),
          "focus": [(0.70, 0.25, 0.11)], "caption": "「셔츠의 왼소매가 현존하고 혈액 부착도 인정되지 않았다」",
          "credit": SAISHIN + " · 재심 개시 결정 요지"},

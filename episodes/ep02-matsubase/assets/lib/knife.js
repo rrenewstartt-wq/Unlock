@@ -140,6 +140,7 @@ function studioEnv(renderer) {
   panel(1.6, 0.8, [-0.9, 1.9, -0.9], [0, 0, 0], 1.3);    // overhead softbox (off-axis: the top view sees mid grey)
   panel(3.5, 0.35, [0, 0.5, -2.8], [0, 0.3, 0], 2.4);     // far strip (catches the back and the bevel)
   panel(1.2, 0.8, [1.4, 0.9, 2.4], [0, 0, 0], 1.1);       // near card (lights the bevel)
+  panel(2.0, 1.4, [-0.55, 1.5, 1.25], [0, 0, 0], 1.6);  // where the ~20° bevel looks from a top view: a mid-grey band, not black
   const pm = new THREE.PMREMGenerator(renderer);
   return pm.fromScene(sc, 0.02).texture;
 }
@@ -212,7 +213,7 @@ export function createKnife(stage, opts) {
     const gFlat = grain(0.05, 1), gBevel = grain(0.05, 7);
     gBevel.rotation = Math.PI / 2 - 0.44;            // grind lines run across the slanted edge
     const flatMat = new THREE.MeshStandardMaterial({ color: "#b8bbbd", metalness: 1, roughness: 0.42, roughnessMap: gFlat });
-    const bevelMat = new THREE.MeshStandardMaterial({ color: "#d3d6d8", metalness: 1, roughness: 0.2, roughnessMap: gBevel });
+    const bevelMat = new THREE.MeshStandardMaterial({ color: "#c9cccf", metalness: 1, roughness: 0.3, roughnessMap: gBevel });
     const backMat = new THREE.MeshStandardMaterial({ color: "#8e9193", metalness: 1, roughness: 0.55 });
     const parts = bladeParts();
     for (const [k, mat] of [["flat", flatMat], ["bevel", bevelMat], ["bottom", flatMat], ["back", backMat], ["walls", backMat]]) {
@@ -232,6 +233,12 @@ export function createKnife(stage, opts) {
     rim.position.set(0.06, 0.05, 0.4);
     rim.target.position.set(0.05, 0, 0);
     S.add(rim, rim.target);
+    // bevel glint: a small neutral light in the bevel's mirror direction for a top view (normal tilted ~20° toward the
+    // edge side), so the ground bevel reads as a lighter band than the brushed flat
+    const glint = new THREE.SpotLight("#eef0f1", 5, 1.2, 0.35, 0.8, 1.2);
+    glint.position.set(-0.03, 0.23, 0.2);
+    glint.target.position.set(0.045, 0, 0.012);
+    S.add(glint, glint.target);
     S.add(new THREE.AmbientLight("#9aa7b2", 0.05));
 
     // Gauges (blade_macro only).

@@ -177,9 +177,10 @@ export function createVault(stage, opts) {
         pieces.push(pc);
       }
       // raking from the right, low: it shows the folds, weave and loose threads of the sleeve alone
-      amber = new THREE.SpotLight(AMBER, 0, 3, 0.16, 0.45, 1.5);
+      // one warm highlight on the left sleeve (a patch near its torn shoulder end), not a wash over the cloth
+      amber = new THREE.SpotLight("#e9b06a", 0, 3, 0.085, 0.75, 1.5);
       amber.position.set(1.25, TOP + 0.62, 0.32);
-      amber.target.position.set(0.5, TOP, -0.12);
+      amber.target.position.set(0.42, TOP, -0.16);
       amber.castShadow = true;
       amber.shadow.mapSize.set(1024, 1024);
       amber.shadow.bias = -0.0003;
@@ -197,8 +198,8 @@ export function createVault(stage, opts) {
           pc.position.y = TOP + 0.06 * (1 - k);
         });
         const on = cue.sleeve != null ? ease.out(clamp01((t - cue.sleeve) / 0.4)) : 0;
-        amber.intensity = 16 * on;
-        key.intensity = 34 - 14 * on;
+        amber.intensity = 17 * on;
+        key.intensity = 34 - 10 * on;
       }
       f.shot(opts.camera, t);
     };

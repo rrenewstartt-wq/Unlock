@@ -21,7 +21,7 @@ import { GLTFLoader } from "../kit3d/addons/loaders/GLTFLoader.js";
 const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 
 let HAIR = null;
-const hairGeo = () => (HAIR ||= new GLTFLoader().loadAsync(new URL("./Hair_SimpleParted.gltf", import.meta.url).href)
+const hairGeo = () => (HAIR ||= new GLTFLoader().loadAsync("assets/lib/Hair_SimpleParted.gltf")   // page-relative, like the kit cache
   .then((g) => { let geo = null; g.scene.traverse((o) => { if (o.isMesh && !geo) geo = o.geometry; }); return geo; }));
 
 let STRANDS = null;
