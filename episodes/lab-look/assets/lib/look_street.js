@@ -273,7 +273,7 @@ export function createLookStreet(stage, opts = {}) {
       // wide pattern for the aerial; close cuts use a tighter one around the entrance (finer leaf edges)
       const wide = opts.cut === "aerial";
       f.sun({ azimuth: -52, elevation: 24, target: wide ? [0.5, 1.6, -0.5] : [1.2, 1.4, -0.8], size: wide ? 24 : 14,
-        leaves: { density: wide ? 1.3 : 1.7, bias: wide ? -0.35 : 0, leaf: wide ? 0.46 : 0.34, sway: 0.043, seed: 5, soft: 0.017, lit: opts.cut === "macro" ? [[...KNOB, 0.64]] : [[DOOR.x + 0.1, 1.15, DOOR.z, 0.46]] } });
+        leaves: { density: wide ? 1.3 : 1.7, bias: wide ? -0.35 : 0, leaf: wide ? 0.46 : 0.34, sway: opts.sway ?? 0.043, seed: 5, soft: 0.017, res: opts.leafRes ?? 2048, lit: opts.cut === "macro" ? [[...KNOB, 0.64]] : [[DOOR.x + 0.1, 1.15, DOOR.z, 0.46]] } });
     }
 
     // ---------------------------------------------------------------- walker (follow cut): actors.js schoolgirl
