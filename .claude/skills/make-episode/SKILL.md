@@ -22,7 +22,7 @@ python3 scripts/gates.py episodes/<ep> pass <관문> --by <검수 담당> --evid
 | `script` | `script-writer` | `script-critic` + fact-checker(fact_map) | parity 대본·사실 영역 ❌ 0(자동, ⚠️ 는 judge 까지), critic 합격, **사람 승인** |
 | `design` | `storyboard-director` | `visual-critic`(설계 검토) | P0 0, 배분·연속·12초·파일럿 범위 표시 |
 | `archive` | `archive-researcher` | `risk-reviewer`(인물 사진) | SOURCES.md 라이선스 근거, shots.json 핵심 장면마다 사진 또는 이유 |
-| `pilot` | set-builder·diagram-builder → `editor` | `visual-critic` + `reference-analyst` 시트 + `parity-judge`(파일럿) | 파일럿 렌더 리듬 ✅(자동), P0 0, **블라인드 비교 포함 화면·대본·사실 동급** |
+| `pilot` | cinematographer(룩 테스트) → set-builder·character-animator·diagram-builder·motion-designer → `editor` | `visual-critic` + `reference-analyst` 시트 + `parity-judge`(파일럿) | 파일럿 렌더 리듬 ✅(자동), P0 0, **블라인드 비교 포함 화면·대본·사실 동급** |
 | `scenes` | set-builder(세트마다 병렬)·diagram-builder → `editor` | `visual-critic`(장면 검수) | check 오류 0, P0 0 |
 | `sound` | `sound-designer` | `editor` | 내레이션 반영, 큐 시트, 음악 LICENSE.md |
 | `qa_facts` | — | `fact-checker`(렌더 직전 최종 검수) | 화면 글자·그림 전체 ❌ 0 (⚠️ 는 judge 까지 0) |
@@ -64,14 +64,17 @@ cd episodes/<ep> && python3 data/build_script.py && python3 ../../scripts/parity
 
 ## 5. 파일럿 (`pilot`) — 전체를 짓기 전에
 **파일럿 범위의 장면만** 최종 품질로 짓는다. 이 범위가 레퍼런스와 블라인드 비교에서 동급이 아니면 나머지 장면을 짓지 않는다.
-1. 3D: 파일럿에 나오는 세트를 `set-builder` 에게(세트마다 따로, 동시에). 도식: `diagram-builder`. 사진 컷: `archive_scene`/`archive_insert`.
+0. **룩 테스트(`cinematographer`):** 이 사건의 대표 세트 한 곳을 룩 프리셋(낮·밤·실내)으로 찍어 `scripts/look_check.py` 범위 안 +
+   `raw/screen-rec/` 같은 종류 프레임과 나란히 봐서 "싸 보이지 않음"을 먼저 확인한다(`docs/reference-look.md`). 통과한 프리셋만 세트 담당에게 넘긴다.
+1. 3D: 파일럿에 나오는 세트를 `set-builder` 에게(세트마다 따로, 동시에), 인물·동작은 `character-animator`(`f.actor`), 카메라 무브는 cinematographer 프리셋.
+   글자·도식: 제목 카드·자막·3D 공간 도식·사진 처리는 `motion-designer`, 검은 보드 도식은 `diagram-builder`. 사진 컷: `archive_scene`/`archive_insert`.
 2. `editor` 가 리듬·싱크를 맞춘다. `visual-critic` 장면 검수 → P0 고침.
 3. 렌더: `npx hyperframes render --start 0 --end <파일럿 끝 초> -o renders/pilot.mp4` (백그라운드).
 4. `reference-analyst` 가 영역별 블라인드 시트(3장 이상) → `parity-judge` 파일럿 판정.
 5. 미달이면 담당에게 돌려 고치고 다시. 같은 영역이 3번 미달이면 멈추고 사용자에게 원인(엔진 한계·자료 부족 등)과 선택지를 보고한다.
 
 ## 6. 전체 장면 (`scenes`)
-파일럿에서 통과한 방식 그대로 나머지 장면. 세트별 `set-builder` 병렬, 도식 `diagram-builder`, 이어서 `editor`, `visual-critic`.
+파일럿에서 통과한 방식 그대로 나머지 장면. 세트별 `set-builder` 병렬(인물 `character-animator`), 도식 `diagram-builder`·`motion-designer`, 이어서 `editor`, `visual-critic`. 장면마다 `look_check.py` 범위 안.
 `python3 build.py` → `npx hyperframes check` 오류 0 → P0 0. 같은 장면 3번 실패면 멈추고 보고.
 
 ## 7. 소리 (`sound`)

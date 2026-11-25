@@ -14,8 +14,8 @@
 [3 대본]     script-writer → script-critic → 사람 승인: data/script.txt (7단계, 기본 16~20분)              (/make-episode)
              ↳ 이때 사람 결정(내레이션 녹음 시작, 음악 출처)을 함께 묻는다
 [3.5 설계]   storyboard-director → visual-critic(설계 검토): SPEC.md SHOTS 표 + PILOT 범위 / archive-researcher → assets/archive/
-[4 파일럿]   콜드 오픈~첫 질문 직후만 최종 품질로 → renders/pilot.mp4 → reference-analyst 블라인드 시트 → parity-judge. 동급이어야 다음
-[4.5 장면]   set-builder(film 키트 3D, 세트마다 병렬) + diagram-builder(도식) → editor(리듬·싱크) → visual-critic(P0/P1)   (/review)
+[4 파일럿]   cinematographer 룩 테스트(look_check, docs/reference-look.md) → 콜드 오픈~첫 질문 직후만 최종 품질로 → renders/pilot.mp4 → reference-analyst 블라인드 시트 → parity-judge. 동급이어야 다음
+[4.5 장면]   set-builder(film 키트 3D, 세트마다 병렬) + character-animator(인물·동작) + diagram-builder(검은 보드) + motion-designer(제목 카드·3D 도식·사진) → editor(리듬·싱크) → visual-critic(P0/P1)   (/review)
 [6 소리]     sound-designer(voice.py pack → Colab 내 목소리 → import, 음악 큐) → editor 교차 검수 (docs/voice.md)
 [7 렌더]     npx hyperframes render → renders/ (17분 약 3시간, 4코어) → editor 실측 + visual-critic 렌더 검수 → 미리보기본
 [8 썸네일·메타] 썸네일 팀(/thumbnail) + meta-writer → upload.json (검수 thumb-copy-critic)
@@ -26,9 +26,9 @@
 관문 장부: `python3 scripts/gates.py episodes/<ep>` — 단계마다 `pass <관문> --by <검수> --evidence <근거>`. 앞 관문이 없거나 자동 확인이 실패하면 거부,
 대본이 바뀌면 이후 관문은 "다시 필요". 메인 세션은 제작 책임자(돌리고·기록하고·묻는다), 만들거나 검수하지 않는다. 회고: `docs/retros/`.
 
-슬래시 스킬: `/benchmark` `/scout` `/plan` `/make-episode` `/review` `/thumbnail` `/retro`. **팀 7개, 팀원 23명 — `docs/teams.md`**(메인 세션이 쇼러너):
+슬래시 스킬: `/benchmark` `/scout` `/plan` `/make-episode` `/review` `/thumbnail` `/retro`. **팀 7개, 팀원 26명 — `docs/teams.md`**(메인 세션이 쇼러너):
 전략(performance-analyst, reference-analyst) / 리서치(case-scout, source-verifier, risk-reviewer, archive-researcher) / 작가(episode-planner, script-writer, script-critic) /
-아트(storyboard-director, set-builder, diagram-builder) / 포스트(editor, sound-designer) / 썸네일·메타(thumb-copywriter, thumb-copy-critic, thumb-director, thumb-builder, thumb-critic, meta-writer) /
+아트(storyboard-director, cinematographer, set-builder, character-animator, diagram-builder, motion-designer) / 포스트(editor, sound-designer) / 썸네일·메타(thumb-copywriter, thumb-copy-critic, thumb-director, thumb-builder, thumb-critic, meta-writer) /
 QA(fact-checker, visual-critic, parity-judge). HyperFrames 작업 전에는 `/hyperframes` 스킬을 먼저 읽는다(렌더 계약).
 
 ## 에피소드 폴더 계약 (`episodes/<ep>/`)
@@ -66,6 +66,7 @@ python3 scripts/benchmark.py @unlock_kr                 # 벤치마크 수집(�
 python3 scripts/topics.py list --top 10                 # 소재 후보 순위 (add / check / set / show)
 python3 scripts/new_episode.py ep02-<slug> "제목"        # 새 에피소드 (film 키트·자료·음악 폴더 포함)
 python3 scripts/gates.py episodes/<ep>                  # 관문 장부: 어디까지 왔나, 다음 관문 (pass/fail/waive)
+python3 scripts/look_check.py <png|mp4> [--kind photo]  # 레퍼런스 룩 숫자(밝기·채도·푸른 기·비네트), --ref 로 기준 프레임
 python3 scripts/parity_check.py episodes/<ep>           # 레퍼런스 동급 검사 (--strict 관문, --test 시험편, --render renders/pilot.mp4)
 python3 scripts/kit3d.py episodes/<ep>                  # film 키트 코드 + kit3d.json 자산 복사
 python3 scripts/voice.py pack episodes/<ep>              # 내레이션 줄 내보내기 → Colab → voice.py import

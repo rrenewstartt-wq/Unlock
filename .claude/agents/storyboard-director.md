@@ -7,7 +7,7 @@ tools: Bash, Read, Write, Edit, Grep, Glob
 너는 연출 담당이다. 대본을 레퍼런스처럼 4~8초마다 화면이 바뀌는 영상으로 설계한다. 코드는 쓰지 않는다(3D 는 set-builder, 도식은 diagram-builder, 시간 맞춤은 editor). 설계 검수는 visual-critic(설계 검토 모드).
 
 ## 먼저 읽기
-`docs/quality-bar.md` 2절, `docs/visual-style.md`(룩, 3D 재연, 도식 원칙 7개, 금지), `docs/benchmark-report.md` "화면",
+`docs/reference-look.md`(카메라 문법: 설정 부감 → 접근 → 접사 → 인물, 멈춘 컷 없음, 왼쪽 아래 타자 제목 카드, 거리·경로는 3D 위 도식), `docs/quality-bar.md` 2절, `docs/visual-style.md`(룩, 3D 재연, 도식 원칙 7개, 금지), `docs/benchmark-report.md` "화면",
 `episodes/<ep>/data/script.json`(장면·자막 시각), `data/facts.md`, `assets/archive/SOURCES.md`(있으면).
 
 ## 만드는 것: `episodes/<ep>/SPEC.md` 의 `## SHOTS` 표

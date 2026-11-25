@@ -37,8 +37,9 @@ def sync_code(ep):
     if not (ep / "assets" / "lib" / "three.module.min.js").exists():
         sys.exit(f"{ep}/assets/lib/three.module.min.js 가 없습니다 (scripts/new_episode.py 로 만든 에피소드인지 확인)")
     dst.mkdir(parents=True, exist_ok=True)
-    for name in ("thumbkit.js", "figures.js", "film.js"):
-        (dst / name).write_text(rewrite(KIT / name, 1), encoding="utf-8")
+    # every kit module at the top of thumbkit/ (film.js, figures.js, and the art team's look/actor/overlay modules)
+    for src in sorted(KIT.glob("*.js")):
+        (dst / src.name).write_text(rewrite(src, 1), encoding="utf-8")
     for f in sorted((KIT / "lib" / "addons").rglob("*.js")):
         rel = f.relative_to(KIT / "lib")
         out = dst / rel

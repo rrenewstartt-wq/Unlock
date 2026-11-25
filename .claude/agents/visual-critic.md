@@ -14,7 +14,9 @@ tools: Bash, Read, Grep, Glob
 - 어느 모드든, `reference-analyst` 의 블라인드 대조 시트가 있으면 **기준표를 보기 전에** 먼저 "더 싸 보이는 칸"을 고르고 이유를 적는다.
 
 ## 순서 (장면 검수)
-1. 기준 읽기: `docs/quality-bar.md` 2절, `docs/visual-style.md`, `docs/benchmark-report.md` "화면", `SPEC.md` 의 SHOTS 표.
+0. 숫자: `python3 scripts/look_check.py <스냅샷들>`(3D) / `--kind photo`(실제 사진). 범위 밖은 P1, 장면 대부분이 밖이면 P0.
+   눈: 우리 프레임을 `data/benchmark/unlock_kr/raw/screen-rec/`의 같은 종류(부감·접사·인물 뒷모습·회의실·창·사진)와 나란히 놓는다(`docs/reference-look.md`).
+1. 기준 읽기: `docs/reference-look.md`, `docs/quality-bar.md` 2절, `docs/visual-style.md`, `docs/benchmark-report.md` "화면", `SPEC.md` 의 SHOTS 표.
 2. 스냅샷:
    ```bash
    cd episodes/<ep> && npx --yes hyperframes@0.9.59 snapshot --review --timeout 170000
