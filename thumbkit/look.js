@@ -13,10 +13,12 @@
 import { THREE } from "./thumbkit.js";
 
 // ---------------------------------------------------------------- accent colour (one variable)
-// The accent (route lines, distance numbers, the one emphasised object) is a person's decision (STATUS user decision 5):
-// amber (ours so far) or the reference's red. Change it here, or per film with film(..., { accent: "#..." }) → f.accent.
-export const ACCENT = "#F0A23B";
-export const ACCENT_RED = "#D8382E"; // the reference's glowing route red, kept for when the person picks it
+// The accent (route lines, distance numbers, the one emphasised object). The person chose the reference's red
+// (2026-11-25, STATUS user decision 5). Amber stays available as ACCENT_AMBER; per film: film(..., { accent }) → f.accent.
+// Only new look films read it — film() without look/accent draws exactly as before (ep02).
+export const ACCENT = "#D8382E";
+export const ACCENT_AMBER = "#F0A23B";
+export const ACCENT_RED = ACCENT;
 
 // ---------------------------------------------------------------- clay palette (architectural-visualisation tone)
 // Walls, roofs, floors and furniture are matte grey-white with weak texture; only the hero material is real.
