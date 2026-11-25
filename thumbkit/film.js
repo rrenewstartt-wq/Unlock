@@ -85,8 +85,9 @@ export class Film extends Thumb {
   // Dappled leaf shadows from a far "sun" spot light (look.js leafShadows). Returns the light.
   leafShadows(o = {}) { return leafShadows(this, o); }
 
-  // The low sun of the look preset (+ leaf gobo unless leaves: false). azimuth/elevation in degrees (azimuth 0 = +z).
-  sun({ azimuth = 230, elevation = null, target = [0, 1, 0], size = 16, dist = 45, intensity = null, color = null, leaves = {} } = {}) {
+  // The low sun of the look preset (+ leaf gobo unless leaves: false). azimuth/elevation in degrees (azimuth 0 = +z);
+  // size = diameter (m) of the sunlit circle at target (outside it is shade).
+  sun({ azimuth = 230, elevation = null, target = [0, 1, 0], size = 20, dist = 45, intensity = null, color = null, leaves = {} } = {}) {
     const P = this.lookSun || {};
     const el = THREE.MathUtils.degToRad(elevation ?? P.elevation ?? 25), az = THREE.MathUtils.degToRad(azimuth);
     const T = new THREE.Vector3(...target);
@@ -97,7 +98,7 @@ export class Film extends Thumb {
     l.castShadow = true;
     this.scene.add(l, l.target);
     if (leaves) return leafShadows(this, { sun: l, target, size, ...leaves });
-    l.angle = Math.atan((size / 2) / dist) * 1.42;
+    l.angle = Math.atan((size / 2) / dist);
     l.shadow.mapSize.set(this.shadowSize, this.shadowSize);
     l.shadow.bias = -0.0004;
     l.shadow.normalBias = 0.003;

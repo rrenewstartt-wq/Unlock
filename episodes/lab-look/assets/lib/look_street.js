@@ -5,7 +5,8 @@
 // Coordinates (m): street along x at z ∈ [3.2, 8.2]; our fence at z = 2.9; house front wall at z = -1 (faces +z).
 //
 // opts: { cut: "aerial" | "approach" | "macro" | "follow" | "window", look?, camera?, grade? }
-import { film, THREE, CLAY, poseArmsDown, turn } from "../kit3d/film.js";
+import { film, THREE, CLAY } from "../kit3d/film.js";
+import { actor } from "../kit3d/actors.js";   // character-animator's walking, clothed figures
 import { GLTFLoader } from "../kit3d/addons/loaders/GLTFLoader.js";
 import { CACHE } from "../kit3d/thumbkit.js";
 
@@ -20,9 +21,9 @@ export const CUTS = {
     from: 3.9, to: 2.0, height: 1.5, drift: 0.45, fov: [40, 37], lookHeight: 1.05 } },
   macro: { look: "unlock-day", dof: true, camera: { preset: "macroPush", target: KNOB, t0: 0, t1: 4, azimuth: -34, elevation: 9,
     from: 0.46, to: 0.3, fov: [30, 27], aperture: 4.5, arc: -8 } },
-  follow: { look: "unlock-day", walker: { from: [DOOR.x - 0.05, 0, 7.4], to: [DOOR.x - 0.05, 0, 1.0] }, camera: { preset: "followBack",
-    from: [DOOR.x - 0.05, 0, 7.4], to: [DOOR.x - 0.05, 0, 1.0], t0: 0, t1: 5, back: 1.9, side: 0.38, height: 1.62, lookAhead: 4,
-    lookHeight: 1.35, fov: 40 } },
+  // the walker is already walking at t = 0 (at: -1.2), so speed is constant and followBack's from/to come from it
+  follow: { look: "unlock-day", walker: { kind: "schoolgirl", path: [[DOOR.x - 0.05, 8.4], [DOOR.x - 0.02, 3.6], [DOOR.x, 0.4]], at: -1.2 },
+    camera: { preset: "followBack", t0: 0, t1: 5, back: 1.9, side: 0.38, height: 1.62, lookAhead: 4, lookHeight: 1.35, fov: 40 } },
   window: { look: "unlock-night", camera: { preset: "lateralDrift", target: WINDOW2, t0: 0, t1: 5, azimuth: 12, dist: 5.2,
     travel: 1.3, height: 2.7, lead: 0.3, fov: 36 } },
 };
@@ -55,10 +56,10 @@ const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return
 
 export function createLookStreet(stage, opts = {}) {
   const cut = CUTS[opts.cut || "aerial"];
-  const look = opts.look || cut.look;
+  const look = opts.look === "none" ? undefined : (opts.look || cut.look);   // "none": plain film kit (cost baseline)
   const night = look === "unlock-night";
-  const camera = opts.camera || cut.camera;
-  return film(stage, `look-street-${opts.cut}-${stage.id}`, { look, dof: !!(opts.dof ?? cut.dof), grade: opts.grade, shadowSize: 2048 }, async (f) => {
+  let camera = opts.camera || cut.camera;
+  return film(stage, `look-street-${opts.cut}-${stage.id}`, { look, dof: !!look && !!(opts.dof ?? cut.dof), grade: opts.grade, shadowSize: 2048 }, async (f) => {
     const S = f.scene;
     const [wallM, blockM, asphaltM, yardM, doorM] = await Promise.all([
       f.clay("wall", { tex: "clay_plaster", normalScale: 0.5 }),
@@ -263,7 +264,7 @@ export function createLookStreet(stage, opts = {}) {
 
     // ---------------------------------------------------------------- light: one low sun (moon at night) through leaves
     if (night) {
-      f.sun({ azimuth: -38, elevation: 30, target: [-0.5, 3.4, -1], size: 13, leaves: { density: 1.6, leaf: 0.3, sway: 0.03, seed: 7, soft: 0.012 } });
+      f.sun({ azimuth: -38, elevation: 30, target: [-0.5, 3.4, -1], size: 18.5, leaves: { density: 1.6, leaf: 0.43, sway: 0.043, seed: 7, soft: 0.017 } });
       // the window's own faint light spilling on the sill
       const p = new THREE.PointLight("#b8c4d6", 0.6, 3, 2);
       p.position.set(WINDOW2[0], WINDOW2[1], -0.7);
@@ -271,33 +272,23 @@ export function createLookStreet(stage, opts = {}) {
     } else {
       // wide pattern for the aerial; close cuts use a tighter one around the entrance (finer leaf edges)
       const wide = opts.cut === "aerial";
-      f.sun({ azimuth: -52, elevation: 24, target: wide ? [0.5, 1.6, -0.5] : [1.2, 1.4, -0.8], size: wide ? 17 : 10,
-        leaves: { density: wide ? 1.3 : 1.7, bias: wide ? -0.35 : 0, leaf: 0.32, sway: 0.03, seed: 5, soft: 0.012, lit: [[...KNOB, 0.4]] } });
+      f.sun({ azimuth: -52, elevation: 24, target: wide ? [0.5, 1.6, -0.5] : [1.2, 1.4, -0.8], size: wide ? 24 : 14,
+        leaves: { density: wide ? 1.3 : 1.7, bias: wide ? -0.35 : 0, leaf: wide ? 0.46 : 0.34, sway: 0.043, seed: 5, soft: 0.017, lit: opts.cut === "macro" ? [[...KNOB, 0.64]] : [[DOOR.x + 0.1, 1.15, DOOR.z, 0.46]] } });
     }
 
-    // ---------------------------------------------------------------- walker (follow cut): a figure with a minimal stride
+    // ---------------------------------------------------------------- walker (follow cut): actors.js schoolgirl
     let walker = null;
     if (cut.walker) {
-      walker = await f.figure("filmWoman");
-      poseArmsDown(walker, 0.12);
-      walker.root.rotation.y = Math.PI;   // walk toward -z (away from the camera)
-      f.hold(walker);
+      const { kind, ...wo } = cut.walker;
+      walker = await actor(f, kind, wo);
+      if (camera.preset === "followBack" && !camera.from) {
+        const a = walker.at(camera.t0 ?? 0).pos, b = walker.at(camera.t1 ?? 5).pos;
+        camera = { ...camera, from: [a.x, 0, a.z], to: [b.x, 0, b.z] };
+      }
     }
-    const W = cut.walker, T0 = camera.t0 ?? 0, T1 = camera.t1 ?? 5;
 
     return (t) => {
-      if (walker) {
-        f.rest(walker);
-        const u = Math.min(1, Math.max(0, (t - T0) / (T1 - T0)));
-        const ph = t * 2 * Math.PI * 0.9;            // ~1.8 steps/s
-        walker.root.position.set(W.from[0] + (W.to[0] - W.from[0]) * u, Math.abs(Math.sin(ph)) * 0.025, W.from[2] + (W.to[2] - W.from[2]) * u);
-        turn(walker, "thigh_l", [1, 0, 0], 0.32 * Math.sin(ph));
-        turn(walker, "thigh_r", [1, 0, 0], -0.32 * Math.sin(ph));
-        turn(walker, "calf_l", [1, 0, 0], 0.35 * Math.max(0, -Math.sin(ph + 0.6)));
-        turn(walker, "calf_r", [1, 0, 0], 0.35 * Math.max(0, Math.sin(ph + 0.6)));
-        turn(walker, "upperarm_l", [1, 0, 0], -0.18 * Math.sin(ph));
-        turn(walker, "upperarm_r", [1, 0, 0], 0.18 * Math.sin(ph));
-      }
+      if (walker) walker.pose(t);
       f.shot(camera, t);
     };
   });

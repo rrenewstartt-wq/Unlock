@@ -39,18 +39,18 @@ export const CLAY = {
 // sun: defaults for f.sun(). Numbers were tuned against data/benchmark/unlock_kr/raw/screen-rec (look_check.py --ref).
 export const LOOKS = {
   "unlock-day": {   // low sun through leaves on clay buildings, cool shadows, almost monochrome
-    film: { hdri: "kloofendal_misty_morning_puresky", envIntensity: 0.055, exposure: 1.0, background: "#2a2f37",
+    film: { hdri: "kloofendal_misty_morning_puresky", envIntensity: 0.07, exposure: 1.0, background: "#2a2f37",
       fog: { color: "#2a2f37", density: 0.006 } },
     sun: { color: "#fff3e2", intensity: 3.6, elevation: 24 },
     grade: { saturation: 0.2, heroSaturation: 0.5, shadowTint: [-0.02, -0.004, 0.07], tint: [-0.012, 0, 0.022],
-      gamma: 1.3, knee: 0.36, ceiling: 0.58, vignette: 0.62, grain: 0.045, black: 0.0 },
+      gamma: 1.3, knee: 0.36, ceiling: 0.58, vignette: 0.45, grain: 0.045, black: 0.0 },
   },
   "unlock-night": { // navy dark, one cool moon/street key through leaves, one window
     film: { hdri: "evening_road_01_puresky", envIntensity: 0.05, exposure: 1.0, background: "#0b0f17",
       fog: { color: "#0e131c", density: 0.012 } },
     sun: { color: "#c9d6ee", intensity: 1.6, elevation: 32 },
     grade: { saturation: 0.3, heroSaturation: 0.8, shadowTint: [-0.01, 0.0, 0.045], tint: [-0.01, 0, 0.02],
-      gamma: 1.05, knee: 0.3, ceiling: 0.5, vignette: 0.6, grain: 0.05, black: 0.0 },
+      gamma: 1.05, knee: 0.3, ceiling: 0.5, vignette: 0.5, grain: 0.05, black: 0.0 },
   },
   "unlock-interior": { // grey-blue haze, light from one window/board, faces lost in the dark
     film: { hdri: "blinds", envIntensity: 0.1, exposure: 1.0, background: "#151920",
@@ -133,7 +133,8 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, dens
     const rm = 1.0 + R() * 1.4;
     const b = { x: u * res, y: R() * res, r: rm * px, ph: R() * 6.283, ph2: R() * 6.283, leaves: [], twigs: [] };
     // a spray: 5–9 twigs fanning from one point, leaves in alternate pairs along each twig, angled forward
-    const fan = R() * 6.283, nt = 5 + Math.floor(R() * 5);
+    // twig count scales with 1/leaf so the shadowed share stays ~density whatever the leaf size
+    const fan = R() * 6.283, nt = Math.round((5 + Math.floor(R() * 5)) * Math.min(2.2, Math.max(0.6, 0.3 / leaf)));
     for (let k = 0; k < nt; k++) {
       const a = fan + (k / nt - 0.5) * (2.2 + R() * 2.0) + (R() - 0.5) * 0.3;
       const len = rm * px * (0.55 + R() * 0.45);

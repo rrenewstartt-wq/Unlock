@@ -3,7 +3,7 @@
 // film.js wires these in; a set only names them:
 //
 //   return film(stage, "street", { look: "unlock-day", dof: true }, async (f) => {
-//     f.sun({ azimuth: 235, elevation: 24, target: [0, 1.5, 0], size: 18, leaves: { density: 0.55, sway: 0.03 } });
+//     f.sun({ azimuth: -52, elevation: 24, target: [0, 1.5, 0], size: 14, leaves: { density: 1.7, leaf: 0.34 } });
 //     f.hero(door, knob);                                   // the one material that keeps its colour
 //     return (t) => f.shot(opts.camera, t);                 // camera: keys, or { preset: "approach", ... }
 //   });
@@ -39,18 +39,18 @@ export const CLAY = {
 // sun: defaults for f.sun(). Numbers were tuned against data/benchmark/unlock_kr/raw/screen-rec (look_check.py --ref).
 export const LOOKS = {
   "unlock-day": {   // low sun through leaves on clay buildings, cool shadows, almost monochrome
-    film: { hdri: "kloofendal_misty_morning_puresky", envIntensity: 0.055, exposure: 1.0, background: "#2a2f37",
+    film: { hdri: "kloofendal_misty_morning_puresky", envIntensity: 0.07, exposure: 1.0, background: "#2a2f37",
       fog: { color: "#2a2f37", density: 0.006 } },
     sun: { color: "#fff3e2", intensity: 3.6, elevation: 24 },
     grade: { saturation: 0.2, heroSaturation: 0.5, shadowTint: [-0.02, -0.004, 0.07], tint: [-0.012, 0, 0.022],
-      gamma: 1.3, knee: 0.36, ceiling: 0.58, vignette: 0.62, grain: 0.045, black: 0.0 },
+      gamma: 1.3, knee: 0.36, ceiling: 0.58, vignette: 0.45, grain: 0.045, black: 0.0 },
   },
   "unlock-night": { // navy dark, one cool moon/street key through leaves, one window
     film: { hdri: "evening_road_01_puresky", envIntensity: 0.05, exposure: 1.0, background: "#0b0f17",
       fog: { color: "#0e131c", density: 0.012 } },
     sun: { color: "#c9d6ee", intensity: 1.6, elevation: 32 },
     grade: { saturation: 0.3, heroSaturation: 0.8, shadowTint: [-0.01, 0.0, 0.045], tint: [-0.01, 0, 0.02],
-      gamma: 1.05, knee: 0.3, ceiling: 0.5, vignette: 0.6, grain: 0.05, black: 0.0 },
+      gamma: 1.05, knee: 0.3, ceiling: 0.5, vignette: 0.5, grain: 0.05, black: 0.0 },
   },
   "unlock-interior": { // grey-blue haze, light from one window/board, faces lost in the dark
     film: { hdri: "blinds", envIntensity: 0.1, exposure: 1.0, background: "#151920",
@@ -82,9 +82,13 @@ export function rng(seed = 1) {
 // ---------------------------------------------------------------- leaf shadows (gobo)
 // A SpotLight "sun" far away with a procedural canopy texture as its light map (three's SpotLight.map), so walls,
 // doors and the ground get dappled leaf shadows. The canopy is drawn on a canvas from a fixed seed; sway moves each
-// branch by a sine of t, so the pattern is a pure function of t. size: metres of the pattern across at the target.
-export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, density = 0.55, leaf = 0.32, sway = 0.025,
-  soft = 0.02, seed = 3, bias = 0, intensity = null, color = null, dist = 45, res = 2048, swayHz = 0.35, lit = [] } = {}) {
+// branch by a sine of t, so the pattern is a pure function of t.
+//   size: diameter (m) of the sunlit circle at the target — keep the whole shot inside it (outside is shade)
+//   density: canopy amount (≈ share of the circle in leaf shade; 1–2 = mostly shade with sun flecks, like the reference)
+//   leaf: leaf length (m) · soft: edge blur (m) · sway: branch sway amplitude (m) · bias: -1…+1 canopy to one side
+//   lit: [[x, y, z, r], …] keep these world points in sun (a gap in the canopy for the hero)
+export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 20, density = 1.5, leaf = 0.4, sway = 0.04,
+  soft = 0.017, seed = 3, bias = 0, intensity = null, color = null, dist = 45, res = 2048, swayHz = 0.35, lit = [] } = {}) {
   const preset = f.lookSun || {};
   let light = sun && sun.isSpotLight ? sun : null;
   if (!light) {
@@ -96,7 +100,7 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, dens
     f.scene.add(light, light.target);
   }
   const d = light.position.distanceTo(light.target.position);
-  light.angle = Math.atan((size / 2) / d) * 1.42; // the texture is square inside the cone; corners reach the cone edge
+  light.angle = Math.atan((size / 2) / d);       // the light map spans exactly size × size at the target
   light.penumbra = Math.max(light.penumbra, 0.2);
   light.castShadow = true;
   light.shadow.mapSize.set(f.shadowSize || 2048, f.shadowSize || 2048);
@@ -106,34 +110,32 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, dens
   light.shadow.camera.near = Math.max(0.5, d - 60);
   light.shadow.camera.far = d + 60;
 
-  // lit: [[x, y, z, r], ...] world points kept in sun (a gap in the canopy) — put the hero in a patch of light
   light.updateMatrixWorld(); light.target.updateMatrixWorld();
   light.shadow.updateMatrices(light);
   const holes = lit.map(([hx, hy, hz, hr = 0.3]) => {
     const v = new THREE.Vector4(hx, hy, hz, 1).applyMatrix4(light.shadow.matrix);
     return [v.x / v.w * res, (1 - v.y / v.w) * res, hr * res / size];
   });
-  const c = document.createElement("canvas");
+  const c = document.createElement("canvas");      // the light map (blurred)
   c.width = c.height = res;
-  const x = c.getContext("2d");
-  const sharp = document.createElement("canvas");   // leaves are drawn sharp here, then blurred once onto c
+  const out = c.getContext("2d");
+  const sharp = document.createElement("canvas");  // leaves are drawn sharp here, then blurred once onto c
   sharp.width = sharp.height = res;
-  const y = sharp.getContext("2d");
+  const x = sharp.getContext("2d");
   const R = rng(seed);
   const px = res / size;                       // canvas pixels per metre at the target
-  // density = share of the pattern covered by canopy (0..1). Branch clusters (radius 1.1–2.7 m) are placed until
-  // their discs cover that share; each is filled with leaves to ~75 % (dappled, light between the leaves).
-  // bias -1 … +1 pushes the canopy toward one side of the pattern (the tree stands on that side).
+  // Sprays (radius 1.4–3.4 m) are placed until their area reaches density × size².
   const branches = [];
   let covered = 0;
   const want = density * size * size;
   for (let i = 0; covered < want && i < 400; i++) {
     let u = R();
     if (bias) u = bias > 0 ? Math.pow(u, 1 / (1 + 2 * bias)) : 1 - Math.pow(1 - u, 1 / (1 - 2 * bias));
-    const rm = 1.0 + R() * 1.4;
+    const rm = 1.4 + R() * 2.0;
     const b = { x: u * res, y: R() * res, r: rm * px, ph: R() * 6.283, ph2: R() * 6.283, leaves: [], twigs: [] };
     // a spray: 5–9 twigs fanning from one point, leaves in alternate pairs along each twig, angled forward
-    const fan = R() * 6.283, nt = 5 + Math.floor(R() * 5);
+    // twig count scales with 1/leaf so the shadowed share stays ~density whatever the leaf size
+    const fan = R() * 6.283, nt = Math.round((5 + Math.floor(R() * 5)) * Math.min(2.2, Math.max(0.6, 0.43 / leaf)));
     for (let k = 0; k < nt; k++) {
       const a = fan + (k / nt - 0.5) * (2.2 + R() * 2.0) + (R() - 0.5) * 0.3;
       const len = rm * px * (0.55 + R() * 0.45);
@@ -158,11 +160,9 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, dens
   const draw = (t) => {
     if (last !== null && (sway === 0 || last === t)) return;
     last = t;
-    y.fillStyle = "#ffffff";
-    y.fillRect(0, 0, res, res);
-    y.fillStyle = "#080808";
-    const x0 = x;
-    { const x = y;  // eslint-disable-line no-shadow
+    x.fillStyle = "#ffffff";
+    x.fillRect(0, 0, res, res);
+    x.fillStyle = "#080808";
     const w = 6.283 * swayHz;
     for (const b of branches) {
       const ox = sway * px * Math.sin(w * t + b.ph), oy = sway * px * 0.6 * Math.sin(w * 0.73 * t + b.ph2);
@@ -193,12 +193,11 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, dens
         x.stroke();
       }
     }
-    }
-    x0.filter = `blur(${Math.max(0.5, soft * px).toFixed(2)}px)`;
-    x0.fillStyle = "#ffffff";
-    x0.fillRect(0, 0, res, res);
-    x0.drawImage(sharp, 0, 0);
-    x0.filter = "none";
+    out.filter = `blur(${Math.max(0.5, soft * px).toFixed(2)}px)`;
+    out.fillStyle = "#ffffff";
+    out.fillRect(0, 0, res, res);
+    out.drawImage(sharp, 0, 0);
+    out.filter = "none";
     tex.needsUpdate = true;
   };
   draw(0);
