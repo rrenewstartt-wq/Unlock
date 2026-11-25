@@ -1,0 +1,19 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    .cap { position: absolute; left: 0; right: 0; bottom: 41px; text-align: center; }
+    .cap span {
+      display: inline-block; font-family: "Gothic A1", sans-serif; font-weight: 500;
+      font-size: 48px; line-height: 1.2; letter-spacing: -0.01em; color: #FFFFFF; padding: 0;
+      text-shadow: 0 1px 2px rgba(0,0,0,.85), 0 0 8px rgba(0,0,0,.55), 0 0 22px rgba(0,0,0,.35);
+    }
+  </style>
+  <div id="root" data-composition-id="captions" data-width="1920" data-height="1080">
+    <div id="cap-0" class="cap clip" data-start="0.4" data-duration="2.1"><span>가을이 시작되던 어느 아침</span></div><div id="cap-1" class="cap clip" data-start="2.7" data-duration="2.1"><span>바다를 낀 작은 마을입니다</span></div><div id="cap-2" class="cap clip" data-start="5.5" data-duration="2.55"><span>이 길을 매일 걷던 사람이 있었습니다</span></div><div id="cap-3" class="cap clip" data-start="8.25" data-duration="2.29"><span>그날 아침도 같은 길이었습니다</span></div><div id="cap-4" class="cap clip" data-start="11.24" data-duration="2.29"><span>집에서 정류장까지는 30미터</span></div><div id="cap-5" class="cap clip" data-start="13.73" data-duration="2.29"><span>그 짧은 길 위에서 일이 생깁니다</span></div><div id="cap-6" class="cap clip" data-start="16.72" data-duration="2.1"><span>오래된 바닷가 사진 한 장</span></div><div id="cap-7" class="cap clip" data-start="19.02" data-duration="2.29"><span>그 시절의 풍경이 남아 있습니다</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#cap-0 span",{opacity:0},{opacity:1,duration:0.12,ease:"power1.out"},0.4);tl.to("#cap-0 span",{opacity:0,duration:0.14,ease:"power2.in"},2.36);tl.fromTo("#cap-1 span",{opacity:0},{opacity:1,duration:0.12,ease:"power1.out"},2.7);tl.to("#cap-1 span",{opacity:0,duration:0.14,ease:"power2.in"},4.66);tl.fromTo("#cap-2 span",{opacity:0},{opacity:1,duration:0.12,ease:"power1.out"},5.5);tl.to("#cap-2 span",{opacity:0,duration:0.14,ease:"power2.in"},7.91);tl.fromTo("#cap-3 span",{opacity:0},{opacity:1,duration:0.12,ease:"power1.out"},8.25);tl.to("#cap-3 span",{opacity:0,duration:0.14,ease:"power2.in"},10.4);tl.fromTo("#cap-4 span",{opacity:0},{opacity:1,duration:0.12,ease:"power1.out"},11.24);tl.to("#cap-4 span",{opacity:0,duration:0.14,ease:"power2.in"},13.39);tl.fromTo("#cap-5 span",{opacity:0},{opacity:1,duration:0.12,ease:"power1.out"},13.73);tl.to("#cap-5 span",{opacity:0,duration:0.14,ease:"power2.in"},15.88);tl.fromTo("#cap-6 span",{opacity:0},{opacity:1,duration:0.12,ease:"power1.out"},16.72);tl.to("#cap-6 span",{opacity:0,duration:0.14,ease:"power2.in"},18.68);tl.fromTo("#cap-7 span",{opacity:0},{opacity:1,duration:0.12,ease:"power1.out"},19.02);tl.to("#cap-7 span",{opacity:0,duration:0.14,ease:"power2.in"},21.17);
+    window.__timelines["captions"] = tl;
+  </script>
+</template>

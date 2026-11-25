@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+      @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+      :root { --ground: #1E2125; --ink: #E9E5DD; --amber: #F0A23B; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      #grain { position: absolute; inset: -200px; z-index: 50; pointer-events: none; opacity: 0.07;
+        background-image: url("assets/grain.png"); background-size: 512px 512px; mix-blend-mode: overlay; }
+      #vignette { position: absolute; inset: 0; z-index: 51; pointer-events: none;
+        background: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.42) 100%); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="24.51" data-width="1920" data-height="1080">
+      <div id="opening" data-composition-id="opening" data-composition-src="compositions/opening.html" data-start="0.0" data-duration="5.5" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="person" data-composition-id="person" data-composition-src="compositions/person.html" data-start="5.5" data-duration="5.74" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="distance" data-composition-id="distance" data-composition-src="compositions/distance.html" data-start="11.24" data-duration="5.48" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="photo" data-composition-id="photo" data-composition-src="compositions/photo.html" data-start="16.72" data-duration="7.79" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="cards" data-composition-id="cards" data-composition-src="compositions/cards.html" data-start="0" data-duration="24.51" data-track-index="10" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:55"></div>
+      <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="24.51" data-track-index="2" data-track-kind="captions" data-width="1920" data-height="1080" style="z-index:60"></div>
+      <audio id="sfx-0" class="clip" src="assets/sfx/whoosh.mp3" data-start="5.39" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-1" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="11.13" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-2" class="clip" src="assets/sfx/whoosh.mp3" data-start="16.61" data-duration="0.57" data-track-index="3" data-volume="0.35"></audio>
+
+      <div id="grain-wrap" data-layout-ignore style="position:absolute;inset:0;overflow:hidden;z-index:50;pointer-events:none"><div id="grain"></div></div>
+      <div id="vignette" data-layout-ignore></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#grain", { backgroundPosition: "0px 0px" }, { backgroundPosition: "-40278px 26166px", duration: 24.51, ease: "steps(294)" }, 0);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

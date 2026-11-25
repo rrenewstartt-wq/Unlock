@@ -16,27 +16,37 @@
 // render(t) is a pure function of t. Bone animation: call f.rest(fig) at the top of each frame, then pose.
 import { Thumb, THREE, CACHE } from "./thumbkit.js";
 import { loadFigure, turn, settle, poseArmsDown, poseReclined, poseSeated, setFabric } from "./figures.js";
+import { resolveLook, Grade, leafShadows, markHero, cameraKeys, cam, LOOKS, CLAY, ACCENT, rng } from "./look.js";
 
 export { THREE, turn, settle, poseArmsDown, poseReclined, poseSeated, setFabric };
+export { cam, LOOKS, CLAY, ACCENT, rng };   // reference look (thumbkit/LOOK.md)
 
 export const ease = {
   inOut: (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2),
   sine: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
   out: (x) => 1 - Math.pow(1 - x, 3),
+  glide: (x) => 1 - (1 - x) * (1 - x),   // starts moving, settles softly (camera presets)
 };
+const EASE = { linear: (x) => x, glide: ease.glide, out: ease.out, inOut: ease.inOut };
 export const clamp01 = (x) => Math.max(0, Math.min(1, x));
 
-// keys: [{t, pos, look, fov?, cut?, ease?}] — same format as scenes_kit.cam_shots / world.js.
+// keys: [{t, pos, look, fov?, cut?, ease?, focus?, aperture?}] — same format as scenes_kit.cam_shots / world.js.
+// ease: "linear" | "glide" | "out" | "inOut", anything else = sine. focus (m) / aperture (f-number) drive depth of
+// field when the film has { dof: true }. keys may also be a camera preset spec (look.js cam): { preset, ... }.
 export function cameraAt(keys, t) {
+  keys = cameraKeys(keys);
   if (t <= keys[0].t) return keys[0];
   for (let i = 0; i < keys.length - 1; i++) {
     const a = keys[i];
     const b = keys[i + 1];
     if (t < b.t && b.cut) return a;
     if (t <= b.t) {
-      const k = (b.ease === "linear" ? (x) => x : ease.sine)(clamp01((t - a.t) / (b.t - a.t)));
+      const k = (EASE[b.ease] || ease.sine)(clamp01((t - a.t) / (b.t - a.t)));
       const mix = (u, v) => u.map((x, j) => x + (v[j] - x) * k);
-      return { pos: mix(a.pos, b.pos), look: mix(a.look, b.look), fov: (a.fov ?? 35) + ((b.fov ?? 35) - (a.fov ?? 35)) * k };
+      const c = { pos: mix(a.pos, b.pos), look: mix(a.look, b.look), fov: (a.fov ?? 35) + ((b.fov ?? 35) - (a.fov ?? 35)) * k };
+      if (a.focus !== undefined || b.focus !== undefined) c.focus = (a.focus ?? b.focus) + ((b.focus ?? a.focus) - (a.focus ?? b.focus)) * k;
+      if (a.aperture !== undefined || b.aperture !== undefined) c.aperture = (a.aperture ?? b.aperture) + ((b.aperture ?? a.aperture) - (a.aperture ?? b.aperture)) * k;
+      return c;
     }
   }
   return keys[keys.length - 1];
@@ -57,8 +67,57 @@ export class Film extends Thumb {
   static async create(stage, o = {}) {
     const f = new Film();
     f.stage = stage;
-    await f._init(o);
+    // look: "unlock-day" | "unlock-night" | "unlock-interior" (thumbkit/look.js) fills tone/env/fog/background and turns on
+    // the grade; explicit options win. Without look/grade nothing changes (ep02 renders as before).
+    const L = resolveLook(o);
+    f.lookSun = L.sun;
+    f.accent = o.accent || ACCENT;
+    f.frameHooks = [];
+    f.time = 0;
+    await f._init(L.opts);
+    if (L.grade) f.post = new Grade(f, L.grade);
     return f;
+  }
+
+  // Called with t before every frame (leaf sway, animated lights). Pure functions of t only.
+  onFrame(fn) { this.frameHooks.push(fn); }
+
+  // Dappled leaf shadows from a far "sun" spot light (look.js leafShadows). Returns the light.
+  leafShadows(o = {}) { return leafShadows(this, o); }
+
+  // The low sun of the look preset (+ leaf gobo unless leaves: false). azimuth/elevation in degrees (azimuth 0 = +z).
+  sun({ azimuth = 230, elevation = null, target = [0, 1, 0], size = 16, dist = 45, intensity = null, color = null, leaves = {} } = {}) {
+    const P = this.lookSun || {};
+    const el = THREE.MathUtils.degToRad(elevation ?? P.elevation ?? 25), az = THREE.MathUtils.degToRad(azimuth);
+    const T = new THREE.Vector3(...target);
+    const pos = T.clone().add(new THREE.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el)).multiplyScalar(dist));
+    const l = new THREE.SpotLight(color || P.color || "#ffffff", intensity ?? P.intensity ?? 4, 0, 0.3, 0.25, 0);
+    l.position.copy(pos);
+    l.target.position.copy(T);
+    l.castShadow = true;
+    this.scene.add(l, l.target);
+    if (leaves) return leafShadows(this, { sun: l, target, size, ...leaves });
+    l.angle = Math.atan((size / 2) / dist) * 1.42;
+    l.shadow.mapSize.set(this.shadowSize, this.shadowSize);
+    l.shadow.bias = -0.0004;
+    l.shadow.normalBias = 0.02;
+    return l;
+  }
+
+  // The one hero material of the shot (wooden door, brass knob): keeps its colour through the grade.
+  hero(...objs) { markHero(...objs); }
+
+  // Clay material (architectural-visualisation tone): CLAY name or colour, optional PBR texture kept faint.
+  async clay(color = "wall", { tex = null, repeat = 1, normalScale = 0.35, roughness = 0.92 } = {}) {
+    const c = CLAY[color] || color;
+    if (!tex) return new THREE.MeshStandardMaterial({ color: c, roughness, metalness: 0 });
+    const m = await this.material(tex, { repeat, normalScale });
+    m.map = null;                       // the texture's colour is dropped; only its relief stays
+    m.color = new THREE.Color(c);
+    m.roughnessMap = null;
+    m.roughness = roughness;
+    m.needsUpdate = true;
+    return m;
   }
 
   async _init({ width = 1920, height = 1080, hdri = null, envIntensity = 1, exposure = 1, background = "#000000",
@@ -138,14 +197,22 @@ export class Film extends Thumb {
 
   shot(keys, t) {
     const c = cameraAt(keys, t);
+    this.cam.userData.focus = c.focus;
+    this.cam.userData.aperture = c.aperture || 0;
     this.cam.position.set(...c.pos);
     this.cam.lookAt(...c.look);
     const fov = c.fov ?? 35;
     if (this.cam.fov !== fov) { this.cam.fov = fov; this.cam.updateProjectionMatrix(); }
   }
 
+  render() {
+    if (this.post) this.post.render(this.time);
+    else super.render();
+  }
+
   async ready() {
     await this.renderer.compileAsync(this.scene, this.cam);
+    if (this.post) this.post.warm(this.time);
     this.render();
     const gl = this.renderer.getContext();
     gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4)); // make the GPU finish the first frame
@@ -158,7 +225,7 @@ export function film(stage, key, opts, build) {
   const ready = (async () => {
     const f = await Film.create(stage, opts);
     const update = await build(f);
-    draw = (t) => { update(t); f.render(); };
+    draw = (t) => { f.time = t; for (const h of f.frameHooks) h(t); update(t); f.render(); };
     draw(0);
     await f.ready();
   })();

@@ -1,0 +1,46 @@
+<template>
+  <style>
+
+    @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+    @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+
+    #root { position: absolute; inset: 0; pointer-events: none; font-family: "Gothic A1", sans-serif; }
+    @font-face { font-family: "Gothic A1 Bold"; font-weight: 700; src: url("assets/fonts/GothicA1-Bold.ttf"); }
+
+    .tcard { position: absolute; inset: 0; z-index: 30; pointer-events: none; }
+    .tc-in { position: absolute; inset: 0; }
+    .tc-ch { display: none; }
+    .tc-t { position: absolute; left: 113px; top: 750px; height: 48px; white-space: nowrap;
+      font-family: "Gothic A1 Bold", "Gothic A1", sans-serif; font-weight: 700; font-size: 41px; line-height: 48px;
+      color: #FFFFFF; letter-spacing: -0.005em; text-shadow: 0 1px 2px rgba(0,0,0,.55), 0 0 14px rgba(0,0,0,.35); }
+    .tc-cur { display: inline-block; width: 20px; height: 40px; margin-left: 6px;
+      vertical-align: top; margin-top: 0px; background: #FFFFFF; opacity: 0; }
+    .tc-s { position: absolute; left: 116px; top: 812px; white-space: nowrap; font-family: "Gothic A1", sans-serif;
+      font-weight: 500; font-size: 28px; line-height: 1.2; color: #E4E2DF; text-shadow: 0 1px 2px rgba(0,0,0,.6), 0 0 12px rgba(0,0,0,.35); }
+    .tc-rule { position: absolute; left: 112px; top: 872px; height: 2px; background: rgba(255,255,255,.82);
+      transform-origin: 0 50%; box-shadow: 0 0 6px rgba(0,0,0,.35); }
+  </style>
+  <div id="root" data-composition-id="cards" data-width="1920" data-height="1080">
+    <div id="cards-tc0" class="clip tcard" data-start="5.85" data-duration="5.24"><div id="cards-tc0-in" class="tc-in"><div class="tc-t"><span id="cards-tc0-t0" class="tc-ch">민</span><span id="cards-tc0-t1" class="tc-ch">지</span><span id="cards-tc0-cur" class="tc-cur"></span></div><div class="tc-s"><span id="cards-tc0-s0" class="tc-ch">스</span><span id="cards-tc0-s1" class="tc-ch">무</span><span id="cards-tc0-s2" class="tc-ch">&nbsp;</span><span id="cards-tc0-s3" class="tc-ch">살</span></div><div id="cards-tc0-rule" class="tc-rule" style="width:461px"></div></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.set("#cards-tc0-t0", { display: "inline" }, 5.9);
+    tl.set("#cards-tc0-t1", { display: "inline" }, 5.965);
+    tl.fromTo("#cards-tc0-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.55, ease: "power2.out" }, 6.13);
+    tl.set("#cards-tc0-s0", { display: "inline" }, 7.65);
+    tl.set("#cards-tc0-s1", { display: "inline" }, 7.695);
+    tl.set("#cards-tc0-s2", { display: "inline" }, 7.74);
+    tl.set("#cards-tc0-s3", { display: "inline" }, 7.785);
+    tl.set("#cards-tc0-cur", { opacity: 1 }, 5.85);
+    tl.set("#cards-tc0-cur", { opacity: 0 }, 6.53);
+    tl.set("#cards-tc0-cur", { opacity: 1 }, 7.03);
+    tl.set("#cards-tc0-cur", { opacity: 0 }, 7.53);
+    tl.set("#cards-tc0-cur", { opacity: 1 }, 8.03);
+    tl.set("#cards-tc0-cur", { opacity: 0 }, 8.53);
+    tl.set("#cards-tc0-cur", { opacity: 1 }, 9.03);
+    tl.set("#cards-tc0-cur", { opacity: 0 }, 9.53);
+    tl.to("#cards-tc0-in", { opacity: 0, duration: 0.3, ease: "power2.in" }, 10.77);
+    window.__timelines["cards"] = tl;
+  </script>
+</template>

@@ -9,6 +9,7 @@
     python3 scripts/thumb_assets.py lock      # 자산을 추가한 뒤 잠금 파일 갱신 (verify: 검증만)
     texture:<id>@4k 처럼 해상도를 붙이면 cache/textures/<id>_4k 에 받는다.
     python3 scripts/thumb_assets.py figures   # Quaternius Universal Base Characters (CC0, itch.io free download) → cache/figures
+    python3 scripts/thumb_assets.py actors    # 걷는 인물(thumbkit/actors.js): Quaternius 동작 라이브러리 1·2 + 머리카락 (CC0) → cache/figures/actors
 
 A concept page lists what it needs in a comment:  <!-- assets: model:cigarette_pack texture:old_wood_floor hdri:... -->
 All Poly Haven assets are CC0 (no attribution required); we still record them in thumbkit/cache/CREDITS.txt.
@@ -41,7 +42,7 @@ def download(url, dst):
 
 def credit(kind, aid):
     f = CACHE / "CREDITS.txt"
-    src = "https://quaternius.itch.io/universal-base-characters" if kind == "figure" else f"https://polyhaven.com/a/{aid}"
+    src = (f"https://quaternius.itch.io/{aid.removeprefix('quaternius-')}" if kind == "figure" else f"https://polyhaven.com/a/{aid}")
     line = f"{kind}:{aid}  {src}  CC0\n"
     old = f.read_text() if f.exists() else ""
     if line not in old:
@@ -93,7 +94,7 @@ def need(folder):
             wanted |= {tuple(x.split(":", 1)) for x in m.group(1).split() if ":" in x}
     for kind, aid in sorted(wanted):
         if kind == "figure":
-            figures(); continue
+            actors() if aid == "actors" else figures(); continue
         aid, _, res = aid.partition("@")
         get(kind, aid, res or RES)
     print(f"{len(wanted)}개 준비됨 → {CACHE.relative_to(HERE)}")
@@ -131,6 +132,61 @@ def figures():
     print("✓ figures")
 
 
+def itch_zip(slug, upload, tmp):
+    """Free (name-your-own-price, no login) itch.io download of one upload → zip path in tmp."""
+    jar = str(tmp / "c.txt"); page = f"https://quaternius.itch.io/{slug}"
+    def curl(*a):
+        return subprocess.run(["curl", "-sSfL", "-c", jar, "-b", jar, "--max-time", "600", *a], capture_output=True, check=True).stdout.decode("utf-8", "replace")
+    csrf = lambda html: re.search(r'name="csrf_token" value="([^"]+)"', html).group(1)
+    url = json.loads(curl("-X", "POST", "--data-urlencode", f"csrf_token={csrf(curl(page))}", page + "/download_url"))["url"]
+    f = json.loads(curl("-X", "POST", "--data-urlencode", f"csrf_token={csrf(curl(url))}", page + f"/file/{upload}?source=game_download"))["url"]
+    z = tmp / f"{slug}.zip"
+    subprocess.run(["curl", "-sSfL", "--max-time", "1500", "-o", str(z), f], check=True)
+    return z
+
+
+# thumbkit/actors.js: animation clips (same 65-bone rig as the base characters) and hair rigged to the head bone.
+ACTOR_PACKS = [
+    ("universal-animation-library", 17958403, "Universal Animation Library[Standard]/", {
+        "Unreal-Godot/UAL1_Standard.glb": "UAL1_Standard.glb", "License.txt": "LICENSE_UAL1.txt"}),
+    ("universal-animation-library-2", 17958478, "Universal Animation Library 2[Standard]/", {
+        "Unreal-Godot/UAL2_Standard.glb": "UAL2_Standard.glb", "License.txt": "LICENSE_UAL2.txt"}),
+    ("universal-base-characters", 15861669, "Universal Base Characters[Standard]/Hairstyles/Rigged to Head Bone/glTF (Godot -Unreal)/", {
+        **{f"{h}.{e}": f"{h}.{e}" for h in ["Hair_Long", "Hair_SimpleParted", "Hair_Buns", "Hair_Buzzed", "Hair_Beard"] for e in ("gltf", "bin")},
+        "T_Hair_1_Normal.png": "T_Hair_1_Normal.png", "T_Hair_2_Normal.png": "T_Hair_2_Normal.png"}),
+]
+
+
+def actors():
+    """Quaternius Universal Animation Library 1+2 (CC0) and the hairstyles of Universal Base Characters (CC0) → cache/figures/actors.
+    Hair glTFs keep only their normal map (the grey base colour is replaced by a tint in actors.js)."""
+    import tempfile, zipfile
+    dst = CACHE / "figures" / "actors"
+    want = [n for *_, files in ACTOR_PACKS for n in files.values()]
+    if all((dst / n).exists() for n in want):
+        print("✓ actors (이미 있음)"); return
+    dst.mkdir(parents=True, exist_ok=True)
+    tmp = pathlib.Path(tempfile.mkdtemp())
+    for slug, upload, base, files in ACTOR_PACKS:
+        if all((dst / n).exists() for n in files.values()):
+            continue
+        zpath = itch_zip(slug, upload, tmp)
+        z = zipfile.ZipFile(zpath)
+        for src, out in files.items():
+            (dst / out).write_bytes(z.read(base + src))
+            if out.endswith(".gltf"):
+                g = json.loads((dst / out).read_text())
+                g["images"] = [im for im in g.get("images", []) if "Normal" in im["uri"]]
+                g["textures"] = [{"source": 0}]
+                for m in g.get("materials", []):
+                    m.get("pbrMetallicRoughness", {}).pop("baseColorTexture", None)
+                    m["normalTexture"] = {"index": 0}
+                (dst / out).write_text(json.dumps(g))
+        zpath.unlink()
+        credit("figure", f"quaternius-{slug}")
+    print("✓ actors")
+
+
 LOCK = HERE / "thumbkit" / "assets.lock.json"
 
 
@@ -152,7 +208,7 @@ def lock():
             wanted |= {x for x in m.group(1).split() if ":" in x}
     for k in (HERE / "episodes").glob("*/kit3d.json"):   # 영상 3D 장면이 쓰는 자산 (scripts/kit3d.py)
         wanted |= {x for x in json.loads(k.read_text(encoding="utf-8")).get("assets", []) if not x.startswith("figure:")}
-    LOCK.write_text(json.dumps({"assets": sorted(wanted | {"figure:quaternius"}), "files": files}, indent=1) + "\n")
+    LOCK.write_text(json.dumps({"assets": sorted(wanted | {"figure:quaternius"} | ({"figure:actors"} if (CACHE / "figures" / "actors").exists() else set())), "files": files}, indent=1) + "\n")
     print(f"{len(files)}개 파일 → {LOCK.relative_to(HERE)}")
 
 
@@ -161,7 +217,7 @@ def restore():
     for x in json.loads(LOCK.read_text())["assets"]:
         kind, aid = x.split(":", 1)
         if kind == "figure":
-            figures(); continue
+            actors() if aid == "actors" else figures(); continue
         aid, _, res = aid.partition("@")
         get(kind, aid, res or RES)
     verify()
@@ -190,6 +246,8 @@ def main():
         verify()
     elif a == ["figures"]:
         figures()
+    elif a == ["actors"]:
+        actors()
     elif len(a) == 2 and a[0] == "need":
         need(a[1])
     else:

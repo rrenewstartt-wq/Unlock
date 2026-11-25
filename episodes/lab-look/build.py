@@ -7,10 +7,24 @@ import json
 import pathlib
 
 import scenes as S
+import scenes_kit as K
 
 ROOT = pathlib.Path(__file__).parent
 DATA = json.loads((ROOT / "data" / "script.json").read_text(encoding="utf-8"))
 TOTAL = DATA["total"]
+
+# Caption skin: scenes.py may set CAPTION_SKIN = "unlock" (the reference: no box, white text with a shadow only, 48 px,
+# glyph bottom 55 px above the frame bottom; docs/reference-look.md §1). Default "classic" = the look every episode had.
+CAPTION_SKINS = {
+    "classic": {"bottom": 74, "span": "font-size: 40px; line-height: 1.25; letter-spacing: -0.01em; color: #F6F3EE; padding: 6px 18px 8px;\n"
+                "      text-shadow: 0 0 3px rgba(0,0,0,.95), 0 2px 10px rgba(0,0,0,.85), 0 0 22px rgba(0,0,0,.55);",
+                "enter": "{opacity:0,y:8}", "to": "{opacity:1,y:0,duration:0.22,ease:\"power3.out\"}"},
+    "unlock": {"bottom": 41, "span": "font-size: 48px; line-height: 1.2; letter-spacing: -0.01em; color: #FFFFFF; padding: 0;\n"
+               "      text-shadow: 0 1px 2px rgba(0,0,0,.85), 0 0 8px rgba(0,0,0,.55), 0 0 22px rgba(0,0,0,.35);",
+               "enter": "{opacity:0}", "to": "{opacity:1,duration:0.12,ease:\"power1.out\"}"},
+}
+# vars(S), not getattr: a scenes.py with a module __getattr__ (the template's placeholder fallback) answers every name.
+CAPTION_SKIN = vars(S).get("CAPTION_SKIN", "classic")
 
 
 def local_cues(sc):
@@ -26,6 +40,7 @@ def write_scene(sc):
 
 
 def captions_comp():
+    sk = CAPTION_SKINS[CAPTION_SKIN]
     groups = []
     tweens = []
     for sc in DATA["scenes"]:
@@ -36,17 +51,16 @@ def captions_comp():
                 f'data-duration="{round(c["end"] - c["start"], 2)}"><span>{c["text"]}</span></div>'
             )
             tweens.append(
-                f'tl.fromTo("#cap-{i} span",{{opacity:0,y:8}},{{opacity:1,y:0,duration:0.22,ease:"power3.out"}},{c["start"]});'
+                f'tl.fromTo("#cap-{i} span",{sk["enter"]},{sk["to"]},{c["start"]});'
                 f'tl.to("#cap-{i} span",{{opacity:0,duration:0.14,ease:"power2.in"}},{round(c["end"] - 0.14, 2)});'
             )
     return f"""<template>
   <style>
     #root {{ position: absolute; inset: 0; pointer-events: none; }}
-    .cap {{ position: absolute; left: 0; right: 0; bottom: 74px; text-align: center; }}
+    .cap {{ position: absolute; left: 0; right: 0; bottom: {sk["bottom"]}px; text-align: center; }}
     .cap span {{
       display: inline-block; font-family: "Gothic A1", sans-serif; font-weight: 500;
-      font-size: 40px; line-height: 1.25; letter-spacing: -0.01em; color: #F6F3EE; padding: 6px 18px 8px;
-      text-shadow: 0 0 3px rgba(0,0,0,.95), 0 2px 10px rgba(0,0,0,.85), 0 0 22px rgba(0,0,0,.55);
+      {sk["span"]}
     }}
   </style>
   <div id="root" data-composition-id="captions" data-width="1920" data-height="1080">
@@ -56,6 +70,37 @@ def captions_comp():
     const tl = gsap.timeline({{ paused: true }});
     {"".join(tweens)}
     window.__timelines["captions"] = tl;
+  </script>
+</template>
+"""
+
+
+def cards_comp():
+    """Title cards that must outlive a scene cut: scenes.py may define title_cards(DATA) -> [dict(at=<absolute s>, title=...,
+    sub=..., hold=..., sub_at=<absolute s>, cursor=...)]. Same card as scenes_kit.title_card, on its own layer above every
+    scene. Returns None when the episode has none (the default: index.html is unchanged)."""
+    cards = vars(S)["title_cards"](DATA) if "title_cards" in vars(S) else []
+    if not cards:
+        return None
+    markup, css, tweens = [], "", []
+    for n, c in enumerate(cards):
+        m, cs, tw = K.title_card("cards", c.pop("at"), c.pop("title"), n=n, **c)
+        markup.append(m)
+        css = cs
+        tweens.append(tw)
+    return f"""<template>
+  <style>
+{K.FONTS}
+    #root {{ position: absolute; inset: 0; pointer-events: none; font-family: "Gothic A1", sans-serif; }}
+{css}
+  </style>
+  <div id="root" data-composition-id="cards" data-width="1920" data-height="1080">
+{chr(10).join(markup)}
+  </div>
+  <script>
+    const tl = gsap.timeline({{ paused: true }});
+{chr(10).join(tweens)}
+    window.__timelines["cards"] = tl;
   </script>
 </template>
 """
@@ -96,7 +141,7 @@ def voice_tags():
     return "\n".join(tags)
 
 
-def index(durs):
+def index(durs, cards=False):
     hosts = []
     for sc in DATA["scenes"]:
         sid = sc["id"]
@@ -128,7 +173,7 @@ def index(durs):
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="{TOTAL}" data-width="1920" data-height="1080">
 {hosts}
-      <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="{TOTAL}" data-track-index="2" data-track-kind="captions" data-width="1920" data-height="1080" style="z-index:60"></div>
+{CARDS_HOST if cards else ""}      <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="{TOTAL}" data-track-index="2" data-track-kind="captions" data-width="1920" data-height="1080" style="z-index:60"></div>
 {sfx_tags()}
 {voice_tags()}
       <div id="grain-wrap" data-layout-ignore style="position:absolute;inset:0;overflow:hidden;z-index:50;pointer-events:none"><div id="grain"></div></div>
@@ -144,11 +189,19 @@ def index(durs):
 """
 
 
+CARDS_HOST = (f'      <div id="cards" data-composition-id="cards" data-composition-src="compositions/cards.html" data-start="0" '
+              f'data-duration="{TOTAL}" data-track-index="10" data-track-kind="graphics" data-width="1920" data-height="1080" '
+              f'style="z-index:55"></div>\n')
+
+
 def main():
     (ROOT / "compositions").mkdir(exist_ok=True)
     durs = {sc["id"]: write_scene(sc) for sc in DATA["scenes"]}
     (ROOT / "compositions" / "captions.html").write_text(captions_comp(), encoding="utf-8")
-    (ROOT / "index.html").write_text(index(durs), encoding="utf-8")
+    cards = cards_comp()
+    if cards:
+        (ROOT / "compositions" / "cards.html").write_text(cards, encoding="utf-8")
+    (ROOT / "index.html").write_text(index(durs, cards=bool(cards)), encoding="utf-8")
     print("built", len(durs), "scenes,", TOTAL, "s")
 
 

@@ -77,6 +77,80 @@ def cam_shots(shots, end, push=0.06):
 BOARD = "radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%)"  # diagram scenes: near-black board
 
 
+# ---------------------------------------------------------------- title card (reference grammar, docs/reference-look.md §1, §2-6)
+
+# Bold face for title cards and in-scene numbers (thumbkit/overlay3d.js loads the same file). Its own family name, so
+# nothing that already asks for "Gothic A1" changes weight.
+TITLE_FONT = '    @font-face { font-family: "Gothic A1 Bold"; font-weight: 700; src: url("assets/fonts/GothicA1-Bold.ttf"); }\n'
+# Measured on the reference frames at 1920x1080 (screen-rec v1_4.5, v1_7.5): text left x=116; title glyphs y 751-788
+# (38 px tall), sub glyphs y 814-837 (24 px), rule y=873 from x=112, 461 px long; cursor block 20x40 px, 6 px after the text.
+# Box values below were fitted on our own snapshots (lab-look, 2026-11-25) so the GLYPHS land on those measurements.
+TITLE_CARD = {"x": 113, "title_px": 41, "title_top": 750, "sub_x": 116, "sub_px": 28, "sub_top": 812, "rule_x": 112,
+              "rule_top": 872, "rule": 461, "rule_h": 2, "cursor_w": 20, "cursor_h": 40, "cursor_gap": 6, "cursor_dy": 0}
+
+
+def title_card(sid, at, title, sub="", hold=4.5, sub_at=None, n=0, cps=0.065, sub_cps=0.045, cursor=3.0, rule=None, z=30):
+    """Reference title card: bottom-left, typed one character at a time with a block cursor ▌, a grey second line and a
+    thin white rule. One frame for both kinds of card:
+        date/place   title_card(sid, q[0] + 0.2, "1999년 9월 9일 목요일", "어느 해안 마을")
+        person       title_card(sid, q[1], "민지", "스무 살")            # the cursor keeps blinking after the name
+    It is one clip over the whole scene, so it stays through every camera cut inside the scene (cam_shots). For a card that
+    must cross a scene boundary, return it from `title_cards(DATA)` in scenes.py instead (build.py puts it above all scenes).
+
+    at      scene-local start (s).        hold   total time on screen (s), fades out over its last 0.3 s
+    sub_at  scene-local time the second line starts typing (default: right after the title and the rule)
+    cps     seconds per character (title), sub_cps for the second line.  cursor: seconds the cursor blinks after typing
+    rule    rule length px (default 461, measured)
+    Returns (markup, css, tweens) like archive_insert: add them to a scene3d()/wrap() scene.
+    """
+    T = TITLE_CARD
+    cid = f"{sid}-tc{n}"
+    hold = float(hold)
+    rule = T["rule"] if rule is None else rule
+
+    def chars(text, key):
+        return "".join(f'<span id="{cid}-{key}{i}" class="tc-ch">{"&nbsp;" if ch == " " else ch}</span>' for i, ch in enumerate(text))
+
+    tw = []
+    t = at + 0.05
+    for i in range(len(title)):
+        tw.append(f'    tl.set("#{cid}-t{i}", {{ display: "inline" }}, {round(t + i * cps, 3)});')
+    t_typed = t + len(title) * cps
+    tw.append(f'    tl.fromTo("#{cid}-rule", {{ scaleX: 0 }}, {{ scaleX: 1, duration: 0.55, ease: "power2.out" }}, {round(t_typed + 0.1, 3)});')
+    if sub:
+        s0 = sub_at if sub_at is not None else t_typed + 0.45
+        for i in range(len(sub)):
+            tw.append(f'    tl.set("#{cid}-s{i}", {{ display: "inline" }}, {round(s0 + i * sub_cps, 3)});')
+    # cursor: solid while typing, then blinks (0.5 s on / 0.5 s off) for `cursor` seconds, then stays off
+    tw.append(f'    tl.set("#{cid}-cur", {{ opacity: 1 }}, {round(at, 3)});')
+    k, tb = 0, t_typed + 0.5
+    while tb < min(t_typed + cursor, at + hold - 0.3):
+        tw.append(f'    tl.set("#{cid}-cur", {{ opacity: {0 if k % 2 == 0 else 1} }}, {round(tb, 3)});')
+        k, tb = k + 1, tb + 0.5
+    if k % 2 == 0:  # the last state set was "on" (or no blink fitted): switch it off
+        tw.append(f'    tl.set("#{cid}-cur", {{ opacity: 0 }}, {round(tb, 3)});')
+    tw.append(f'    tl.to("#{cid}-in", {{ opacity: 0, duration: 0.3, ease: "power2.in" }}, {round(at + hold - 0.32, 3)});')
+    inner = (f'<div id="{cid}-in" class="tc-in">'
+             f'<div class="tc-t">{chars(title, "t")}<span id="{cid}-cur" class="tc-cur"></span></div>'
+             + (f'<div class="tc-s">{chars(sub, "s")}</div>' if sub else "")
+             + f'<div id="{cid}-rule" class="tc-rule" style="width:{rule}px"></div></div>')
+    markup = "    " + clip(cid, round(at, 2), hold, "tcard", inner)
+    css = TITLE_FONT + f"""
+    .tcard {{ position: absolute; inset: 0; z-index: {z}; pointer-events: none; }}
+    .tc-in {{ position: absolute; inset: 0; }}
+    .tc-ch {{ display: none; }}
+    .tc-t {{ position: absolute; left: {T["x"]}px; top: {T["title_top"]}px; height: {T["cursor_h"] + 8}px; white-space: nowrap;
+      font-family: "Gothic A1 Bold", "Gothic A1", sans-serif; font-weight: 700; font-size: {T["title_px"]}px; line-height: {T["cursor_h"] + 8}px;
+      color: #FFFFFF; letter-spacing: -0.005em; text-shadow: 0 1px 2px rgba(0,0,0,.55), 0 0 14px rgba(0,0,0,.35); }}
+    .tc-cur {{ display: inline-block; width: {T["cursor_w"]}px; height: {T["cursor_h"]}px; margin-left: {T["cursor_gap"]}px;
+      vertical-align: top; margin-top: {T["cursor_dy"]}px; background: #FFFFFF; opacity: 0; }}
+    .tc-s {{ position: absolute; left: {T["sub_x"]}px; top: {T["sub_top"]}px; white-space: nowrap; font-family: "Gothic A1", sans-serif;
+      font-weight: 500; font-size: {T["sub_px"]}px; line-height: 1.2; color: #E4E2DF; text-shadow: 0 1px 2px rgba(0,0,0,.6), 0 0 12px rgba(0,0,0,.35); }}
+    .tc-rule {{ position: absolute; left: {T["rule_x"]}px; top: {T["rule_top"]}px; height: {T["rule_h"]}px; background: rgba(255,255,255,.82);
+      transform-origin: 0 50%; box-shadow: 0 0 6px rgba(0,0,0,.35); }}"""
+    return markup, css, "\n".join(tw)
+
+
 def person_card(w, h, color="#E9E5DD", sw=3, dashed=False, fill="#0E0F11", cls="pcard"):
     """Outline person card (the diagram scenes' one icon for a person). Inline SVG, w x h px."""
     dash = ' stroke-dasharray="10 8"' if dashed else ""
@@ -95,9 +169,15 @@ def person_card(w, h, color="#E9E5DD", sw=3, dashed=False, fill="#0E0F11", cls="
 ARCHIVE_GRADE = '{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'
 
 
-def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens=""):
+def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens="", look="board"):
     """A scene built from real archive photos (assets/archive/, licensed in assets/archive/SOURCES.md).
     Each photo should hold about 3 s (2.5~4 s): the hook = 1~3 photos, one caption line each.
+
+    look  "board" (default): prints on the dark board, amber 기록 tag, caption line under the print.
+          "unlock": the reference's real-photo grammar (docs/reference-look.md §2-8) — every photo full frame, the same
+          near-monochrome cool grade as the 3D (UNLOCK_GRADE: grain, vignette), a slow push, no frame, no tag, no caption
+          line; only the credit stays as one small line (fact + licence). Extra per-shot key: crop (x0, y0, x1, y1) in 0..1
+          of the source — the part that must fill the frame (cut film borders, handwriting). `label`/`tilt`/`mode` are ignored.
 
     shots: list of dicts, one per photo, cut hard from one to the next:
       src     "assets/archive/<file>.jpg"
@@ -114,6 +194,8 @@ def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens
     def t_of(v):
         return q[v] if isinstance(v, int) else float(v)
 
+    if look == "unlock":
+        return _archive_unlock(sid, dur, q, shots, t_of, css, overlay, tweens)
     starts = [0.0] + [t_of(s["at"]) - 0.05 for s in shots[1:]]
     ends = starts[1:] + [dur]
     markup, tw = [], []
@@ -164,6 +246,55 @@ def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens
     script = ("    const tl = gsap.timeline({ paused: true });\n" + "\n".join(tw) + "\n" + tweens +
               f'\n    window.__timelines["{sid}"] = tl;')
     return wrap(sid, dur, base_css + css, "\n".join(["    " + m for m in markup]) + "\n    " + tag + "\n" + overlay, script)
+
+
+# Reference real-photo look (docs/reference-look.md §1 "실제 사진": luma 0.36~0.46, p99 ~0.84, chroma 0.05~0.08, B-R +0.02~+0.04,
+# vignette 0.65~1.0, coarse grain). HyperFrames media treatment (deterministic), never CSS filters.
+UNLOCK_GRADE = ('{"adjust":{"exposure":-0.35,"contrast":-0.12,"highlights":-0.55,"whites":-0.35,"shadows":0.12,"blacks":0.05,'
+                '"saturation":-0.82,"temperature":-0.12},'
+                '"details":{"vignette":0.42,"vignetteMidpoint":0.42,"vignetteFeather":0.75,"grain":0.38,"grainSize":0.5,"grainRoughness":0.75}}')
+
+
+def _archive_unlock(sid, dur, q, shots, t_of, css="", overlay="", tweens=""):
+    """archive_scene(look="unlock"): full-frame graded photos with a slow push; credit as one small line."""
+    starts = [0.0] + [t_of(s["at"]) - 0.05 for s in shots[1:]]
+    ends = starts[1:] + [dur]
+    markup, tw = [], []
+    for k, (s, t0, t1) in enumerate(zip(shots, starts, ends)):
+        w, h = s.get("size", (1920, 1080))
+        x0, y0, x1, y1 = s.get("crop", (0, 0, 1, 1))
+        cw, ch = (x1 - x0) * w, (y1 - y0) * h
+        kf = max(1920 / cw, 1080 / ch)                      # cover the frame with the crop
+        iw, ih = round(w * kf), round(h * kf)
+        left = round(-x0 * w * kf + (1920 - cw * kf) / 2)
+        top = round(-y0 * h * kf + (1080 - ch * kf) / 2)
+        rings = ""
+        for j, (ci, cx, cy, r) in enumerate(s.get("focus", [])):
+            rid = f"{sid}-r{k}-{j}"
+            rings += (f'<svg class="ar-ring" style="left:{left}px;top:{top}px" viewBox="0 0 {iw} {ih}" width="{iw}" height="{ih}">'
+                      f'<ellipse id="{rid}" cx="{round(cx * iw)}" cy="{round(cy * ih)}" rx="{round(r * iw)}" ry="{round(r * iw * 0.82)}" '
+                      f'pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110"/></svg>')
+            tw.append(f'    tl.to("#{rid}", {{ strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }}, {round(max(t0, t_of(ci)) + 0.15, 2)});')
+        img = (f'<img class="ar-img" src="{s["src"]}" alt="" style="position:absolute;left:{left}px;top:{top}px;width:{iw}px;height:{ih}px" '
+               f"data-color-grading='{s.get('grade', UNLOCK_GRADE)}'/>")
+        cam = f'<div id="{sid}-cam{k}" class="ar-cam ar-u-cam">{img}{rings}</div>'
+        cred = f'<div class="ar-u-credit" data-layout-ignore>{s["credit"]}</div>' if s.get("credit") else ""
+        markup.append(clip(f"{sid}-ph{k}", round(t0, 2), t1 - t0, "ar-shot ar-u", cam + cred))
+        s0, s1 = s.get("push", (1.0, 1.06))
+        dx, dy = s.get("pan", (0, 0))
+        tw.append(f'    tl.fromTo("#{sid}-cam{k}", {{ scale: {s0}, x: 0, y: 0 }}, '
+                  f'{{ scale: {s1}, x: {dx}, y: {dy}, duration: {round(t1 - t0, 2)}, ease: "none" }}, {round(t0, 2)});')
+    base_css = f"""
+    .ar-shot {{ position: absolute; inset: 0; background: #050505; overflow: hidden; }}
+    .ar-cam {{ position: absolute; inset: 0; transform-origin: 50% 50%; }}
+    .ar-img {{ display: block; }}
+    .ar-ring {{ position: absolute; overflow: visible; }}
+    .ar-ring ellipse {{ fill: none; stroke: {AMBER}; stroke-width: 7; stroke-linecap: round; }}
+    .ar-u-credit {{ position: absolute; right: 40px; top: 34px; font-size: 22px; line-height: 1.2; color: rgba(240,238,234,.72);
+      text-shadow: 0 1px 3px rgba(0,0,0,.9); white-space: nowrap; }}"""
+    script = ("    const tl = gsap.timeline({ paused: true });\n" + "\n".join(tw) + "\n" + tweens +
+              f'\n    window.__timelines["{sid}"] = tl;')
+    return wrap(sid, dur, base_css + css, "\n".join(["    " + m for m in markup]) + "\n" + overlay, script)
 
 
 def archive_insert(sid, at, src, size, dur=3.0, focus=None, caption="", credit="", tilt=-1.0, push=(1.0, 1.06), n=0, hide=None):

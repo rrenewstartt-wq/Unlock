@@ -1,0 +1,72 @@
+<template>
+  <style>
+
+    @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+    @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1E2125; color: #E9E5DD; font-family: "Gothic A1", sans-serif; }
+    .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
+      border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
+    @font-face { font-family: "Gothic A1 Bold"; font-weight: 700; src: url("assets/fonts/GothicA1-Bold.ttf"); }
+
+    .tcard { position: absolute; inset: 0; z-index: 30; pointer-events: none; }
+    .tc-in { position: absolute; inset: 0; }
+    .tc-ch { display: none; }
+    .tc-t { position: absolute; left: 113px; top: 750px; height: 48px; white-space: nowrap;
+      font-family: "Gothic A1 Bold", "Gothic A1", sans-serif; font-weight: 700; font-size: 41px; line-height: 48px;
+      color: #FFFFFF; letter-spacing: -0.005em; text-shadow: 0 1px 2px rgba(0,0,0,.55), 0 0 14px rgba(0,0,0,.35); }
+    .tc-cur { display: inline-block; width: 20px; height: 40px; margin-left: 6px;
+      vertical-align: top; margin-top: 0px; background: #FFFFFF; opacity: 0; }
+    .tc-s { position: absolute; left: 116px; top: 812px; white-space: nowrap; font-family: "Gothic A1", sans-serif;
+      font-weight: 500; font-size: 28px; line-height: 1.2; color: #E4E2DF; text-shadow: 0 1px 2px rgba(0,0,0,.6), 0 0 12px rgba(0,0,0,.35); }
+    .tc-rule { position: absolute; left: 112px; top: 872px; height: 2px; background: rgba(255,255,255,.82);
+      transform-origin: 0 50%; box-shadow: 0 0 6px rgba(0,0,0,.35); }
+  </style>
+  <div id="root" data-composition-id="opening" data-width="1920" data-height="1080">
+    <div id="opening-stage" class="clip" data-start="0" data-duration="5.5" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="opening-re" class="clip tag-re" data-start="0.3" data-duration="5.2">재현</div>
+    <div id="opening-tc0" class="clip tcard" data-start="0.3" data-duration="5.2"><div id="opening-tc0-in" class="tc-in"><div class="tc-t"><span id="opening-tc0-t0" class="tc-ch">1</span><span id="opening-tc0-t1" class="tc-ch">9</span><span id="opening-tc0-t2" class="tc-ch">9</span><span id="opening-tc0-t3" class="tc-ch">9</span><span id="opening-tc0-t4" class="tc-ch">년</span><span id="opening-tc0-t5" class="tc-ch">&nbsp;</span><span id="opening-tc0-t6" class="tc-ch">9</span><span id="opening-tc0-t7" class="tc-ch">월</span><span id="opening-tc0-t8" class="tc-ch">&nbsp;</span><span id="opening-tc0-t9" class="tc-ch">9</span><span id="opening-tc0-t10" class="tc-ch">일</span><span id="opening-tc0-t11" class="tc-ch">&nbsp;</span><span id="opening-tc0-t12" class="tc-ch">목</span><span id="opening-tc0-t13" class="tc-ch">요</span><span id="opening-tc0-t14" class="tc-ch">일</span><span id="opening-tc0-cur" class="tc-cur"></span></div><div class="tc-s"><span id="opening-tc0-s0" class="tc-ch">어</span><span id="opening-tc0-s1" class="tc-ch">느</span><span id="opening-tc0-s2" class="tc-ch">&nbsp;</span><span id="opening-tc0-s3" class="tc-ch">해</span><span id="opening-tc0-s4" class="tc-ch">안</span><span id="opening-tc0-s5" class="tc-ch">&nbsp;</span><span id="opening-tc0-s6" class="tc-ch">마</span><span id="opening-tc0-s7" class="tc-ch">을</span></div><div id="opening-tc0-rule" class="tc-rule" style="width:461px"></div></div></div>
+  </div>
+  <script type="module">
+    import { createOverlayRoad } from "./assets/lib/overlay_road.js";
+    const render = createOverlayRoad(document.getElementById("opening-stage"), { mode: "street", camera: [
+      { t: 0, pos: [7, 11, 24], look: [0, 0, -12], fov: 40 },
+      { t: 2.58, pos: [6.65, 10.45, 22.2], look: [0, 0, -12], fov: 40, ease: "linear" },
+      { t: 2.6, pos: [0.7, 1.55, 4.2], look: [0, 1.0, -8], fov: 34, cut: true },
+      { t: 5.5, pos: [0.665, 1.522, 3.59], look: [0, 1.0, -8], fov: 34, ease: "linear" }
+    ] });
+    const st = { t: 0 };
+    const tl = gsap.timeline({ paused: true });
+    tl.to(st, { t: 5.5, duration: 5.5, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.set("#opening-tc0-t0", { display: "inline" }, 0.35);
+    tl.set("#opening-tc0-t1", { display: "inline" }, 0.415);
+    tl.set("#opening-tc0-t2", { display: "inline" }, 0.48);
+    tl.set("#opening-tc0-t3", { display: "inline" }, 0.545);
+    tl.set("#opening-tc0-t4", { display: "inline" }, 0.61);
+    tl.set("#opening-tc0-t5", { display: "inline" }, 0.675);
+    tl.set("#opening-tc0-t6", { display: "inline" }, 0.74);
+    tl.set("#opening-tc0-t7", { display: "inline" }, 0.805);
+    tl.set("#opening-tc0-t8", { display: "inline" }, 0.87);
+    tl.set("#opening-tc0-t9", { display: "inline" }, 0.935);
+    tl.set("#opening-tc0-t10", { display: "inline" }, 1.0);
+    tl.set("#opening-tc0-t11", { display: "inline" }, 1.065);
+    tl.set("#opening-tc0-t12", { display: "inline" }, 1.13);
+    tl.set("#opening-tc0-t13", { display: "inline" }, 1.195);
+    tl.set("#opening-tc0-t14", { display: "inline" }, 1.26);
+    tl.fromTo("#opening-tc0-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.55, ease: "power2.out" }, 1.425);
+    tl.set("#opening-tc0-s0", { display: "inline" }, 2.9);
+    tl.set("#opening-tc0-s1", { display: "inline" }, 2.945);
+    tl.set("#opening-tc0-s2", { display: "inline" }, 2.99);
+    tl.set("#opening-tc0-s3", { display: "inline" }, 3.035);
+    tl.set("#opening-tc0-s4", { display: "inline" }, 3.08);
+    tl.set("#opening-tc0-s5", { display: "inline" }, 3.125);
+    tl.set("#opening-tc0-s6", { display: "inline" }, 3.17);
+    tl.set("#opening-tc0-s7", { display: "inline" }, 3.215);
+    tl.set("#opening-tc0-cur", { opacity: 1 }, 0.3);
+    tl.set("#opening-tc0-cur", { opacity: 0 }, 1.825);
+    tl.to("#opening-tc0-in", { opacity: 0, duration: 0.3, ease: "power2.in" }, 5.18);
+    render(0);
+    window.__timelines["opening"] = tl;
+  </script>
+</template>

@@ -1,0 +1,31 @@
+<template>
+  <style>
+
+    @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+    @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1E2125; color: #E9E5DD; font-family: "Gothic A1", sans-serif; }
+    .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
+      border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
+
+  </style>
+  <div id="root" data-composition-id="distance" data-width="1920" data-height="1080">
+    <div id="distance-stage" class="clip" data-start="0" data-duration="5.48" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="distance-re" class="clip tag-re" data-start="0.3" data-duration="5.18">재현</div>
+
+  </div>
+  <script type="module">
+    import { createOverlayRoad } from "./assets/lib/overlay_road.js";
+    const render = createOverlayRoad(document.getElementById("distance-stage"), { mode: "measure", camera: [
+      { t: 0, pos: [11, 15, 22], look: [0, 0, -8], fov: 42 },
+      { t: 5.48, pos: [10.12, 13.8, 19.6], look: [0, 0, -8], fov: 42, ease: "linear" }
+    ] });
+    const st = { t: 0 };
+    const tl = gsap.timeline({ paused: true });
+    tl.to(st, { t: 5.48, duration: 5.48, ease: "none", onUpdate: () => render(st.t) }, 0);
+
+    render(0);
+    window.__timelines["distance"] = tl;
+  </script>
+</template>

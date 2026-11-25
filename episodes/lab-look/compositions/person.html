@@ -1,0 +1,33 @@
+<template>
+  <style>
+
+    @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+    @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1E2125; color: #E9E5DD; font-family: "Gothic A1", sans-serif; }
+    .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
+      border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
+
+  </style>
+  <div id="root" data-composition-id="person" data-width="1920" data-height="1080">
+    <div id="person-stage" class="clip" data-start="0" data-duration="5.74" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="person-re" class="clip tag-re" data-start="0.3" data-duration="5.44">재현</div>
+
+  </div>
+  <script type="module">
+    import { createOverlayRoad } from "./assets/lib/overlay_road.js";
+    const render = createOverlayRoad(document.getElementById("person-stage"), { mode: "street", camera: [
+      { t: 0, pos: [1.6, 1.4, 6.5], look: [0, 1.1, -4], fov: 32 },
+      { t: 2.63, pos: [1.504, 1.382, 5.87], look: [0, 1.1, -4], fov: 32, ease: "linear" },
+      { t: 2.65, pos: [-2.4, 0.6, 2.0], look: [0, 1.0, -4], fov: 30, cut: true },
+      { t: 5.74, pos: [-2.256, 0.624, 1.64], look: [0, 1.0, -4], fov: 30, ease: "linear" }
+    ] });
+    const st = { t: 0 };
+    const tl = gsap.timeline({ paused: true });
+    tl.to(st, { t: 5.74, duration: 5.74, ease: "none", onUpdate: () => render(st.t) }, 0);
+
+    render(0);
+    window.__timelines["person"] = tl;
+  </script>
+</template>
