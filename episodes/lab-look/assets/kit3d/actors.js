@@ -1056,21 +1056,24 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
   if (actions.has(wcName)) {
     const e = actions.get(wcName);
     for (const [, x] of actions) x.a.setEffectiveWeight(0);
-    const ball = scene.getObjectByName("ball_l"), v = new THREE.Vector3();
-    const N = 80, ys = [], zs = [];
-    for (let i = 0; i < N; i++) { e.a.time = (i / N) * e.dur; e.a.setEffectiveWeight(1); mixer.update(0); root.updateMatrixWorld(true); ball.getWorldPosition(v); ys.push(v.y); zs.push(v.z); }
-    e.a.setEffectiveWeight(0);
-    const mn = Math.min(...ys);
-    let best = [], run = [];
-    for (let i = 0; i < 2 * N; i++) { const j = i % N; if (ys[j] < mn + 0.012) run.push(i); else { if (run.length > best.length) best = run; run = []; } }
-    if (best.length > 6) {
+    const v = new THREE.Vector3(), vs = [];
+    for (const bn of ["ball_l", "ball_r"]) {
+      const ball = scene.getObjectByName(bn);
+      const N = 80, ys = [], zs = [];
+      for (let i = 0; i < N; i++) { e.a.time = (i / N) * e.dur; e.a.setEffectiveWeight(1); mixer.update(0); root.updateMatrixWorld(true); ball.getWorldPosition(v); ys.push(v.y); zs.push(v.z); }
+      const mn = Math.min(...ys);
+      let best = [], run = [];
+      for (let i = 0; i < 2 * N; i++) { const j = i % N; if (ys[j] < mn + 0.012) run.push(i); else { if (run.length > best.length) best = run; run = []; } }
+      if (best.length <= 6) continue;
       const ts = best.map((i) => (i / N) * e.dur), zz = best.map((i) => zs[i % N]);
       const mt = ts.reduce((a, b) => a + b) / ts.length, mz = zz.reduce((a, b) => a + b) / zz.length;
       let num = 0, den = 0;
       ts.forEach((t, k) => { num += (t - mt) * (zz[k] - mz); den += (t - mt) ** 2; });
-      const vFoot = Math.abs(num / den);
-      if (vFoot > 0.2 && vFoot < 3) stride = vFoot * e.dur;
+      vs.push(Math.abs(num / den));
     }
+    e.a.setEffectiveWeight(0);
+    const vFoot = vs.length ? vs.reduce((a, b) => a + b) / vs.length : 0;
+    if (vFoot > 0.2 && vFoot < 3) stride = vFoot * e.dur;
   }
   stride *= spec.strideK || 1;
   const walkV = (stride / actions.get(spec.walkClip || "walk")?.dur || 1) * (spec.speed || 1);
