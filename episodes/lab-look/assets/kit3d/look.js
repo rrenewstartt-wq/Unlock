@@ -39,7 +39,7 @@ export const CLAY = {
 // sun: defaults for f.sun(). Numbers were tuned against data/benchmark/unlock_kr/raw/screen-rec (look_check.py --ref).
 export const LOOKS = {
   "unlock-day": {   // low sun through leaves on clay buildings, cool shadows, almost monochrome
-    film: { hdri: "kloofendal_misty_morning_puresky", envIntensity: 0.08, exposure: 1.0, background: "#2a2f37",
+    film: { hdri: "kloofendal_misty_morning_puresky", envIntensity: 0.055, exposure: 1.0, background: "#2a2f37",
       fog: { color: "#2a2f37", density: 0.006 } },
     sun: { color: "#fff3e2", intensity: 3.6, elevation: 24 },
     grade: { saturation: 0.2, heroSaturation: 0.5, shadowTint: [-0.02, -0.004, 0.07], tint: [-0.012, 0, 0.022],
@@ -145,7 +145,7 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, dens
         const l = leaf * px * (0.75 + R() * 0.5) * (0.7 + 0.3 * Math.min(1, d / (len * 0.4)));
         const rot = aa + side * (0.5 + R() * 0.45);
         const cx = Math.cos(aa) * d + Math.cos(rot) * l * 0.5, cy = Math.sin(aa) * d + Math.sin(rot) * l * 0.5;
-        b.leaves.push({ dx: cx, dy: cy, rot, l, w: 0.28 + R() * 0.14, ph: R() * 6.283 });
+        b.leaves.push({ dx: cx, dy: cy, rot, l, w: 0.32 + R() * 0.2, ph: R() * 6.283 });
       }
     }
     branches.push(b);

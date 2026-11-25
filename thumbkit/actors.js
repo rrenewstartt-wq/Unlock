@@ -131,7 +131,7 @@ function clothMaterial(color, { rough = 0.9, fold = 0.006, tone = 0.12, rib = nu
     if (uRib.w > 0.0) {   // knitted ribs at the hem band and the cuffs
       if (vRest.y > uRib.x && vRest.y < uRib.y && abs(vRest.x) < 0.25) a_r = 1.0;
       if (abs(vRest.x) > uRib.z) a_r = 1.0;
-      a_h += a_r * uRib.w * sin((abs(vRest.x) > uRib.z ? atan(vRest.z, vRest.y) * 40.0 : a_ang * 70.0));
+      a_h += a_r * uRib.w * sin((abs(vRest.x) > uRib.z ? atan(vRest.z, vRest.y) * 24.0 : a_ang * 36.0));
     }
     vec2 a_d = vec2(dFdx(a_h) / max(length(dFdx(a_sp)), 1e-6), dFdy(a_h) / max(length(dFdy(a_sp)), 1e-6));
     normal = a_perturb(a_sp, normal, clamp(a_d, -1.5, 1.5), faceDirection);
@@ -246,7 +246,7 @@ function layerFor(spec, J, reg, p) {
   if (bottom && bottom.type === "trousers") {
     if (reg === "thigh" || reg === "calf") return 2;
     if (reg === "hip") return 2;
-    if (reg === "torso" && p.y < waistY && !(top && top.untucked)) return 2;
+    if (reg === "torso" && p.y < (top && top.untucked ? hemY : waistY)) return 2;
   }
   if (spec.skirt && (reg === "hip" || (reg === "torso" && p.y < waistY))) return 9;
   if (spec.skirt && reg === "thigh" && p.y > spec.skirtHemY + 0.035) return 9;    // inside the skirt: never seen, never pokes through
@@ -451,16 +451,18 @@ function tailor(geo, ids, regions, J, opt) {
     const span = Math.round(opt.drape / YB);
     for (let yb = 0; yb < NY; yb++) for (let tb = 0; tb < TB; tb++) {
       let m = 0;
-      for (let k = 0; k <= span && yb + k < NY; k++) m = Math.max(m, rm[(yb + k) * TB + tb] * (1 - 0.15 * k / span));
+      for (let k = 0; k <= span && yb + k < NY; k++) m = Math.max(m, rm[(yb + k) * TB + tb] * (1 - 0.1 * k / span));
       DR[yb * TB + tb] = m;
     }
     for (let i = 0; i < n; i++) {
       if (canon[i] !== i || !isTorso(i)) continue;
       const [tb, yb, r] = bin(i);
       let m = 0, c = 0;
-      for (let k = -4; k <= 4; k++) for (let j = -2; j <= 2; j++) {
+      for (let j = -2; j <= 2; j++) {   // max across nearby angles (fills the hollow between chest mounds), mean across heights
         const yy = Math.max(0, Math.min(NY - 1, yb + j));
-        const d = DR[yy * TB + ((tb + k + TB) % TB)]; if (d) { m += d; c++; }
+        let mx = 0;
+        for (let k = -3; k <= 3; k++) mx = Math.max(mx, DR[yy * TB + ((tb + k + TB) % TB)] * (1 - 0.01 * Math.abs(k)));
+        if (mx) { m += mx; c++; }
       }
       if (!c || r < 1e-4) continue;
       const y = P[i * 3 + 1];
@@ -684,51 +686,6 @@ function ringGarment(body, J, regionsP, { top, bottom, flare = 1.15, pleats = 0,
   return g;
 }
 
-// Shirt/blouse collar: a stand band and a turned-down leaf around the neck, open at the front.
-function collarGeo(body, J, { y, gap = 0.5, stand = 0.03, leaf = 0.035, zc }) {
-  const P = body.geometry.attributes.position;
-  const TB = 64;
-  const r = new Float32Array(TB);
-  for (let i = 0; i < P.count; i++) {
-    const py = P.getY(i);
-    if (Math.abs(py - y) > 0.015 || Math.abs(P.getX(i)) > 0.12) continue;
-    const a = Math.atan2(P.getZ(i) - zc, P.getX(i));
-    const tb = ((Math.floor((a + Math.PI) / (2 * Math.PI) * TB) % TB) + TB) % TB;
-    r[tb] = Math.max(r[tb], Math.hypot(P.getX(i), P.getZ(i) - zc));
-  }
-  const mean = r.reduce((s, x) => s + x, 0) / Math.max(1, r.filter((x) => x).length);
-  for (let b = 0; b < TB; b++) if (!r[b]) r[b] = mean;
-  const bones = body.skeleton.bones.map((b) => b.name);
-  const nI = bones.indexOf("neck_01"), sI = bones.indexOf("spine_03");
-  const pos = [], skI = [], skW = [], fold = [], idx = [];
-  const seg = 48, rowsY = [[0, 0.004, 0.9], [stand, 0.006, 0.6], [stand + 0.004, 0.012, 0.5], [stand - leaf, 0.03, 0.2]];
-  for (let c = 0; c <= seg; c++) {
-    const u = c / seg;
-    const a = Math.PI / 2 + gap / 2 + u * (2 * Math.PI - gap);
-    const tb = ((Math.floor((a + Math.PI) / (2 * Math.PI) * TB) % TB) + TB) % TB;
-    const front = Math.max(0, Math.sin(a));             // the collar sits lower at the front
-    for (const [dy, dr, wn] of rowsY) {
-      const rad = r[tb] + dr;
-      pos.push(Math.cos(a) * rad, y + dy - front * 0.025, zc + Math.sin(a) * rad);
-      skI.push(nI, sI, 0, 0); skW.push(wn, 1 - wn, 0, 0);
-      fold.push(20, 20, 20);
-    }
-  }
-  const R = rowsY.length;
-  for (let c = 0; c < seg; c++) for (let k = 0; k < R - 1; k++) {
-    const a = c * R + k, b = (c + 1) * R + k;
-    idx.push(a, a + 1, b, b, a + 1, b + 1);
-  }
-  const g = new THREE.BufferGeometry();
-  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
-  g.setAttribute("skinIndex", new THREE.Uint16BufferAttribute(skI, 4));
-  g.setAttribute("skinWeight", new THREE.Float32BufferAttribute(skW, 4));
-  g.setAttribute("fold", new THREE.Float32BufferAttribute(fold, 3));
-  g.setIndex(idx);
-  g.computeVertexNormals();
-  return g;
-}
-
 function foldVec(reg) {
   if (reg === "arm") return [13, 4, 4];       // compression rings around the sleeve
   if (reg === "thigh" || reg === "calf") return [4, 9, 4];
@@ -882,7 +839,7 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
     regions[i] = regionOf(bones[best].name);
   }
   physique(src, regions, J, bodyKey === "M" ? { arm: 0.86, leg: 0.95, bulge: 0.3, chest: 0.8, ...(spec.physique || {}) }
-    : { arm: 0.86, leg: 0.95, bulge: 0.4, chest: 0.94, ...(spec.physique || {}) });
+    : { arm: 0.86, leg: 0.95, bulge: 0.4, chest: 0.84, ...(spec.physique || {}) });
   const BODY = { geometry: src, skeleton: body.skeleton };
   if (spec.skirt) spec.skirtHemY = { knee: J.calf_l.y - 0.025, calf: J.calf_l.y - 0.2, mini: J.calf_l.y + 0.12 }[spec.skirt.length || "knee"];
   const idx = src.index.array;
@@ -919,13 +876,26 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
   if (spec.top) {
     const { geo, ids } = cutLayer(src, triLayer, 1);
     withFold(geo, ids);
+    {   // the top hangs from the pelvis: its hem must not follow the thighs (spread legs would bend it into a V)
+      const SI = geo.attributes.skinIndex, SW = geo.attributes.skinWeight;
+      const names = body.skeleton.bones.map((b) => b.name), pel = names.indexOf("pelvis");
+      for (let i = 0; i < SI.count; i++) for (let k = 0; k < 4; k++) {
+        if (!/^thigh/.test(names[SI.getComponent(i, k)] || "")) continue;
+        const w = SW.getComponent(i, k);
+        let put = -1;
+        for (let m = 0; m < 4; m++) if (SI.getComponent(i, m) === pel) put = m;
+        if (put >= 0) { SW.setComponent(i, put, SW.getComponent(i, put) + w); SW.setComponent(i, k, 0); }
+        else { SI.setComponent(i, k, pel); }
+      }
+    }
     const tt = spec.top.type;
     tailor(geo, ids, regions, J, {
       arms: true, legs: false, circ: 0.75, tube: bodyKey === "M" ? 1.08 : 1.04, slim: bodyKey === "M" ? 0.93 : 0.96, ease: tt === "jacket" ? 0.012 : 0.006, sleeveLoose: tt === "sweater" ? 0.9 : 0.85, legFlare: 1,
-      drape: bodyKey === "F" ? 0.2 : 0.2, tuckY: spec.top.untucked || tt === "jacket" ? null : J.spine_01.y - 0.04, neckY: J.neck_01.y - 0.03,
+      drape: tt === "sweater" || tt === "jacket" ? 0.34 : 0.2, tuckY: spec.top.untucked || tt === "jacket" ? null : J.spine_01.y - 0.04, neckY: J.neck_01.y - 0.03,
       smooth: 10, offset: tt === "jacket" ? 0.016 : tt === "sweater" ? 0.012 : 0.009, hem: true,
     });
-    const rib = tt === "sweater" ? [J.spine_01.y - 0.07, J.spine_01.y - 0.01, J.hand_l.x - 0.09, 0.0012] : null;
+    const hemAt = spec.top.untucked ? J.pelvis.y - (spec.top.hemDrop ?? 0) : J.spine_01.y - 0.02;
+    const rib = tt === "sweater" ? [hemAt - 0.01, hemAt + 0.05, J.hand_l.x - 0.09, 0.0008] : null;
     const vee = tt === "jacket" ? { y0: J.spine_02.y - 0.02, y1: J.neck_01.y - 0.03, w: 0.045, z: J.spine_02.z + 0.03, color: C.shirt, tie: C.tie } : null;
     meshes.top = addSkinned(geo, clothMaterial(C.top, { rough: tt === "jacket" ? 0.78 : 0.9, fold: tt === "sweater" ? 0.004 : 0.006, rib, inner: true, vee }));
     if (tt === "blouse" || tt === "shirt" || tt === "jacket") {
