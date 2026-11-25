@@ -4,11 +4,16 @@
     python3 scripts/gates.py episodes/<ep> pass <stage> --by <담당> --evidence "<근거: 파일·보고 요약>"
     python3 scripts/gates.py episodes/<ep> fail <stage> --by <담당> --evidence "<무엇이 미달인지>"
     python3 scripts/gates.py episodes/<ep> waive "<parity 항목>" --by 사람 --reason "<이유>"   # 사람이 정한 예외만 → data/exceptions.json
+    python3 scripts/gates.py episodes/<ep> todo <stage> P0|P1 "<고칠 것>" --owner <담당> [--src <검수 파일>]   # 미달 항목 하나 등록
+    python3 scripts/gates.py episodes/<ep> done <stage> <번호> --by <확인한 검수> --evidence "<무엇으로 확인>"   # 고쳐졌음(검수가 확인)
 
 장부: episodes/<ep>/data/gates.json. 규칙:
 - 앞 관문(REQUIRES)이 통과 상태가 아니면 pass 를 거부한다.
 - 자동 확인이 있는 관문은 pass 전에 확인한다(사실 수, parity 영역, 렌더 파일). 실패면 거부.
 - 대본(data/script.txt)이 바뀌면 그 뒤 관문은 "다시 필요"로 보인다(통과 당시 대본 해시와 비교).
+- fail 뒤 고칠 것은 todo 로 하나씩 등록하고, 검수가 확인하면 done 으로 닫는다(2026-11-25 회고: 미달 뒤 사흘 동안
+  어느 항목이 고쳐졌는지 장부에 없어 다시 판정하지 못했다). 열린 P0 가 있으면 그 관문은 pass 를 거부한다.
+  장부 보기는 열린 항목 수와 마지막 미달 뒤 지난 날수를 보여 준다.
 - waive 는 사람 결정만 기록한다(--by 사람). 기록은 data/exceptions.json(parity_check 와 같은 파일)에 가고,
   parity 는 그 행을 "⚪ 예외"로 표시한다. 판정자는 예외가 있는 영역을 최고 "근접"으로 본다.
 """
@@ -115,6 +120,10 @@ def auto_check(ep, g, name):
     return probs
 
 
+def open_todos(g, name=None):
+    return [(i, x) for i, x in enumerate(g.get("todos", []), 1) if not x.get("done") and (name is None or x["stage"] == name)]
+
+
 def show(ep, g):
     print(f"\n관문 장부 — {ep.name} (대본 해시 {script_hash(ep)})\n")
     print("| 관문 | 내용 | 담당 → 검수 | 상태 | 근거 |\n|---|---|---|---|---|")
@@ -125,6 +134,17 @@ def show(ep, g):
         print(f"| {name} | {label} | {who} | {st} | {ev[:60]} |")
         if nxt is None and st != "통과" and all(state(ep, g, r) == "통과" for r in REQUIRES[name]):
             nxt = name
+    todo = open_todos(g)
+    if todo:
+        print(f"\n열린 고칠 것 {len(todo)}개(P0 {sum(x['prio'] == 'P0' for _, x in todo)}):")
+        for i, x in todo:
+            print(f"- #{i} [{x['stage']} {x['prio']}] {x['what']} — {x.get('owner', '')} ({x['date']}{', ' + x['src'] if x.get('src') else ''})")
+    for name, _, _ in STAGES:
+        st = g["stages"].get(name) or {}
+        if st.get("status") == "fail":
+            days = (datetime.date.today() - datetime.date.fromisoformat(st["date"])).days
+            if days >= 1:
+                print(f"\n주의: {name} 미달({st['date']}) 뒤 {days}일 — 고친 뒤 다시 검수·판정했는가?")
     exc = exceptions(ep)
     if exc:
         print("\n사람이 정한 예외(data/exceptions.json):")
@@ -155,6 +175,22 @@ def main():
         d["exceptions"] = [e for e in d["exceptions"] if e["item"] != item] + [{"item": item, "reason": reason, "decided": today}]
         f.write_text(json.dumps(d, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         return print(f"예외 기록: {item} → {f.relative_to(HERE)}")
+    if cmd == "todo":
+        if len(a) < 5 or a[2] not in NAMES or a[3] not in ("P0", "P1"):
+            raise SystemExit("todo <stage> P0|P1 \"<고칠 것>\" --owner <담당> [--src <검수 파일>]")
+        g.setdefault("todos", []).append({"stage": a[2], "prio": a[3], "what": a[4], "owner": opt("--owner"),
+                                          "src": opt("--src"), "date": today})
+        save(ep, g)
+        return print(f"#{len(g['todos'])} 등록: [{a[2]} {a[3]}] {a[4]}")
+    if cmd == "done":
+        if len(a) < 4 or not a[3].isdigit() or not (1 <= int(a[3]) <= len(g.get("todos", []))):
+            raise SystemExit("done <stage> <번호> --by <확인한 검수> --evidence \"<근거>\"")
+        x = g["todos"][int(a[3]) - 1]
+        if not opt("--by") or not opt("--evidence"):
+            raise SystemExit("--by <확인한 검수> --evidence \"<근거>\" 가 필요하다")
+        x.update(done=today, by=opt("--by"), evidence=opt("--evidence"))
+        save(ep, g)
+        return print(f"#{a[3]} 닫음: {x['what']}")
     if cmd not in ("pass", "fail") or len(a) < 3 or a[2] not in NAMES:
         raise SystemExit(f"관문 이름: {', '.join(NAMES)}")
     name, by, ev = a[2], opt("--by"), opt("--evidence")
@@ -166,6 +202,9 @@ def main():
             raise SystemExit(f"거부: 앞 관문이 통과 상태가 아니다 → {', '.join(missing)}")
         if name in ("plan", "script") and by != "사람" and "사람" not in ev:
             raise SystemExit(f"거부: {name} 관문은 사람 승인이 필요하다(--by 사람, 또는 근거에 사람 승인 기록)")
+        p0 = [f"#{i} {x['what']}" for i, x in open_todos(g, name) if x["prio"] == "P0"]
+        if p0:
+            raise SystemExit("거부: 열린 P0 가 있다(검수가 확인한 뒤 done)\n- " + "\n- ".join(p0))
         probs = auto_check(ep, g, name)
         if probs:
             raise SystemExit("거부: 자동 확인 실패\n- " + "\n- ".join(probs))

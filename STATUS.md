@@ -1,28 +1,32 @@
-# 현재 상태와 다음 할 일 (2026-11-21 기준)
+# 현재 상태와 다음 할 일 (2026-11-25 기준)
 
 새 세션·다른 계정에서 이어 갈 때 이 파일부터 읽는다. 설치는 `docs/SETUP.md` (`bash scripts/setup.sh`, 끝에 "결과: 모두 같음 ✓").
 
 > **ep02 는 한 세션에서만 만든다(사람 결정 2026-11-21).** 다른 세션은 ep02 파일을 고치지 않는다 — 공용 도구만 고치고 main 에 합칠 때 ep02 는 최신 진행 쪽을 유지한다.
 
 ## 바로 다음 할 일 (ep02 마쓰바세 제작 중 — 관문 `python3 scripts/gates.py episodes/ep02-matsubase`)
-회고 두 편(2026-11-21, 같은 날 두 세션): `docs/retros/2026-11-21-harness.md`(팀 7개, 렌더 부담: 18분 편 약 8~9시간 추정 → 그 회고 6번), `docs/retros/2026-11-21-teams-gates.md`(관문 장부·파일럿·블라인드 비교). 팀 `docs/teams.md`.
+최신 회고: `docs/retros/2026-11-25-harness.md`(파일럿 1차 미달 뒤 사흘, 다시 판정 0번). 그 전: `2026-11-21-harness.md`, `2026-11-21-teams-gates.md`. 팀 `docs/teams.md`.
 
-현재: plan ✅ · facts ✅ · script ✅(사람 승인) · design ✅(3차) · archive 자료 40장(Commons 사진 5개는 429 로 보류) · **pilot 진행 중** — 처음 38초 샘플 렌더 완료(화면 변화율 100%, 컷 중앙값 3.4초; 귤 망·지도 자막 고칠 것).
-장면 파일은 담당별로 나눈다: `scenes_archive.py`(기록), `scenes_<세트>.py`(3D), `scenes_diagram.py`(도식) → `scenes.py` 끝에서 import. 렌더는 CPU 라 38초에 43분 → 긴 구간은 `scripts/render_chunks.py`.
-1. **design 다시:** storyboard-director 에게 `episodes/ep02-matsubase/data/review-design-1.md`(visual-critic P0 1·P1 24)대로
-   `SPEC.md`·`data/shots.json` 을 고치게 하고 → visual-critic(설계 검토 모드) 재검토 → P0 0 이면
-   `gates.py ... pass design --by visual-critic --evidence "..."`. (2026-11-21 storyboard-director 가 고치던 중 사용량 제한으로 멈춤 — SPEC.md 는 일부만 반영된 상태로 커밋됨. 이어서 고칠 때 review-design-1.md 항목마다 반영 여부부터 확인한다.)
-2. **archive:** archive-researcher 에게 SPEC 의 요청 R1~R9(판결문·결정문 지면은 실명 줄을 **파일 자체에서** 잘라 냄) + shots.json 핵심 장면 12.
-   - 사람 결정(2026-11-22): 레퍼런스 프레임은 봇 확인으로 여전히 막힘 → **나중에 다시 자동 시도.** 그때까지 파일럿은 화면 검수(기준표)와 렌더 실측으로만 판정하고, 블라인드 비교는 "보류", 화면 영역은 최고 "근접".
-3. **pilot:** 0~137초(hook~calendar) + 판정용 시험 컷 6개. 세트 room·outside·home(+시험 컷: police·vault·knife). 직전에 레퍼런스 수집 재시도
-   (`python3 scripts/benchmark.py @unlock_kr --all-storyboards` → `scripts/blind_sheet.py`). 봇 확인이면 사용자에게 다시 묻는다.
-4. **내레이션 — 사람 결정(2026-11-21): 맨 마지막 작업으로 한다.** 그때까지 모든 시각은 읽기 속도 기준이다.
-   마지막에: 사용자에게 녹음(m4a) 받기(새 환경이면) → `voice_local.py setup` → `ref <파일>` → `voice.py pack` → `voice_local.py gen`(314줄, CPU 약 3시간)
-   → `voice.py import` → `build_script.py`·`build.py`(시각이 음성에 맞춰짐) → **editor 가 싱크·판 교체 간격(8초) 다시 확인** → 렌더.
-   그래서 파일럿 판정의 소리 영역은 "미달(사람 결정 대기)"로 두고 화면·대본·사실만 본다. 시험 3줄은 만들어 보냈고 사용자 확인 전.
-5. **음악:** 사용자가 나중에 정함 → 정하기 전까지 sound 는 미달로 남는다.
-6. 업로드 직전: facts F204(최고재판소 결과) 다시 확인, F29(이름 읽기)는 확인 못 하면 "미야타 씨"만(대본은 이미 그렇게 씀).
+현재: plan·facts·script·design·archive ✅ · **pilot 미달(11-22 1차)** → 지적(P0 4·P1 21, `data/review-pilot-1.md`·`judge-pilot-1.md`) 수정 대부분 커밋됨,
+기록 장면 `feb5_change` 를 record_insert 로 바꾸는 중(174fe8b). 레퍼런스 프레임은 11-22 에 받음(464장, `reference-pack.json`) — 블라인드 비교 가능.
+장면 파일은 담당별: `scenes_archive.py`(기록), `scenes_<세트>.py`(3D), `scenes_diagram.py`(도식) → `scenes.py` 끝에서 import.
+새 환경은 먼저 `bash scripts/setup.sh`(자산 캐시 없으면 check·렌더가 missing asset 으로 실패).
+1. **파일럿 지적 등록:** 25개를 `gates.py episodes/ep02-matsubase todo pilot P0|P1 "<항목>" --owner <담당> --src data/review-pilot-1.md` 로 넣고,
+   이미 고친 것은 visual-critic 이 확인한 뒤 `done`. 중간 저장 커밋에는 열린 todo 번호를 적는다.
+2. **파일럿 2차:** 0~137초 + 시험 컷 6개 다시 렌더(`render_chunks.py episodes/ep02-matsubase range pilot2 ...`, 구간 check 는 `render_chunks.py ... check`)
+   → visual-critic 렌더 검수 → `scripts/blind_sheet.py` → parity-judge. 동급이면 `pass pilot`, 아니면 `fail pilot` + todo.
+3. scenes 전: archive-researcher 가 Commons 장소 사진 재조회, 없으면 `shots.json` `no_photo_reason` 확정. film 키트에 옷 입은 인물 기본 자산.
+4. **내레이션 — 사람 결정(2026-11-21): 맨 마지막 작업.** 그때까지 시각은 읽기 속도 기준.
+   마지막에: 녹음(m4a) → `voice_local.py setup` → `ref <파일>` → `voice.py pack` → `voice_local.py gen`(314줄, CPU 약 3시간)
+   → `voice.py import` → `build_script.py`·`build.py` → **editor 가 싱크·판 교체 간격 다시 확인** → 렌더. 그때까지 소리 영역은 "미달(사람 결정 대기)".
+5. **음악:** 사용자가 나중에 정함.
+6. 업로드 직전: facts F204(최고재판소 결과) 다시 확인, F29(이름 읽기)는 확인 못 하면 "미야타 씨"만.
 7. ep01 남은 일(급하지 않음): 렌더, 보관소 장면 film 키트로, 담배 인서트, facts.md 를 사실 ID 표로.
+
+## 2026-11-25: 벤치마킹 범위 변경 + 회고
+- 사용자 지시: 대본·썸네일·그래픽의 스타일·공식·포맷을 레퍼런스와 똑같이(CLAUDE.md 규칙 1, `docs/originality.md`). 글자 그대로 옮긴 문장·원본 파일·채널명만 금지. 빨강 허용, 썸네일 `bench_hash` 6 미만만 "베낌".
+- 회고(`docs/retros/2026-11-25-harness.md`): 관문 장부에 고칠 것 목록(`gates.py todo/done`, 열린 P0 면 pass 거부, 미달 뒤 날수 경고),
+  구간 check(`render_chunks.py check`), set-builder 파일럿 점검표. 사람에게 물을 것: 대표색(제안: ep02 앰버 유지, ep03 부터 결정), 팀원 동시 실행 수.
 
 ## 2026-11-21: ep02 진행 기록
 - 사실: `data/facts.md` F01~F224(1차 자료: 재심 판결 2019, 고법 결정 2017, 국가배상 1심 2025·2심 2026 — courts.go.jp), source-verifier 원문 대조 2회(불합격 → 합격).
@@ -89,10 +93,12 @@
 2. 사진이 없는 사건의 썸네일 이미지: AI 생성 이미지(HeyGen, 유료 크레딧) 사용 여부.
 3. (완료) 2편 기획안·대본 승인.
 4. 1978 일본 해변 연인(북한 납치)을 이 채널에서 다룰지, 사후 얼굴 사진(서머턴 맨)을 본편에 쓸지.
+5. (2026-11-25 회고) 대표색을 빨강으로 바꿀지 — 제안: ep02 는 앰버로 끝내고 ep03 부터.
+6. (2026-11-25 회고) 세트 담당 등 팀원을 한 번에 2명까지만 돌릴지(사용량 제한으로 5번 멈춤).
 
 ## 다음 순서 (사건이 정해지면)
 `/make-episode`(관문: plan → facts → script → design → archive → **pilot** → scenes → sound → render → thumbnail·meta → judge, `scripts/gates.py`) → 사람이 업로드.
 
 ## 알아 둘 것
 - 클라우드 세션은 재시작되면 커밋하지 않은 파일이 사라진다. 결과물은 만들 때마다 커밋한다. 캐시는 `bash scripts/setup.sh` 로 복구된다.
-- 유튜브 개별 영상 페이지는 봇 확인이 뜬다(우회하지 않음). 채널 목록·썸네일 이미지는 공개 경로로 받는다(`scripts/fetch_benchmark.py`).
+- 유튜브 개별 영상 페이지는 봇 확인이 뜬다 → yt-dlp 표준 옵션(JS 실행기·플레이어 클라이언트, CLAUDE.md 4번)으로 11-22 에 받았다. 쿠키·남의 계정·프록시는 쓰지 않는다. 채널 목록·썸네일 이미지는 공개 경로(`scripts/fetch_benchmark.py`).

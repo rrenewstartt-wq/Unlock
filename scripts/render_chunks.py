@@ -4,6 +4,7 @@
     python3 scripts/render_chunks.py episodes/<ep> render [N ...]  # 아직 없는 구간(또는 N번)만 렌더 → renders/chunks/NN.mp4
     python3 scripts/render_chunks.py episodes/<ep> join            # 이어 붙이기 → renders/<ep>.mp4 (+ 길이 확인)
     python3 scripts/render_chunks.py episodes/<ep> range <dir> <이름> <시작> <끝> [...]   # 임의 구간(파일럿·시험 컷) → renders/<dir>/<이름>.mp4
+    python3 scripts/render_chunks.py episodes/<ep> check [N ...]   # 구간마다 hyperframes check(전체 페이지 check 는 메모리 부족으로 죽음)
     HF_RENDER_ARGS="--low-memory-mode" python3 scripts/render_chunks.py ...   # render 에 옵션 더하기(램 8GB: 작업자 1개)
 
 왜: 이 하네스의 3D(film 키트)는 4코어·GPU 없음에서 영상 1초에 약 45초, 도식은 약 23초가 걸린다(2026-11-21 실측).
@@ -111,6 +112,20 @@ def main():
             err = render_one(ep, s, e, dst)
             if err:
                 sys.exit(f"{i:02d} {err}")
+    elif a[1] == "check":
+        skip = {a.index("--max") + 1} if "--max" in a else set()
+        want = [int(x) for i, x in enumerate(a[2:], 2) if x.isdigit() and i not in skip] or range(len(chunks))
+        bad = []
+        for i in want:
+            s, e = chunks[i]
+            print(f"{i:02d} check {s:.2f}~{e:.2f}", flush=True)
+            with windowed(ep, s, e):
+                r = subprocess.run(HF + ["check"], cwd=ep)
+            if r.returncode != 0:
+                bad.append(i)
+        print(f"check: {len(want) - len(bad)}/{len(want)} 구간 통과" + (f", 실패 {bad}" if bad else ""))
+        if bad:
+            sys.exit(1)
     elif a[1] == "join":
         files = [out / f"{i:02d}.mp4" for i in range(len(chunks))]
         missing = [f.name for f in files if not f.exists()]
