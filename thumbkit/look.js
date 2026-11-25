@@ -115,8 +115,11 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 20, dens
   light.shadow.bias = -0.0004;
   light.shadow.normalBias = 0.003;
   light.shadow.radius = 3;
-  light.shadow.camera.near = Math.max(0.5, d - 60);
-  light.shadow.camera.far = d + 60;
+  // depth range just around the lit area: a near plane at 0.5 m with a sun 45 m away spends the depth precision on empty
+  // air and the bias then erases small props' shadows (door knob, lab-look 2026-11-25, set-builder report)
+  const span = Math.max(size, 6);
+  light.shadow.camera.near = Math.max(0.5, d - span);
+  light.shadow.camera.far = d + span;
 
   light.updateMatrixWorld(); light.target.updateMatrixWorld();
   light.shadow.updateMatrices(light);
