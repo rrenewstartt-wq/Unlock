@@ -72,7 +72,7 @@ export const KINDS = {
     colors: { skin: SKIN, hair: "#1f1b18", top: "#4a4a4c", bottom: "#2e2d2b", shoes: "#151311" } },
   // Man: suit jacket over a shirt, trousers.
   man_jacket: { body: "M", scale: 0.97, hair: "short", top: { type: "jacket", sleeve: "long", untucked: true, hemDrop: 0.075 }, bottom: { type: "trousers" },
-    colors: { skin: SKIN, hair: "#1b1816", top: "#38383a", shirt: "#c4c1ba", tie: "#3a3533", bottom: "#38383a", shoes: "#141210" } },
+    colors: { skin: SKIN, hair: "#1b1816", top: "#4a4741", shirt: "#c4c1ba", tie: "#3a3533", bottom: "#2c2b29", shoes: "#141210" } },
 };
 
 const HAIR = {
@@ -923,7 +923,7 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
       smooth: 10, offset: tt === "jacket" ? 0.016 : tt === "sweater" ? 0.012 : 0.009, hem: true,
     });
     const rib = tt === "sweater" ? [J.spine_01.y - 0.07, J.spine_01.y - 0.01, J.hand_l.x - 0.09, 0.0012] : null;
-    const vee = tt === "jacket" ? { y0: J.spine_02.y + 0.05, y1: J.neck_01.y - 0.02, w: 0.07, z: J.spine_02.z + 0.03, color: C.shirt, tie: C.tie } : null;
+    const vee = tt === "jacket" ? { y0: J.spine_02.y + 0.0, y1: J.neck_01.y - 0.03, w: 0.06, z: J.spine_02.z + 0.03, color: C.shirt, tie: C.tie } : null;
     meshes.top = addSkinned(geo, clothMaterial(C.top, { rough: tt === "jacket" ? 0.78 : 0.9, fold: tt === "sweater" ? 0.004 : 0.006, rib, inner: true, vee }));
     if (tt === "blouse" || tt === "shirt" || tt === "jacket") {
       const loops = (geo.userData.loops || []).map((l) => ({ l, y: l.reduce((s, i) => s + geo.attributes.position.getY(i), 0) / l.length }));
@@ -943,7 +943,7 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
     meshes.bottom = addSkinned(geo, clothMaterial(C.bottom, { rough: 0.86, fold: 0.006, inner: true }));
     if (!(spec.top && spec.top.untucked)) {   // waistband / belt over the tucked-in seam
       const wy = J.spine_01.y - 0.02;
-      const bg = ringGarment(BODY, J, regions, { top: wy + 0.022, bottom: wy - 0.018, rows: 2, seg: 96, band: 0.017, thick: 0.004 });
+      const bg = ringGarment(BODY, J, regions, { top: wy + 0.034, bottom: wy - 0.016, rows: 2, seg: 96, band: 0.017, thick: 0.004 });
       bg.attributes.fold.array.fill(2);
       meshes.belt = addSkinned(bg, clothMaterial(C.belt || C.bottom, { rough: C.belt ? 0.5 : 0.86, fold: 0, tone: 0.04 }));
     }
@@ -1016,7 +1016,8 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
   const head = scene.getObjectByName("Head");
   const hair = await hairMesh(spec.hair, head, C.hair, bodyKey);
   if (hair) head.add(hair);
-  // less "superhero": narrower chest (same trick as figures.js)
+  // less "superhero": narrower shoulders (shorter clavicles) and chest (same trick as figures.js)
+  for (const sd of ["l", "r"]) scene.getObjectByName(`upperarm_${sd}`).position.multiplyScalar(bodyKey === "M" ? 0.82 : 0.9);
   const sp3 = scene.getObjectByName("spine_03");
   sp3.scale.setScalar(0.94);
   scene.getObjectByName("neck_01").scale.setScalar(1 / 0.94);

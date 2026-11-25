@@ -175,7 +175,7 @@ export function createLookStreet(stage, opts = {}) {
     // brass knob: rosette, neck, ball, keyhole (lathe)
     const prof = [[0, 0], [0.033, 0], [0.034, 0.003], [0.031, 0.007], [0.02, 0.012], [0.01, 0.016], [0.009, 0.036], [0.017, 0.044], [0.027, 0.058],
       [0.029, 0.074], [0.024, 0.09], [0.012, 0.099], [0, 0.101]].map(([r, y]) => new THREE.Vector2(r, y));
-    const brass = new THREE.MeshStandardMaterial({ color: "#b58a46", metalness: 1, roughness: 0.3, envMap: S.environment, envMapIntensity: 0.55 });
+    const brass = new THREE.MeshStandardMaterial({ color: "#b58a46", metalness: 1, roughness: 0.24, envMap: S.environment, envMapIntensity: 0.7 });
     const knob = new THREE.Mesh(new THREE.LatheGeometry(prof, 48), brass);
     knob.rotation.x = Math.PI / 2;
     knob.position.set(KNOB[0], KNOB[1], dz + 0.045 + 0.0225);
@@ -261,13 +261,16 @@ export function createLookStreet(stage, opts = {}) {
 
     // ---------------------------------------------------------------- light: one low sun (moon at night) through leaves
     if (night) {
-      f.sun({ azimuth: -38, elevation: 30, target: [-0.5, 3.4, -1], size: 13, leaves: { density: 0.5, leaf: 0.3, sway: 0.03, seed: 11, soft: 0.014, res: 2048 } });
+      f.sun({ azimuth: -38, elevation: 30, target: [-0.5, 3.4, -1], size: 13, leaves: { density: 0.5, leaf: 0.3, sway: 0.03, seed: 11, soft: 0.012 } });
       // the window's own faint light spilling on the sill
       const p = new THREE.PointLight("#b8c4d6", 0.6, 3, 2);
       p.position.set(WINDOW2[0], WINDOW2[1], -0.7);
       S.add(p);
     } else {
-      f.sun({ azimuth: -52, elevation: 24, target: [0.5, 1.6, -0.5], size: 17, leaves: { density: 0.55, leaf: 0.34, sway: 0.03, seed: 5, soft: 0.018, res: 2048 } });
+      // wide pattern for the aerial; close cuts use a tighter one around the entrance (finer leaf edges)
+      const wide = opts.cut === "aerial";
+      f.sun({ azimuth: -52, elevation: 24, target: wide ? [0.5, 1.6, -0.5] : [1.2, 1.4, -0.8], size: wide ? 17 : 10,
+        leaves: { density: 0.55, leaf: 0.34, sway: 0.03, seed: 5, soft: 0.012, lit: [[...KNOB, 0.16]] } });
     }
 
     // ---------------------------------------------------------------- walker (follow cut): a figure with a minimal stride

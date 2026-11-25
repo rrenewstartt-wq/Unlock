@@ -84,7 +84,7 @@ export function rng(seed = 1) {
 // doors and the ground get dappled leaf shadows. The canopy is drawn on a canvas from a fixed seed; sway moves each
 // branch by a sine of t, so the pattern is a pure function of t. size: metres of the pattern across at the target.
 export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, density = 0.55, leaf = 0.32, sway = 0.025,
-  soft = 0.035, seed = 3, bias = 0, intensity = null, color = null, dist = 45, res = 1024, swayHz = 0.35 } = {}) {
+  soft = 0.02, seed = 3, bias = 0, intensity = null, color = null, dist = 45, res = 2048, swayHz = 0.35, lit = [] } = {}) {
   const preset = f.lookSun || {};
   let light = sun && sun.isSpotLight ? sun : null;
   if (!light) {
@@ -106,6 +106,13 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, dens
   light.shadow.camera.near = Math.max(0.5, d - 60);
   light.shadow.camera.far = d + 60;
 
+  // lit: [[x, y, z, r], ...] world points kept in sun (a gap in the canopy) — put the hero in a patch of light
+  light.updateMatrixWorld(); light.target.updateMatrixWorld();
+  light.shadow.updateMatrices(light);
+  const holes = lit.map(([hx, hy, hz, hr = 0.3]) => {
+    const v = new THREE.Vector4(hx, hy, hz, 1).applyMatrix4(light.shadow.matrix);
+    return [v.x / v.w * res, (1 - v.y / v.w) * res, hr * res / size];
+  });
   const c = document.createElement("canvas");
   c.width = c.height = res;
   const x = c.getContext("2d");
@@ -149,9 +156,11 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, dens
     for (const b of branches) {
       const ox = sway * px * Math.sin(w * t + b.ph), oy = sway * px * 0.6 * Math.sin(w * 0.73 * t + b.ph2);
       for (const l of b.leaves) {
+        const lx = b.x + ox + l.dx, ly = b.y + oy + l.dy;
+        if (holes.some(([hx, hy, hr]) => (lx - hx) ** 2 + (ly - hy) ** 2 < (hr + l.l * 0.5) ** 2)) continue;
         const fl = 0.18 * Math.sin(w * 1.9 * t + l.ph) * (sway > 0 ? 1 : 0);
         x.save();
-        x.translate(b.x + ox + l.dx, b.y + oy + l.dy);
+        x.translate(lx, ly);
         x.rotate(l.rot + fl);
         x.beginPath();               // pointed leaf: two quadratic arcs
         x.moveTo(-l.l / 2, 0);
