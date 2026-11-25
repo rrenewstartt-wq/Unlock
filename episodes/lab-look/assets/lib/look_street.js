@@ -19,13 +19,37 @@ export const CUTS = {
   approach: { look: "unlock-day", camera: { preset: "approach", target: [DOOR.x, 1.15, DOOR.z], t0: 0, t1: 4, azimuth: 22,
     from: 4.6, to: 2.2, height: 1.35, drift: 0.5, fov: [40, 37], lookHeight: 1.05 } },
   macro: { look: "unlock-day", dof: true, camera: { preset: "macroPush", target: KNOB, t0: 0, t1: 4, azimuth: 38, elevation: 6,
-    from: 0.5, to: 0.3, fov: [30, 27], aperture: 1.8, arc: 7 } },
+    from: 0.5, to: 0.3, fov: [30, 27], aperture: 4.5, arc: 7 } },
   follow: { look: "unlock-day", walker: { from: [DOOR.x - 0.05, 0, 7.4], to: [DOOR.x - 0.05, 0, 1.0] }, camera: { preset: "followBack",
     from: [DOOR.x - 0.05, 0, 7.4], to: [DOOR.x - 0.05, 0, 1.0], t0: 0, t1: 5, back: 1.9, side: 0.38, height: 1.62, lookAhead: 4,
     lookHeight: 1.35, fov: 40 } },
   window: { look: "unlock-night", camera: { preset: "lateralDrift", target: WINDOW2, t0: 0, t1: 5, azimuth: 12, dist: 5.2,
     travel: 1.3, height: 2.7, lead: 0.3, fov: 36 } },
 };
+
+// Smooth wood veneer (long vertical grain, like a modern flush/panel door), drawn from a fixed seed.
+function veneer() {
+  const c = document.createElement("canvas");
+  c.width = 512; c.height = 1024;
+  const x = c.getContext("2d");
+  x.fillStyle = "#7d6450"; x.fillRect(0, 0, 512, 1024);
+  let s = 41;
+  const r = () => ((s = (s * 16807) % 2147483647) / 2147483647);
+  for (let i = 0; i < 900; i++) {
+    const x0 = r() * 512, wv = 0.6 + r() * 2.4, a = 0.04 + r() * 0.12, dark = r() < 0.6;
+    x.strokeStyle = dark ? `rgba(48,34,24,${a})` : `rgba(168,140,112,${a * 0.8})`;
+    x.lineWidth = wv;
+    x.beginPath();
+    const amp = 2 + r() * 6, ph = r() * 6.28, fr = 0.002 + r() * 0.004;
+    for (let y = -10; y <= 1034; y += 16) x.lineTo(x0 + amp * Math.sin(y * fr + ph), y);
+    x.stroke();
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.anisotropy = 8;
+  return new THREE.MeshStandardMaterial({ map: t, roughness: 0.55 });
+}
 
 const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 
@@ -41,15 +65,14 @@ export function createLookStreet(stage, opts = {}) {
       f.clay("block", { tex: "concrete_block_wall", normalScale: 0.8 }),
       f.clay("ground", { tex: "asphalt_04", normalScale: 0.6 }),
       f.clay("concrete", { tex: "brushed_concrete", normalScale: 0.4 }),
-      f.material("dark_wood", { normalScale: 0.5 }),
+      Promise.resolve(veneer()),
     ]);
     const roofM = new THREE.MeshStandardMaterial({ color: CLAY.roof, roughness: 0.75 });
     const trimM = new THREE.MeshStandardMaterial({ color: CLAY.trim, roughness: 0.85 });
     const frameM = new THREE.MeshStandardMaterial({ color: CLAY.frame, roughness: 0.5, metalness: 0.3 });
     const glassM = new THREE.MeshStandardMaterial({ color: CLAY.glass, roughness: 0.08, metalness: 0.0 });
     const glassT = new THREE.MeshStandardMaterial({ color: "#1a1e24", roughness: 0.05, transparent: true, opacity: 0.5 });
-    doorM.color = new THREE.Color().setRGB(2.4, 1.85, 1.45);   // lift the dark red texture to a muted mid brown
-    const vgrain = (m) => { for (const k of ["map", "normalMap", "roughnessMap", "aoMap"]) if (m[k]) { m[k].center.set(0.5, 0.5); m[k].rotation = Math.PI / 2; } return m; };
+    const vgrain = (m) => m;
     const plainWall = new THREE.MeshStandardMaterial({ color: CLAY.wallDark, roughness: 0.95 });
 
     const add = (geo, mat, pos, rot = [0, 0, 0], cast = true) => {
@@ -139,10 +162,10 @@ export function createLookStreet(stage, opts = {}) {
     const dz = DOOR.z;
     box(DOOR.w + 0.16, DOOR.h + 0.08, 0.08, frameM, [DOOR.x, (DOOR.h + 0.08) / 2 + 0.15, dz + 0.02]);       // frame
     const door = new THREE.Group();
-    const slab = new THREE.Mesh(new THREE.BoxGeometry(DOOR.w, DOOR.h, 0.045), vgrain(f.tiled(doorM, 1.0, 0.45)));
+    const slab = new THREE.Mesh(new THREE.BoxGeometry(DOOR.w, DOOR.h, 0.045), vgrain(f.tiled(doorM, 1, 1)));
     door.add(slab);
     for (const [y, h] of [[0.42, 0.62], [-0.42, 0.62]]) {   // two raised panels
-      const p = new THREE.Mesh(new THREE.BoxGeometry(DOOR.w - 0.22, h, 0.012), vgrain(f.tiled(doorM, 0.3, 0.32)));
+      const p = new THREE.Mesh(new THREE.BoxGeometry(DOOR.w - 0.22, h, 0.012), vgrain(f.tiled(doorM, 0.75, 0.31)));
       p.position.set(0, y, 0.027);
       door.add(p);
     }
@@ -150,7 +173,7 @@ export function createLookStreet(stage, opts = {}) {
     door.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
     S.add(door);
     // brass knob: rosette, neck, ball, keyhole (lathe)
-    const prof = [[0, 0], [0.031, 0], [0.032, 0.004], [0.029, 0.011], [0.011, 0.016], [0.009, 0.036], [0.017, 0.044], [0.027, 0.058],
+    const prof = [[0, 0], [0.033, 0], [0.034, 0.003], [0.031, 0.007], [0.02, 0.012], [0.01, 0.016], [0.009, 0.036], [0.017, 0.044], [0.027, 0.058],
       [0.029, 0.074], [0.024, 0.09], [0.012, 0.099], [0, 0.101]].map(([r, y]) => new THREE.Vector2(r, y));
     const brass = new THREE.MeshStandardMaterial({ color: "#b58a46", metalness: 1, roughness: 0.3, envMap: S.environment, envMapIntensity: 0.55 });
     const knob = new THREE.Mesh(new THREE.LatheGeometry(prof, 48), brass);

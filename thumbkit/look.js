@@ -42,7 +42,7 @@ export const LOOKS = {
     film: { hdri: "kloofendal_misty_morning_puresky", envIntensity: 0.16, exposure: 1.0, background: "#2a2f37",
       fog: { color: "#2a2f37", density: 0.006 } },
     sun: { color: "#fff3e2", intensity: 3.4, elevation: 24 },
-    grade: { saturation: 0.2, heroSaturation: 0.6, shadowTint: [-0.02, -0.004, 0.07], tint: [-0.012, 0, 0.022],
+    grade: { saturation: 0.2, heroSaturation: 0.5, shadowTint: [-0.02, -0.004, 0.07], tint: [-0.012, 0, 0.022],
       gamma: 1.3, knee: 0.36, ceiling: 0.58, vignette: 0.62, grain: 0.045, black: 0.0 },
   },
   "unlock-night": { // navy dark, one cool moon/street key through leaves, one window
@@ -233,7 +233,7 @@ export const cam = {
   },
   // Close-up push on a small object (door knob) with shallow focus held on it.
   macroPush({ target = [0, 1, 0], t0 = 0, t1 = 4, azimuth = 30, elevation = 8, from = 0.62, to = 0.36, fov = [30, 28],
-    aperture = 2.0, arc = 6, n = 12 } = {}) {
+    aperture = 4, arc = 6, n = 12 } = {}) {
     const T = V(target);
     return sample(t0, t1, n, (k) => {
       const az = THREE.MathUtils.degToRad(azimuth - arc * k), el = THREE.MathUtils.degToRad(elevation);
@@ -312,7 +312,7 @@ ${DEPTH}
 #define TAPS ${"__TAPS__"}
 void main() {
   float d0 = linDepth(vUv); float k0 = coc(d0); float r0 = abs(k0);
-  vec3 acc = texture2D(tColor, vUv).rgb; float wsum = 1.0; float fg = 0.0;
+  vec3 acc = textureLod(tColor, vUv, 0.0).rgb; float wsum = 1.0; float fg = 0.0;
   float rot = 6.2831 * fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715))));
   for (int i = 0; i < TAPS; i++) {
     float fi = float(i);
@@ -325,7 +325,7 @@ void main() {
     acc += texture2DLodEXT_(tColor, uv, uLod) * w; wsum += w;
     if (d < d0 - 0.05) fg = max(fg, w * smoothstep(1.0, 6.0, rs));
   }
-  gl_FragColor = vec4(acc / wsum, max(smoothstep(0.6, 3.0, r0), fg));
+  gl_FragColor = vec4(acc / wsum, max(smoothstep(1.2, 4.0, r0), fg));   // CoC under ~1 px stays sharp
 }`.replace("texture2DLodEXT_(tColor, uv, uLod)", "textureLod(tColor, uv, uLod).rgb");
 
 const GRADE_FS = `

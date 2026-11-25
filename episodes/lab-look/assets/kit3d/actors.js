@@ -62,17 +62,17 @@ export const KINDS = {
   woman: { body: "F", scale: 0.93, hair: "long", top: { type: "blouse", sleeve: "long" }, skirt: { length: "calf", pleats: 0, flare: 1.22 },
     colors: { skin: SKIN, hair: "#2a211b", top: "#b9b4aa", skirt: "#3d3a36", shoes: "#1d1a17" } },
   // Woman in a cardigan-like sweater and trousers.
-  woman_sweater: { body: "F", scale: 0.93, hair: "buns", top: { type: "sweater", sleeve: "long" }, bottom: { type: "trousers" },
+  woman_sweater: { body: "F", scale: 0.93, hair: "buns", top: { type: "sweater", sleeve: "long", untucked: true }, bottom: { type: "trousers" },
     colors: { skin: SKIN, hair: "#2a211b", top: "#6e6a62", bottom: "#33312e", shoes: "#1d1a17" } },
   // Man: shirt tucked into trousers, belt.
   man_shirt: { body: "M", scale: 0.97, hair: "parted", top: { type: "shirt", sleeve: "long" }, bottom: { type: "trousers", belt: true },
     colors: { skin: SKIN, hair: "#1f1b18", top: "#c9c6bf", bottom: "#34332f", shoes: "#151311", belt: "#1a1714" } },
   // Man: crew-neck sweater over trousers (the investigators in the reference meeting room).
-  man_sweater: { body: "M", scale: 0.97, hair: "parted", top: { type: "sweater", sleeve: "long" }, bottom: { type: "trousers" },
+  man_sweater: { body: "M", scale: 0.97, hair: "parted", top: { type: "sweater", sleeve: "long", untucked: true }, bottom: { type: "trousers" },
     colors: { skin: SKIN, hair: "#1f1b18", top: "#4a4a4c", bottom: "#2e2d2b", shoes: "#151311" } },
   // Man: suit jacket over a shirt, trousers.
-  man_jacket: { body: "M", scale: 0.97, hair: "short", top: { type: "jacket", sleeve: "long" }, bottom: { type: "trousers" },
-    colors: { skin: SKIN, hair: "#1b1816", top: "#38383a", shirt: "#c4c1ba", bottom: "#38383a", shoes: "#141210" } },
+  man_jacket: { body: "M", scale: 0.97, hair: "short", top: { type: "jacket", sleeve: "long", untucked: true, hemDrop: 0.075 }, bottom: { type: "trousers" },
+    colors: { skin: SKIN, hair: "#1b1816", top: "#38383a", shirt: "#c4c1ba", tie: "#3a3533", bottom: "#38383a", shoes: "#141210" } },
 };
 
 const HAIR = {
@@ -96,17 +96,27 @@ vec3 a_perturb(vec3 sp, vec3 n, vec2 d, float fd){
   return normalize(abs(det) * n - sign(det) * (d.x * r1 + d.y * r2)); }
 `;
 
-function clothMaterial(color, { rough = 0.9, fold = 0.006, tone = 0.12, rib = null, sheen = 0, inner = false } = {}) {
-  const m = new THREE.MeshStandardMaterial({ color, roughness: rough, metalness: 0, side: THREE.DoubleSide });
+function clothMaterial(color, { rough = 0.9, fold = 0.006, tone = 0.12, rib = null, sheen = 0, inner = false, vee = null } = {}) {
+  const m = new THREE.MeshStandardMaterial({ color, roughness: rough, metalness: 0, side: THREE.DoubleSide, shadowSide: THREE.BackSide });
   if (sheen) { m.roughness = rough - sheen; }
   m.onBeforeCompile = (sh) => {
     sh.uniforms.uFold = { value: fold };
     sh.uniforms.uTone = { value: tone };
     sh.uniforms.uRib = { value: new THREE.Vector4(...(rib || [0, 0, 0, 0])) };  // (y0, y1, armX, depth)
+    sh.uniforms.uVee = { value: new THREE.Vector4(...(vee ? [vee.y0, vee.y1, vee.w, vee.z] : [0, 0, 0, 0])) };  // open jacket front
+    sh.uniforms.uVeeCol = { value: new THREE.Color(vee ? vee.color : "#ffffff") };
+    sh.uniforms.uTie = { value: new THREE.Color(vee && vee.tie ? vee.tie : "#000000") };
+    sh.uniforms.uTieOn = { value: vee && vee.tie ? 1 : 0 };
     sh.vertexShader = "attribute vec3 fold;\nvarying vec3 vRest;\nvarying vec3 vFold;\n" + sh.vertexShader.replace(
       "#include <begin_vertex>", "#include <begin_vertex>\nvRest = position; vFold = fold;");
-    sh.fragmentShader = "uniform float uFold;\nuniform float uTone;\nuniform vec4 uRib;\nvarying vec3 vRest;\nvarying vec3 vFold;\n" + GLSL_NOISE +
+    sh.fragmentShader = "uniform float uFold;\nuniform float uTone;\nuniform vec4 uRib;\nuniform vec4 uVee;\nuniform vec3 uVeeCol;\nuniform vec3 uTie;\nuniform float uTieOn;\nvarying vec3 vRest;\nvarying vec3 vFold;\n" + GLSL_NOISE +
       sh.fragmentShader.replace("#include <color_fragment>", `#include <color_fragment>
+  if (uVee.z > 0.0 && vRest.z > uVee.w && vRest.y > uVee.x && vRest.y < uVee.y) {
+    float a_hw = (vRest.y - uVee.x) / (uVee.y - uVee.x) * uVee.z;
+    float a_ax = abs(vRest.x);
+    if (a_ax < a_hw) diffuseColor.rgb = (uTieOn > 0.5 && a_ax < 0.016 + (uVee.y - vRest.y) * 0.02 && vRest.y < uVee.y - 0.02) ? uTie : uVeeCol;
+    else if (a_ax < a_hw + 0.006) diffuseColor.rgb *= 0.55;                     // lapel edge
+  }
   float a_n1 = a_vn(vRest * vFold);
   float a_n2 = a_vn(vRest * vFold * 2.3 + 7.1);
   float a_fold = smoothstep(0.15, 0.85, 0.65 * a_n1 + 0.35 * a_n2);            // soft folds
@@ -127,7 +137,7 @@ function clothMaterial(color, { rough = 0.9, fold = 0.006, tone = 0.12, rib = nu
     normal = a_perturb(a_sp, normal, clamp(a_d, -1.5, 1.5), faceDirection);
   }`);
   };
-  m.customProgramCacheKey = () => `actor-cloth-${inner}`;
+  m.customProgramCacheKey = () => `actor-cloth-${inner}-${!!vee}`;
   return m;
 }
 
@@ -233,7 +243,7 @@ function layerFor(spec, J, reg, p) {
   if (spec.legwear && (reg === "calf" || reg === "thigh") && p.y < spec.legwear.top * (J.calf_l.y / 0.535)) return 4;
   if (bottom && bottom.type === "trousers") {
     if (reg === "thigh" || reg === "calf") return 2;
-    if (reg === "hip" && !(top && top.untucked && p.y > hipY - 0.04)) return 2;
+    if (reg === "hip" && !(top && top.untucked && p.y > hipY - (top.hemDrop ?? 0.04))) return 2;
     if (reg === "torso" && p.y < waistY && !(top && top.untucked)) return 2;
   }
   if (spec.skirt && (reg === "hip" || (reg === "torso" && p.y < waistY))) return 9;
@@ -255,6 +265,54 @@ function layerFor(spec, J, reg, p) {
     }
   }
   return 0;
+}
+
+// Physique: the base meshes are superheroes. In the bind pose, pull the limb muscles toward a smooth mean tube
+// (bulge 0 = a plain tube, 1 = as modelled), thin the limbs and flatten the chest a little. Applied to the whole body
+// before the clothes are cut, so skin and cloth agree. Wrists, ankles, shoulders and hips stay where they are.
+function physique(src, regions, J, { arm = 0.9, leg = 0.96, bulge = 0.4, chest = 0.92 } = {}) {
+  const pos = src.attributes.position;
+  const canon = weldMap(pos);
+  const P = Float32Array.from(pos.array);
+  const v = new THREE.Vector3();
+  for (const side of ["l", "r"]) for (const kind of ["arm", "leg"]) {
+    const pts = kind === "arm" ? [J[`upperarm_${side}`], J[`lowerarm_${side}`], J[`hand_${side}`]] : [J[`thigh_${side}`], J[`calf_${side}`], J[`foot_${side}`]];
+    const mine = [];
+    for (let i = 0; i < pos.count; i++) {
+      if (canon[i] !== i || (side === "l") !== (P[i * 3] > 0)) continue;
+      const r = regions[i];
+      if (kind === "arm" ? r !== "arm" : !(r === "thigh" || r === "calf")) continue;
+      v.set(P[i * 3], P[i * 3 + 1], P[i * 3 + 2]);
+      const q = onChain(pts, v);
+      mine.push({ i, s: q.s, c: q.c, r: v.clone().sub(q.c) });
+    }
+    if (!mine.length) continue;
+    const NB = 120, sum = new Float32Array(NB), cnt = new Float32Array(NB);
+    let smax = 0;
+    for (const m of mine) { const b = Math.min(NB - 1, Math.round(m.s / 0.01)); sum[b] += m.r.length(); cnt[b]++; smax = Math.max(smax, m.s); }
+    const mean = new Float32Array(NB);
+    for (let b = 0; b < NB; b++) { let a = 0, c = 0; for (let k = -3; k <= 3; k++) { const j = b + k; if (j >= 0 && j < NB && cnt[j]) { a += sum[j]; c += cnt[j]; } } mean[b] = c ? a / c : 0; }
+    const sc = kind === "arm" ? arm : leg;
+    for (const m of mine) {
+      const b = Math.min(NB - 1, Math.round(m.s / 0.01));
+      const len = m.r.length() || 1e-6;
+      const target = (mean[b] + (len - mean[b]) * bulge) * sc;
+      const w = smooth01(0, kind === "arm" ? 0.09 : 0.14, m.s) * (1 - smooth01(smax - (kind === "arm" ? 0.05 : 0.08), smax, m.s));
+      const k = (len + (target - len) * w) / len;
+      P[m.i * 3] = m.c.x + m.r.x * k; P[m.i * 3 + 1] = m.c.y + m.r.y * k; P[m.i * 3 + 2] = m.c.z + m.r.z * k;
+    }
+  }
+  // chest: less pectoral depth (front only, a bell over the chest height, fading toward the sides)
+  const zc = J.spine_03.z, y0 = J.spine_02.y - 0.06, y1 = J.neck_01.y - 0.04;
+  for (let i = 0; i < pos.count; i++) {
+    if (canon[i] !== i || regions[i] !== "torso") continue;
+    const x = P[i * 3], y = P[i * 3 + 1], z = P[i * 3 + 2];
+    if (z <= zc || y < y0 || y > y1) continue;
+    const bell = Math.sin(Math.PI * (y - y0) / (y1 - y0)) * (1 - smooth01(0.12, 0.2, Math.abs(x)));
+    P[i * 3 + 2] = zc + (z - zc) * (1 - (1 - chest) * bell);
+  }
+  for (let i = 0; i < pos.count; i++) { const c = canon[i]; for (let k = 0; k < 3; k++) pos.array[i * 3 + k] = P[c * 3 + k]; }
+  pos.needsUpdate = true;
 }
 
 // Straighten the seams between layers on the source mesh (both sides move together, so no holes): the per-triangle
@@ -347,8 +405,12 @@ function tailor(geo, ids, regions, J, opt) {
     if (!mine.length) continue;
     const L = ch.pts[0].distanceTo(ch.pts[1]) + ch.pts[1].distanceTo(ch.pts[2]);
     const NB = Math.ceil(L / 0.01) + 1;
-    const rmax = new Float32Array(NB);
-    for (const m of mine) { const b = Math.min(NB - 1, Math.max(0, Math.round(m.s / 0.01))); rmax[b] = Math.max(rmax[b], m.r.length()); }
+    // mean radius per 1 cm (not the max: the superhero base has bulging biceps and calves; the cloth is a plain tube
+    // and the body under it is removed, so the tube may be thinner than the muscles)
+    const rmax = new Float32Array(NB), rcnt = new Float32Array(NB);
+    let smax = 0;
+    for (const m of mine) { const b = Math.min(NB - 1, Math.max(0, Math.round(m.s / 0.01))); rmax[b] += m.r.length(); rcnt[b]++; smax = Math.max(smax, m.s); }
+    for (let b = 0; b < NB; b++) if (rcnt[b]) rmax[b] = (rmax[b] / rcnt[b]) * opt.tube;
     for (let b = 1; b < NB; b++) if (!rmax[b]) rmax[b] = rmax[b - 1];
     const R = new Float32Array(NB);
     for (let b = 0; b < NB; b++) { let s = 0, c = 0; for (let k = -4; k <= 4; k++) { const j = b + k; if (j >= 0 && j < NB && rmax[j]) { s += rmax[j]; c++; } } R[b] = c ? s / c : 0; }
@@ -361,8 +423,10 @@ function tailor(geo, ids, regions, J, opt) {
     for (const m of mine) {
       const b = Math.min(NB - 1, Math.max(0, Math.round(m.s / 0.01)));
       const len = m.r.length() || 1e-6;
-      const root = smooth01(0.0, ch.kind === "arm" ? 0.07 : 0.12, m.s);    // blend into the torso / seat at the limb root
-      const target = Math.max(len, len + (R[b] * opt.circ + len * (1 - opt.circ) - len) * root) + opt.ease * root;
+      let root = smooth01(0.0, ch.kind === "arm" ? 0.07 : 0.12, m.s);      // blend into the torso / seat at the limb root
+      if (ch.kind === "arm") root *= 1 - smooth01(smax - 0.05, smax, m.s); // a buttoned cuff closes on the wrist
+      const fit = R[b] * opt.circ + len * (1 - opt.circ);
+      const target = len + (fit - len) * root + opt.ease * root;
       const k = target / len;
       P[m.i * 3] = m.c.x + m.r.x * k; P[m.i * 3 + 1] = m.c.y + m.r.y * k; P[m.i * 3 + 2] = m.c.z + m.r.z * k;
     }
@@ -397,8 +461,10 @@ function tailor(geo, ids, regions, J, opt) {
         const d = DR[yy * TB + ((tb + k + TB) % TB)]; if (d) { m += d; c++; }
       }
       if (!c || r < 1e-4) continue;
-      let target = Math.max(r, (m / c) * 0.97);
       const y = P[i * 3 + 1];
+      // slimmer chest and shoulders (the base mesh is a superhero), full again at the neck and the waistband
+      const slim = 1 - (1 - (opt.slim || 1)) * smooth01(J.spine_01.y - 0.05, J.spine_02.y, y) * (1 - smooth01(J.neck_01.y - 0.1, J.neck_01.y - 0.02, y));
+      let target = Math.max(r * slim, (m / c) * 0.97 * slim);
       if (opt.tuckY != null) target = r + (target - r) * smooth01(opt.tuckY, opt.tuckY + 0.1, y);   // pulled in at the waistband
       if (opt.neckY != null) target = r + (target - r) * (1 - smooth01(opt.neckY - 0.08, opt.neckY, y)); // stays at the neck
       const k = target / r;
@@ -426,8 +492,75 @@ function tailor(geo, ids, regions, J, opt) {
   }
   pos.needsUpdate = true;
   weldedNormals(geo, canon);
+  geo.userData.loops = boundaryLoops(edgeCount);
   if (opt.hem) addHem(geo, canon, edgeCount, P0);
   return geo;
+}
+
+// Ordered boundary loops (canonical vertex ids) from the edge counts of a garment.
+function boundaryLoops(edgeCount) {
+  const adj = new Map();
+  for (const [key, c] of edgeCount) {
+    if (c !== 1) continue;
+    const [a, b] = key.split("_").map(Number);
+    if (!adj.has(a)) adj.set(a, []);
+    if (!adj.has(b)) adj.set(b, []);
+    adj.get(a).push(b); adj.get(b).push(a);
+  }
+  const seen = new Set(), loops = [];
+  for (const start of adj.keys()) {
+    if (seen.has(start)) continue;
+    const loop = [start];
+    seen.add(start);
+    let prev = -1, cur = start;
+    for (;;) {
+      const next = adj.get(cur).find((x) => x !== prev && !seen.has(x));
+      if (next === undefined) break;
+      loop.push(next); seen.add(next); prev = cur; cur = next;
+    }
+    if (loop.length > 8) loops.push(loop);
+  }
+  return loops;
+}
+
+// A shirt/blouse collar built on the garment's own neck opening: a stand band hugging the neck and a leaf turned
+// down over the cloth. Follows the opening exactly (the front V included), so it never floats or sinks.
+function collarOnLoop(geo, loop, body, J, { stand = 0.03, leaf = 0.03 } = {}) {
+  const P = geo.attributes.position, SI = geo.attributes.skinIndex, SW = geo.attributes.skinWeight;
+  const bones = body.skeleton.bones.map((b) => b.name);
+  const nI = bones.indexOf("neck_01"), sI = bones.indexOf("spine_03");
+  const pos = [], skI = [], skW = [], fold = [], idx = [];
+  const up = new THREE.Vector3(0, 1, 0);
+  const rows = 4;
+  for (const i of loop) {
+    const b = new THREE.Vector3(P.getX(i), P.getY(i), P.getZ(i));
+    const out = new THREE.Vector3(b.x - J.neck_01.x, 0, b.z - J.neck_01.z).normalize();
+    const pts = [
+      b.clone().addScaledVector(out, -0.004),
+      b.clone().addScaledVector(up, stand).addScaledVector(out, -0.006),
+      b.clone().addScaledVector(up, stand + 0.003).addScaledVector(out, 0.002),
+      b.clone().addScaledVector(up, stand - leaf * 0.55).addScaledVector(out, leaf),
+    ];
+    const own = [SI.getX(i), SI.getY(i), SI.getZ(i), SI.getW(i)], ow = [SW.getX(i), SW.getY(i), SW.getZ(i), SW.getW(i)];
+    pts.forEach((q, r) => {
+      pos.push(q.x, q.y, q.z);
+      if (r === 1 || r === 2) { skI.push(nI, sI, 0, 0); skW.push(0.55, 0.45, 0, 0); } else { skI.push(...own); skW.push(...ow); }
+      fold.push(3, 3, 3);
+    });
+  }
+  const L = loop.length;
+  for (let c = 0; c < L; c++) for (let r = 0; r < rows - 1; r++) {
+    const a = c * rows + r, b = ((c + 1) % L) * rows + r;
+    idx.push(a, a + 1, b, b, a + 1, b + 1);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute("skinIndex", new THREE.Uint16BufferAttribute(skI, 4));
+  g.setAttribute("skinWeight", new THREE.Float32BufferAttribute(skW, 4));
+  g.setAttribute("fold", new THREE.Float32BufferAttribute(fold, 3));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  return g;
 }
 
 // Close the gap between a garment's edge and the skin under it with an inward strip (seen inside sleeves and hems).
@@ -469,7 +602,7 @@ function addHem(geo, canon, edgeCount, P0) {
 }
 
 // A ring garment hanging from the waist (skirt, jacket skirt): rings around the hips, skinned to pelvis + thighs.
-function ringGarment(body, J, regionsP, { top, bottom, flare = 1.15, pleats = 0, open = 0, rows = 16, seg = 120, thick = 0.006, zc = null }) {
+function ringGarment(body, J, regionsP, { top, bottom, flare = 1.15, pleats = 0, open = 0, rows = 16, seg = 120, thick = 0.006, zc = null, frontLift = 0, clear = 0.035, band = 0 }) {
   const P = body.geometry.attributes.position;
   zc = zc ?? J.pelvis.z + 0.01;
   // body radius per angle between the hem and the waist (the cloth must clear the widest part: the seat, the thighs)
@@ -512,10 +645,10 @@ function ringGarment(body, J, regionsP, { top, bottom, flare = 1.15, pleats = 0,
     const tri = pleats ? Math.abs(((u * pleats) % 1) - 0.5) * 2 : 0;   // 0..1 sawtooth → knife pleats
     for (let r = 0; r <= rows; r++) {
       const k = r / rows;                    // 0 waist → 1 hem
-      const y = top + (bottom - top) * k;
+      const y = top + (bottom - top) * k + frontLift * k * Math.pow(Math.max(0, Math.sin(a)), 2);
       const base = rWaist[tb] + 0.022;
-      const hang = Math.max(base, rHips[tb] + 0.035) * (1 + (flare - 1) * k * k);
-      let rad = base + (hang - base) * smooth01(0, 0.35, k);
+      const hang = Math.max(base, rHips[tb] + clear) * (1 + (flare - 1) * k * k);
+      let rad = band ? rWaist[tb] + band : base + (hang - base) * smooth01(0, 0.35, k);
       rad *= 1 + (pleats ? (tri - 0.5) * 0.05 * smooth01(0.05, 0.6, k) : 0);
       const x = Math.cos(a) * rad, z = zc + Math.sin(a) * rad;
       const side = Math.cos(a) * 1.6;
@@ -745,6 +878,9 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
     for (let k = 0; k < 4; k++) { const w = sw.getComponent(i, k); if (w > bw) { bw = w; best = si.getComponent(i, k); } }
     regions[i] = regionOf(bones[best].name);
   }
+  physique(src, regions, J, bodyKey === "M" ? { arm: 0.86, leg: 0.95, bulge: 0.3, chest: 0.86, ...(spec.physique || {}) }
+    : { arm: 0.93, leg: 0.97, bulge: 0.45, chest: 0.97, ...(spec.physique || {}) });
+  const BODY = { geometry: src, skeleton: body.skeleton };
   if (spec.skirt) spec.skirtHemY = { knee: J.calf_l.y - 0.07, calf: J.calf_l.y - 0.2, mini: J.calf_l.y + 0.12 }[spec.skirt.length || "knee"];
   const idx = src.index.array;
   const triLayer = new Uint8Array(idx.length / 3);
@@ -782,33 +918,39 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
     withFold(geo, ids);
     const tt = spec.top.type;
     tailor(geo, ids, regions, J, {
-      arms: true, legs: false, circ: 0.65, ease: tt === "jacket" ? 0.012 : 0.006, sleeveLoose: tt === "sweater" ? 0.9 : 0.85, legFlare: 1,
+      arms: true, legs: false, circ: 0.75, tube: bodyKey === "M" ? 1.08 : 1.12, slim: bodyKey === "M" ? 0.93 : 0.98, ease: tt === "jacket" ? 0.012 : 0.006, sleeveLoose: tt === "sweater" ? 0.9 : 0.85, legFlare: 1,
       drape: bodyKey === "F" ? 0.26 : 0.2, tuckY: spec.top.untucked || tt === "jacket" ? null : J.spine_01.y - 0.04, neckY: J.neck_01.y - 0.03,
       smooth: 10, offset: tt === "jacket" ? 0.016 : tt === "sweater" ? 0.012 : 0.009, hem: true,
     });
     const rib = tt === "sweater" ? [J.spine_01.y - 0.07, J.spine_01.y - 0.01, J.hand_l.x - 0.09, 0.0012] : null;
-    meshes.top = addSkinned(geo, clothMaterial(C.top, { rough: tt === "jacket" ? 0.78 : 0.9, fold: tt === "sweater" ? 0.004 : 0.006, rib, inner: true }));
+    const vee = tt === "jacket" ? { y0: J.spine_02.y + 0.05, y1: J.neck_01.y - 0.02, w: 0.07, z: J.spine_02.z + 0.03, color: C.shirt, tie: C.tie } : null;
+    meshes.top = addSkinned(geo, clothMaterial(C.top, { rough: tt === "jacket" ? 0.78 : 0.9, fold: tt === "sweater" ? 0.004 : 0.006, rib, inner: true, vee }));
     if (tt === "blouse" || tt === "shirt" || tt === "jacket") {
-      const cg = collarGeo(body, J, { y: J.neck_01.y - 0.045, gap: tt === "jacket" ? 0.9 : 0.55, zc: J.neck_01.z + 0.005 });
-      cg.attributes.fold.array.fill(3);
-      meshes.collar = addSkinned(cg, clothMaterial(tt === "jacket" ? C.shirt : C.top, { fold: 0.0, tone: 0.05 }));
-      meshes.collar.castShadow = false;
-    }
-    if (tt === "jacket") {
-      const jg = ringGarment(body, J, regions, { top: J.spine_01.y - 0.02, bottom: J.pelvis.y - 0.13, flare: 1.04, open: 0.55, rows: 8, seg: 96 });
-      meshes.jacketSkirt = addSkinned(jg, clothMaterial(C.top, { rough: 0.78, fold: 0.004, inner: true }));
+      const loops = (geo.userData.loops || []).map((l) => ({ l, y: l.reduce((s, i) => s + geo.attributes.position.getY(i), 0) / l.length }));
+      const neck = loops.filter((o) => o.y > J.spine_03.y).sort((a, b) => b.y - a.y)[0];
+      if (neck) {
+        const cg = collarOnLoop(geo, neck.l, body, J, tt === "jacket" ? { stand: 0.012, leaf: 0.05 } : {});
+        meshes.collar = addSkinned(cg, clothMaterial(C.top, { fold: 0.0, tone: 0.05 }));
+        meshes.collar.castShadow = false;
+      }
     }
   }
   // bottom
   if (spec.bottom) {
     const { geo, ids } = cutLayer(src, triLayer, 2);
     withFold(geo, ids);
-    tailor(geo, ids, regions, J, { arms: false, legs: true, circ: 0.7, ease: 0.008, legFlare: 1.0, sleeveLoose: 1, drape: 0, smooth: 6, offset: 0.009, hem: true });
+    tailor(geo, ids, regions, J, { arms: false, legs: true, circ: 0.75, tube: 1.1, ease: 0.008, legFlare: 1.0, sleeveLoose: 1, drape: 0, smooth: 6, offset: 0.009, hem: true });
     meshes.bottom = addSkinned(geo, clothMaterial(C.bottom, { rough: 0.86, fold: 0.006, inner: true }));
+    if (!(spec.top && spec.top.untucked)) {   // waistband / belt over the tucked-in seam
+      const wy = J.spine_01.y - 0.02;
+      const bg = ringGarment(BODY, J, regions, { top: wy + 0.022, bottom: wy - 0.018, rows: 2, seg: 96, band: 0.017, thick: 0.004 });
+      bg.attributes.fold.array.fill(2);
+      meshes.belt = addSkinned(bg, clothMaterial(C.belt || C.bottom, { rough: C.belt ? 0.5 : 0.86, fold: 0, tone: 0.04 }));
+    }
   }
   if (spec.skirt) {
     const lenY = spec.skirtHemY;
-    const sg = ringGarment(body, J, regions, { top: J.spine_01.y + 0.015, bottom: lenY, flare: spec.skirt.flare || 1.15, pleats: spec.skirt.pleats || 0, rows: 18, seg: 144 });
+    const sg = ringGarment(BODY, J, regions, { top: J.spine_01.y + 0.015, bottom: lenY, flare: spec.skirt.flare || 1.15, pleats: spec.skirt.pleats || 0, rows: 18, seg: 144 });
     meshes.skirt = addSkinned(sg, clothMaterial(C.skirt, { rough: 0.82, fold: 0.003, inner: true }));
   }
   // shoes, legwear
@@ -842,6 +984,19 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
       else if (r === "arm" || r === "thigh" || r === "calf" || r === "neck" || r === "torso") w[i] = 0.5;   // less muscle relief
     }
     taubin(Pp, nb, canon, w, 8);
+    // the face: plain Laplacian (it shrinks features away: a featureless face, as reconstructions use)
+    for (let it = 0; it < 18; it++) {
+      const Q = Float32Array.from(Pp);
+      for (let i = 0; i < n; i++) {
+        if (canon[i] !== i || !isFace[i] || nb[i].size === 0) continue;
+        let sx = 0, sy = 0, sz = 0;
+        for (const j of nb[i]) { sx += Pp[j * 3]; sy += Pp[j * 3 + 1]; sz += Pp[j * 3 + 2]; }
+        const m = nb[i].size;
+        Q[i * 3] = Pp[i * 3] * 0.2 + (sx / m) * 0.8; Q[i * 3 + 1] = Pp[i * 3 + 1] * 0.2 + (sy / m) * 0.8; Q[i * 3 + 2] = Pp[i * 3 + 2] * 0.2 + (sz / m) * 0.8;
+      }
+      Pp.set(Q);
+    }
+    for (let i = 0; i < n; i++) { const c = canon[i]; Pp[i * 3] = Pp[c * 3]; Pp[i * 3 + 1] = Pp[c * 3 + 1]; Pp[i * 3 + 2] = Pp[c * 3 + 2]; }
     geo.attributes.position.array.set(Pp);
     weldedNormals(geo, canon);
     const col = new Float32Array(n * 3);
