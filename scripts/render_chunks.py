@@ -4,6 +4,7 @@
     python3 scripts/render_chunks.py episodes/<ep> render [N ...]  # 아직 없는 구간(또는 N번)만 렌더 → renders/chunks/NN.mp4
     python3 scripts/render_chunks.py episodes/<ep> join            # 이어 붙이기 → renders/<ep>.mp4 (+ 길이 확인)
     python3 scripts/render_chunks.py episodes/<ep> range <dir> <이름> <시작> <끝> [...]   # 임의 구간(파일럿·시험 컷) → renders/<dir>/<이름>.mp4
+    HF_RENDER_ARGS="--low-memory-mode" python3 scripts/render_chunks.py ...   # render 에 옵션 더하기(램 8GB: 작업자 1개)
 
 왜: 이 하네스의 3D(film 키트)는 4코어·GPU 없음에서 영상 1초에 약 45초, 도식은 약 23초가 걸린다(2026-11-21 실측).
 16~20분 편은 10시간 가까이 걸리고, 클라우드 세션의 명령 하나는 2시간까지만 돈다. 구간마다 따로 렌더하고 끊겨도 이어서 한다.
@@ -14,6 +15,7 @@
 """
 import contextlib
 import re
+import shlex
 import json
 import os
 import pathlib
@@ -75,7 +77,7 @@ def render_one(ep, s, e, dst):
     env = {**os.environ, "PRODUCER_PLAYER_READY_TIMEOUT_MS": os.environ.get("PRODUCER_PLAYER_READY_TIMEOUT_MS", "900000"),
            "PRODUCER_RENDER_READY_TIMEOUT_MS": os.environ.get("PRODUCER_RENDER_READY_TIMEOUT_MS", "900000")}
     with windowed(ep, s, e):
-        r = subprocess.run(HF + ["render", "--start", str(s), "--end", str(e), "-o", str(tmp)], cwd=ep, env=env)
+        r = subprocess.run(HF + ["render", "--start", str(s), "--end", str(e), "-o", str(tmp)] + shlex.split(os.environ.get("HF_RENDER_ARGS", "")), cwd=ep, env=env)
     if r.returncode != 0 or abs(dur(tmp) - (e - s)) > 0.2:
         return f"실패(종료 코드 {r.returncode}, 길이 {dur(tmp):.2f}/{e - s:.2f})"
     tmp.rename(dst)
