@@ -86,7 +86,7 @@ TITLE_FONT = '    @font-face { font-family: "Gothic A1 Bold"; font-weight: 700; 
 # (38 px tall), sub glyphs y 814-837 (24 px), rule y=873 from x=112, 461 px long; cursor block 20x40 px, 6 px after the text.
 # Box values below were fitted on our own snapshots (lab-look, 2026-11-25) so the GLYPHS land on those measurements.
 TITLE_CARD = {"x": 113, "title_px": 41, "title_top": 750, "sub_x": 116, "sub_px": 28, "sub_top": 812, "rule_x": 112,
-              "rule_top": 872, "rule": 461, "rule_h": 2, "cursor_w": 20, "cursor_h": 40, "cursor_gap": 6, "cursor_dy": 0}
+              "rule_top": 872, "rule": 461, "rule_h": 2, "cursor_w": 20, "cursor_h": 40, "cursor_gap": 2, "cursor_dy": 0}
 
 
 def title_card(sid, at, title, sub="", hold=4.5, sub_at=None, n=0, cps=0.065, sub_cps=0.045, cursor=3.0, rule=None, z=30):
@@ -250,8 +250,9 @@ def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens
 
 # Reference real-photo look (docs/reference-look.md §1 "실제 사진": luma 0.36~0.46, p99 ~0.84, chroma 0.05~0.08, B-R +0.02~+0.04,
 # vignette 0.65~1.0, coarse grain). HyperFrames media treatment (deterministic), never CSS filters.
-UNLOCK_GRADE = ('{"adjust":{"exposure":-0.35,"contrast":-0.12,"highlights":-0.55,"whites":-0.35,"shadows":0.12,"blacks":0.05,'
-                '"saturation":-0.82,"temperature":-0.12},'
+UNLOCK_GRADE = ('{"adjust":{"exposure":-0.24,"contrast":0.1,"highlights":0,"whites":0.16,"shadows":0.06,"blacks":0.02,'
+                '"saturation":-0.7,"temperature":-0.38},'
+                '"wheels":{"shadows":{"hue":212,"amount":0.24,"level":0},"midtones":{"hue":208,"amount":0.16,"level":0}},'
                 '"details":{"vignette":0.42,"vignetteMidpoint":0.42,"vignetteFeather":0.75,"grain":0.38,"grainSize":0.5,"grainRoughness":0.75}}')
 
 

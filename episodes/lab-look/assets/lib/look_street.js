@@ -16,8 +16,8 @@ export const WINDOW2 = [-1.2, 4.25, -1];
 export const CUTS = {
   aerial: { look: "unlock-day", camera: { preset: "aerialDescend", target: [0.6, 0.8, -0.5], t0: 0, t1: 5, azimuth: 24, orbit: -9,
     height: [17, 10.5], dist: [12.5, 8.6], fov: [42, 38], lookLift: [0, 1.2] } },
-  approach: { look: "unlock-day", camera: { preset: "approach", target: [DOOR.x, 1.15, DOOR.z], t0: 0, t1: 4, azimuth: -14,
-    from: 6.2, to: 2.7, height: 1.5, drift: 0.4, fov: [38, 34] } },
+  approach: { look: "unlock-day", camera: { preset: "approach", target: [DOOR.x, 1.15, DOOR.z], t0: 0, t1: 4, azimuth: 22,
+    from: 4.6, to: 2.2, height: 1.35, drift: 0.5, fov: [40, 37], lookHeight: 1.05 } },
   macro: { look: "unlock-day", dof: true, camera: { preset: "macroPush", target: KNOB, t0: 0, t1: 4, azimuth: 38, elevation: 6,
     from: 0.5, to: 0.3, fov: [30, 27], aperture: 1.8, arc: 7 } },
   follow: { look: "unlock-day", walker: { from: [DOOR.x - 0.05, 0, 7.4], to: [DOOR.x - 0.05, 0, 1.0] }, camera: { preset: "followBack",
@@ -41,14 +41,15 @@ export function createLookStreet(stage, opts = {}) {
       f.clay("block", { tex: "concrete_block_wall", normalScale: 0.8 }),
       f.clay("ground", { tex: "asphalt_04", normalScale: 0.6 }),
       f.clay("concrete", { tex: "brushed_concrete", normalScale: 0.4 }),
-      f.material("japanese_cedar_planks", { normalScale: 0.4 }),
+      f.material("dark_wood", { normalScale: 0.5 }),
     ]);
     const roofM = new THREE.MeshStandardMaterial({ color: CLAY.roof, roughness: 0.75 });
     const trimM = new THREE.MeshStandardMaterial({ color: CLAY.trim, roughness: 0.85 });
     const frameM = new THREE.MeshStandardMaterial({ color: CLAY.frame, roughness: 0.5, metalness: 0.3 });
     const glassM = new THREE.MeshStandardMaterial({ color: CLAY.glass, roughness: 0.08, metalness: 0.0 });
     const glassT = new THREE.MeshStandardMaterial({ color: "#1a1e24", roughness: 0.05, transparent: true, opacity: 0.5 });
-    doorM.color = new THREE.Color("#9a8a7c");   // cedar is orange; the reference door is a muted mid brown
+    doorM.color = new THREE.Color().setRGB(2.4, 1.85, 1.45);   // lift the dark red texture to a muted mid brown
+    const vgrain = (m) => { for (const k of ["map", "normalMap", "roughnessMap", "aoMap"]) if (m[k]) { m[k].center.set(0.5, 0.5); m[k].rotation = Math.PI / 2; } return m; };
     const plainWall = new THREE.MeshStandardMaterial({ color: CLAY.wallDark, roughness: 0.95 });
 
     const add = (geo, mat, pos, rot = [0, 0, 0], cast = true) => {
@@ -138,10 +139,10 @@ export function createLookStreet(stage, opts = {}) {
     const dz = DOOR.z;
     box(DOOR.w + 0.16, DOOR.h + 0.08, 0.08, frameM, [DOOR.x, (DOOR.h + 0.08) / 2 + 0.15, dz + 0.02]);       // frame
     const door = new THREE.Group();
-    const slab = new THREE.Mesh(new THREE.BoxGeometry(DOOR.w, DOOR.h, 0.045), f.tiled(doorM, 0.45, 1.0));
+    const slab = new THREE.Mesh(new THREE.BoxGeometry(DOOR.w, DOOR.h, 0.045), vgrain(f.tiled(doorM, 1.0, 0.45)));
     door.add(slab);
     for (const [y, h] of [[0.42, 0.62], [-0.42, 0.62]]) {   // two raised panels
-      const p = new THREE.Mesh(new THREE.BoxGeometry(DOOR.w - 0.22, h, 0.012), f.tiled(doorM, 0.32, 0.3));
+      const p = new THREE.Mesh(new THREE.BoxGeometry(DOOR.w - 0.22, h, 0.012), vgrain(f.tiled(doorM, 0.3, 0.32)));
       p.position.set(0, y, 0.027);
       door.add(p);
     }
@@ -151,7 +152,7 @@ export function createLookStreet(stage, opts = {}) {
     // brass knob: rosette, neck, ball, keyhole (lathe)
     const prof = [[0, 0], [0.031, 0], [0.032, 0.004], [0.029, 0.011], [0.011, 0.016], [0.009, 0.036], [0.017, 0.044], [0.027, 0.058],
       [0.029, 0.074], [0.024, 0.09], [0.012, 0.099], [0, 0.101]].map(([r, y]) => new THREE.Vector2(r, y));
-    const brass = new THREE.MeshStandardMaterial({ color: "#c79b55", metalness: 1, roughness: 0.27, envMap: S.environment, envMapIntensity: 3.2 });
+    const brass = new THREE.MeshStandardMaterial({ color: "#b58a46", metalness: 1, roughness: 0.3, envMap: S.environment, envMapIntensity: 0.55 });
     const knob = new THREE.Mesh(new THREE.LatheGeometry(prof, 48), brass);
     knob.rotation.x = Math.PI / 2;
     knob.position.set(KNOB[0], KNOB[1], dz + 0.045 + 0.0225);
@@ -237,13 +238,13 @@ export function createLookStreet(stage, opts = {}) {
 
     // ---------------------------------------------------------------- light: one low sun (moon at night) through leaves
     if (night) {
-      f.sun({ azimuth: -38, elevation: 30, target: [-0.5, 3.4, -1], size: 13, leaves: { density: 0.5, leaf: 0.3, sway: 0.03, seed: 11, soft: 0.05 } });
+      f.sun({ azimuth: -38, elevation: 30, target: [-0.5, 3.4, -1], size: 13, leaves: { density: 0.5, leaf: 0.3, sway: 0.03, seed: 11, soft: 0.014, res: 2048 } });
       // the window's own faint light spilling on the sill
       const p = new THREE.PointLight("#b8c4d6", 0.6, 3, 2);
       p.position.set(WINDOW2[0], WINDOW2[1], -0.7);
       S.add(p);
     } else {
-      f.sun({ azimuth: -52, elevation: 24, target: [0.5, 1.6, -0.5], size: 17, leaves: { density: 0.55, leaf: 0.34, sway: 0.03, seed: 5, soft: 0.04 } });
+      f.sun({ azimuth: -52, elevation: 24, target: [0.5, 1.6, -0.5], size: 17, leaves: { density: 0.55, leaf: 0.34, sway: 0.03, seed: 5, soft: 0.018, res: 2048 } });
     }
 
     // ---------------------------------------------------------------- walker (follow cut): a figure with a minimal stride
