@@ -10,16 +10,16 @@ import { GLTFLoader } from "../kit3d/addons/loaders/GLTFLoader.js";
 import { CACHE } from "../kit3d/thumbkit.js";
 
 const DOOR = { x: 1.5, w: 0.86, h: 2.02, z: -1 };
-export const KNOB = [DOOR.x + DOOR.w / 2 - 0.075, 0.95, DOOR.z + 0.04 + 0.075];
+export const KNOB = [DOOR.x + DOOR.w / 2 - 0.065, 0.95, DOOR.z + 0.04 + 0.075];
 export const WINDOW2 = [-1.2, 4.25, -1];
 
 export const CUTS = {
   aerial: { look: "unlock-day", camera: { preset: "aerialDescend", target: [0.6, 0.8, -0.5], t0: 0, t1: 5, azimuth: 24, orbit: -9,
     height: [17, 10.5], dist: [12.5, 8.6], fov: [42, 38], lookLift: [0, 1.2] } },
   approach: { look: "unlock-day", camera: { preset: "approach", target: [DOOR.x, 1.15, DOOR.z], t0: 0, t1: 4, azimuth: 22,
-    from: 4.6, to: 2.2, height: 1.35, drift: 0.5, fov: [40, 37], lookHeight: 1.05 } },
-  macro: { look: "unlock-day", dof: true, camera: { preset: "macroPush", target: KNOB, t0: 0, t1: 4, azimuth: 38, elevation: 6,
-    from: 0.5, to: 0.3, fov: [30, 27], aperture: 4.5, arc: 7 } },
+    from: 3.9, to: 2.0, height: 1.5, drift: 0.45, fov: [40, 37], lookHeight: 1.05 } },
+  macro: { look: "unlock-day", dof: true, camera: { preset: "macroPush", target: KNOB, t0: 0, t1: 4, azimuth: -34, elevation: 9,
+    from: 0.46, to: 0.3, fov: [30, 27], aperture: 4.5, arc: -8 } },
   follow: { look: "unlock-day", walker: { from: [DOOR.x - 0.05, 0, 7.4], to: [DOOR.x - 0.05, 0, 1.0] }, camera: { preset: "followBack",
     from: [DOOR.x - 0.05, 0, 7.4], to: [DOOR.x - 0.05, 0, 1.0], t0: 0, t1: 5, back: 1.9, side: 0.38, height: 1.62, lookAhead: 4,
     lookHeight: 1.35, fov: 40 } },
@@ -173,16 +173,18 @@ export function createLookStreet(stage, opts = {}) {
     door.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
     S.add(door);
     // brass knob: rosette, neck, ball, keyhole (lathe)
-    const prof = [[0, 0], [0.033, 0], [0.034, 0.003], [0.031, 0.007], [0.02, 0.012], [0.01, 0.016], [0.009, 0.036], [0.017, 0.044], [0.027, 0.058],
-      [0.029, 0.074], [0.024, 0.09], [0.012, 0.099], [0, 0.101]].map(([r, y]) => new THREE.Vector2(r, y));
-    const brass = new THREE.MeshStandardMaterial({ color: "#b58a46", metalness: 1, roughness: 0.24, envMap: S.environment, envMapIntensity: 0.7 });
+    // rosette disc → tapered neck → ball (≈ a 1980s–2000s Japanese "tamaza" knob)
+    const prof = [[0, 0], [0.036, 0], [0.037, 0.002], [0.036, 0.005], [0.03, 0.008], [0.018, 0.011], [0.011, 0.016], [0.0085, 0.03],
+      [0.012, 0.04], [0.02, 0.046], [0.026, 0.056], [0.028, 0.068], [0.026, 0.08], [0.019, 0.09], [0.009, 0.0955], [0, 0.097]]
+      .map(([r, y]) => new THREE.Vector2(r, y));
+    const brass = new THREE.MeshStandardMaterial({ color: "#b58a46", metalness: 1, roughness: 0.32, envMap: S.environment, envMapIntensity: 0.22 });
     const knob = new THREE.Mesh(new THREE.LatheGeometry(prof, 48), brass);
     knob.rotation.x = Math.PI / 2;
     knob.position.set(KNOB[0], KNOB[1], dz + 0.045 + 0.0225);
     knob.castShadow = true; knob.receiveShadow = true;
     S.add(knob);
     const hole = new THREE.Mesh(new THREE.BoxGeometry(0.0035, 0.011, 0.004), new THREE.MeshStandardMaterial({ color: "#0b0906", roughness: 0.6 }));
-    hole.position.set(KNOB[0], KNOB[1] - 0.002, dz + 0.045 + 0.0225 + 0.101);
+    hole.position.set(KNOB[0], KNOB[1] - 0.002, dz + 0.045 + 0.0225 + 0.097);
     S.add(hole);
     f.hero(door, knob);
     // entrance canopy and step
@@ -270,7 +272,7 @@ export function createLookStreet(stage, opts = {}) {
       // wide pattern for the aerial; close cuts use a tighter one around the entrance (finer leaf edges)
       const wide = opts.cut === "aerial";
       f.sun({ azimuth: -52, elevation: 24, target: wide ? [0.5, 1.6, -0.5] : [1.2, 1.4, -0.8], size: wide ? 17 : 10,
-        leaves: { density: 0.55, leaf: 0.34, sway: 0.03, seed: 5, soft: 0.012, lit: [[...KNOB, 0.16]] } });
+        leaves: { density: 0.55, leaf: 0.34, sway: 0.03, seed: 5, soft: 0.012, lit: [[...KNOB, 0.4]] } });
     }
 
     // ---------------------------------------------------------------- walker (follow cut): a figure with a minimal stride

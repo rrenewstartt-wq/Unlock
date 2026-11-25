@@ -101,7 +101,7 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, dens
   light.castShadow = true;
   light.shadow.mapSize.set(f.shadowSize || 2048, f.shadowSize || 2048);
   light.shadow.bias = -0.0004;
-  light.shadow.normalBias = 0.02;
+  light.shadow.normalBias = 0.003;
   light.shadow.radius = 3;
   light.shadow.camera.near = Math.max(0.5, d - 60);
   light.shadow.camera.far = d + 60;
@@ -132,7 +132,7 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, dens
     if (bias) u = bias > 0 ? Math.pow(u, 1 / (1 + 2 * bias)) : 1 - Math.pow(1 - u, 1 / (1 - 2 * bias));
     const rm = 1.1 + R() * 1.6;
     const b = { x: u * res, y: R() * res, r: rm * px, ph: R() * 6.283, ph2: R() * 6.283, leaves: [] };
-    const nl = Math.round(0.75 * Math.PI * rm * rm / (0.36 * leaf * leaf));
+    const nl = Math.round(1.5 * Math.PI * rm * rm / (0.36 * leaf * leaf));   // overlapping: masses with gaps
     for (let k = 0; k < nl; k++) {
       const a = R() * 6.283, rr = Math.pow(R(), 0.6) * b.r;   // denser toward the middle of the cluster
       b.leaves.push({ dx: Math.cos(a) * rr, dy: Math.sin(a) * rr, rot: R() * 6.283, l: leaf * px * (0.55 + R() * 0.9), w: 0.38 + R() * 0.25, ph: R() * 6.283 });

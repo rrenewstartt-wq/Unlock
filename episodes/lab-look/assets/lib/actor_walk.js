@@ -28,11 +28,24 @@ export function createActorWalk(stage, opts = {}) {
       path: opts.path || [[0.2, 0.5], [0.3, -3.5], [0.4, -6.8]], at: opts.at ?? 0, face: opts.face || "plain", ramp: opts.ramp ?? 0.6, ...(opts.actor || {}),
     });
     window.__actor = girl;
+    if (opts.hide) girl.root.visible = false;
+    if (opts.debugFeet) {   // foot contact check: does the planted foot slide? (balls of the feet, two walk cycles)
+      const v = new THREE.Vector3(), res = {};
+      for (const n of ["ball_l", "ball_r"]) {
+        const ys = [], zs = [];
+        for (let i = 0; i <= 160; i++) { girl.pose(1.0 + i / 60); girl.root.updateMatrixWorld(true); girl.bone(n).getWorldPosition(v); ys.push(v.y); zs.push(v.z); }
+        const mn = Math.min(...ys), runs = [];
+        let run = [];
+        ys.forEach((y, i) => { if (y < mn + 0.012) run.push(zs[i]); else { if (run.length > 4) runs.push([run.length, +(run[run.length - 1] - run[0]).toFixed(3)]); run = []; } });
+        res[n] = { minY: +mn.toFixed(3), maxY: +Math.max(...ys).toFixed(3), stance: runs };
+      }
+      console.error("FEET " + JSON.stringify(res) + " stride " + girl.stride.toFixed(3) + " speed " + girl.speed.toFixed(3));
+    }
     return (t) => {
       girl.pose(t);
       if (opts.fixed) { f.cam.position.set(...opts.fixed[0]); f.cam.lookAt(...opts.fixed[1]); f.cam.fov = opts.fov || 35; f.cam.updateProjectionMatrix(); }
       else {
-        const c = girl.follow(t, { back: 2.4, height: 1.45, side: 0.25, ahead: 3, lookY: 0.9, ...(opts.follow || {}) });
+        const c = girl.follow(t, { back: 3.4, height: 1.5, side: 0.2, ahead: 3, lookY: 0.55, ...(opts.follow || {}) });
         f.cam.position.set(...c.pos); f.cam.lookAt(...c.look); f.cam.fov = opts.fov || 38; f.cam.updateProjectionMatrix();
       }
     };

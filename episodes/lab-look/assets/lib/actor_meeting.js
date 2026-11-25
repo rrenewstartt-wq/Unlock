@@ -38,6 +38,7 @@ export function createActorMeeting(stage, opts = {}) {
     const b = await actor(f, K[1], { seat: [1.0, 0.46, -0.35], yaw: -Math.PI / 2, clip: "sitTalk", face, shake: [[2.0, 3.6]] });
     const c = await actor(f, K[2], { pos: [-0.35, 0, -1.95], yaw: 0.25, clip: "idle", face, offset: 1.1 });
     window.__actors = [a, b, c];
+    if (opts.hide) for (const x of [a, b, c]) x.root.visible = false;
     if (opts.debug) for (const x of [a, b, c]) { x.pose(0.5); console.error("dbg", x.kind, JSON.stringify(x.root.position), JSON.stringify([...x.root.scale.toArray()])); }
     const blur = face === "blur" ? faceBlur(f, [a, b, c], { px: 7 }) : () => {};
     const [cp, cl, fov] = opts.cam || [[0.05, 1.32, 3.6], [0, 1.0, -1.2], 40];

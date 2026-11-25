@@ -71,8 +71,8 @@ export const KINDS = {
   man_sweater: { body: "M", scale: 0.97, hair: "parted", top: { type: "sweater", sleeve: "long", untucked: true }, bottom: { type: "trousers" },
     colors: { skin: SKIN, hair: "#1f1b18", top: "#4a4a4c", bottom: "#2e2d2b", shoes: "#151311" } },
   // Man: suit jacket over a shirt, trousers.
-  man_jacket: { body: "M", scale: 0.97, hair: "short", top: { type: "jacket", sleeve: "long", untucked: true, hemDrop: 0.075 }, bottom: { type: "trousers" },
-    colors: { skin: SKIN, hair: "#1b1816", top: "#4a4741", shirt: "#c4c1ba", tie: "#3a3533", bottom: "#2c2b29", shoes: "#141210" } },
+  man_jacket: { body: "M", scale: 0.97, hair: "short", top: { type: "jacket", sleeve: "long", untucked: true, hemDrop: 0.0 }, bottom: { type: "trousers" },
+    colors: { skin: SKIN, hair: "#1b1816", top: "#4a4741", shirt: "#a9a59d", tie: "#34302e", bottom: "#2c2b29", shoes: "#141210" } },
 };
 
 const HAIR = {
@@ -241,9 +241,11 @@ function layerFor(spec, J, reg, p) {
   if (reg === "foot") return 3;
   if ((reg === "calf" || reg === "foot") && p.y < J.foot_l.y + 0.02) return 3;
   if (spec.legwear && (reg === "calf" || reg === "thigh") && p.y < spec.legwear.top * (J.calf_l.y / 0.535)) return 4;
+  const hemY = hipY - (top && top.hemDrop != null ? top.hemDrop : 0.0);
+  if (top && top.untucked && (reg === "hip" || reg === "thigh") && p.y > hemY) return 1;   // straight hem over the hips
   if (bottom && bottom.type === "trousers") {
     if (reg === "thigh" || reg === "calf") return 2;
-    if (reg === "hip" && !(top && top.untucked && p.y > hipY - (top.hemDrop ?? 0.04))) return 2;
+    if (reg === "hip") return 2;
     if (reg === "torso" && p.y < waistY && !(top && top.untucked)) return 2;
   }
   if (spec.skirt && (reg === "hip" || (reg === "torso" && p.y < waistY))) return 9;
@@ -437,7 +439,7 @@ function tailor(geo, ids, regions, J, opt) {
     const TB = 48, Y0 = J.pelvis.y - 0.25, YB = 0.012, NY = Math.ceil((J.neck_01.y + 0.05 - Y0) / YB);
     const rm = new Float32Array(TB * NY);
     const xLim = J.upperarm_l.x - 0.03;
-    const isTorso = (i) => (reg[i] === "torso" || reg[i] === "hip" || reg[i] === "neck") && Math.abs(P[i * 3]) < xLim;
+    const isTorso = (i) => (reg[i] === "torso" || reg[i] === "hip" || reg[i] === "neck" || reg[i] === "thigh") && Math.abs(P[i * 3]) < xLim;
     const bin = (i) => {
       const a = Math.atan2(P[i * 3 + 2] - zc, P[i * 3]);
       const tb = ((Math.floor((a + Math.PI) / (2 * Math.PI) * TB) % TB) + TB) % TB;
@@ -878,8 +880,8 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
     for (let k = 0; k < 4; k++) { const w = sw.getComponent(i, k); if (w > bw) { bw = w; best = si.getComponent(i, k); } }
     regions[i] = regionOf(bones[best].name);
   }
-  physique(src, regions, J, bodyKey === "M" ? { arm: 0.86, leg: 0.95, bulge: 0.3, chest: 0.86, ...(spec.physique || {}) }
-    : { arm: 0.93, leg: 0.97, bulge: 0.45, chest: 0.97, ...(spec.physique || {}) });
+  physique(src, regions, J, bodyKey === "M" ? { arm: 0.86, leg: 0.95, bulge: 0.3, chest: 0.8, ...(spec.physique || {}) }
+    : { arm: 0.86, leg: 0.95, bulge: 0.4, chest: 0.94, ...(spec.physique || {}) });
   const BODY = { geometry: src, skeleton: body.skeleton };
   if (spec.skirt) spec.skirtHemY = { knee: J.calf_l.y - 0.07, calf: J.calf_l.y - 0.2, mini: J.calf_l.y + 0.12 }[spec.skirt.length || "knee"];
   const idx = src.index.array;
@@ -918,12 +920,12 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
     withFold(geo, ids);
     const tt = spec.top.type;
     tailor(geo, ids, regions, J, {
-      arms: true, legs: false, circ: 0.75, tube: bodyKey === "M" ? 1.08 : 1.12, slim: bodyKey === "M" ? 0.93 : 0.98, ease: tt === "jacket" ? 0.012 : 0.006, sleeveLoose: tt === "sweater" ? 0.9 : 0.85, legFlare: 1,
-      drape: bodyKey === "F" ? 0.26 : 0.2, tuckY: spec.top.untucked || tt === "jacket" ? null : J.spine_01.y - 0.04, neckY: J.neck_01.y - 0.03,
+      arms: true, legs: false, circ: 0.75, tube: bodyKey === "M" ? 1.08 : 1.04, slim: bodyKey === "M" ? 0.93 : 0.96, ease: tt === "jacket" ? 0.012 : 0.006, sleeveLoose: tt === "sweater" ? 0.9 : 0.85, legFlare: 1,
+      drape: bodyKey === "F" ? 0.2 : 0.2, tuckY: spec.top.untucked || tt === "jacket" ? null : J.spine_01.y - 0.04, neckY: J.neck_01.y - 0.03,
       smooth: 10, offset: tt === "jacket" ? 0.016 : tt === "sweater" ? 0.012 : 0.009, hem: true,
     });
     const rib = tt === "sweater" ? [J.spine_01.y - 0.07, J.spine_01.y - 0.01, J.hand_l.x - 0.09, 0.0012] : null;
-    const vee = tt === "jacket" ? { y0: J.spine_02.y + 0.0, y1: J.neck_01.y - 0.03, w: 0.06, z: J.spine_02.z + 0.03, color: C.shirt, tie: C.tie } : null;
+    const vee = tt === "jacket" ? { y0: J.spine_02.y - 0.02, y1: J.neck_01.y - 0.03, w: 0.045, z: J.spine_02.z + 0.03, color: C.shirt, tie: C.tie } : null;
     meshes.top = addSkinned(geo, clothMaterial(C.top, { rough: tt === "jacket" ? 0.78 : 0.9, fold: tt === "sweater" ? 0.004 : 0.006, rib, inner: true, vee }));
     if (tt === "blouse" || tt === "shirt" || tt === "jacket") {
       const loops = (geo.userData.loops || []).map((l) => ({ l, y: l.reduce((s, i) => s + geo.attributes.position.getY(i), 0) / l.length }));
@@ -1025,7 +1027,9 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
   group.add(scene);
   const root = new THREE.Group();
   root.add(group);
-  root.scale.setScalar(spec.scale || 1);
+  // slim: a narrower actor-space x (shoulder to shoulder); rotates with the actor, so it reads as a slighter build
+  const slim = spec.slim ?? (bodyKey === "M" ? 0.93 : 0.9);
+  root.scale.set((spec.scale || 1) * slim, spec.scale || 1, (spec.scale || 1) * (0.5 + slim / 2));
   f.scene.add(root);
 
   // --- animation
@@ -1045,7 +1049,30 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
     actions.set(name, { a, loop: (CLIPS[name] || [0, 0, true])[2], dur: clip.duration });
   }
   const scale = spec.scale || 1;
-  const stride = WALK_CYCLE_M * kLeg * scale;
+  // Stride: measured once from the walk clip on this body (how fast the planted foot moves back relative to the
+  // root), so the actor travels exactly as fast as its feet push: no foot sliding. Fallback: the mannequin's root motion.
+  let stride = WALK_CYCLE_M * kLeg * root.scale.z;
+  const wcName = spec.walkClip || "walk";
+  if (actions.has(wcName)) {
+    const e = actions.get(wcName);
+    for (const [, x] of actions) x.a.setEffectiveWeight(0);
+    const ball = scene.getObjectByName("ball_l"), v = new THREE.Vector3();
+    const N = 80, ys = [], zs = [];
+    for (let i = 0; i < N; i++) { e.a.time = (i / N) * e.dur; e.a.setEffectiveWeight(1); mixer.update(0); root.updateMatrixWorld(true); ball.getWorldPosition(v); ys.push(v.y); zs.push(v.z); }
+    e.a.setEffectiveWeight(0);
+    const mn = Math.min(...ys);
+    let best = [], run = [];
+    for (let i = 0; i < 2 * N; i++) { const j = i % N; if (ys[j] < mn + 0.012) run.push(i); else { if (run.length > best.length) best = run; run = []; } }
+    if (best.length > 6) {
+      const ts = best.map((i) => (i / N) * e.dur), zz = best.map((i) => zs[i % N]);
+      const mt = ts.reduce((a, b) => a + b) / ts.length, mz = zz.reduce((a, b) => a + b) / zz.length;
+      let num = 0, den = 0;
+      ts.forEach((t, k) => { num += (t - mt) * (zz[k] - mz); den += (t - mt) ** 2; });
+      const vFoot = Math.abs(num / den);
+      if (vFoot > 0.2 && vFoot < 3) stride = vFoot * e.dur;
+    }
+  }
+  stride *= spec.strideK || 1;
   const walkV = (stride / actions.get(spec.walkClip || "walk")?.dur || 1) * (spec.speed || 1);
   const path = spec.path ? makePath(spec.path, spec.pos ? spec.pos[1] : 0) : null;
   const ramp = spec.ramp ?? 0.6;

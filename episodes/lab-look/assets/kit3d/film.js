@@ -100,7 +100,7 @@ export class Film extends Thumb {
     l.angle = Math.atan((size / 2) / dist) * 1.42;
     l.shadow.mapSize.set(this.shadowSize, this.shadowSize);
     l.shadow.bias = -0.0004;
-    l.shadow.normalBias = 0.02;
+    l.shadow.normalBias = 0.003;
     return l;
   }
 
