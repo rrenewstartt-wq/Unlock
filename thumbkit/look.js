@@ -69,7 +69,7 @@ export const LOOKS = {
   },
 };
 
-const GRADE_DEFAULT = { ...LOOKS["unlock-day"].grade, maxBlur: 26, blurTaps: 40, dofQuality: 0.5 };
+const GRADE_DEFAULT = { ...LOOKS["unlock-day"].grade, maxBlur: 26, blurTaps: 32, dofQuality: 0.5, samples: 2 };
 
 // Merge a look preset under the film options. Returns { opts, grade } (grade null when neither look nor grade is set).
 export function resolveLook(o = {}) {

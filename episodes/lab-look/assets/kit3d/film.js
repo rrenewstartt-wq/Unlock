@@ -16,10 +16,10 @@
 // render(t) is a pure function of t. Bone animation: call f.rest(fig) at the top of each frame, then pose.
 import { Thumb, THREE, CACHE } from "./thumbkit.js";
 import { loadFigure, turn, settle, poseArmsDown, poseReclined, poseSeated, setFabric } from "./figures.js";
-import { resolveLook, Grade, leafShadows, markHero, cameraKeys, cam, LOOKS, CLAY, ACCENT, rng } from "./look.js";
+import { resolveLook, Grade, leafShadows, markHero, cameraKeys, cam, LOOKS, CLAY, ACCENT, ACCENT_AMBER, rng } from "./look.js";
 
 export { THREE, turn, settle, poseArmsDown, poseReclined, poseSeated, setFabric };
-export { cam, LOOKS, CLAY, ACCENT, rng };   // reference look (thumbkit/LOOK.md)
+export { cam, LOOKS, CLAY, ACCENT, ACCENT_AMBER, rng };   // reference look (thumbkit/LOOK.md)
 
 export const ease = {
   inOut: (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2),
