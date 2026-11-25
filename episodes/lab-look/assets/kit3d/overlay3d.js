@@ -18,7 +18,7 @@
 // human decision — STATUS 5). Change it for a whole set with setAccent("#F0A23B") before building the marks.
 import { THREE } from "./film.js";
 
-export let ACCENT = "#E0352B";           // reference red (screen-rec "150m" frame). Pending human decision: red or amber.
+export let ACCENT = "#D8382E";           // 채널 강조색 빨강(사용자 결정 2026-11-25) — look.js·scenes_kit 와 같은 값
 export function setAccent(hex) { ACCENT = hex; }
 export const INK = "#FFFFFF";
 
