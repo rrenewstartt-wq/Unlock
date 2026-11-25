@@ -67,8 +67,8 @@
 ## 지금까지 정해진 것
 | 항목 | 결정 | 근거 문서 |
 |---|---|---|
-| 채널 | 해외 실화 미제사건 롱폼 16:9, 벤치마크 @unlock_kr 의 형식만(표현은 직접) | `docs/originality.md` |
-| 대표색 | 앰버 하나(빨간 단색은 벤치마크의 것) | `docs/visual-style.md` |
+| 채널 | 해외 실화 미제사건 롱폼 16:9, 벤치마크 @unlock_kr 의 스타일·공식·포맷을 똑같이(문장·원본 파일만 새로) | `docs/originality.md` |
+| 대표색 | 지금은 앰버 하나(빨강도 허용, 2026-11-25) | `docs/visual-style.md` |
 | 화면 | 도식은 2D(검은 보드), 재연은 film 키트 3D(사실적 인물·실사 질감), **핵심 장면은 실제 기록 사진이 먼저**(처음 후킹 + 중간 하이라이트, 한 컷 약 3초) | `docs/visual-style.md`, `docs/quality-bar.md` |
 | 내레이션 | 본인 목소리 복제(VoxCPM2, Colab) — 나중에. 음악도 나중 | `docs/voice.md` |
 | 썸네일 | **장르 히트작 분석으로 개정:** 공개 기록 사진(실제 얼굴 허용, 조건부) 또는 사진 같은 이미지를 크게 + 두 줄 큰 글자(위 흰 줄 + 아래 앰버 명사구). CC0 3D 썸네일은 약해서 보조 | `docs/thumbnail-benchmark.md`, `docs/thumbnail-copy.md` |

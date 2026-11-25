@@ -10,10 +10,10 @@ Numbers per candidate
   contrast     focus vs field mean luminance difference (0..255) — under ~40 the symbol melts at phone size
   clutter      edge density at 168 px — high = busy, reads as noise on a phone
   bench_hash   smallest perceptual-hash distance to the benchmark thumbnails (data/benchmark/*/raw/thumbs/*.jpg,
-               local only). Under 12 of 64 bits = too close to an existing thumbnail: redo the composition.
+               local only). Under 6 of 64 bits = a near-copy of one existing thumbnail: redo it. Same composition style is fine.
   overlap      words shared by the text board and the title (from the concept page's `text:` / `title:` comments).
                Numbers may repeat (genre hits do); two or more shared non-number words = the same sentence twice → warning
-  bench_hue    red share of the image (hue 345–15°, sat > .4) — must stay low: the benchmark's red flood is theirs.
+  bench_hue    red share of the image (hue 345–15°, sat > .4) — reported only; red is allowed (2026-11-25).
 """
 import json
 import pathlib
@@ -103,10 +103,8 @@ def metrics(p, bench):
         flags.append("오른쪽 아래(재생시간 표시에 가림)")
     if m["clutter"] > 22:
         flags.append("작은 화면에서 복잡")
-    if m.get("bench_hash", 64) < 12:
-        flags.append("벤치마크 썸네일과 구도가 너무 비슷")
-    if m["bench_hue"] > 15:
-        flags.append("빨간 단색에 가까움")
+    if m.get("bench_hash", 64) < 6:
+        flags.append("벤치마크 썸네일 한 장을 베낀 수준")
     m["flags"] = flags
     return m
 

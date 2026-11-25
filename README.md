@@ -19,7 +19,7 @@ docs/
   visual-style.md        룩, 3D 재연 도구, 도식 원칙 7개, 썸네일, 소리
   thumbnail-formula.md   썸네일 팀 기준서: 벤치마크 원리 6개, spot/flood, 검수 기준
   thumbnail-benchmark.md 장르 히트작 썸네일 76장 분석(채널 13곳) — 썸네일 규칙의 근거, formula 보다 우선
-  originality.md         가져오는 것(형식) / 가져오지 않는 것(표현)
+  originality.md         똑같이 맞추는 것(스타일·공식·포맷) / 안 하는 것(문장·파일 그대로)
   voice.md               내 목소리 복제 내레이션(VoxCPM2) 흐름
   topic-criteria.md      소재 기준·점수·제외 기준·후보 형식
 scripts/
