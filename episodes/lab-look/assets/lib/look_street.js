@@ -263,7 +263,7 @@ export function createLookStreet(stage, opts = {}) {
 
     // ---------------------------------------------------------------- light: one low sun (moon at night) through leaves
     if (night) {
-      f.sun({ azimuth: -38, elevation: 30, target: [-0.5, 3.4, -1], size: 13, leaves: { density: 0.5, leaf: 0.3, sway: 0.03, seed: 11, soft: 0.012 } });
+      f.sun({ azimuth: -38, elevation: 30, target: [-0.5, 3.4, -1], size: 13, leaves: { density: 0.9, leaf: 0.3, sway: 0.03, seed: 11, soft: 0.012 } });
       // the window's own faint light spilling on the sill
       const p = new THREE.PointLight("#b8c4d6", 0.6, 3, 2);
       p.position.set(WINDOW2[0], WINDOW2[1], -0.7);
@@ -272,7 +272,7 @@ export function createLookStreet(stage, opts = {}) {
       // wide pattern for the aerial; close cuts use a tighter one around the entrance (finer leaf edges)
       const wide = opts.cut === "aerial";
       f.sun({ azimuth: -52, elevation: 24, target: wide ? [0.5, 1.6, -0.5] : [1.2, 1.4, -0.8], size: wide ? 17 : 10,
-        leaves: { density: 0.55, leaf: 0.34, sway: 0.03, seed: 5, soft: 0.012, lit: [[...KNOB, 0.4]] } });
+        leaves: { density: wide ? 0.8 : 1.0, bias: wide ? -0.35 : 0, leaf: 0.32, sway: 0.03, seed: 5, soft: 0.012, lit: [[...KNOB, 0.4]] } });
     }
 
     // ---------------------------------------------------------------- walker (follow cut): a figure with a minimal stride

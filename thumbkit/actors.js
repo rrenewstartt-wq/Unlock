@@ -56,8 +56,8 @@ const WALK_CYCLE_M = 1.3;                          // root-motion distance of Wa
 const SKIN = "#b39a86";
 export const KINDS = {
   // High-school girl, summer uniform: white long-sleeve blouse tucked into a navy pleated knee skirt, navy socks, loafers.
-  schoolgirl: { body: "F", scale: 0.9, hair: "bob", top: { type: "blouse", sleeve: "long" }, skirt: { length: "knee", pleats: 18, flare: 1.18 },
-    legwear: { top: 0.40 }, colors: { skin: SKIN, hair: "#1c1714", top: "#d8d6d0", skirt: "#2f3445", legwear: "#252831", shoes: "#16130f" } },
+  schoolgirl: { body: "F", scale: 0.9, hair: "bob", top: { type: "blouse", sleeve: "long" }, skirt: { length: "knee", pleats: 18, flare: 1.08 },
+    legwear: { top: 0.34 }, colors: { skin: SKIN, hair: "#1c1714", top: "#d8d6d0", skirt: "#2f3445", legwear: "#252831", shoes: "#16130f" } },
   // Woman: blouse + mid-calf skirt.
   woman: { body: "F", scale: 0.93, hair: "long", top: { type: "blouse", sleeve: "long" }, skirt: { length: "calf", pleats: 0, flare: 1.22 },
     colors: { skin: SKIN, hair: "#2a211b", top: "#b9b4aa", skirt: "#3d3a36", shoes: "#1d1a17" } },
@@ -249,7 +249,7 @@ function layerFor(spec, J, reg, p) {
     if (reg === "torso" && p.y < waistY && !(top && top.untucked)) return 2;
   }
   if (spec.skirt && (reg === "hip" || (reg === "torso" && p.y < waistY))) return 9;
-  if (spec.skirt && reg === "thigh" && p.y > spec.skirtHemY + 0.12) return 9;     // inside the skirt: never seen, never pokes
+  if (spec.skirt && reg === "thigh" && p.y > spec.skirtHemY + 0.035) return 9;    // inside the skirt: never seen, never pokes through
   if (top) {
     if (reg === "torso" || reg === "hip") return 1;
     if (reg === "arm") {
@@ -604,7 +604,7 @@ function addHem(geo, canon, edgeCount, P0) {
 }
 
 // A ring garment hanging from the waist (skirt, jacket skirt): rings around the hips, skinned to pelvis + thighs.
-function ringGarment(body, J, regionsP, { top, bottom, flare = 1.15, pleats = 0, open = 0, rows = 16, seg = 120, thick = 0.006, zc = null, frontLift = 0, clear = 0.035, band = 0 }) {
+function ringGarment(body, J, regionsP, { top, bottom, flare = 1.15, pleats = 0, open = 0, rows = 16, seg = 120, thick = 0.006, zc = null, frontLift = 0, clear = 0.035, band = 0, follow = 0.5, swing = 0.12 }) {
   const P = body.geometry.attributes.position;
   zc = zc ?? J.pelvis.z + 0.01;
   // body radius per angle between the hem and the waist (the cloth must clear the widest part: the seat, the thighs)
@@ -652,9 +652,10 @@ function ringGarment(body, J, regionsP, { top, bottom, flare = 1.15, pleats = 0,
       const hang = Math.max(base, rHips[tb] + clear) * (1 + (flare - 1) * k * k);
       let rad = band ? rWaist[tb] + band : base + (hang - base) * smooth01(0, 0.35, k);
       rad *= 1 + (pleats ? (tri - 0.5) * 0.05 * smooth01(0.05, 0.6, k) : 0);
+      if (!band) rad *= 1 + swing * Math.abs(Math.sin(a)) * smooth01(0.3, 1, k);   // room in front and behind for the striding knees
       const x = Math.cos(a) * rad, z = zc + Math.sin(a) * rad;
       const side = Math.cos(a) * 1.6;
-      vert(x, y, z, 0.62 * smooth01(0.15, 1, k), Math.max(-1, Math.min(1, side)));
+      vert(x, y, z, follow * smooth01(0.15, 1, k), Math.max(-1, Math.min(1, side)));
     }
   }
   for (let c = 0; c < seg; c++) for (let r = 0; r < rows; r++) {
@@ -883,7 +884,7 @@ export async function actor(f, kind = "man_shirt", opts = {}) {
   physique(src, regions, J, bodyKey === "M" ? { arm: 0.86, leg: 0.95, bulge: 0.3, chest: 0.8, ...(spec.physique || {}) }
     : { arm: 0.86, leg: 0.95, bulge: 0.4, chest: 0.94, ...(spec.physique || {}) });
   const BODY = { geometry: src, skeleton: body.skeleton };
-  if (spec.skirt) spec.skirtHemY = { knee: J.calf_l.y - 0.07, calf: J.calf_l.y - 0.2, mini: J.calf_l.y + 0.12 }[spec.skirt.length || "knee"];
+  if (spec.skirt) spec.skirtHemY = { knee: J.calf_l.y - 0.025, calf: J.calf_l.y - 0.2, mini: J.calf_l.y + 0.12 }[spec.skirt.length || "knee"];
   const idx = src.index.array;
   const triLayer = new Uint8Array(idx.length / 3);
   for (let t = 0; t < idx.length; t += 3) {

@@ -39,9 +39,9 @@ export const CLAY = {
 // sun: defaults for f.sun(). Numbers were tuned against data/benchmark/unlock_kr/raw/screen-rec (look_check.py --ref).
 export const LOOKS = {
   "unlock-day": {   // low sun through leaves on clay buildings, cool shadows, almost monochrome
-    film: { hdri: "kloofendal_misty_morning_puresky", envIntensity: 0.16, exposure: 1.0, background: "#2a2f37",
+    film: { hdri: "kloofendal_misty_morning_puresky", envIntensity: 0.08, exposure: 1.0, background: "#2a2f37",
       fog: { color: "#2a2f37", density: 0.006 } },
-    sun: { color: "#fff3e2", intensity: 3.4, elevation: 24 },
+    sun: { color: "#fff3e2", intensity: 3.6, elevation: 24 },
     grade: { saturation: 0.2, heroSaturation: 0.5, shadowTint: [-0.02, -0.004, 0.07], tint: [-0.012, 0, 0.022],
       gamma: 1.3, knee: 0.36, ceiling: 0.58, vignette: 0.62, grain: 0.045, black: 0.0 },
   },
@@ -126,19 +126,30 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, dens
   // bias -1 … +1 pushes the canopy toward one side of the pattern (the tree stands on that side).
   const branches = [];
   let covered = 0;
-  const want = density * size * size * 1.25;
+  const want = density * size * size;
   for (let i = 0; covered < want && i < 400; i++) {
     let u = R();
     if (bias) u = bias > 0 ? Math.pow(u, 1 / (1 + 2 * bias)) : 1 - Math.pow(1 - u, 1 / (1 - 2 * bias));
-    const rm = 1.1 + R() * 1.6;
-    const b = { x: u * res, y: R() * res, r: rm * px, ph: R() * 6.283, ph2: R() * 6.283, leaves: [] };
-    const nl = Math.round(1.5 * Math.PI * rm * rm / (0.36 * leaf * leaf));   // overlapping: masses with gaps
-    for (let k = 0; k < nl; k++) {
-      const a = R() * 6.283, rr = Math.pow(R(), 0.6) * b.r;   // denser toward the middle of the cluster
-      b.leaves.push({ dx: Math.cos(a) * rr, dy: Math.sin(a) * rr, rot: R() * 6.283, l: leaf * px * (0.55 + R() * 0.9), w: 0.38 + R() * 0.25, ph: R() * 6.283 });
+    const rm = 1.0 + R() * 1.4;
+    const b = { x: u * res, y: R() * res, r: rm * px, ph: R() * 6.283, ph2: R() * 6.283, leaves: [], twigs: [] };
+    // a spray: 5–9 twigs fanning from one point, leaves in alternate pairs along each twig, angled forward
+    const fan = R() * 6.283, nt = 5 + Math.floor(R() * 5);
+    for (let k = 0; k < nt; k++) {
+      const a = fan + (k / nt - 0.5) * (2.2 + R() * 2.0) + (R() - 0.5) * 0.3;
+      const len = rm * px * (0.55 + R() * 0.45);
+      const bend = (R() - 0.5) * 0.6;
+      b.twigs.push({ a, len, bend });
+      const step = leaf * px * (0.42 + R() * 0.12);
+      for (let d = step * 0.8, side = 1; d < len; d += step * 0.5, side = -side) {
+        const aa = a + bend * (d / len);
+        const l = leaf * px * (0.75 + R() * 0.5) * (0.7 + 0.3 * Math.min(1, d / (len * 0.4)));
+        const rot = aa + side * (0.5 + R() * 0.45);
+        const cx = Math.cos(aa) * d + Math.cos(rot) * l * 0.5, cy = Math.sin(aa) * d + Math.sin(rot) * l * 0.5;
+        b.leaves.push({ dx: cx, dy: cy, rot, l, w: 0.28 + R() * 0.14, ph: R() * 6.283 });
+      }
     }
     branches.push(b);
-    covered += Math.PI * rm * rm * 0.75;
+    covered += Math.PI * rm * rm * 0.55;
   }
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.NoColorSpace;
@@ -170,13 +181,17 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 14, dens
         x.restore();
       }
     }
-    // a few twigs so clusters read as branches, not confetti
-    x.strokeStyle = "rgba(8,8,8,0.9)";
-    x.lineWidth = Math.max(1.5, 0.025 * px);
-    for (let i = 0; i < branches.length - 1; i += 2) {
-      const a = branches[i], b = branches[i + 1];
-      const oa = sway * px * Math.sin(w * t + a.ph), ob = sway * px * Math.sin(w * t + b.ph);
-      x.beginPath(); x.moveTo(a.x + oa, a.y); x.quadraticCurveTo((a.x + b.x) / 2, (a.y + b.y) / 2 + 0.4 * px, b.x + ob, b.y); x.stroke();
+    // twigs so sprays read as branches, not confetti
+    x.strokeStyle = "#080808";
+    x.lineWidth = Math.max(1.2, 0.018 * px);
+    for (const b of branches) {
+      const ox = sway * px * Math.sin(w * t + b.ph), oy = sway * px * 0.6 * Math.sin(w * 0.73 * t + b.ph2);
+      for (const tw of b.twigs) {
+        x.beginPath(); x.moveTo(b.x + ox, b.y + oy);
+        const ae = tw.a + tw.bend;
+        x.quadraticCurveTo(b.x + ox + Math.cos(tw.a) * tw.len * 0.5, b.y + oy + Math.sin(tw.a) * tw.len * 0.5, b.x + ox + Math.cos(ae) * tw.len, b.y + oy + Math.sin(ae) * tw.len);
+        x.stroke();
+      }
     }
     }
     x0.filter = `blur(${Math.max(0.5, soft * px).toFixed(2)}px)`;
