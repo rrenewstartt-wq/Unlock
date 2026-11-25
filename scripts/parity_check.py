@@ -189,8 +189,13 @@ def main():
     row("화면", "실제 사진 컷(약 3초)", f"컷 2.5~4초, 중간 하이라이트 3초 컷 {want_ins}개 이상(2~3분마다)",
         f"사진 컷 {len(ar_d)}개" + (f", 길이 {min(ar_d):.1f}~{max(ar_d):.1f}초" if ar_d else "") + f", 중간 삽입 {n_ins}개",
         bool(ar_d) and all(2.5 <= d <= 4.2 for d in ar_d) and n_ins >= want_ins)
-    missing_tag = [sid for sid in real if "tag-re" not in comp[sid]]
-    row("화면", "3D 에 '재현' 표기", "모든 3D 장면", "누락 " + (", ".join(missing_tag) if missing_tag else "없음"), not missing_tag)
+    kit_src = (ep / "scenes_kit.py").read_text(encoding="utf-8") if (ep / "scenes_kit.py").exists() else ""
+    if "RECON_TAG = False" in kit_src:  # 사용자 결정 2026-11-25: 레퍼런스처럼 3D 에 꼬리표 없음
+        tagged = [sid for sid in real if "tag-re" in comp[sid]]
+        row("화면", "3D 꼬리표(레퍼런스와 같게 없음)", "없음", "붙은 장면 " + (", ".join(tagged) if tagged else "없음"), not tagged)
+    else:
+        missing_tag = [sid for sid in real if "tag-re" not in comp[sid]]
+        row("화면", "3D 에 '재현' 표기", "모든 3D 장면", "누락 " + (", ".join(missing_tag) if missing_tag else "없음"), not missing_tag)
     # Static shot estimate: 3D = camera cuts, 2D = one beat per caption.
     est = []
     for s in scenes:

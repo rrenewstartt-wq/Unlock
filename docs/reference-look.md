@@ -48,7 +48,8 @@ CLAUDE.md 규칙 1(2026-11-25)에 따라 **스타일·공식·포맷은 똑같�
 | 제목 카드·자막 | 이름표·반투명 띠 자막 | 타자 제목 카드, 상자 없는 자막 | motion-designer | `scenes_kit.title_card()`, 자막 스킨 |
 | 도식 | 검은 보드 2D만 | + 3D 위 빨간 선·거리 숫자·경로·핀 | motion-designer | film 키트 `f.measure()`, `f.route()`, `f.label3d()` |
 | 실제 자료 | 앰버 테두리 `기록` 꼬리표, 종이 띠 | 같은 그레이드의 전체 화면 사진 + 느린 밀기, 위성 줌 | motion-designer + archive-researcher | `archive_scene` 룩 옵션, `bake-basemap` |
-| 강조색 | 앰버 | 레퍼런스는 빨간 선 | **사람 결정 대기**(STATUS 5번). 키트는 강조색을 변수 하나로 둔다 | |
+| 강조색 | 앰버 | 빨강 #D8382E(**사용자 결정 2026-11-25**) | 모두 | `scenes_kit.ACCENT`, `overlay3d.ACCENT`, `look.js ACCENT`, `thumb_grade --accent red` |
+| 3D 꼬리표 | `재현` | 없음(**사용자 결정 2026-11-25**) | 모두 | `scenes_kit.RECON_TAG = False`(새 편 기본), parity 는 붙은 장면을 실패로 셈 |
 
 ## 4. 검수
 - `python3 scripts/look_check.py <스냅샷|렌더>` — 3D는 `--kind 3d`(기본), 실제 사진은 `--kind photo`. 장면마다 1장 이상 범위 안이어야 한다.

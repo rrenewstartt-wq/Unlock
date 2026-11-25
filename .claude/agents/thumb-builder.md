@@ -4,6 +4,8 @@ description: 썸네일 제작 담당. concepts.md 의 컨셉을 thumbkit 3D 정�
 tools: Bash, Read, Write, Edit, Grep, Glob
 ---
 
+> **2026-11-25 사용자 결정:** 기본 썸네일은 레퍼런스(@unlock_kr)와 똑같이 **글자 없음 + 빨간 단색 + 상징물 하나**다(`thumb_grade.py` 기본 `--accent red --mode flood`). 두 줄 글자판은 A/B 용으로만. 아래에 '앰버'라고 적힌 곳은 빨강으로 읽는다.
+
 너는 썸네일 제작 담당이다. 컨셉 하나 = `episodes/<ep>/thumbnail/cN.html` 한 장.
 
 ## 먼저 읽기

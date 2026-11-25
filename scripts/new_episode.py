@@ -67,6 +67,11 @@ def main():
         src, out = REF / rel, dst / rel
         out.parent.mkdir(parents=True, exist_ok=True)
         (shutil.copytree if src.is_dir() else shutil.copy2)(src, out)
+    # 레퍼런스와 같은 룩(사용자 결정 2026-11-25): 강조색 빨강, 3D 재현 꼬리표 없음, 상자 없는 자막. ep01 원본은 옛 룩 그대로.
+    kit = dst / "scenes_kit.py"
+    kt = kit.read_text(encoding="utf-8")
+    kt = kt.replace("ACCENT = AMBER\nRECON_TAG = True\n", 'ACCENT = "#D8382E"\nRECON_TAG = False\n')
+    kit.write_text(kt, encoding="utf-8")
     (dst / "compositions").mkdir(exist_ok=True)
     (dst / "meta.json").write_text(json.dumps({"id": slug, "name": name}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (dst / "data" / "script.txt").write_text(SCRIPT_TPL, encoding="utf-8")

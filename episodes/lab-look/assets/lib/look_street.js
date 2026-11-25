@@ -178,7 +178,7 @@ export function createLookStreet(stage, opts = {}) {
     const prof = [[0, 0], [0.036, 0], [0.037, 0.002], [0.036, 0.005], [0.03, 0.008], [0.018, 0.011], [0.011, 0.016], [0.0085, 0.03],
       [0.012, 0.04], [0.02, 0.046], [0.026, 0.056], [0.028, 0.068], [0.026, 0.08], [0.019, 0.09], [0.009, 0.0955], [0, 0.097]]
       .map(([r, y]) => new THREE.Vector2(r, y));
-    const brass = new THREE.MeshStandardMaterial({ color: "#b58a46", metalness: 1, roughness: 0.32, envMap: S.environment, envMapIntensity: 0.22 });
+    const brass = new THREE.MeshStandardMaterial({ color: "#b58a46", metalness: 1, roughness: 0.32, envMap: f.envTex, envMapIntensity: 0.22 });
     const knob = new THREE.Mesh(new THREE.LatheGeometry(prof, 48), brass);
     knob.rotation.x = Math.PI / 2;
     knob.position.set(KNOB[0], KNOB[1], dz + 0.045 + 0.0225);

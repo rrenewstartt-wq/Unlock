@@ -3,11 +3,13 @@
     python3 scripts/thumb_grade.py <beauty.png> <mask.png|-> <out.jpg> --mode spot|flood [options]
 
 Modes (docs/thumbnail-formula.md):
-  spot   the frame goes near-black neutral grey; ONLY the focus keeps a colour: amber.    (어둠 속 앰버 하나)
-  flood  the whole frame is flooded amber; the focus is the odd one out: cold steel/ice.  (앰버 바다 속 다른 색 하나)
-  tone   amber is the light: the whole frame black → amber → cream by brightness. Light the focus, leave the rest dark. (어둠 속 앰버 빛)
+  flood  the whole frame is flooded in the accent; the focus is the odd one out: cold steel/ice.  (빨간 바다 속 다른 색 하나) — 기본
+  spot   the frame goes near-black neutral grey; ONLY the focus keeps the accent colour.  (어둠 속 빨강 하나)
+  tone   the accent is the light: the whole frame black → accent → cream by brightness. (어둠 속 빨간 빛)
+Accent: red, like the reference (사용자 결정 2026-11-25); --accent amber keeps the old channel colour.
 Options:
-  --focus amber|cold|pale|natural   override the focus treatment
+  --accent red|amber               the one colour (default red)
+  --focus accent|cold|pale|natural override the focus treatment ("amber" still accepted = accent)
   --lift 0..1      brighten the field (flood fields are mid-bright, spot fields dark)
   --grain 0..30    film grain strength (default 13)    --vignette 0..1 (default .5)
   --glow 0..1      amber light spilling from the focus into the dark (spot mode)
@@ -28,6 +30,8 @@ W, H = 1280, 720
 RAMPS = {
     "amber":   ([12, 6, 2],   [236, 150, 46],  [255, 236, 196]),
     "field":   ([22, 10, 3],  [196, 112, 30],  [255, 214, 150]),   # amber flood for the whole frame
+    "red":     ([14, 2, 2],   [200, 36, 30],   [255, 214, 200]),
+    "redfield": ([20, 3, 3],  [150, 22, 20],   [246, 170, 150]),   # the reference's red flood (bench thumbs, 30–87 % of the frame)
     "cold":    ([4, 10, 18],  [70, 120, 160],  [214, 236, 248]),
     "pale":    ([14, 14, 14], [150, 150, 146], [246, 244, 238]),
     "grey":    ([4, 5, 6],    [72, 76, 80],    [200, 202, 204]),    # spot-mode background
@@ -51,8 +55,9 @@ def levels(l, black, white, gamma):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("beauty"); ap.add_argument("mask"); ap.add_argument("out")
-    ap.add_argument("--mode", choices=["spot", "flood", "tone"], default="spot")
-    ap.add_argument("--focus", choices=["amber", "cold", "pale", "natural"], default=None)
+    ap.add_argument("--mode", choices=["spot", "flood", "tone"], default="flood")
+    ap.add_argument("--accent", choices=["red", "amber"], default="red")
+    ap.add_argument("--focus", choices=["accent", "amber", "cold", "pale", "natural"], default=None)
     ap.add_argument("--lift", type=float, default=None)
     ap.add_argument("--grain", type=float, default=13)
     ap.add_argument("--vignette", type=float, default=0.5)
@@ -71,15 +76,18 @@ def main():
     else:
         M = np.zeros((H, W, 1), np.float32)
 
-    focus = a.focus or ("amber" if a.mode == "spot" else "cold")
+    acc, accfield = ("red", "redfield") if a.accent == "red" else ("amber", "field")
+    focus = a.focus or ("accent" if a.mode == "spot" else "cold")
+    if focus in ("accent", "amber"):
+        focus = acc
     if a.mode == "spot":
         lift = 0.0 if a.lift is None else a.lift
         bg = ramp(levels(L, 0.03, 0.75 - 0.3 * lift, 1.25), "grey")
     else:
         lift = 0.35 if a.lift is None else a.lift
-        bg = ramp(levels(L, 0.02, 0.95 - 0.35 * lift, 1.0), "field")
+        bg = ramp(levels(L, 0.02, 0.95 - 0.35 * lift, 1.0), accfield)
     if a.mode == "tone":   # amber is the light itself: black → amber → cream by luminance, whole frame (mask unused)
-        bg = ramp(levels(L, 0.015, 0.85 - 0.35 * (a.lift or 0), 1.1), "amber", 0.6)
+        bg = ramp(levels(L, 0.015, 0.85 - 0.35 * (a.lift or 0), 1.1), acc, 0.6)
         M = np.zeros_like(M)
     lf = levels(L, 0.02, 0.8 + 0.5 * a.depth, 0.85 + 0.6 * a.depth)
     fg = rgb_in * 255 if focus == "natural" else ramp(lf, focus)
@@ -88,7 +96,7 @@ def main():
     if a.mode == "spot" and a.glow > 0 and M.max() > 0:   # amber spill around the focus, in screen space
         halo = Image.fromarray((M[..., 0] * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(60))
         hv = np.asarray(halo).astype(np.float32)[..., None] / 255
-        out = out + (1 - M) * hv * a.glow * np.array([240, 150, 50], np.float32)
+        out = out + (1 - M) * hv * a.glow * np.array([230, 50, 40] if a.accent == "red" else [240, 150, 50], np.float32)
 
     yy, xx = np.mgrid[0:H, 0:W]
     v = 1 - a.vignette * np.clip(((xx - W / 2) / (W * 0.72)) ** 2 + ((yy - H / 2) / (H * 0.72)) ** 2, 0, 1)

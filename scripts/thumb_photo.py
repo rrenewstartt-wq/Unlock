@@ -6,7 +6,7 @@
 --crop   part of the photo to use, 0..1 of the source (default: all)
 --side   where the photo sits; the other side is left dark for the text board
 --height photo height as a share of the frame (1.0 = full height; >1 crops further in)
---tone   amber = archival duotone (black → amber → cream), bw = neutral black and white with lifted contrast
+--tone   red = 레퍼런스 빨간 단색 듀오톤(black → red → cream, 기본, 2026-11-25), amber = 옛 채널 듀오톤, bw = neutral black and white
 --fade   how far the photo's inner edge fades into the dark field (share of the photo width)
 Only public-domain / official released photos; record the source in thumbnail/src/SOURCES.md.
 """
@@ -25,7 +25,7 @@ def main():
     ap.add_argument("--crop", default="0,0,1,1")
     ap.add_argument("--side", choices=["right", "left", "center"], default="right")
     ap.add_argument("--height", type=float, default=1.0)
-    ap.add_argument("--tone", choices=["amber", "bw"], default="amber")
+    ap.add_argument("--tone", choices=["red", "amber", "bw"], default="red")
     ap.add_argument("--grain", type=float, default=12)
     ap.add_argument("--fade", type=float, default=0.35)
     a = ap.parse_args()
@@ -66,8 +66,9 @@ def main():
     L[dy0:dy0 + h, dx0:dx0 + w] = reg * (1 - alpha[sy0:sy0 + h, sx0:sx0 + w]) + P[sy0:sy0 + h, sx0:sx0 + w] * alpha[sy0:sy0 + h, sx0:sx0 + w]
 
     l = np.clip(L / 255, 0, 1) ** 1.1
-    if a.tone == "amber":
-        d, m, hi = np.array([8, 4, 1]), np.array([190, 112, 36]), np.array([255, 232, 190])
+    if a.tone in ("amber", "red"):
+        d, m, hi = (np.array([10, 2, 2]), np.array([170, 30, 26]), np.array([250, 214, 200])) if a.tone == "red" else \
+            (np.array([8, 4, 1]), np.array([190, 112, 36]), np.array([255, 232, 190]))
         l3 = l[..., None]
         rgb = np.where(l3 < 0.55, d + (m - d) * (l3 / 0.55), m + (hi - m) * ((l3 - 0.55) / 0.45))
     else:

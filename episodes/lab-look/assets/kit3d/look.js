@@ -36,10 +36,14 @@ export const CLAY = {
 
 // ---------------------------------------------------------------- look presets
 // film: options merged under the film's own (explicit options win). grade: the post-process (see Grade below).
+// ambient: the HDRI's diffuse fill replaced by a hemisphere light of the same average (linear sky/ground irradiance =
+//   π · HDRI hemisphere mean · envIntensity, measured). Image-based lighting on every pixel cost ~1.4 s a frame on
+//   SwiftShader; the HDRI stays loaded as f.envTex for metals/glass (material.envMap = f.envTex). ambient: null = IBL.
 // sun: defaults for f.sun(). Numbers were tuned against data/benchmark/unlock_kr/raw/screen-rec (look_check.py --ref).
 export const LOOKS = {
   "unlock-day": {   // low sun through leaves on clay buildings, cool shadows, almost monochrome
     film: { hdri: "kloofendal_misty_morning_puresky", envIntensity: 0.07, exposure: 1.0, background: "#2a2f37",
+      ambient: { sky: [0.235, 0.249, 0.282], ground: [0.113, 0.118, 0.13] },
       fog: { color: "#2a2f37", density: 0.006 } },
     sun: { color: "#fff3e2", intensity: 3.6, elevation: 24 },
     grade: { saturation: 0.2, heroSaturation: 0.5, shadowTint: [-0.02, -0.004, 0.07], tint: [-0.012, 0, 0.022],
@@ -47,6 +51,7 @@ export const LOOKS = {
   },
   "unlock-night": { // navy dark, one cool moon/street key through leaves, one window
     film: { hdri: "evening_road_01_puresky", envIntensity: 0.05, exposure: 1.0, background: "#0b0f17",
+      ambient: { sky: [0.173, 0.2, 0.218], ground: [0.094, 0.107, 0.112] },
       fog: { color: "#0e131c", density: 0.012 } },
     sun: { color: "#c9d6ee", intensity: 1.6, elevation: 32 },
     grade: { saturation: 0.3, heroSaturation: 0.8, shadowTint: [-0.01, 0.0, 0.045], tint: [-0.01, 0, 0.02],
@@ -54,6 +59,7 @@ export const LOOKS = {
   },
   "unlock-interior": { // grey-blue haze, light from one window/board, faces lost in the dark
     film: { hdri: "blinds", envIntensity: 0.1, exposure: 1.0, background: "#151920",
+      ambient: { sky: [0.12, 0.13, 0.16], ground: [0.05, 0.05, 0.06] },
       fog: { color: "#3a4049", density: 0.045 } },
     sun: { color: "#e6ecf5", intensity: 2.2, elevation: 30 },
     grade: { saturation: 0.15, heroSaturation: 0.7, shadowTint: [-0.008, 0.0, 0.03], tint: [-0.004, 0, 0.01],

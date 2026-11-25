@@ -1,14 +1,14 @@
 ---
 name: thumbnail
-description: 썸네일 팀(thumb-director → thumb-builder → thumb-critic)을 돌려 한 편의 썸네일 2~3안을 만들고 검수해 고르게 한다. @unlock_kr 썸네일 원리(글자 없음·색 하나·튀는 것 하나·상징물 클로즈업·암시·필름 질감)를 앰버로 적용. "썸네일 만들어줘", "썸네일 다시", 기획안 승인 뒤나 렌더 뒤에 사용.
+description: 썸네일 팀(thumb-director → thumb-builder → thumb-critic)을 돌려 한 편의 썸네일 2~3안을 만들고 검수해 고르게 한다. @unlock_kr 썸네일과 똑같이(2026-11-25): 글자 없음·빨간 단색·튀는 것 하나·상징물 클로즈업·암시·필름 질감. 두 줄 글자판은 A/B 용. "썸네일 만들어줘", "썸네일 다시", 기획안 승인 뒤나 렌더 뒤에 사용.
 ---
 
 # /thumbnail <ep 폴더 또는 slug>   예) /thumbnail episodes/ep02-gaston
 
 기준서: `docs/thumbnail-formula.md`. 도구: `thumbkit/thumbkit.js`, `scripts/thumbnail.sh`, `thumb_grade.py`, `thumb_review.py`, `thumb_assets.py`.
 
-0. **문구(먼저):** `thumb-copywriter` → `thumbnail/copy.md`(공식은 `docs/thumbnail-copy.md`), `thumb-copy-critic` 이 상위 3개를 고른다. 문구가 이미지보다 클릭에 크게 작용한다(`docs/thumbnail-benchmark.md`).
-1. **컨셉:** `thumb-director` 에게 ep 폴더(없으면 `data/topics/plans/<slug>.md`)를 준다 → `thumbnail/concepts.md` (3~4안, spot·flood 섞기).
+0. **문구(A/B 글자판용, 선택):** 기본판은 글자 없음이다. 글자판도 만들 때만 `thumb-copywriter` → `thumbnail/copy.md`(공식은 `docs/thumbnail-copy.md`), `thumb-copy-critic` 이 상위 3개를 고른다. 문구가 이미지보다 클릭에 크게 작용한다(`docs/thumbnail-benchmark.md`).
+1. **컨셉:** `thumb-director` 에게 ep 폴더(없으면 `data/topics/plans/<slug>.md`)를 준다 → `thumbnail/concepts.md` (3~4안, **빨강** flood 기본 + spot·tone 섞기, 기본판은 글자 없음).
    사용자에게 컨셉 표를 보이고, 고르라고 하지 않았으면 추천 2~3안으로 진행.
 2. **제작:** `thumb-builder` 에게 컨셉 번호들을 준다 → `thumbnail/cN.html` + `thumbnail/out/thumb-cN.jpg`, `textboard-cN.jpg`.
    컨셉끼리는 서로 독립이라 builder 를 여러 명 동시에 돌려도 된다(같은 cN 을 두 명에게 주지 않는다).

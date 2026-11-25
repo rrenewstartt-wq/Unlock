@@ -16,7 +16,7 @@ HERE = pathlib.Path(__file__).resolve().parent.parent
 FONT = HERE / "assets" / "fonts" / "BlackHanSans-Regular.ttf"
 W, H = 1280, 720
 WHITE = (255, 248, 236)
-AMBER = (255, 184, 48)      # brighter than the video's #F0A23B so it survives YouTube's small sizes
+AMBER = (235, 52, 40)       # 강조 줄 색: 빨강(2026-11-25, 레퍼런스와 같게). 옛 앰버는 (255, 184, 48)
 MARK = (255, 196, 40)
 
 

@@ -75,6 +75,13 @@ export class Film extends Thumb {
     f.frameHooks = [];
     f.time = 0;
     await f._init(L.opts);
+    f.envTex = f.scene.environment;           // for metals/glass: material.envMap = f.envTex
+    const amb = L.opts.ambient;
+    if (amb) {                                // cheap fill instead of image-based lighting on every pixel (look.js LOOKS)
+      f.scene.environment = null;
+      const lin = (c) => new THREE.Color().setRGB(...c);
+      f.scene.add(new THREE.HemisphereLight(lin(amb.sky), lin(amb.ground), 1));
+    }
     if (L.grade) f.post = new Grade(f, L.grade);
     return f;
   }

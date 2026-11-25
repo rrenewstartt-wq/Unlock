@@ -10,6 +10,9 @@ FONTS = """
 """
 
 AMBER = "#F0A23B"
+# 강조색과 재현 표기 — new_episode.py 가 새 편에서 빨강·표기 없음으로 바꾼다(사용자 결정 2026-11-25: 레퍼런스와 같게).
+ACCENT = "#D8382E"
+RECON_TAG = False
 INK = "#E9E5DD"
 GROUND = "#1E2125"
 
@@ -45,7 +48,7 @@ def clip(id_, start, dur, cls="", inner="", style="", extra=""):
 
 def scene3d(sid, dur, module, factory, opts, overlay="", tweens="", css=""):
     markup = f"""    {clip(sid + '-stage', 0, dur, extra=' data-layout-ignore', style='position:absolute;inset:0')}
-    {clip(sid + '-re', 0.3, dur - 0.3, 'tag-re', '재현')}
+    {clip(sid + '-re', 0.3, dur - 0.3, 'tag-re', '재현') if RECON_TAG else ''}
 {overlay}"""
     script = f"""    import {{ {factory} }} from "./assets/lib/{module}.js";
     const render = {factory}(document.getElementById("{sid}-stage"), {opts});
@@ -239,10 +242,10 @@ def archive_scene(sid, dur, q, shots, label="기록", css="", overlay="", tweens
     .ar-cover .ar-img {{ width: 1920px; height: 1080px; object-fit: cover; }}
     .ar-img {{ display: block; }}
     .ar-ring {{ position: absolute; left: 0; top: 0; overflow: visible; }}
-    .ar-ring ellipse {{ fill: none; stroke: {AMBER}; stroke-width: 7; stroke-linecap: round; }}
+    .ar-ring ellipse {{ fill: none; stroke: {ACCENT}; stroke-width: 7; stroke-linecap: round; }}
     .ar-cap {{ position: absolute; left: 0; right: 0; top: 830px; text-align: center; font-size: 32px; color: rgba(233,229,221,.9); }}
     .ar-credit {{ position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }}
-    .tag-ar {{ border-color: {AMBER}; }}"""
+    .tag-ar {{ border-color: {ACCENT}; }}"""
     script = ("    const tl = gsap.timeline({ paused: true });\n" + "\n".join(tw) + "\n" + tweens +
               f'\n    window.__timelines["{sid}"] = tl;')
     return wrap(sid, dur, base_css + css, "\n".join(["    " + m for m in markup]) + "\n    " + tag + "\n" + overlay, script)
@@ -290,7 +293,7 @@ def _archive_unlock(sid, dur, q, shots, t_of, css="", overlay="", tweens=""):
     .ar-cam {{ position: absolute; inset: 0; transform-origin: 50% 50%; }}
     .ar-img {{ display: block; }}
     .ar-ring {{ position: absolute; overflow: visible; }}
-    .ar-ring ellipse {{ fill: none; stroke: {AMBER}; stroke-width: 7; stroke-linecap: round; }}
+    .ar-ring ellipse {{ fill: none; stroke: {ACCENT}; stroke-width: 7; stroke-linecap: round; }}
     .ar-u-credit {{ position: absolute; right: 40px; top: 34px; font-size: 22px; line-height: 1.2; color: rgba(240,238,234,.72);
       text-shadow: 0 1px 3px rgba(0,0,0,.9); white-space: nowrap; }}"""
     script = ("    const tl = gsap.timeline({ paused: true });\n" + "\n".join(tw) + "\n" + tweens +
@@ -338,8 +341,8 @@ def archive_insert(sid, at, src, size, dur=3.0, focus=None, caption="", credit="
       outline: 18px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }}
     .ar-img {{ display: block; }}
     .ar-ring {{ position: absolute; left: 0; top: 0; overflow: visible; }}
-    .ar-ring ellipse {{ fill: none; stroke: {AMBER}; stroke-width: 7; stroke-linecap: round; }}
+    .ar-ring ellipse {{ fill: none; stroke: {ACCENT}; stroke-width: 7; stroke-linecap: round; }}
     .ar-cap {{ position: absolute; left: 0; right: 0; top: 830px; text-align: center; font-size: 32px; color: rgba(233,229,221,.9); }}
     .ar-credit {{ position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }}
-    .tag-ar {{ border-color: {AMBER}; }}"""
+    .tag-ar {{ border-color: {ACCENT}; }}"""
     return markup, css, "\n".join(tw)

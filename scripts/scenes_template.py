@@ -7,6 +7,8 @@ Rules: ../../docs/visual-style.md (look and diagram rules), SPEC.md.
 from scenes_kit import *  # noqa: F401,F403
 from scenes_kit import wrap, clip
 
+CAPTION_SKIN = "unlock"  # 레퍼런스 자막: 상자 없는 흰 글자(docs/reference-look.md)
+
 
 def placeholder(sid, dur, q):
     markup = f"""    {clip(sid + '-ph', 0, dur, 'ph', '<b class="disp">' + sid + '</b><span>장면을 만들어 주세요</span>')}"""
