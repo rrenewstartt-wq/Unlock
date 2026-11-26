@@ -1,0 +1,28 @@
+<template>
+  <style>
+
+    @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+    @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1E2125; color: #E9E5DD; font-family: "Gothic A1", sans-serif; }
+    .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
+      border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
+
+  </style>
+  <div id="root" data-composition-id="aerial" data-width="1920" data-height="1080">
+    <div id="aerial-stage" class="clip" data-start="0" data-duration="4.3" style="position:absolute;inset:0" data-layout-ignore></div>
+    
+
+  </div>
+  <script type="module">
+    import { createLookStreet } from "./assets/lib/look_street.js";
+    const render = createLookStreet(document.getElementById("aerial-stage"), {"cut": "aerial", "camera": {"preset": "aerialDescend", "target": [0.6, 0.8, -0.5], "t0": 0, "t1": 5.5, "azimuth": 24, "orbit": -9, "height": [17, 11.5], "dist": [12.5, 9.2], "fov": [42, 38.5], "lookLift": [0, 1.0]}});
+    const st = { t: 0 };
+    const tl = gsap.timeline({ paused: true });
+    tl.to(st, { t: 4.3, duration: 4.3, ease: "none", onUpdate: () => render(st.t) }, 0);
+
+    render(0);
+    window.__timelines["aerial"] = tl;
+  </script>
+</template>

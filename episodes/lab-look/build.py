@@ -25,6 +25,9 @@ CAPTION_SKINS = {
 }
 # vars(S), not getattr: a scenes.py with a module __getattr__ (the template's placeholder fallback) answers every name.
 CAPTION_SKIN = vars(S).get("CAPTION_SKIN", "classic")
+# CSS film layers over the whole frame (#grain, #vignette). scenes.py may set INDEX_FILM_LAYERS = False when every scene
+# is graded by the film kit's `look` (thumbkit/LOOK.md: the grade already adds vignette + grain, so they would be doubled).
+INDEX_FILM_LAYERS = vars(S).get("INDEX_FILM_LAYERS", True)
 
 
 def local_cues(sc):
@@ -176,17 +179,24 @@ def index(durs, cards=False):
 {CARDS_HOST if cards else ""}      <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="{TOTAL}" data-track-index="2" data-track-kind="captions" data-width="1920" data-height="1080" style="z-index:60"></div>
 {sfx_tags()}
 {voice_tags()}
-      <div id="grain-wrap" data-layout-ignore style="position:absolute;inset:0;overflow:hidden;z-index:50;pointer-events:none"><div id="grain"></div></div>
-      <div id="vignette" data-layout-ignore></div>
-    </div>
+{FILM_LAYERS if INDEX_FILM_LAYERS else ""}    </div>
     <script>
       const tl = gsap.timeline({{ paused: true }});
-      tl.fromTo("#grain", {{ backgroundPosition: "0px 0px" }}, {{ backgroundPosition: "-{int(TOTAL * 12) * 137}px {int(TOTAL * 12) * 89}px", duration: {TOTAL}, ease: "steps({int(TOTAL * 12)})" }}, 0);
-      window.__timelines["main"] = tl;
+{grain_tween() if INDEX_FILM_LAYERS else ""}      window.__timelines["main"] = tl;
     </script>
   </body>
 </html>
 """
+
+
+FILM_LAYERS = ('      <div id="grain-wrap" data-layout-ignore style="position:absolute;inset:0;overflow:hidden;z-index:50;pointer-events:none"><div id="grain"></div></div>\n'
+               '      <div id="vignette" data-layout-ignore></div>\n')
+
+
+def grain_tween():
+    n = int(TOTAL * 12)
+    return (f'      tl.fromTo("#grain", {{ backgroundPosition: "0px 0px" }}, {{ backgroundPosition: "-{n * 137}px {n * 89}px", '
+            f'duration: {TOTAL}, ease: "steps({n})" }}, 0);\n')
 
 
 CARDS_HOST = (f'      <div id="cards" data-composition-id="cards" data-composition-src="compositions/cards.html" data-start="0" '

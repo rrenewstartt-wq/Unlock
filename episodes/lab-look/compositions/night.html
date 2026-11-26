@@ -1,0 +1,28 @@
+<template>
+  <style>
+
+    @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+    @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1E2125; color: #E9E5DD; font-family: "Gothic A1", sans-serif; }
+    .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
+      border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
+
+  </style>
+  <div id="root" data-composition-id="night" data-width="1920" data-height="1080">
+    <div id="night-stage" class="clip" data-start="0" data-duration="5.88" style="position:absolute;inset:0" data-layout-ignore></div>
+    
+    <div id="night-fade" class="clip fade-k" data-start="0" data-duration="5.88" style="position:absolute;inset:0;background:#000;opacity:0;z-index:40"></div>
+  </div>
+  <script type="module">
+    import { createLookStreet } from "./assets/lib/look_street.js";
+    const render = createLookStreet(document.getElementById("night-stage"), {"cut": "window", "camera": {"preset": "lateralDrift", "target": [-1.2, 4.25, -1], "t0": 0, "t1": 6.88, "azimuth": 12, "dist": 5.2, "travel": 1.6, "height": 2.7, "lead": 0.3, "fov": 36}});
+    const st = { t: 0 };
+    const tl = gsap.timeline({ paused: true });
+    tl.to(st, { t: 5.88, duration: 5.88, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.to("#night-fade", { opacity: 1, duration: 2.88, ease: "power1.in" }, 2.9);
+    render(0);
+    window.__timelines["night"] = tl;
+  </script>
+</template>

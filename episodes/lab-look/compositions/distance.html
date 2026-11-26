@@ -11,19 +11,16 @@
 
   </style>
   <div id="root" data-composition-id="distance" data-width="1920" data-height="1080">
-    <div id="distance-stage" class="clip" data-start="0" data-duration="5.48" style="position:absolute;inset:0" data-layout-ignore></div>
-    <div id="distance-re" class="clip tag-re" data-start="0.3" data-duration="5.18">재현</div>
+    <div id="distance-stage" class="clip" data-start="0" data-duration="3.9" style="position:absolute;inset:0" data-layout-ignore></div>
+    
 
   </div>
   <script type="module">
-    import { createOverlayRoad } from "./assets/lib/overlay_road.js";
-    const render = createOverlayRoad(document.getElementById("distance-stage"), { mode: "measure", camera: [
-      { t: 0, pos: [11, 15, 22], look: [0, 0, -8], fov: 42 },
-      { t: 5.48, pos: [10.12, 13.8, 19.6], look: [0, 0, -8], fov: 42, ease: "linear" }
-    ] });
+    import { createLookStreetMarks } from "./assets/lib/look_marks.js";
+    const render = createLookStreetMarks(document.getElementById("distance-stage"), {"cut": "aerial", "camera": {"preset": "aerialDescend", "target": [-7.5, 0, 5.6], "t0": 0, "t1": 4.9, "azimuth": 24, "orbit": -7, "height": [27, 23], "dist": [10, 7.8], "fov": [46, 42.5], "lookLift": [0, 0.3]}, "marks": [{"type": "measure", "a": [1.5, 0, 5.4], "b": [-18.5, 0, 5.4], "label": "20m", "start": 0.4, "dur": 1.5, "labelSize": 2.2, "labelHeight": 2.6, "width": 0.26}, {"type": "pin", "pos": [-18.5, 0, 5.4], "start": 1.8, "height": 2.2, "head": 0.3}]});
     const st = { t: 0 };
     const tl = gsap.timeline({ paused: true });
-    tl.to(st, { t: 5.48, duration: 5.48, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.to(st, { t: 3.9, duration: 3.9, ease: "none", onUpdate: () => render(st.t) }, 0);
 
     render(0);
     window.__timelines["distance"] = tl;

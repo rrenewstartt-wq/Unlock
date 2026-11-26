@@ -1,0 +1,55 @@
+<template>
+  <style>
+
+    @font-face { font-family: "Gothic A1"; font-weight: 500; src: url("assets/fonts/GothicA1-Medium.ttf"); }
+    @font-face { font-family: "Black Han Sans"; font-weight: 400; src: url("assets/fonts/BlackHanSans-Regular.ttf"); }
+
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1E2125; color: #E9E5DD; font-family: "Gothic A1", sans-serif; }
+    .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
+      border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
+    @font-face { font-family: "Gothic A1 Bold"; font-weight: 700; src: url("assets/fonts/GothicA1-Bold.ttf"); }
+
+    .tcard { position: absolute; inset: 0; z-index: 30; pointer-events: none; }
+    .tc-in { position: absolute; inset: 0; }
+    .tc-ch { display: none; }
+    .tc-t { position: absolute; left: 113px; top: 750px; height: 48px; white-space: nowrap;
+      font-family: "Gothic A1 Bold", "Gothic A1", sans-serif; font-weight: 700; font-size: 41px; line-height: 48px;
+      color: #FFFFFF; letter-spacing: -0.005em; text-shadow: 0 1px 2px rgba(0,0,0,.55), 0 0 14px rgba(0,0,0,.35); }
+    .tc-cur { display: inline-block; width: 20px; height: 40px; margin-left: 2px;
+      vertical-align: top; margin-top: 0px; background: #FFFFFF; opacity: 0; }
+    .tc-s { position: absolute; left: 116px; top: 812px; white-space: nowrap; font-family: "Gothic A1", sans-serif;
+      font-weight: 500; font-size: 28px; line-height: 1.2; color: #E4E2DF; text-shadow: 0 1px 2px rgba(0,0,0,.6), 0 0 12px rgba(0,0,0,.35); }
+    .tc-rule { position: absolute; left: 112px; top: 872px; height: 2px; background: rgba(255,255,255,.82);
+      transform-origin: 0 50%; box-shadow: 0 0 6px rgba(0,0,0,.35); }
+  </style>
+  <div id="root" data-composition-id="follow" data-width="1920" data-height="1080">
+    <div id="follow-stage" class="clip" data-start="0" data-duration="3.9" style="position:absolute;inset:0" data-layout-ignore></div>
+    
+    <div id="follow-tc0" class="clip tcard" data-start="0.35" data-duration="3.55"><div id="follow-tc0-in" class="tc-in"><div class="tc-t"><span id="follow-tc0-t0" class="tc-ch">하</span><span id="follow-tc0-t1" class="tc-ch">나</span><span id="follow-tc0-cur" class="tc-cur"></span></div><div class="tc-s"><span id="follow-tc0-s0" class="tc-ch">열</span><span id="follow-tc0-s1" class="tc-ch">여</span><span id="follow-tc0-s2" class="tc-ch">섯</span><span id="follow-tc0-s3" class="tc-ch">&nbsp;</span><span id="follow-tc0-s4" class="tc-ch">살</span></div><div id="follow-tc0-rule" class="tc-rule" style="width:461px"></div></div></div>
+  </div>
+  <script type="module">
+    import { createLookStreet } from "./assets/lib/look_street.js";
+    const render = createLookStreet(document.getElementById("follow-stage"), {"cut": "follow"});
+    const st = { t: 0 };
+    const tl = gsap.timeline({ paused: true });
+    tl.to(st, { t: 3.9, duration: 3.9, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.set("#follow-tc0-t0", { display: "inline" }, 0.4);
+    tl.set("#follow-tc0-t1", { display: "inline" }, 0.465);
+    tl.fromTo("#follow-tc0-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.55, ease: "power2.out" }, 0.63);
+    tl.set("#follow-tc0-s0", { display: "inline" }, 1.55);
+    tl.set("#follow-tc0-s1", { display: "inline" }, 1.595);
+    tl.set("#follow-tc0-s2", { display: "inline" }, 1.64);
+    tl.set("#follow-tc0-s3", { display: "inline" }, 1.685);
+    tl.set("#follow-tc0-s4", { display: "inline" }, 1.73);
+    tl.set("#follow-tc0-cur", { opacity: 1 }, 0.35);
+    tl.set("#follow-tc0-cur", { opacity: 0 }, 1.03);
+    tl.set("#follow-tc0-cur", { opacity: 1 }, 1.53);
+    tl.set("#follow-tc0-cur", { opacity: 0 }, 2.03);
+    tl.set("#follow-tc0-cur", { opacity: 1 }, 2.53);
+    tl.set("#follow-tc0-cur", { opacity: 0 }, 3.03);
+    tl.to("#follow-tc0-in", { opacity: 0, duration: 0.3, ease: "power2.in" }, 3.58);
+    render(0);
+    window.__timelines["follow"] = tl;
+  </script>
+</template>
