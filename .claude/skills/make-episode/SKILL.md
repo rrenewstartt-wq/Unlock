@@ -70,7 +70,7 @@ cd episodes/<ep> && python3 data/build_script.py && python3 ../../scripts/parity
    글자·도식: 제목 카드·자막·3D 공간 도식·사진 처리는 `motion-designer`, 검은 보드 도식은 `diagram-builder`. 사진 컷: `archive_scene`/`archive_insert`.
 2. `editor` 가 리듬·싱크를 맞춘다. `visual-critic` 장면 검수 → P0 고침.
 3. 렌더: `npx hyperframes render --start 0 --end <파일럿 끝 초> -o renders/pilot.mp4` (백그라운드).
-4. `reference-analyst` 가 영역별 블라인드 시트(3장 이상) → `parity-judge` 파일럿 판정.
+4. `reference-analyst` 가 영역별 블라인드 시트(3장 이상) → `parity-judge` 가 칸마다 점수 → 쇼러너가 `scripts/blind_score.py` 로 합계. **90점 이상이면 통과**(사용자 결정 2026-11-26).
 5. 미달이면 담당에게 돌려 고치고 다시. 같은 영역이 3번 미달이면 멈추고 사용자에게 원인(엔진 한계·자료 부족 등)과 선택지를 보고한다.
 
 ## 6. 전체 장면 (`scenes`)

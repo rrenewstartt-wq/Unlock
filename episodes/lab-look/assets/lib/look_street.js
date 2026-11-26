@@ -118,7 +118,11 @@ function leafLayers(f, sun, size, layers, res = 2048) {
       const c = Math.round(255 * L.strength); mx.fillStyle = `rgb(${c},${c},${c})`; mx.fillRect(0, 0, 4, 4);
       mask = mc;
     }
-    return { img: d.map.image, mask };
+    // blind-2 fix 2 (radial streaks): leafShadows skips the *leaves* inside a `lit` hole but still draws the twigs,
+    // and the twigs of one spray fan out from a single point — so every sun hole showed a fan of thin dark lines
+    // (the "rays" around the door). Clear each hole to white again (its radius stops short of the nearest leaf).
+    const holes = (L.leaves.lit || []).map(([x, y, z, r = 0.3]) => [...P(x, y, z), r * res / size]);
+    return { img: d.map.image, mask, holes };
   });
   const [acc, ax] = canvas(), [, tx] = canvas(), tmp = tx.canvas;
   const tex = new THREE.CanvasTexture(acc);
@@ -130,8 +134,13 @@ function leafLayers(f, sun, size, layers, res = 2048) {
     if (last === t || (still && last !== null)) return;
     last = t;
     ax.globalCompositeOperation = "source-over"; ax.fillStyle = "#fff"; ax.fillRect(0, 0, res, res);
-    for (const { img, mask } of srcs) {
+    for (const { img, mask, holes } of srcs) {
       tx.globalCompositeOperation = "source-over"; tx.drawImage(img, 0, 0, res, res);           // lit = white
+      for (const [cx, cy, rp] of holes) {
+        const g = tx.createRadialGradient(cx, cy, 0, cx, cy, rp);
+        g.addColorStop(0, "rgba(255,255,255,1)"); g.addColorStop(0.8, "rgba(255,255,255,1)"); g.addColorStop(1, "rgba(255,255,255,0)");
+        tx.fillStyle = g; tx.fillRect(cx - rp, cy - rp, 2 * rp, 2 * rp);
+      }
       tx.globalCompositeOperation = "difference"; tx.fillStyle = "#fff"; tx.fillRect(0, 0, res, res);   // shade amount
       if (mask) { tx.globalCompositeOperation = "multiply"; tx.drawImage(mask, 0, 0, res, res); }
       tx.globalCompositeOperation = "difference"; tx.fillRect(0, 0, res, res);                 // back to light
@@ -169,8 +178,8 @@ export function createLookStreet(stage, opts = {}) {
       f.material("brushed_concrete", { normalScale: 0.6 }),
     ]);
     const roofM = roofT;
-    const roofBox = (w, h, d, pos, rx, tile = 2.2) => {   // roof slab with the tiles running along the ridge (x)
-      const m = add(new THREE.BoxGeometry(w, h, d), f.tiled(roofM, w / tile, d / tile), pos);
+    const roofBox = (w, h, d, pos, rx, tile = 2.2, mat = roofM) => {   // roof slab with the tiles running along the ridge (x)
+      const m = add(new THREE.BoxGeometry(w, h, d), f.tiled(mat, w / tile, d / tile), pos);
       m.rotation.x = rx;
       return m;
     };
@@ -187,6 +196,32 @@ export function createLookStreet(stage, opts = {}) {
       return m;
     };
     const plainWall = new THREE.MeshStandardMaterial({ color: CLAY.wallDark, roughness: 0.95 });
+    // blind-2 fixes (round 3) only change the cuts that lost: aerial, follow (and approach, which sits between them).
+    // macro and window won both blind tests and must render byte-for-byte as before (checked: same md5 at t 0.93 / 1.36).
+    const R3 = !["macro", "window"].includes(opts.cut);
+    // blind-2 fix 1: every surface its own value and roughness (still almost colourless, like the reference):
+    // light warm stucco > pale gravel yard > mid fence block > mid-dark neighbour cladding > dark road > darkest roofs
+    const M3 = {};
+    if (R3) {
+      const [gravel, form, beige, asph] = await Promise.all([
+        f.material("gravel_floor_02", { normalScale: 0.9 }), f.material("concrete_wall_008", { normalScale: 0.6 }),
+        f.material("beige_wall_002", { normalScale: 0.5 }), f.material("asphalt_04", { normalScale: 0.6 })]);
+      gravel.color = new THREE.Color("#d2cdc2"); gravel.roughness = 1;
+      asph.color = new THREE.Color("#727375"); asph.roughness = 0.92;
+      M3.gravel = gravel; M3.asphalt = asph;
+      M3.form = form; form.color = new THREE.Color("#a3a09a"); form.roughness = 0.9;            // exposed concrete (neighbour, gate posts)
+      M3.beige = beige; beige.color = new THREE.Color("#b9b2a6"); beige.roughness = 0.95;      // warm stucco neighbour
+      M3.post = form.clone(); M3.post.color = new THREE.Color("#94918b");                     // gate posts: darker concrete
+      M3.cap = new THREE.MeshStandardMaterial({ color: "#5d5c5a", roughness: 0.55 });          // polished stone caps
+      M3.siding = await f.clay("#5a5d61", { tex: "concrete_wall_008", normalScale: 0.9, roughness: 0.62 });   // dark panel cladding
+      M3.metalRoof = await f.clay("#8a8d90", { tex: "grey_roof_tiles", normalScale: 0.5, roughness: 0.42 });  // pale sheet roof
+      M3.metalRoof.metalness = 0.35;
+      M3.brownRoof = await f.clay("#3b3632", { tex: "grey_roof_tiles", normalScale: 1.1, roughness: 0.7 });
+      M3.cappingDark = new THREE.MeshStandardMaterial({ color: "#6c6b68", roughness: 0.8 });   // fence copings
+      wallM.color = new THREE.Color("#d3cec5");                                               // our stucco, the lightest mass
+      roofM.roughness = 0.6;                                                                  // tiles catch a little sky
+      blockM.color = new THREE.Color("#a09b92");
+    }
 
     const add = (geo, mat, pos, rot = [0, 0, 0], cast = true) => {
       const m = new THREE.Mesh(geo, mat);
@@ -200,7 +235,8 @@ export function createLookStreet(stage, opts = {}) {
 
     // ---------------------------------------------------------------- ground
     const g = (w, d, mat, pos, tile) => add(new THREE.PlaneGeometry(w, d), f.tiled(mat, w / tile, d / tile), pos, [-Math.PI / 2, 0, 0], false);
-    g(80, 5, asphaltM, [0, 0, 5.7], 4);
+    g(80, 5, R3 ? M3.asphalt : asphaltM, [0, 0, 5.7], 4);
+    if (R3) g(15, 3.9, M3.gravel, [0, 0.001, 0.95], 1.6);      // our yard: pale gravel, a step lighter than the lots around it
     // yard ground a step darker than the step/stones so stones, pebbles and leaves read against it
     // the concrete photo is dark (mean ≈ 0.39 sRGB): read it as linear so its mottling sits around the old clay value
     const yardGround = yardTex; yardGround.color = new THREE.Color("#c9c5bd"); yardGround.roughness = 0.95;
@@ -259,13 +295,43 @@ export function createLookStreet(stage, opts = {}) {
     // ---------------------------------------------------------------- block fence with an opening, gate posts
     for (const [x0, x1] of [[-7.5, 0.3], [2.7, 7.5]]) {   // a 2.1 m opening (gate posts at 0.3 and 2.7)
       box(x1 - x0, 1.3, 0.15, blockM, [(x0 + x1) / 2, 0.65, 2.9], 1.6);
-      box(x1 - x0, 0.06, 0.2, trimM, [(x0 + x1) / 2, 1.33, 2.9]);
+      box(x1 - x0, 0.06, 0.2, R3 ? M3.cappingDark : trimM, [(x0 + x1) / 2, 1.33, 2.9]);
     }
     // gate posts: dark granite-like blocks with a cap (they frame the follow cut's left edge in shade)
     const postM = new THREE.MeshStandardMaterial({ color: "#56575a", roughness: 0.75 });
-    for (const x of [0.3, 2.7]) {
-      box(0.26, 1.55, 0.26, postM, [x, 0.775, 2.9]);
-      box(0.32, 0.06, 0.32, trimM, [x, 1.58, 2.9]);
+    if (!R3) {
+      for (const x of [0.3, 2.7]) {
+        box(0.26, 1.55, 0.26, postM, [x, 0.775, 2.9]);
+        box(0.32, 0.06, 0.32, trimM, [x, 1.58, 2.9]);
+      }
+    } else {
+      // blind-2 fix 2: the posts fill both edges of the follow cut, so they get real surfaces: board-formed concrete
+      // (tie holes, pour lines), a stone plinth, a two-tier cap with chamfered edges and a drip line, a recessed
+      // joint every 40 cm, a blank stone nameplate on the right post and a small square post lantern on the left one
+      const jointM = new THREE.MeshStandardMaterial({ color: "#2b2c2e", roughness: 0.9 });
+      const plateM = new THREE.MeshStandardMaterial({ color: "#6f6b64", roughness: 0.35 });
+      for (const x of [0.3, 2.7]) {
+        add(new THREE.BoxGeometry(0.26, 1.43, 0.26), f.tiled(M3.post, 0.26 / 1.2, 1.43 / 1.2), [x, 0.12 + 0.715, 2.9]);
+        add(new RoundedBoxGeometry(0.3, 0.12, 0.3, 2, 0.012), M3.cap, [x, 0.06, 2.9]);                       // plinth
+        for (const y of [0.52, 0.92, 1.32]) {                                                                    // joints
+          add(new THREE.BoxGeometry(0.262, 0.012, 0.262), jointM, [x, y, 2.9], [0, 0, 0], false);
+        }
+        add(new RoundedBoxGeometry(0.34, 0.05, 0.34, 2, 0.01), M3.cap, [x, 1.575, 2.9]);                      // cap tier 1
+        add(new RoundedBoxGeometry(0.3, 0.045, 0.3, 2, 0.012), M3.cap, [x, 1.62, 2.9]);                       // cap tier 2
+        add(new THREE.BoxGeometry(0.344, 0.006, 0.344), jointM, [x, 1.548, 2.9], [0, 0, 0], false);            // drip shadow line
+      }
+      // nameplate (blank: no name on screen) on the right post's street face, with a thin dark bevel
+      add(new RoundedBoxGeometry(0.09, 0.22, 0.016, 2, 0.004), plateM, [2.7, 1.12, 2.9 + 0.13 + 0.01]);
+      add(new THREE.BoxGeometry(0.11, 0.24, 0.006), new THREE.MeshStandardMaterial({ color: "#b9b4aa", roughness: 0.5 }), [2.7, 1.12, 2.9 + 0.132], [0, 0, 0], false);   // pale stone surround
+      // post lantern on the left cap: dark frame, frosted glass, small roof
+      const lanFrame = new THREE.MeshStandardMaterial({ color: "#1f2022", roughness: 0.45, metalness: 0.5 });
+      const lanGlass = new THREE.MeshStandardMaterial({ color: "#d9d6cf", roughness: 0.35, transparent: true, opacity: 0.9 });
+      const ly = 1.6425;
+      add(new THREE.BoxGeometry(0.15, 0.02, 0.15), lanFrame, [0.3, ly + 0.01, 2.9]);
+      add(new THREE.BoxGeometry(0.12, 0.17, 0.12), lanGlass, [0.3, ly + 0.105, 2.9]);
+      for (const [sx, sz] of [[-1, -1], [-1, 1], [1, -1], [1, 1]]) add(new THREE.BoxGeometry(0.014, 0.17, 0.014), lanFrame, [0.3 + sx * 0.06, ly + 0.105, 2.9 + sz * 0.06]);
+      const lr = add(new THREE.ConeGeometry(0.12, 0.06, 4), lanFrame, [0.3, ly + 0.22, 2.9], [0, Math.PI / 4, 0]);
+      lr.scale.set(1, 1, 1);
     }
     for (const x of [-7.5, 7.5]) box(0.15, 1.3, 10, blockM, [x, 0.65, -2.1], 1.6);   // side fences
 
@@ -454,12 +520,53 @@ export function createLookStreet(stage, opts = {}) {
     f.hero(door, knob);
     // entrance canopy and step
     box(1.7, 0.08, 0.9, plainWall, [DOOR.x, 2.55, dz + 0.45]);
+    if (R3) {
+      // blind-2 fix 1: one warm light — the porch lamp is on (late afternoon). A bracket lamp on the wall beside the door
+      // (frosted glass box, dark frame: seen from above and from behind the walker) plus a small warm spot on the step.
+      const wz = HZ1 - 0.02, lx = DOOR.x + 0.97, lyy = 1.98;
+      const frame = new THREE.MeshStandardMaterial({ color: "#232426", roughness: 0.5, metalness: 0.4 });
+      const glow = new THREE.MeshStandardMaterial({ color: "#5a4a36", emissive: "#ff9c45", emissiveIntensity: 1.6, roughness: 0.6 });
+      add(new THREE.BoxGeometry(0.14, 0.22, 0.03), frame, [lx, lyy, wz + 0.015]);                 // back plate
+      const shade = add(new THREE.BoxGeometry(0.12, 0.17, 0.11), glow, [lx, lyy - 0.01, wz + 0.085], [0, 0, 0], false);
+      add(new THREE.BoxGeometry(0.15, 0.025, 0.14), frame, [lx, lyy + 0.085, wz + 0.085]);       // cap
+      add(new THREE.BoxGeometry(0.13, 0.015, 0.12), frame, [lx, lyy - 0.1, wz + 0.085]);         // base
+      f.hero(shade);                                                                         // keeps its amber through the grade
+      const pl = new THREE.PointLight("#ffa458", 0.4, 1.5, 2);
+      pl.position.set(lx, lyy - 0.02, wz + 0.2);
+      S.add(pl);
+    }
     box(1.8, 0.16, 0.95, yardM, [DOOR.x, 0.08, dz + 0.475], 1.5);
     // stepping stones to the gate
     for (let i = 0; i < 4; i++) add(new THREE.CylinderGeometry(0.27, 0.29, 0.04, 20), f.tiled(yardM, 0.3, 0.3), [DOOR.x - 0.05 + (i % 2 ? 0.07 : -0.05), 0.02, 0.35 + i * 0.62], [0, i, 0]);
     // interphone + meter box, AC unit with a dark fan, nameplate (blank)
-    box(0.1, 0.14, 0.04, frameM, [DOOR.x - 0.62, 1.45, dz + 0.02]);
-    box(0.3, 0.42, 0.14, new THREE.MeshStandardMaterial({ color: "#9a9b98", roughness: 0.7 }), [-0.6, 1.5, dz + 0.07]);
+    if (!R3) {
+      box(0.1, 0.14, 0.04, frameM, [DOOR.x - 0.62, 1.45, dz + 0.02]);
+      box(0.3, 0.42, 0.14, new THREE.MeshStandardMaterial({ color: "#9a9b98", roughness: 0.7 }), [-0.6, 1.5, dz + 0.07]);
+    } else {
+      // blind-2 fix 2: the unreadable white box and black dot become a door-phone and a letter box
+      // door-phone beside the door: pale housing, dark camera lens at the top, speaker slots, round call button
+      const wz = HZ1 - 0.02;   // the house wall face (its box stops 2 cm short of HZ1)
+      const ip = [DOOR.x - 0.6, 1.42, wz];
+      const ipM = new THREE.MeshStandardMaterial({ color: "#d2d0ca", roughness: 0.45 });
+      const ipDark = new THREE.MeshStandardMaterial({ color: "#121315", roughness: 0.25, metalness: 0.2 });
+      add(new RoundedBoxGeometry(0.115, 0.2, 0.034, 3, 0.012), ipM, [ip[0], ip[1], wz + 0.017]);
+      add(new THREE.CylinderGeometry(0.016, 0.016, 0.006, 24), ipDark, [ip[0], ip[1] + 0.06, wz + 0.035], [Math.PI / 2, 0, 0]);
+      for (let k = 0; k < 4; k++) add(new THREE.BoxGeometry(0.05, 0.004, 0.004), ipDark, [ip[0], ip[1] + 0.012 - k * 0.011, wz + 0.0345], [0, 0, 0], false);
+      add(new THREE.CylinderGeometry(0.019, 0.019, 0.008, 28), new THREE.MeshStandardMaterial({ color: "#8e8c87", roughness: 0.35 }), [ip[0], ip[1] - 0.058, wz + 0.036], [Math.PI / 2, 0, 0]);
+      add(new THREE.CylinderGeometry(0.013, 0.013, 0.006, 28), ipM, [ip[0], ip[1] - 0.058, wz + 0.041], [Math.PI / 2, 0, 0]);
+      const ipAo = contactShadow(0.13, 0.62); ipAo.position.set(ip[0], ip[1] - 0.008, wz + 0.0015); S.add(ipAo);
+      // wall letter box: dark bronze steel, a hinged lid with its slot, a door seam and a small knob
+      const mb = [0.15, 1.02, wz];
+      const mbM = new THREE.MeshStandardMaterial({ color: "#5d5a54", roughness: 0.4, metalness: 0.3 });
+      const mbSlot = new THREE.MeshStandardMaterial({ color: "#050505", roughness: 0.9 });
+      add(new RoundedBoxGeometry(0.34, 0.36, 0.11, 3, 0.01), mbM, [mb[0], mb[1], wz + 0.055]);
+      const lid = add(new RoundedBoxGeometry(0.36, 0.05, 0.13, 2, 0.008), mbM, [mb[0], mb[1] + 0.2, wz + 0.062]);
+      lid.rotation.x = 0.12;
+      add(new THREE.BoxGeometry(0.24, 0.012, 0.004), mbSlot, [mb[0], mb[1] + 0.165, wz + 0.1125], [0, 0, 0], false);
+      add(new THREE.BoxGeometry(0.3, 0.003, 0.003), mbSlot, [mb[0], mb[1] + 0.1, wz + 0.1115], [0, 0, 0], false);       // door seam
+      add(new THREE.CylinderGeometry(0.008, 0.008, 0.012, 12), new THREE.MeshStandardMaterial({ color: "#b8b2a6", metalness: 1, roughness: 0.3 }), [mb[0] + 0.12, mb[1] + 0.03, wz + 0.116], [Math.PI / 2, 0, 0]);
+      const mbAo = contactShadow(0.3, 0.55); mbAo.position.set(mb[0], mb[1] - 0.02, wz + 0.0015); S.add(mbAo);
+    }
     const acM = new THREE.MeshStandardMaterial({ color: "#c9c8c3", roughness: 0.6 });
     add(new RoundedBoxGeometry(0.82, 0.58, 0.3, 3, 0.02), acM, [3.3, 0.44, dz + 0.17]);
     {   // blind-1 fix 2: a modelled fan behind a wire grille, not a drawn symbol. Fan centre (3.42, 0.45), front z = dz + 0.32
@@ -546,10 +653,47 @@ export function createLookStreet(stage, opts = {}) {
     });
     // ---------------------------------------------------------------- utility pole and wires (plain)
     const poleM = new THREE.MeshStandardMaterial({ color: "#8d8b86", roughness: 0.8 });
-    add(new THREE.CylinderGeometry(0.13, 0.17, 10, 16), poleM, [6.2, 5, 3.45]);
-    box(1.4, 0.1, 0.1, poleM, [6.2, 8.6, 3.45]);
     const wire = new THREE.MeshStandardMaterial({ color: "#1d1e20", roughness: 0.6 });
-    for (const [y, dz2] of [[8.65, -0.6], [8.65, 0.6], [7.9, 0]]) add(new THREE.CylinderGeometry(0.008, 0.008, 80, 4), wire, [0, y, 3.45 + dz2 * 0.5], [0, 0, Math.PI / 2], false);
+    if (!R3) {
+      add(new THREE.CylinderGeometry(0.13, 0.17, 10, 16), poleM, [6.2, 5, 3.45]);
+      box(1.4, 0.1, 0.1, poleM, [6.2, 8.6, 3.45]);
+      for (const [y, dz2] of [[8.65, -0.6], [8.65, 0.6], [7.9, 0]]) add(new THREE.CylinderGeometry(0.008, 0.008, 80, 4), wire, [0, y, 3.45 + dz2 * 0.5], [0, 0, Math.PI / 2], false);
+    } else {
+      // blind-2 fix 1: a real concrete pole. Hardware from Poly Haven "modular_electricity_poles" (CC0, preset 1:
+      // cross-arms, insulators, two pole transformers, fuse cut-outs, step bolts, clamp bands) at 1.5×, on our own
+      // tapered spun-concrete shaft (the model's shaft is timber); a number plate and a yellow guard sleeve at the foot.
+      const PX = 6.2, PZ = 3.45, K = 1.5;
+      const gl = await loader.loadAsync(`${CACHE}/models/modular_electricity_poles/modular_electricity_poles.gltf`);
+      const hw = new THREE.Group();
+      for (const n of [...gl.scene.children]) {
+        if (!n.name.startsWith("preset_01_") || n.name === "preset_01_pole") continue;
+        n.position.x += 2.5;
+        hw.add(n);
+      }
+      hw.scale.setScalar(K);
+      hw.rotation.y = Math.PI / 2;                     // cross-arms across the street, wires along it
+      hw.position.set(PX, 0, PZ);
+      hw.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+      S.add(hw);
+      const pc = await f.material("brushed_concrete", { normalScale: 0.7 });
+      pc.color = new THREE.Color("#cfccc5"); pc.roughness = 0.85;
+      const H = 6 * K + 0.25;
+      add(new THREE.CylinderGeometry(0.1, 0.13, H, 20), f.tiled(pc, 0.4, H / 1.6), [PX, H / 2, PZ]);
+      add(new THREE.CylinderGeometry(0.135, 0.135, 1.6, 20, 1, true), new THREE.MeshStandardMaterial({ color: "#c9b26a", roughness: 0.6 }), [PX, 0.8, PZ]);   // guard sleeve
+      add(new THREE.BoxGeometry(0.16, 0.3, 0.012), new THREE.MeshStandardMaterial({ color: "#c8c9c6", roughness: 0.5 }), [PX, 2.4, PZ - 0.125], [0, Math.PI, 0]);  // number plate (blank)
+      // wires: gentle catenaries along the street (three on the arm tips, two lower service lines, one thick telecom
+      // bundle), and one service drop from the pole to our house's eave
+      const sag = (a, b, s, n = 24) => new THREE.CatmullRomCurve3(Array.from({ length: n + 1 }, (_, i) => {
+        const u = i / n; return new THREE.Vector3(a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u - s * 4 * u * (1 - u), a[2] + (b[2] - a[2]) * u);
+      }));
+      const run = (y, z, r, s) => {   // no cast shadow: thin straight wire shadows read as scratches on the walls
+        for (const [x0, x1] of [[-36, PX], [PX, 46]]) add(new THREE.TubeGeometry(sag([x0, y, z], [x1, y, z], s), 32, r, 5), wire, [0, 0, 0], [0, 0, 0], false);
+      };
+      for (const dzw of [-0.82, 0.82]) run(8.72, PZ + dzw, 0.009, 0.9);
+      run(6.95, PZ + 0.35, 0.008, 0.7);
+      run(5.25, PZ - 0.16, 0.022, 0.45);                       // telecom bundle
+      add(new THREE.TubeGeometry(sag([PX, 6.9, PZ - 0.1], [HX1 - 0.35, 5.45, HZ1 + 0.4], 0.35), 24, 0.007, 5), wire, [0, 0, 0], [0, 0, 0], false);
+    }
 
     // ---------------------------------------------------------------- neighbours: clay houses with windows, eaves, pipes
     // Detail parts are merged per material (one draw call each for all five houses).
@@ -579,11 +723,17 @@ export function createLookStreet(stage, opts = {}) {
     };
     const NBW = ["#a9a59d", "#8f9194", "#b6b0a4", "#7f8184", "#a19c92"];
     const nb = (cx, cz, w, d, h, i) => {
-      const nwM = f.tiled(wallM, 1, 1); nwM.color = new THREE.Color(NBW[(i - 1) % NBW.length]);
+      let nwM = f.tiled(wallM, 1, 1); nwM.color = new THREE.Color(NBW[(i - 1) % NBW.length]);
       if (night) nwM.color.multiplyScalar(0.86);
+      // blind-2 fix 1: each neighbour its own cladding and roof (exposed concrete / dark panels / warm stucco …)
+      const NB3 = [[M3.form, M3.brownRoof], [M3.siding, M3.metalRoof], [M3.beige, roofM], [null, M3.metalRoof], [M3.siding, M3.brownRoof]];
+      const [cl, rf] = R3 ? NB3[(i - 1) % NB3.length] : [null, roofM];
+      if (cl) nwM = f.tiled(cl, 1, 1);
+      if (R3 && !cl) nwM.color = new THREE.Color("#bdb9b0");
+      if (R3 && i === 5) nwM.color = new THREE.Color("#7b7e82");
       box(w, h, d, nwM, [cx, h / 2, cz], 2.5);
       const rr = d / 2 + 0.45;
-      for (const s of [-1, 1]) roofBox(w + 0.8, 0.12, rr / Math.cos(0.4), [cx, h + Math.tan(0.4) * rr / 2, cz + s * rr / 2], s * 0.4);
+      for (const s of [-1, 1]) roofBox(w + 0.8, 0.12, rr / Math.cos(0.4), [cx, h + Math.tan(0.4) * rr / 2, cz + s * rr / 2], s * 0.4, 2.2, rf);
       // gable triangles closing the roof ends
       const gt = new THREE.Shape([new THREE.Vector2(-d / 2, 0), new THREE.Vector2(d / 2, 0), new THREE.Vector2(0, Math.tan(0.4) * d / 2)]);
       for (const sx of [-1, 1]) {
@@ -673,10 +823,13 @@ export function createLookStreet(stage, opts = {}) {
       const size = 14, target = [1.2, 1.4, -0.8];
       sun = plainSun({ azimuth: -52, elevation: 24, target, size });
       leafLayers(f, sun, size, [
+        // blind-2 fix 2: two sun holes at shoulder height on her path (z ≈ 2.45 at t ≈ 2.2 and 1.6 at t ≈ 3.5), so walking through them
+        // her shoulder, back and arm catch the sun for a moment, like the reference — not a full silhouette
         { leaves: { density: 1.35, leaf: 0.48, soft: 0.03, sway: opts.sway ?? 0.043, seed: 5, res: 2048,
-          lit: [[0.45, 1.5, DOOR.z, 0.5], [2.6, 1.95, DOOR.z, 0.45]] } },
+          lit: [[0.45, 1.5, DOOR.z, 0.5], [2.6, 1.95, DOOR.z, 0.45], ...(R3 ? [[DOOR.x - 0.16, 1.32, 2.45, 0.17], [DOOR.x - 0.15, 1.2, 1.6, 0.2]] : [])] } },
         { leaves: { density: 1.6, leaf: 0.36, soft: 0.022, sway: opts.sway ?? 0.043, seed: 13, res: 1536 },
-          regions: [[DOOR.x, 1.1, DOOR.z, 1.0], [DOOR.x, 1.1, 0.9, 0.8, 0.6], [DOOR.x, 1.1, 2.2, 0.7, 0.5], [3.3, 0.5, -0.75, 0.6, 1.2]] },
+          regions: R3 ? [[DOOR.x, 1.1, DOOR.z, 1.0], [DOOR.x, 1.1, 0.55, 0.55, 0.45], [3.3, 0.5, -0.75, 0.6, 1.2]]
+            : [[DOOR.x, 1.1, DOOR.z, 1.0], [DOOR.x, 1.1, 0.9, 0.8, 0.6], [DOOR.x, 1.1, 2.2, 0.7, 0.5], [3.3, 0.5, -0.75, 0.6, 1.2]] },
       ]);
     } else {
       // close cuts: a tighter pattern around the entrance (finer leaf edges). The macro uses a 5 m circle so the shadow
@@ -727,9 +880,47 @@ export function createLookStreet(stage, opts = {}) {
       knob.traverse((o) => { if (o.isMesh && o.material.metalness === 1) { o.material.envMap = f.envTex; o.material.envMapIntensity = 0.3; } });
     }
 
+    // ---------------------------------------------------------------- aerial: out-of-focus leaves across the top-left
+    // blind-2 fix 1: the reference's drone shot looks past a branch close to the lens. Two pre-blurred leaf sprays held
+    // in camera space (depth 1 m) that slide slowly up-left as the camera descends — cheap, deterministic depth.
+    let fore = null;
+    if (R3 && (opts.foreLeaves ?? (opts.cut === "aerial" && !opts.marks))) {
+      fore = new THREE.Group();
+      const spray = (seed, blur, n, lightShare) => {
+        const c = document.createElement("canvas");
+        c.width = c.height = 1024;
+        const x = c.getContext("2d");
+        const R = rng(seed);
+        x.filter = `blur(${blur}px)`;
+        for (let i = 0; i < n; i++) {
+          const a = R() * 6.283, d = Math.pow(R(), 0.7) * 430, px = 512 + Math.cos(a) * d, py = 512 + Math.sin(a) * d;
+          const L = 110 + R() * 90, rot = R() * 6.283, lit = R() < lightShare;
+          x.fillStyle = lit ? `rgba(${120 + R() * 40 | 0},${130 + R() * 40 | 0},${138 + R() * 40 | 0},1)` : `rgba(${30 + R() * 14 | 0},${35 + R() * 14 | 0},${44 + R() * 16 | 0},1)`;
+          x.save(); x.translate(px, py); x.rotate(rot);
+          x.beginPath(); x.moveTo(-L / 2, 0); x.quadraticCurveTo(0, -L * 0.36, L / 2, 0); x.quadraticCurveTo(0, L * 0.36, -L / 2, 0);
+          x.fill(); x.restore();
+        }
+        x.filter = "none";
+        const t = new THREE.CanvasTexture(c);
+        t.colorSpace = THREE.SRGBColorSpace;
+        return new THREE.MeshBasicMaterial({ map: t, transparent: true, depthWrite: false, depthTest: false, fog: false });
+      };
+      for (const [pos, sz, mat] of [[[-0.5, 0.3, -1], 0.95, spray(61, 14, 150, 0.42)], [[-0.16, 0.42, -1], 0.6, spray(67, 16, 60, 0.3)], [[-0.66, 0.0, -1], 0.5, spray(71, 20, 45, 0.35)]]) {
+        const m = new THREE.Mesh(new THREE.PlaneGeometry(sz, sz), mat);
+        m.position.set(...pos); m.renderOrder = 999; m.castShadow = false; m.receiveShadow = false; m.frustumCulled = false;
+        fore.add(m);
+      }
+      S.add(fore);
+    }
+
     return (t) => {
       if (walker) walker.pose(t);
       f.shot(camera, t);
+      if (fore) {
+        fore.position.copy(f.cam.position); fore.quaternion.copy(f.cam.quaternion);
+        fore.translateX(-0.035 * t); fore.translateY(0.02 * t);
+        fore.updateMatrixWorld(true);
+      }
     };
   });
 }

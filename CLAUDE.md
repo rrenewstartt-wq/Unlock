@@ -67,6 +67,7 @@ python3 scripts/topics.py list --top 10                 # 소재 후보 순위 (
 python3 scripts/new_episode.py ep02-<slug> "제목"        # 새 에피소드 (film 키트·자료·음악 폴더 포함)
 python3 scripts/gates.py episodes/<ep>                  # 관문 장부: 어디까지 왔나, 다음 관문 (pass/fail/waive)
 python3 scripts/look_check.py <png|mp4> [--kind photo]  # 레퍼런스 룩 숫자(밝기·채도·푸른 기·비네트), --ref 로 기준 프레임
+python3 scripts/blind_score.py scores.json key.json --look 21/23  # 블라인드 비교 점수(100점, 90점 이상 통과)
 python3 scripts/parity_check.py episodes/<ep>           # 레퍼런스 동급 검사 (--strict 관문, --test 시험편, --render renders/pilot.mp4)
 python3 scripts/kit3d.py episodes/<ep>                  # film 키트 코드 + kit3d.json 자산 복사
 python3 scripts/voice.py pack episodes/<ep>              # 내레이션 줄 내보내기 → Colab → voice.py import
