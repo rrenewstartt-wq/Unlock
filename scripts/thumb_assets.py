@@ -214,12 +214,18 @@ def lock():
 
 def restore():
     """Download everything in the lock, then verify."""
+    failed = []
     for x in json.loads(LOCK.read_text())["assets"]:
         kind, aid = x.split(":", 1)
-        if kind == "figure":
-            actors() if aid == "actors" else figures(); continue
-        aid, _, res = aid.partition("@")
-        get(kind, aid, res or RES)
+        try:   # 한 곳이 막혀도(예: 네트워크 정책이 itch.io 를 막음) 나머지는 받는다. 막힌 것은 verify 가 ✗ 로 보고한다.
+            if kind == "figure":
+                actors() if aid == "actors" else figures(); continue
+            aid, _, res = aid.partition("@")
+            get(kind, aid, res or RES)
+        except (subprocess.CalledProcessError, OSError, KeyError, ValueError) as e:
+            failed.append(x); print(f"✗ {x} 받기 실패: {e}")
+    if failed:
+        print(f"✗ 받지 못한 자산 {len(failed)}개: {failed} — 네트워크 허용 목록 확인(docs/SETUP.md)")
     verify()
 
 

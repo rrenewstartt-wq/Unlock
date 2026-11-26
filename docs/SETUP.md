@@ -16,6 +16,10 @@ bash scripts/setup.sh
 도구 확인 → Python 패키지(버전 고정) → Playwright Chromium → 썸네일 3D 자산(잠금 sha256 검증) → 벤치마크 썸네일 → 재현 확인.
 마지막에 `결과: 모두 같음 ✓` 가 나오면 이 컴퓨터는 이 저장소와 같은 결과를 낸다.
 
+**네트워크 허용(클라우드 세션):** 3D 자산은 `api.polyhaven.com`·`dl.polyhaven.org`(질감·HDRI·모델), `quaternius.itch.io` 와 itch.io 다운로드 서버(인물·머리카락)에서 받는다.
+환경의 네트워크 정책이 이 호스트를 막으면 자산 받기가 `✗ 받지 못한 자산` 으로 끝나고, 3D 장면의 check·렌더는 missing asset 으로 실패한다(2026-11-26 실제로 막힘).
+환경 설정의 Network access 에서 접근 수준을 넓히거나 이 호스트들을 Allowed domains 에 넣는다.
+
 ## 3. Claude 에서 열기
 - **Claude 데스크톱 앱(Windows/Mac) / Claude Code:** 받은 `Unlock` 폴더를 작업 폴더로 연다. `CLAUDE.md`, 스킬(`/scout` `/plan` `/thumbnail` …), 에이전트(`.claude/agents/`)가 자동으로 잡힌다.
 - **HyperFrames 플러그인**(영상 제작 스킬 `/hyperframes`)은 계정마다 설치해야 한다: Claude Code 플러그인 마켓에서 HyperFrames 를 추가.

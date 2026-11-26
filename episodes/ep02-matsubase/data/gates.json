@@ -101,5 +101,207 @@
    "evidence": "위험 검토 합격(이미지 40장 전부 Read): 실명 0, 띠 잔흔 0, 상해 문구에 앰버 원 0, 지도 집 위치·핀 없음, 근거 저작권법 13조 3호·지리원 申請不要+출처·가공 표기. P2 4건 처리. Commons 장소 사진은 미도착 — 들어오면 추가 검토 전 사용 금지",
    "date": "2026-11-22"
   }
+ ],
+ "todos": [
+  {
+   "stage": "pilot",
+   "prio": "P0",
+   "what": "room_morning c3 귤 망 뭉치가 상판 위에 떠 보임 → 밑면 접지 + AO",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P0",
+   "what": "night_road c3 가로등 머리가 팔에서 떨어져 뜸·발광면 평면 사각형 → 팔 끝에 붙이고 렌즈·반사판",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P0",
+   "what": "vault_open c1 서 있는 인물이 옷 없는 몸·민머리·정면 → 옷·머리카락 있는 film 인물, 뒷모습·3/4 뒤",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P0",
+   "what": "blade_width c6 칼날 금속 UV 늘어남·경사면 없음·노란 반사 → UV 펴기, 재질 분리, 중성 회색 반사",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "귤이 귤로 안 읽힘(양파·달걀) + 망 한 겹·채도 낮게 + 껍질 바깥 주황면",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "room_morning c2·c3 껍질 위 붉은 웅덩이가 핏자국처럼 → 덜 붉은 나무, 웅덩이 작게, 노란 쪽",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "night_road c1 먼 건물 창 격자 상자 → 낮은 흐린 실루엣, 창빛 빼기",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "rewind_party 방 전체 주황·갈색, c3 전등갓 날아간 평면 타원 → 차갑고 어둡게, 갓 질감·두께",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "counter34 c3 2019 카드 글자가 컷보다 약 1초 늦음",
+   "owner": "diagram-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "place c1~c3 지도 전환이 컷으로 안 잡혀 한 컷 8.6초 → c3 확실히 다른 컷, 지도 대비, 역 사진 재조회",
+   "owner": "archive-researcher",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "place c5 종이 띠에 빨간(앰버) 동그라미 없음",
+   "owner": "motion-designer",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "empty_room c5 기록 띠 폭 45%·풀이 줄 없음 → hook 과 같은 폭 + 풀이 줄",
+   "owner": "motion-designer",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "hook·place 한국어 풀이 줄이 휴대폰 폭에서 약 7px → 34px 이상",
+   "owner": "motion-designer",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "room_morning c1 / empty_room c1 같은 구도 반복 → empty_room c1 문지방 높이 낮은 각도, 창 빼기",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "empty_room c3 오른쪽 아래 정체불명 검은 덩어리",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "workshop_intro c1 흰 대리석 같은 빈 선반이 화면 1/3",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "workshop_intro c2·c5 작업대 광택 마호가니·하이라이트 날아감 → 무광 거친 나무",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "workshop 창밖이 피해자 방과 같은 과수원 → 낮은 지붕 동네",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "workshop 맑은 해·선명한 창틀 그림자 → 흐린 확산광",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "calendar 칸 안 글자 24~30px → 32px 이상",
+   "owner": "diagram-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "interrogation c1 민머리 회색 피부·흰 장갑 손, 스탠드가 머리 뒤 뿔, 창 날아감·조명 평평",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "arrest_wish c5 민머리·옷깃 없는 몸통·가슴 붉은 림, 인용 이름표가 자막과 같은 문장",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "five_pieces c5 천 채도 높아 화면 전체 주황 → 채도 낮추고 플란넬 보풀, 강조는 왼소매 한 곳",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "vault_open c1 철제 선반이 선명한 주인공 → 초점 밖·어둡게",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "interrogation c1 플라스틱 학교 의자 → 철제 프레임 + 나무 좌판",
+   "owner": "set-builder",
+   "src": "data/review-pilot-1.md",
+   "date": "2026-11-26"
+  }
  ]
 }
