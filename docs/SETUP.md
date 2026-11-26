@@ -17,8 +17,9 @@ bash scripts/setup.sh
 마지막에 `결과: 모두 같음 ✓` 가 나오면 이 컴퓨터는 이 저장소와 같은 결과를 낸다.
 
 **네트워크 허용(클라우드 세션):** 3D 자산은 `api.polyhaven.com`·`dl.polyhaven.org`(질감·HDRI·모델), `quaternius.itch.io` 와 itch.io 다운로드 서버(인물·머리카락)에서 받는다.
+컴포지션은 GSAP 를 `cdn.jsdelivr.net` 에서 불러오므로, 이 호스트가 막히면 2D 장면도 check·렌더가 안 된다.
 환경의 네트워크 정책이 이 호스트를 막으면 자산 받기가 `✗ 받지 못한 자산` 으로 끝나고, 3D 장면의 check·렌더는 missing asset 으로 실패한다(2026-11-26 실제로 막힘).
-환경 설정의 Network access 에서 접근 수준을 넓히거나 이 호스트들을 Allowed domains 에 넣는다.
+환경 설정의 Network access 에서 접근 수준을 넓히거나 이 호스트들(`api.polyhaven.com`, `dl.polyhaven.org`, `quaternius.itch.io`, `itch.io`, `cdn.jsdelivr.net`)을 Allowed domains 에 넣는다.
 
 ## 3. Claude 에서 열기
 - **Claude 데스크톱 앱(Windows/Mac) / Claude Code:** 받은 `Unlock` 폴더를 작업 폴더로 연다. `CLAUDE.md`, 스킬(`/scout` `/plan` `/thumbnail` …), 에이전트(`.claude/agents/`)가 자동으로 잡힌다.

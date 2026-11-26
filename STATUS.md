@@ -14,7 +14,10 @@
    - **ep03 팔미라: 브랜치 `claude/dreamy-curie-gorgg4` 에만 있고 main 에 아직 없다**(11-22 기준 기획 승인, facts 139행, 대본 초고 16.1분 — 대본 2차 수정 중 사용량 제한으로 멈춤).
      이어 갈 세션은 그 브랜치를 받아 main 과 합친 뒤(`git merge origin/main`) 새 룩 기준으로 설계부터 맞춘다. 새 편 번호는 ep04 부터 쓴다.
 4. 렌더: CPU 로 영상 1초에 약 2분(룩 키트 기준). 본편은 GPU 있는 컴퓨터에서 `npx hyperframes render`(또는 `render_chunks.py`) 권장.
-5. 남은 하네스 과제: 인물 옷·머리카락(88점), 화분 모델, `look.js` 볕 구멍 잔가지 버그, 구간 렌더가 48프레임마다 3D 를 다시 짓는 낭비 — `episodes/lab-look/data/blind-3.md`.
+5. 남은 하네스 과제: 인물 옷·머리카락(88점), 화분 모델, 짧은 클립 렌더에서 작업자마다 3D 를 다시 짓는 낭비(원인 확인, 측정 대기) — `episodes/lab-look/data/blind-3.md`.
+   `look.js` 볕 구멍 잔가지 버그는 고침(2026-11-26, 빛 지도 시험으로 확인, 3D 렌더 확인은 아직).
+6. **2026-11-26 이 환경의 네트워크 정책이 자산 호스트(Poly Haven·itch.io)와 GSAP CDN(cdn.jsdelivr.net)을 막는다** → 자산 복원·check·렌더 불가.
+   환경 설정 Network access 에서 허용해야 한다(`docs/SETUP.md`).
 
 ## 바로 다음 할 일 (ep02 마쓰바세 제작 중 — 관문 `python3 scripts/gates.py episodes/ep02-matsubase`)
 최신 회고: `docs/retros/2026-11-25-harness.md`(파일럿 1차 미달 뒤 사흘, 다시 판정 0번). 그 전: `2026-11-21-harness.md`, `2026-11-21-teams-gates.md`. 팀 `docs/teams.md`.
