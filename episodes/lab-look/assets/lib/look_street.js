@@ -1,7 +1,7 @@
 // Look test set (cinematographer, docs/reference-look.md): a generic corner of a Japanese residential street — not
 // from any case and not the reference's house. Two-storey stucco house behind a concrete-block fence, wooden front door
 // with a brass knob, a small tree in the yard, an AC unit, a few potted shrubs, neighbours as plain clay masses.
-// CC0 only: Poly Haven textures/HDRIs/models (oak_veneer_01, tree_small_02, shrub_02) and the Quaternius figure.
+// CC0 only: Poly Haven textures/HDRIs/models (oak_veneer_01, grey_roof_tiles, brushed_concrete, tree_small_02) and the Quaternius figure.
 // Coordinates (m): street along x at z ∈ [3.2, 8.2]; our fence at z = 2.9; house front wall at z = -1 (faces +z).
 //
 // opts: { cut: "aerial" | "approach" | "macro" | "follow" | "window", look?, camera?, grade? }
@@ -27,9 +27,11 @@ export const CUTS = {
     from: 0.44, to: 0.31, fov: [30, 27], aperture: 4.5, arc: 9 } },
   // the walker is already walking at t = 0 (at: -1.6), so speed is constant over the cut (she decelerates only after t = 5)
   // and followBack's from/to come from her. She steps through the gate at t ≈ 1.5 and walks up the yard to the door.
-  follow: { look: "unlock-day", walker: { kind: "schoolgirl", path: [[DOOR.x - 0.04, 4.7], [DOOR.x - 0.02, 2.4], [DOOR.x, 0.2]], at: -1.6, speed: 0.8 },
+  // blind-1 fix 2: lower exposure, the walker and the door in leaf shade (half silhouette), blouse a step greyer
+  follow: { look: "unlock-day", exposure: 0.95, walker: { kind: "schoolgirl", path: [[DOOR.x - 0.04, 4.7], [DOOR.x - 0.02, 2.4], [DOOR.x, 0.2]], at: -1.6, speed: 0.8,
+    colors: { top: "#9498a0" } },
     camera: { preset: "followBack", t0: 0, t1: 5, back: 2.4, side: 0.22, height: 1.42, lookAhead: 3.2, lookHeight: 0.48, fov: 44, catchUp: 0.3 } },
-  window: { look: "unlock-night", camera: { preset: "lateralDrift", target: WINDOW2, t0: 0, t1: 5, azimuth: 12, dist: 5.2,
+  window: { look: "unlock-night", grade: { vignette: 0.2 }, camera: { preset: "lateralDrift", target: WINDOW2, t0: 0, t1: 5, azimuth: 22, dist: 5.2,
     travel: 1.3, height: 2.7, lead: 0.3, fov: 36 } },
 };
 
@@ -85,12 +87,72 @@ function contactShadow(r, keep = 0.45) {
   return new THREE.Mesh(new THREE.PlaneGeometry(2 * r, 2 * r), m);
 }
 
+// Several leaf-gobo layers, each confined to soft regions of the sunlit circle, composited into one light map
+// (blind-1 fixes 1 and 3: shade only near the tree, and leaves of mixed size / angle / blur instead of one stamp).
+// layers: [{ leaves: {leafShadows options} , regions: [[x, y, z, r, strength?], …] | null }]. Every layer gets its own
+// copy of the sun (same position and target, not in the scene) so all maps line up; a region is a world point
+// projected along the sun ray (it marks the column of air where that canopy hangs), r in metres at the target.
+function leafLayers(f, sun, size, layers, res = 2048) {
+  sun.updateMatrixWorld(); sun.target.updateMatrixWorld();
+  sun.shadow.updateMatrices(sun);
+  const P = (x, y, z) => { const v = new THREE.Vector4(x, y, z, 1).applyMatrix4(sun.shadow.matrix); return [v.x / v.w * res, (1 - v.y / v.w) * res]; };
+  const canvas = (w = res) => { const c = document.createElement("canvas"); c.width = c.height = w; return [c, c.getContext("2d")]; };
+  const srcs = layers.map((L) => {
+    const d = new THREE.SpotLight();
+    d.position.copy(sun.position); d.target.position.copy(sun.target.position);
+    f.leafShadows({ sun: d, target: sun.target.position.toArray(), size, ...L.leaves });
+    let mask = null;
+    if (L.regions) {
+      const [mc, mx] = canvas();
+      mx.fillStyle = "#000"; mx.fillRect(0, 0, res, res);
+      mx.globalCompositeOperation = "lighter";
+      for (const [x, y, z, r, k = 1] of L.regions) {
+        const [cx, cy] = P(x, y, z), rp = r * res / size, g = mx.createRadialGradient(cx, cy, 0, cx, cy, rp);
+        const c = Math.round(255 * k);
+        g.addColorStop(0, `rgb(${c},${c},${c})`); g.addColorStop(0.68, `rgb(${c},${c},${c})`); g.addColorStop(1, "rgb(0,0,0)");   // full-strength core: no smoky half-leaves
+        mx.fillStyle = g; mx.fillRect(cx - rp, cy - rp, 2 * rp, 2 * rp);
+      }
+      mask = mc;
+    } else if (L.strength !== undefined) {
+      const [mc, mx] = canvas(4);
+      const c = Math.round(255 * L.strength); mx.fillStyle = `rgb(${c},${c},${c})`; mx.fillRect(0, 0, 4, 4);
+      mask = mc;
+    }
+    return { img: d.map.image, mask };
+  });
+  const [acc, ax] = canvas(), [, tx] = canvas(), tmp = tx.canvas;
+  const tex = new THREE.CanvasTexture(acc);
+  tex.colorSpace = THREE.NoColorSpace;
+  tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+  const still = layers.every((L) => L.leaves.sway === 0);
+  let last = null;
+  const draw = (t) => {
+    if (last === t || (still && last !== null)) return;
+    last = t;
+    ax.globalCompositeOperation = "source-over"; ax.fillStyle = "#fff"; ax.fillRect(0, 0, res, res);
+    for (const { img, mask } of srcs) {
+      tx.globalCompositeOperation = "source-over"; tx.drawImage(img, 0, 0, res, res);           // lit = white
+      tx.globalCompositeOperation = "difference"; tx.fillStyle = "#fff"; tx.fillRect(0, 0, res, res);   // shade amount
+      if (mask) { tx.globalCompositeOperation = "multiply"; tx.drawImage(mask, 0, 0, res, res); }
+      tx.globalCompositeOperation = "difference"; tx.fillRect(0, 0, res, res);                 // back to light
+      ax.globalCompositeOperation = "multiply"; ax.drawImage(tmp, 0, 0);
+    }
+    tex.needsUpdate = true;
+  };
+  draw(0);
+  sun.map = tex;
+  f.onFrame(draw);
+  return sun;
+}
+
 export function createLookStreet(stage, opts = {}) {
   const cut = CUTS[opts.cut || "aerial"];
   const look = opts.look === "none" ? undefined : (opts.look || cut.look);   // "none": plain film kit (cost baseline)
   const night = look === "unlock-night";
   let camera = opts.camera || cut.camera;
-  return film(stage, `look-street-${opts.cut}-${stage.id}`, { look, dof: !!look && !!(opts.dof ?? cut.dof), grade: opts.grade, shadowSize: 2048 }, async (f) => {
+  const exposure = opts.exposure ?? cut.exposure;
+  return film(stage, `look-street-${opts.cut}-${stage.id}`, { look, dof: !!look && !!(opts.dof ?? cut.dof), grade: opts.grade ?? cut.grade, shadowSize: 2048,
+    ...(exposure ? { exposure } : {}) }, async (f) => {
     const S = f.scene;
     const [wallM, blockM, asphaltM, yardM, doorM] = await Promise.all([
       f.clay("wall", { tex: "clay_plaster", normalScale: 0.5 }),
@@ -100,7 +162,18 @@ export function createLookStreet(stage, opts = {}) {
       f.material("oak_veneer_01", { normalScale: 0.6 }),
     ]);
     if (night) wallM.color.multiplyScalar(0.86);   // night: the stucco sits a step darker so the window reads
-    const roofM = new THREE.MeshStandardMaterial({ color: CLAY.roof, roughness: 0.75 });
+    // blind-1 fix 1: separate values — dark tiled roofs (relief of grey_roof_tiles, colour dropped), real concrete
+    // for the yard (its own colour map, so it is mottled, not flat clay), a lighter-than-asphalt road
+    const [roofT, yardTex] = await Promise.all([
+      f.clay("#34373c", { tex: "grey_roof_tiles", normalScale: 1.1, roughness: 0.82 }),
+      f.material("brushed_concrete", { normalScale: 0.6 }),
+    ]);
+    const roofM = roofT;
+    const roofBox = (w, h, d, pos, rx, tile = 2.2) => {   // roof slab with the tiles running along the ridge (x)
+      const m = add(new THREE.BoxGeometry(w, h, d), f.tiled(roofM, w / tile, d / tile), pos);
+      m.rotation.x = rx;
+      return m;
+    };
     const trimM = new THREE.MeshStandardMaterial({ color: CLAY.trim, roughness: 0.85 });
     const frameM = new THREE.MeshStandardMaterial({ color: CLAY.frame, roughness: 0.5, metalness: 0.3 });
     const glassM = new THREE.MeshStandardMaterial({ color: CLAY.glass, roughness: 0.08, metalness: 0.0 });
@@ -129,9 +202,11 @@ export function createLookStreet(stage, opts = {}) {
     const g = (w, d, mat, pos, tile) => add(new THREE.PlaneGeometry(w, d), f.tiled(mat, w / tile, d / tile), pos, [-Math.PI / 2, 0, 0], false);
     g(80, 5, asphaltM, [0, 0, 5.7], 4);
     // yard ground a step darker than the step/stones so stones, pebbles and leaves read against it
-    const yardGround = yardM.clone(); yardGround.color = yardM.color.clone().multiplyScalar(0.8);
-    g(80, 30, yardGround, [0, -0.005, -12], 3);
-    g(80, 20, yardGround, [0, -0.005, 18.2], 3);
+    // the concrete photo is dark (mean ≈ 0.39 sRGB): read it as linear so its mottling sits around the old clay value
+    const yardGround = yardTex; yardGround.color = new THREE.Color("#c9c5bd"); yardGround.roughness = 0.95;
+    if (yardGround.map) { yardGround.map.colorSpace = THREE.NoColorSpace; yardGround.map.needsUpdate = true; }
+    g(80, 30, yardGround, [0, -0.005, -12], 2.2);
+    g(80, 20, yardGround, [0, -0.005, 18.2], 2.2);
     // white edge line along the street (generic Japanese residential road marking)
     add(new THREE.PlaneGeometry(80, 0.12), new THREE.MeshStandardMaterial({ color: "#d9d7d2", roughness: 0.9 }), [0, 0.004, 3.55], [-Math.PI / 2, 0, 0], false);
     // gutter covers
@@ -151,15 +226,15 @@ export function createLookStreet(stage, opts = {}) {
       leafG.computeVertexNormals();
       const pebG = new THREE.IcosahedronGeometry(1, 1);
       const spots = [];   // [x0, x1, z0, z1, leaves, pebbles]
-      spots.push([-7.3, 7.3, -0.95, 2.78, 900, 1700]);       // yard
-      spots.push([-20, 20, 3.0, 3.5, 160, 260]);             // street edge, our side
-      spots.push([-20, 20, 7.9, 8.55, 140, 220]);            // street edge, far side
+      spots.push([-7.3, 7.3, -0.95, 2.78, 320, 650]);        // yard
+      spots.push([-20, 20, 3.0, 3.5, 60, 110]);              // street edge, our side
+      spots.push([-20, 20, 7.9, 8.55, 50, 90]);              // street edge, far side
       const nL = spots.reduce((a, s) => a + s[4], 0), nP = spots.reduce((a, s) => a + s[5], 0);
       const leafM = new THREE.MeshStandardMaterial({ color: "#ffffff", roughness: 0.85, side: THREE.DoubleSide });
       const pebM = new THREE.MeshStandardMaterial({ color: "#ffffff", roughness: 0.8 });
       const leaves = new THREE.InstancedMesh(leafG, leafM, nL), pebbles = new THREE.InstancedMesh(pebG, pebM, nP);
-      const LC = ["#d2b77a", "#c09a5e", "#dcc893", "#a88a5a", "#c8b98e"].map((c) => new THREE.Color(c));
-      const PC = ["#d2cfc8", "#bdbab3", "#e2dfd8", "#aaa7a1"].map((c) => new THREE.Color(c));
+      const LC = ["#7d6438", "#6a512e", "#8a7446", "#5a4a32", "#76664a"].map((c) => new THREE.Color(c));
+      const PC = ["#9d9a94", "#8a8781", "#aaa7a0", "#7c7975"].map((c) => new THREE.Color(c));
       const e = new THREE.Euler(), q = new THREE.Quaternion(), v = new THREE.Vector3(), sc = new THREE.Vector3(), M4 = new THREE.Matrix4();
       let il = 0, ip = 0;
       for (const [x0, x1, z0, z1, nl, np] of spots) {
@@ -202,10 +277,7 @@ export function createLookStreet(stage, opts = {}) {
     box(hw + 0.04, 0.3, hd + 0.04, plainWall, [0, 0.15, (HZ0 + HZ1) / 2]);            // base
     // gable roof, ridge along x
     const pitch = 0.42, eave = 0.55, run = hd / 2 + eave, rl = run / Math.cos(pitch);
-    for (const s of [-1, 1]) {
-      const r = box(hw + 2 * eave, 0.14, rl, roofM, [0, H2 + Math.tan(pitch) * run / 2 - 0.02, (HZ0 + HZ1) / 2 + s * run / 2]);
-      r.rotation.x = s * pitch;
-    }
+    for (const s of [-1, 1]) roofBox(hw + 2 * eave, 0.14, rl, [0, H2 + Math.tan(pitch) * run / 2 - 0.02, (HZ0 + HZ1) / 2 + s * run / 2], s * pitch);
     // gable end walls (triangles)
     const tri = new THREE.Shape([new THREE.Vector2(-hd / 2, 0), new THREE.Vector2(hd / 2, 0), new THREE.Vector2(0, Math.tan(pitch) * hd / 2)]);
     for (const x of [HX0 + 0.01, HX1 - 0.01]) {
@@ -217,51 +289,103 @@ export function createLookStreet(stage, opts = {}) {
     add(new THREE.CylinderGeometry(0.045, 0.045, H2, 10), trimM, [HX1 - 0.25, H2 / 2, HZ1 + 0.08]);
 
     // windows: frame, dark glass, mullion, optional curtains inside
-    // Curtains: two drawn panels of deep rounded pleats (≈12 cm pitch, ±2.2 cm), a little fuller at the hem. At night the
-    // room light behind shows through the cloth as bright pleat crests and dark valleys (emissive map follows the folds).
+    // Curtains (blind-1 fix 3): two drawn panels whose pleats each have their own width (0.6–1.5 × 12 cm) and depth
+    // (0.45–1.35 × 2.2 cm), lean a little toward the hem and get fuller there. At night the room light behind shows
+    // through the cloth: the emissive map is drawn from the same surface (crests bright, valleys dark, some pleats
+    // catching more than others), so glow and folds line up.
     const PLEAT = 0.12, FOLD = 0.022;
-    const foldTex = (() => {
-      const c = document.createElement("canvas");
-      c.width = 256; c.height = 4;
-      const x = c.getContext("2d");
-      for (let i = 0; i < 256; i++) {
-        const v = 0.16 + 0.84 * Math.pow(Math.max(0, Math.sin(i / 256 * 2 * Math.PI + 0.5)), 1.6);
-        const k = Math.round(255 * v);
-        x.fillStyle = `rgb(${k},${k},${k})`; x.fillRect(i, 0, 1, 4);
-      }
-      const t = new THREE.CanvasTexture(c);
-      t.colorSpace = THREE.SRGBColorSpace;
-      t.wrapS = THREE.RepeatWrapping;
-      return t;
-    })();
+    const pleats = (pw, seed) => {
+      const R = rng(seed), ws = [];
+      let tot = 0;
+      while (tot < pw) { const w = PLEAT * (0.6 + R() * 0.9); ws.push(w); tot += w; }
+      const k = pw / tot, edges = [0];
+      ws.forEach((w) => edges.push(edges[edges.length - 1] + w * k));
+      const amps = ws.map(() => FOLD * (0.45 + R() * 0.9)), glow = ws.map(() => 0.62 + R() * 0.38);
+      const lean = (R() - 0.5) * 0.09, wav = R() * 6.28;
+      return (x, fy) => {                       // x: 0…pw across the panel, fy: 0 top → 1 hem
+        const xs = Math.min(pw - 1e-6, Math.max(0, x + lean * fy * fy + 0.012 * Math.sin(fy * 2.6 + wav) * fy));
+        let i = 0;
+        while (i < ws.length - 1 && xs > edges[i + 1]) i++;
+        const u = (xs - edges[i]) / (edges[i + 1] - edges[i]);
+        const sn = Math.sin(2 * Math.PI * u + 0.35 * Math.sin(2 * Math.PI * u));   // slightly lopsided pleat
+        return { z: amps[i] * (1 + 0.35 * fy) * sn, s: (sn + 1) / 2, g: glow[i] };
+      };
+    };
+    let curtainSeed = 1;
     const curtain = (w, h, pos) => {
       for (const side of [-1, 1]) {
-        const pw = w / 2 - 0.01, folds = Math.round(pw / PLEAT);
-        const geo = new THREE.PlaneGeometry(pw, h, folds * 10, 4);
+        const pw = w / 2 - 0.01, fold = pleats(pw, 300 + curtainSeed++ * 17);
+        const geo = new THREE.PlaneGeometry(pw, h, 150, 10);
         const p = geo.attributes.position;
         for (let i = 0; i < p.count; i++) {
           const fx = (p.getX(i) + pw / 2) / pw, fy = 0.5 - p.getY(i) / h;          // fy: 0 top → 1 hem
-          p.setZ(i, FOLD * (1 + 0.35 * fy) * Math.sin(fx * folds * 2 * Math.PI));
+          p.setZ(i, fold(fx * pw, fy).z);
           p.setX(i, p.getX(i) + side * 0.012 * fy * (fx - 0.5));                   // hem flares a little
         }
         geo.computeVertexNormals();
-        const mat = new THREE.MeshStandardMaterial({ color: CLAY.fabric, roughness: 0.95, side: THREE.DoubleSide,
-          emissive: night ? "#a9b8cc" : "#000000", emissiveIntensity: night ? 0.3 : 0, emissiveMap: night ? foldTex.clone() : null });
-        if (mat.emissiveMap) { mat.emissiveMap.repeat.set(folds, 1); mat.emissiveMap.needsUpdate = true; }
+        let em = null;
+        if (night) {
+          const c = document.createElement("canvas");
+          c.width = 512; c.height = 64;
+          const x = c.getContext("2d"), img = x.createImageData(512, 64);
+          for (let j = 0; j < 64; j++) for (let i = 0; i < 512; i++) {
+            const r = fold((i + 0.5) / 512 * pw, (j + 0.5) / 64);
+            const v = Math.round(255 * Math.min(1, (0.06 + 0.94 * Math.pow(r.s, 2.0)) * r.g * (0.9 + 0.1 * (1 - (j / 64)))));
+            const o = (j * 512 + i) * 4;
+            img.data[o] = img.data[o + 1] = img.data[o + 2] = v; img.data[o + 3] = 255;
+          }
+          x.putImageData(img, 0, 0);
+          em = new THREE.CanvasTexture(c);
+          em.colorSpace = THREE.SRGBColorSpace;
+        }
+        const mat = new THREE.MeshStandardMaterial({ color: night ? CLAY.fabric : "#7d7c79", roughness: 0.95, side: THREE.DoubleSide,
+          emissive: night ? "#a9b8cc" : "#000000", emissiveIntensity: night ? 0.21 : 0, emissiveMap: em });
         add(geo, mat, [pos[0] + side * (pw / 2 + 0.005), pos[1], pos[2]], [0, 0, 0], false);
       }
     };
+    // glass that reflects: the HDRI sky as env map plus one faint diagonal sheen (two sashes, two strengths)
+    const sheen = (() => {
+      const c = document.createElement("canvas");
+      c.width = c.height = 256;
+      const x = c.getContext("2d");
+      const g = x.createLinearGradient(0, 0, 256, 256);
+      g.addColorStop(0, "rgba(255,255,255,0.0)"); g.addColorStop(0.3, "rgba(255,255,255,0.5)"); g.addColorStop(0.42, "rgba(255,255,255,0.12)");
+      g.addColorStop(0.55, "rgba(255,255,255,0.32)"); g.addColorStop(0.62, "rgba(255,255,255,0.0)"); g.addColorStop(1, "rgba(255,255,255,0.0)");
+      x.fillStyle = g; x.fillRect(0, 0, 256, 256);
+      const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+      return t;
+    })();
+    glassT.envMap = f.envTex; glassT.envMapIntensity = night ? 0.9 : 1.2; glassT.opacity = night ? 0.6 : 0.55;
     const windowAt = (cx, y0, w, h, { awning = false, curtains = false } = {}) => {
       const z = HZ1;
-      box(w + 0.1, 0.06, 0.06, frameM, [cx, y0 + h + 0.03, z + 0.03]);
-      box(w + 0.1, 0.06, 0.06, frameM, [cx, y0 - 0.03, z + 0.03]);
-      for (const s of [-1, 1]) box(0.06, h + 0.12, 0.06, frameM, [cx + s * (w / 2 + 0.02), y0 + h / 2, z + 0.03]);
-      box(0.045, h, curtains ? 0.02 : 0.05, frameM, [cx, y0 + h / 2, z + (curtains ? 0.056 : 0.02)]);   // sash meeting rail
-      box(w + 0.24, 0.05, 0.14, trimM, [cx, y0 - 0.08, z + 0.07]);                 // sill
-      // recessed glass with a little room behind it
-      // curtained windows: glass at the front of the frame, pleats behind it, clear of the wall face (z - 0.02)
-      add(new THREE.PlaneGeometry(w, h), curtains ? glassT : glassM, [cx, y0 + h / 2, z + (curtains ? 0.052 : 0.01)], [0, 0, 0], false);
-      if (curtains) curtain(w * 0.98, h * 0.96, [cx, y0 + h / 2, z + 0.02]);
+      if (!curtains) {
+        box(w + 0.1, 0.06, 0.06, frameM, [cx, y0 + h + 0.03, z + 0.03]);
+        box(w + 0.1, 0.06, 0.06, frameM, [cx, y0 - 0.03, z + 0.03]);
+        for (const s of [-1, 1]) box(0.06, h + 0.12, 0.06, frameM, [cx + s * (w / 2 + 0.02), y0 + h / 2, z + 0.03]);
+        box(0.045, h, 0.05, frameM, [cx, y0 + h / 2, z + 0.02]);   // sash meeting rail
+        box(w + 0.24, 0.05, 0.14, trimM, [cx, y0 - 0.08, z + 0.07]);                 // sill
+        add(new THREE.PlaneGeometry(w, h), glassM, [cx, y0 + h / 2, z + 0.01], [0, 0, 0], false);
+      } else {
+        // blind-1 fix 3: a deep aluminium frame (10 cm, out from the wall) holding two sliding sashes at two depths,
+        // each with its own frame and glass; curtains behind, clear of the wall face (z - 0.02)
+        const F = 0.065, D = 0.13, zc = z - 0.02 + D / 2;
+        box(w + 2 * F, F, D, frameM, [cx, y0 + h + F / 2, zc]);
+        box(w + 2 * F, F, D, frameM, [cx, y0 - F / 2, zc]);
+        for (const s of [-1, 1]) box(F, h, D, frameM, [cx + s * (w / 2 + F / 2), y0 + h / 2, zc]);
+        const SF = 0.034, sw = w / 2 + 0.025;
+        [[-1, z + 0.07], [1, z + 0.094]].forEach(([s, sz], k) => {
+          const ux = cx + s * (w / 2 - sw / 2);
+          box(sw, SF, 0.026, frameM, [ux, y0 + h - SF / 2, sz]);
+          box(sw, SF * 1.3, 0.026, frameM, [ux, y0 + SF * 0.65, sz]);
+          for (const e of [-1, 1]) box(SF, h, 0.026, frameM, [ux + e * (sw / 2 - SF / 2), y0 + h / 2, sz]);
+          add(new THREE.PlaneGeometry(sw - 2 * SF, h - 2.3 * SF), glassT, [ux, y0 + h / 2 + SF * 0.15, sz - 0.002], [0, 0, 0], false);
+          const sh = add(new THREE.PlaneGeometry(sw - 2 * SF, h - 2.3 * SF), new THREE.MeshBasicMaterial({ map: sheen, transparent: true,
+            opacity: k ? 0.12 : 0.06, blending: THREE.AdditiveBlending, depthWrite: false, fog: false }), [ux, y0 + h / 2 + SF * 0.15, sz - 0.001], [0, 0, 0], false);
+          sh.castShadow = false;
+        });
+        box(w + 0.3, 0.05, 0.2, trimM, [cx, y0 - F - 0.025, z + 0.08]);                 // sill
+        curtain(w * 0.98, h * 0.96, [cx, y0 + h / 2, z + 0.022]);
+      }
       if (awning) {   // thin sloped canopy with two brackets
         const a = box(w + 0.7, 0.035, 0.62, new THREE.MeshStandardMaterial({ color: "#7d7f83", roughness: 0.5, metalness: 0.4 }), [cx, y0 + h + 0.32, z + 0.31]);
         a.rotation.x = 0.22;
@@ -336,21 +460,46 @@ export function createLookStreet(stage, opts = {}) {
     // interphone + meter box, AC unit with a dark fan, nameplate (blank)
     box(0.1, 0.14, 0.04, frameM, [DOOR.x - 0.62, 1.45, dz + 0.02]);
     box(0.3, 0.42, 0.14, new THREE.MeshStandardMaterial({ color: "#9a9b98", roughness: 0.7 }), [-0.6, 1.5, dz + 0.07]);
-    const acM = new THREE.MeshStandardMaterial({ color: "#d3d2ce", roughness: 0.6 });
-    box(0.82, 0.58, 0.3, acM, [3.3, 0.44, dz + 0.17]);
-    {   // fan grille: dark fan behind concentric wire rings and four spokes (drawn once)
-      const c = document.createElement("canvas");
-      c.width = c.height = 256;
-      const x = c.getContext("2d");
-      x.fillStyle = "#16171a"; x.fillRect(0, 0, 256, 256);
-      x.strokeStyle = "#8d8e8c"; x.lineWidth = 2.2;
-      for (let r = 14; r < 128; r += 11) { x.beginPath(); x.arc(128, 128, r, 0, 2 * Math.PI); x.stroke(); }
-      x.lineWidth = 4;
-      for (let k = 0; k < 4; k++) { const a = k * Math.PI / 2 + 0.4; x.beginPath(); x.moveTo(128, 128); x.lineTo(128 + 128 * Math.cos(a), 128 + 128 * Math.sin(a)); x.stroke(); }
-      x.fillStyle = "#6f706e"; x.beginPath(); x.arc(128, 128, 12, 0, 2 * Math.PI); x.fill();
-      const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
-      add(new THREE.CircleGeometry(0.19, 48), new THREE.MeshStandardMaterial({ map: t, roughness: 0.6 }), [3.42, 0.45, dz + 0.322]);
-      box(0.012, 0.42, 0.01, acM, [3.07, 0.44, dz + 0.322]);   // panel seam left of the fan
+    const acM = new THREE.MeshStandardMaterial({ color: "#c9c8c3", roughness: 0.6 });
+    add(new RoundedBoxGeometry(0.82, 0.58, 0.3, 3, 0.02), acM, [3.3, 0.44, dz + 0.17]);
+    {   // blind-1 fix 2: a modelled fan behind a wire grille, not a drawn symbol. Fan centre (3.42, 0.45), front z = dz + 0.32
+      const fx = 3.42, fy = 0.45, fz = dz + 0.32;
+      const darkM = new THREE.MeshStandardMaterial({ color: "#0f1012", roughness: 0.9 });
+      const bladeM = new THREE.MeshStandardMaterial({ color: "#6a6c70", roughness: 0.55, side: THREE.DoubleSide });
+      const wireM = new THREE.MeshStandardMaterial({ color: "#4c4d4c", roughness: 0.45, metalness: 0.6 });
+      // the round opening: a dark shroud tube going into the body, and a dark back
+      const shroud = add(new THREE.CylinderGeometry(0.19, 0.19, 0.12, 48, 1, true), new THREE.MeshStandardMaterial({ color: "#1b1c1e", roughness: 0.8, side: THREE.BackSide }), [fx, fy, fz - 0.06], [Math.PI / 2, 0, 0], false);
+      add(new THREE.CircleGeometry(0.19, 48), darkM, [fx, fy, fz - 0.115], [0, 0, 0], false);
+      // a bezel ring on the face (the grille sits proud of the body)
+      add(new THREE.TorusGeometry(0.192, 0.008, 8, 64), acM, [fx, fy, fz + 0.002]);
+      // three twisted blades around a hub, set back in the shroud
+      const blade = new THREE.Shape();
+      blade.moveTo(0.03, -0.02); blade.quadraticCurveTo(0.12, -0.075, 0.175, -0.03);
+      blade.quadraticCurveTo(0.18, 0.04, 0.12, 0.065); blade.quadraticCurveTo(0.07, 0.04, 0.03, 0.02);
+      const bg = new THREE.ShapeGeometry(blade, 8);
+      const bp = bg.attributes.position;
+      for (let i = 0; i < bp.count; i++) bp.setZ(i, -0.035 * bp.getY(i) / 0.07 * Math.min(1, bp.getX(i) / 0.1));   // pitch twist
+      bg.computeVertexNormals();
+      for (let k = 0; k < 3; k++) {
+        const m = add(bg.clone(), bladeM, [fx, fy, fz - 0.05], [0, 0, k * 2.094 + 0.3]);
+        m.castShadow = false;
+      }
+      add(new THREE.CylinderGeometry(0.035, 0.04, 0.05, 24), bladeM, [fx, fy, fz - 0.045], [Math.PI / 2, 0, 0]);
+      // wire grille: concentric rings + 4 spokes, merged (one draw)
+      const wires = [];
+      for (let r = 0.028; r < 0.188; r += 0.0175) wires.push(new THREE.TorusGeometry(r, 0.0016, 4, Math.round(24 + r * 220)));
+      for (let k = 0; k < 4; k++) {
+        const g = new THREE.CylinderGeometry(0.003, 0.003, 0.37, 4);
+        g.rotateZ(k * Math.PI / 4 + 0.4);
+        wires.push(g);
+      }
+      wires.push(new THREE.CylinderGeometry(0.022, 0.022, 0.012, 20).rotateX(Math.PI / 2));
+      const grille = add(mergeGeometries(wires.map((g) => g.index ? g.toNonIndexed() : g)), wireM, [fx, fy, fz + 0.006]);
+      grille.castShadow = true;
+      shroud.receiveShadow = true;
+      // panel seam and side vent slats
+      box(0.012, 0.42, 0.01, acM, [3.07, 0.44, dz + 0.322]);
+      for (let k = 0; k < 7; k++) box(0.006, 0.012, 0.22, darkM, [3.3 + 0.413, 0.24 + k * 0.055, dz + 0.17]);
     }
     box(0.82, 0.15, 0.3, trimM, [3.3, 0.075, dz + 0.17]);
 
@@ -372,21 +521,29 @@ export function createLookStreet(stage, opts = {}) {
       if (m.transparent) { m.transparent = false; m.alphaTest = 0.5; }
     });
     S.add(tree);
-    const shrubSrc = (await loader.loadAsync(`${CACHE}/models/shrub_02/shrub_02.gltf`)).scene;
-    const potM = new THREE.MeshStandardMaterial({ color: "#7b6e62", roughness: 0.8 });
+    const potM = new THREE.MeshStandardMaterial({ color: "#7c5a46", roughness: 0.85 });
+    const bushM = new THREE.MeshStandardMaterial({ color: "#3a4237", roughness: 0.92, flatShading: true });
     const pots = [[2.25, -0.55], [2.6, -0.62], [2.95, -0.55]];
     pots.forEach(([x, z], i) => {
       add(new THREE.CylinderGeometry(0.14, 0.11, 0.24, 20), potM, [x, 0.12, z]);
-      const node = shrubSrc.children[i % shrubSrc.children.length].clone();
-      node.position.set(0, 0, 0);
-      const b = new THREE.Box3().setFromObject(node);
-      const k = 0.32 / (b.max.y - b.min.y);
-      node.scale.multiplyScalar(k);
-      node.position.set(x - (b.min.x + b.max.x) / 2 * k, 0.22 - b.min.y * k, z - (b.min.z + b.max.z) / 2 * k);
-      node.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; o.material.color = new THREE.Color("#7f8a74"); } });
-      S.add(node);
+      add(new THREE.TorusGeometry(0.138, 0.012, 6, 24), potM, [x, 0.235, z], [Math.PI / 2, 0, 0]);   // rim
+      const R = rng(41 + i), lumps = [];
+      for (let k = 0; k < 4; k++) {
+        const r = 0.09 + R() * 0.05;
+        const g = new THREE.IcosahedronGeometry(r, 2);
+        const p = g.attributes.position;
+        for (let j = 0; j < p.count; j++) {   // lumpy: a seeded noise of the direction
+          const vx = p.getX(j), vy = p.getY(j), vz = p.getZ(j);
+          const n = 1 + 0.16 * Math.sin(vx * 41 + i) * Math.sin(vy * 37 + k) * Math.sin(vz * 43);
+          p.setXYZ(j, vx * n, vy * n * 0.9, vz * n);
+        }
+        const a = k * 1.7 + R(), d = k ? 0.06 + R() * 0.03 : 0;
+        g.translate(Math.cos(a) * d, 0.08 + (k ? R() * 0.06 : 0.1), Math.sin(a) * d);
+        lumps.push(g.toNonIndexed());
+      }
+      const bush = add(mergeGeometries(lumps), bushM, [x, 0.2, z]);
+      bush.geometry.computeVertexNormals();
     });
-
     // ---------------------------------------------------------------- utility pole and wires (plain)
     const poleM = new THREE.MeshStandardMaterial({ color: "#8d8b86", roughness: 0.8 });
     add(new THREE.CylinderGeometry(0.13, 0.17, 10, 16), poleM, [6.2, 5, 3.45]);
@@ -420,17 +577,17 @@ export function createLookStreet(stage, opts = {}) {
         for (const sx of [-1, 1]) onFace(parts.frame, fc, u + sx * (w / 2 + 0.2), y0 + h + 0.14, 0.2, [0.02, 0.02, 0.5], -0.6);
       }
     };
+    const NBW = ["#a9a59d", "#8f9194", "#b6b0a4", "#7f8184", "#a19c92"];
     const nb = (cx, cz, w, d, h, i) => {
-      box(w, h, d, f.tiled(wallM, 1, 1), [cx, h / 2, cz], 2.5);
+      const nwM = f.tiled(wallM, 1, 1); nwM.color = new THREE.Color(NBW[(i - 1) % NBW.length]);
+      if (night) nwM.color.multiplyScalar(0.86);
+      box(w, h, d, nwM, [cx, h / 2, cz], 2.5);
       const rr = d / 2 + 0.45;
-      for (const s of [-1, 1]) {
-        const r = box(w + 0.8, 0.12, rr / Math.cos(0.4), roofM, [cx, h + Math.tan(0.4) * rr / 2, cz + s * rr / 2]);
-        r.rotation.x = s * 0.4;
-      }
+      for (const s of [-1, 1]) roofBox(w + 0.8, 0.12, rr / Math.cos(0.4), [cx, h + Math.tan(0.4) * rr / 2, cz + s * rr / 2], s * 0.4);
       // gable triangles closing the roof ends
       const gt = new THREE.Shape([new THREE.Vector2(-d / 2, 0), new THREE.Vector2(d / 2, 0), new THREE.Vector2(0, Math.tan(0.4) * d / 2)]);
       for (const sx of [-1, 1]) {
-        const m = add(new THREE.ShapeGeometry(gt), f.tiled(wallM, d / 2.5, 1), [cx + sx * (w / 2 + 0.002), h, cz], [0, sx * Math.PI / 2, 0]);
+        const m = add(new THREE.ShapeGeometry(gt), f.tiled(nwM, d / 2.5, 1), [cx + sx * (w / 2 + 0.002), h, cz], [0, sx * Math.PI / 2, 0]);
         m.material.side = THREE.DoubleSide;
       }
       const faces = [
@@ -480,22 +637,59 @@ export function createLookStreet(stage, opts = {}) {
 
     // ---------------------------------------------------------------- light: one low sun (moon at night) through leaves
     let sun;
+    const plainSun = (o) => { const l = f.sun({ ...o, leaves: false }); l.shadow.radius = 3; return l; };
     if (night) {
-      sun = f.sun({ azimuth: -38, elevation: 30, target: [-0.5, 3.4, -1], size: 18.5, leaves: { density: 1.6, leaf: 0.43, sway: 0.043, seed: 7, soft: 0.017 } });
+      // blind-1 fix 3: the moon comes in steeply from the left, so the awning throws a long diagonal shadow down the
+      // wall; leaves in three layers (big out-of-focus blobs, mid sprays, small sharp ones) placed around the window,
+      // not stamped evenly over the wall.
+      const size = 18.5, target = [-0.5, 3.4, -1];
+      sun = plainSun({ azimuth: -42, elevation: 35, target, size });
+      leafLayers(f, sun, size, [
+        { leaves: { density: 0.9, leaf: 0.62, soft: 0.045, sway: 0.03, seed: 7, res: 1024 },
+          regions: [[-3.3, 5.1, -1, 1.35], [1.7, 2.3, -1, 1.25, 0.9]] },
+        { leaves: { density: 0.9, leaf: 0.4, soft: 0.02, sway: 0.045, seed: 19, res: 1536 },
+          regions: [[-2.6, 2.7, -1, 1.5]] },
+        { leaves: { density: 0.8, leaf: 0.22, soft: 0.008, sway: 0.05, seed: 23, res: 2048 },
+          regions: [[0.35, 3.05, -1, 0.95, 0.9], [-3.4, 3.7, -1, 0.75]] },
+      ]);
       // the window's own faint light spilling on the sill
       const p = new THREE.PointLight("#b8c4d6", 0.6, 3, 2);
       p.position.set(WINDOW2[0], WINDOW2[1], -0.7);
       S.add(p);
+    } else if (opts.cut === "aerial") {
+      // blind-1 fix 1: one sun over the whole block (no leaf pattern on the far roofs and houses); the leaf shade only
+      // where the yard tree's crown actually hangs between the sun and the ground/wall, densest at the crown.
+      const so = opts.sun || {};
+      const size = so.size ?? 26, target = so.target ?? [0.5, 1.6, -0.5];
+      sun = plainSun({ azimuth: -52, elevation: 24, target, size });
+      leafLayers(f, sun, size, [
+        { leaves: { density: 2.0, leaf: 0.5, sway: opts.sway ?? 0.043, seed: 5, soft: 0.03, res: opts.leafRes ?? 2048, lit: [[DOOR.x + 0.15, 1.2, DOOR.z, 0.55]] },
+          regions: [[-3.7, 2.9, 1.5, 3.0], [-3.0, 3.6, 1.0, 2.4], [-1.9, 3.9, 0.7, 2.2, 0.95], [-4.4, 2.2, 1.9, 2.0]] },
+      ]);
+    } else if (opts.cut === "follow") {
+      // blind-1 fix 2: an even canopy of big soft leaves over the wall, plus a second, denser layer where the door,
+      // the walker's path and the AC unit are — so she walks as a half silhouette and the door stays in shade, with
+      // sun flecks on the wall beside it (like the reference)
+      const size = 14, target = [1.2, 1.4, -0.8];
+      sun = plainSun({ azimuth: -52, elevation: 24, target, size });
+      leafLayers(f, sun, size, [
+        { leaves: { density: 1.35, leaf: 0.48, soft: 0.03, sway: opts.sway ?? 0.043, seed: 5, res: 2048,
+          lit: [[0.45, 1.5, DOOR.z, 0.5], [2.6, 1.95, DOOR.z, 0.45]] } },
+        { leaves: { density: 1.6, leaf: 0.36, soft: 0.022, sway: opts.sway ?? 0.043, seed: 13, res: 1536 },
+          regions: [[DOOR.x, 1.1, DOOR.z, 1.0], [DOOR.x, 1.1, 0.9, 0.8, 0.6], [DOOR.x, 1.1, 2.2, 0.7, 0.5], [3.3, 0.5, -0.75, 0.6, 1.2]] },
+      ]);
     } else {
-      // wide pattern for the aerial; close cuts use a tighter one around the entrance (finer leaf edges). The macro uses
-      // a 5 m circle so the shadow map is ≈2.4 mm a texel and the knob throws a clear shadow on the door.
-      const wide = opts.cut === "aerial", macro = opts.cut === "macro";
+      // close cuts: a tighter pattern around the entrance (finer leaf edges). The macro uses a 5 m circle so the shadow
+      // map is ≈2.4 mm a texel and the knob throws a clear shadow on the door.
+      const macro = opts.cut === "macro", follow = opts.cut === "follow";
+      // follow (blind-1 fix 2): no sun hole on the door or the walker's path — both stay in leaf shade (half
+      // silhouette); bigger, softer leaves on the wall like the reference, sun flecks only beside the door
       const lit = macro ? [[KNOB[0] - 0.03, KNOB[1] + 0.02, KNOB[2] - 0.05, 0.2]]
-        : opts.cut === "follow" ? [[DOOR.x + 0.1, 1.15, DOOR.z, 0.46], [DOOR.x, 1.2, 0.55, 0.5], [DOOR.x, 1.2, 1.6, 0.5], [DOOR.x, 1.2, 2.6, 0.45]]
+        : follow ? [[0.45, 1.5, DOOR.z, 0.5], [2.7, 1.9, DOOR.z, 0.42], [DOOR.x - 0.25, 1.3, 1.2, 0.22]]
         : [[DOOR.x + 0.1, 1.15, DOOR.z, 0.46]];
       // macro: a steeper, more frontal sun so the knob's shadow lands on the door just below-right of it (not past the edge)
-      sun = f.sun({ azimuth: macro ? -36 : -52, elevation: macro ? 31 : 24, target: wide ? [0.5, 1.6, -0.5] : macro ? [KNOB[0], KNOB[1] + 0.2, DOOR.z] : [1.2, 1.4, -0.8], size: wide ? 24 : macro ? 5 : 14,
-        leaves: { density: wide ? 1.3 : 1.7, bias: wide ? -0.35 : 0, leaf: wide ? 0.46 : 0.34, sway: opts.sway ?? 0.043, seed: 5, soft: macro ? 0.012 : 0.017, res: opts.leafRes ?? 2048, lit } });
+      sun = f.sun({ azimuth: macro ? -36 : -52, elevation: macro ? 31 : 24, target: macro ? [KNOB[0], KNOB[1] + 0.2, DOOR.z] : [1.2, 1.4, -0.8], size: macro ? 5 : 14,
+        leaves: { density: follow ? 1.55 : 1.7, leaf: follow ? 0.46 : 0.34, sway: opts.sway ?? 0.043, seed: 5, soft: macro ? 0.012 : follow ? 0.03 : 0.017, res: opts.leafRes ?? 2048, lit } });
     }
     // Tighten the sun's shadow depth range around the set. leafShadows leaves near = 0.5 m for a light 45 m away, so the
     // shadow depth steps are centimetres and the bias swallows anything small (the knob threw no shadow at all).

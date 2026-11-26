@@ -53,7 +53,9 @@ export function createLookStreetMarks(stage, opts = {}) {
     return f;
   };
   try {
-    return createLookStreet(stage, opts);
+    // blind-1 fix 4: the street the line runs along was outside the aerial's sunlit circle (luma 0.06–0.08), so this
+    // scene widens the sun over the whole block (the leaf shade still stays at the yard tree)
+    return createLookStreet(stage, { sun: { target: [-7, 0.5, 4.5], size: 46 }, ...opts });
   } finally {
     Film.create = orig;
   }

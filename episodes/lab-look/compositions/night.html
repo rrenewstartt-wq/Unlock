@@ -17,7 +17,7 @@
   </div>
   <script type="module">
     import { createLookStreet } from "./assets/lib/look_street.js";
-    const render = createLookStreet(document.getElementById("night-stage"), {"cut": "window", "camera": {"preset": "lateralDrift", "target": [-1.2, 4.25, -1], "t0": 0, "t1": 6.88, "azimuth": 12, "dist": 5.2, "travel": 1.6, "height": 2.7, "lead": 0.3, "fov": 36}});
+    const render = createLookStreet(document.getElementById("night-stage"), {"cut": "window", "camera": {"preset": "lateralDrift", "target": [-1.2, 4.25, -1], "t0": 0, "t1": 6.88, "azimuth": 22, "dist": 5.2, "travel": 1.6, "height": 2.7, "lead": 0.3, "fov": 36}});
     const st = { t: 0 };
     const tl = gsap.timeline({ paused: true });
     tl.to(st, { t: 5.88, duration: 5.88, ease: "none", onUpdate: () => render(st.t) }, 0);

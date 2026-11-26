@@ -79,7 +79,7 @@ def distance(sid, dur, q):
 
 
 def night(sid, dur, q):
-    cam = {"preset": "lateralDrift", "target": [-1.2, 4.25, -1], "t0": 0, "t1": dur + 1.0, "azimuth": 12, "dist": 5.2,
+    cam = {"preset": "lateralDrift", "target": [-1.2, 4.25, -1], "t0": 0, "t1": dur + 1.0, "azimuth": 22, "dist": 5.2,
            "travel": 1.6, "height": 2.7, "lead": 0.3, "fov": 36}
     # the pilot ends here: fade to black after the caption
     fade_at = round(q[0] + 2.9, 2)
