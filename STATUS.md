@@ -1,4 +1,4 @@
-# 현재 상태와 다음 할 일 (2026-11-25 기준)
+# 현재 상태와 다음 할 일 (2026-11-26 기준)
 
 새 세션·다른 계정에서 이어 갈 때 이 파일부터 읽는다. 설치는 `docs/SETUP.md` (`bash scripts/setup.sh`, 끝에 "결과: 모두 같음 ✓").
 
@@ -22,6 +22,14 @@
 5. **음악:** 사용자가 나중에 정함.
 6. 업로드 직전: facts F204(최고재판소 결과) 다시 확인, F29(이름 읽기)는 확인 못 하면 "미야타 씨"만.
 7. ep01 남은 일(급하지 않음): 렌더, 보관소 장면 film 키트로, 담배 인서트, facts.md 를 사실 ID 표로.
+
+## 2026-11-26: 레퍼런스 룩 키트 완성 — 룩 테스트 95.2점 통과
+- 사용자가 준 레퍼런스 화면 녹화 3개로 기준을 만들었다(`docs/reference-look.md`, `scripts/look_check.py`). 아트팀에 cinematographer·character-animator·motion-designer 를 더했다(26명).
+- 키트: `thumbkit/look.js`(룩 프리셋·잎 그림자·그레이드·심도·카메라 프리셋, `LOOK.md`), `thumbkit/actors.js`(옷 입고 걷는 인물 6종·동작 20여 개, `ACTORS.md`),
+  `thumbkit/overlay3d.js`·`scenes_kit.title_card`(타자 제목 카드·상자 없는 자막·3D 거리 선·사진 unlock 룩, `OVERLAY.md`). 실험장은 `episodes/lab-look`.
+- 사용자 결정: 썸네일은 글자 없음 + 빨간 단색, 강조색 빨강, 새 편은 3D `재현` 꼬리표 없음(11-25). 블라인드 비교는 100점 점수제, 90점 이상 통과(11-26, `scripts/blind_score.py`).
+- 블라인드 비교: 1차 1승 3패 → 2차 2승 2패 → 3차 점수제 **95.2점 통과**(`episodes/lab-look/data/blind-1~3.md`).
+- 남은 약점·과제: 인물 옷·머리카락(88점), 화분, look.js 볕 구멍 잔가지, 렌더 시간(CPU 로 영상 1초에 약 2분 → 본편은 GPU 컴퓨터 렌더가 사실상 필요).
 
 ## 2026-11-25: 벤치마킹 범위 변경 + 회고
 - 사용자 지시: 대본·썸네일·그래픽의 스타일·공식·포맷을 레퍼런스와 똑같이(CLAUDE.md 규칙 1, `docs/originality.md`). 글자 그대로 옮긴 문장·원본 파일·채널명만 금지. 빨강 허용, 썸네일 `bench_hash` 6 미만만 "베낌".
