@@ -192,15 +192,28 @@ export function leafShadows(f, { sun = null, target = [0, 1, 0], size = 20, dens
         x.restore();
       }
     }
-    // twigs so sprays read as branches, not confetti
+    // twigs so sprays read as branches, not confetti. Each twig follows the same spine as its leaves (angle a + bend·d/len),
+    // so it stays under them, and it is not drawn where leaves were skipped around a lit gap (hr + 0.65 leaf ≥ the largest
+    // leaf-skip margin l.l·0.5): before, a Bézier off the spine crossed the gaps as radial streaks (lab-look blind-3, 2026-11-26)
     x.strokeStyle = "#080808";
     x.lineWidth = Math.max(1.2, 0.018 * px);
+    x.lineCap = "round";
+    const ring = holes.map(([hx, hy, hr]) => [hx, hy, (hr + leaf * px * 0.65) ** 2]);
+    const seg = leaf * px * 0.25;
     for (const b of branches) {
       const ox = sway * px * Math.sin(w * t + b.ph), oy = sway * px * 0.6 * Math.sin(w * 0.73 * t + b.ph2);
       for (const tw of b.twigs) {
-        x.beginPath(); x.moveTo(b.x + ox, b.y + oy);
-        const ae = tw.a + tw.bend;
-        x.quadraticCurveTo(b.x + ox + Math.cos(tw.a) * tw.len * 0.5, b.y + oy + Math.sin(tw.a) * tw.len * 0.5, b.x + ox + Math.cos(ae) * tw.len, b.y + oy + Math.sin(ae) * tw.len);
+        const n = Math.max(4, Math.ceil(tw.len / seg));
+        let px0 = b.x + ox, py0 = b.y + oy, open = false;
+        x.beginPath();
+        for (let i = 1; i <= n; i++) {
+          const d = tw.len * i / n, aa = tw.a + tw.bend * (i / n);
+          const px1 = b.x + ox + Math.cos(aa) * d, py1 = b.y + oy + Math.sin(aa) * d;
+          const mx = (px0 + px1) / 2, my = (py0 + py1) / 2;
+          if (ring.some(([hx, hy, r2]) => (mx - hx) ** 2 + (my - hy) ** 2 < r2)) open = false;
+          else { if (!open) x.moveTo(px0, py0); x.lineTo(px1, py1); open = true; }
+          px0 = px1; py0 = py1;
+        }
         x.stroke();
       }
     }
