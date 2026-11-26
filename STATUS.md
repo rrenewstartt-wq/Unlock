@@ -4,6 +4,18 @@
 
 > **ep02 는 한 세션에서만 만든다(사람 결정 2026-11-21).** 다른 세션은 ep02 파일을 고치지 않는다 — 공용 도구만 고치고 main 에 합칠 때 ep02 는 최신 진행 쪽을 유지한다.
 
+## 새 세션 시작점 (2026-11-26, main)
+1. `bash scripts/setup.sh` → "결과: 모두 같음 ✓"(3D 자산 캐시를 받는다. 없으면 check·렌더가 missing asset 으로 실패).
+2. **화면 룩은 정해졌다:** `docs/reference-look.md` + 실험장 `episodes/lab-look`(블라인드 95.2점, 사람 확인 "이 정도면 괜찮다").
+   키트 사용법은 `thumbkit/LOOK.md`(톤·잎 그림자·카메라), `thumbkit/ACTORS.md`(옷 입고 걷는 인물), `thumbkit/OVERLAY.md`(타자 제목 카드·자막·3D 거리 선·사진).
+   새 편은 `python3 scripts/new_episode.py ep0N-<slug> "제목"` → 빨간 강조색·`재현` 꼬리표 없음·상자 없는 자막으로 시작한다.
+3. **진행 중인 편(서로 다른 세션 담당):**
+   - ep02 마쓰바세(이 아래 "바로 다음 할 일"): 옛 룩(앰버)으로 끝내기로 함. 파일럿 2차부터.
+   - **ep03 팔미라: 브랜치 `claude/dreamy-curie-gorgg4` 에만 있고 main 에 아직 없다**(11-22 기준 기획 승인, facts 139행, 대본 초고 16.1분 — 대본 2차 수정 중 사용량 제한으로 멈춤).
+     이어 갈 세션은 그 브랜치를 받아 main 과 합친 뒤(`git merge origin/main`) 새 룩 기준으로 설계부터 맞춘다. 새 편 번호는 ep04 부터 쓴다.
+4. 렌더: CPU 로 영상 1초에 약 2분(룩 키트 기준). 본편은 GPU 있는 컴퓨터에서 `npx hyperframes render`(또는 `render_chunks.py`) 권장.
+5. 남은 하네스 과제: 인물 옷·머리카락(88점), 화분 모델, `look.js` 볕 구멍 잔가지 버그, 구간 렌더가 48프레임마다 3D 를 다시 짓는 낭비 — `episodes/lab-look/data/blind-3.md`.
+
 ## 바로 다음 할 일 (ep02 마쓰바세 제작 중 — 관문 `python3 scripts/gates.py episodes/ep02-matsubase`)
 최신 회고: `docs/retros/2026-11-25-harness.md`(파일럿 1차 미달 뒤 사흘, 다시 판정 0번). 그 전: `2026-11-21-harness.md`, `2026-11-21-teams-gates.md`. 팀 `docs/teams.md`.
 
