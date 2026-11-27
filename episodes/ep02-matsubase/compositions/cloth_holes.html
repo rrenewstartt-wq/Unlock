@@ -8,15 +8,94 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    #root { background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); }
+    .pn { position: absolute; inset: 0; }
+    .h { opacity: 0; }
+    .abs { position: absolute; }
+    .paper { position: absolute; background: #D9D5CC; color: #1E2125; box-shadow: 0 24px 60px rgba(0,0,0,.5); }
+    .lab { position: absolute; background: rgba(12,13,15,.8); border-left: 8px solid #E9E5DD; color: #F3F0EA; padding: 12px 28px 14px; }
+
+    .t { display: block; font-weight: 400; line-height: 1.06; }
+    .s { display: block; line-height: 1.25; }
+    .k { display: block; font-size: 48px; line-height: 1.2; color: rgba(30,33,37,.72); }
+    .kd { display: block; font-size: 48px; line-height: 1.2; color: rgba(233,229,221,.84); }
+    .ink { color: #E9E5DD; } .amt { color: #F0A23B; } .drk { color: #1E2125; }
+    .ln { position: absolute; height: 5px; background: rgba(233,229,221,.62); border-radius: 3px; transform-origin: left center; }
+    .lv { position: absolute; width: 5px; background: rgba(233,229,221,.62); border-radius: 3px; transform-origin: center top; }
+    .ln.am, .lv.am { background: #F0A23B; }
+    .nd { position: absolute; border-radius: 50%; border: 6px solid #E9E5DD; background: #121316; }
+    .nd.on { background: #E9E5DD; }
+    .nd.am { border-color: #F0A23B; border-width: 10px; }
+    .nd.amf { border-color: #F0A23B; background: #F0A23B; }
+    .dc { position: absolute; border: 6px dashed rgba(233,229,221,.78); border-radius: 8px; }
+    .dc.am { border-color: #F0A23B; }
+    .dc.dk { border-color: rgba(30,33,37,.5); }
+    .amb { position: absolute; left: 0; top: 0; bottom: 0; width: 16px; background: #F0A23B; }
+    .dim { opacity: .25; }
+    .gr { position: absolute; border: 4px solid rgba(233,229,221,.55); border-radius: 6px; opacity: .25; }
+    .seal { position: absolute; border: 10px solid #E9E5DD; border-radius: 14px; color: #E9E5DD; text-align: center; transform: rotate(-4deg); }
+    .seal.dk { border-color: #1E2125; color: #1E2125; }
+    .pad { padding: 52px 70px; }
+    .ctr { display: flex; flex-direction: column; justify-content: center; }
+    .row { display: flex; align-items: center; }
+    .lab b { font-weight: 400; }
+    .tick { position: absolute; width: 5px; height: 34px; background: rgba(233,229,221,.7); }
+    .q { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .q i { font-style: normal; color: rgba(30,33,37,.42); }
+
+    .rc-shot { position: absolute; inset: 0; background: #0B0C0D; overflow: hidden; }
+    .rc-cam { position: absolute; inset: 0; }
+    .rc-plane { position: absolute; inset: 0; transform-style: preserve-3d; }
+    .rc-desk { position: absolute; left: -900px; top: -760px; width: 3720px; height: 2600px; display: block; }
+    .rc-paper { position: absolute; margin: 0; padding: 0; background: #DCDAD6;
+      box-shadow: 0 1px 1px rgba(0,0,0,.7), 0 3px 6px rgba(0,0,0,.55), 0 26px 60px rgba(0,0,0,.6), 0 60px 140px rgba(0,0,0,.45); }
+    .rc-crop { position: absolute; overflow: hidden; }
+    .rc-crop img { position: absolute; display: block; }
+    .rc-ul { position: absolute; height: 8px; background: #F0A23B; border-radius: 4px; transform-origin: left center; }
+    .rc-sheen { position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(172deg, rgba(255,250,240,.05) 0%, rgba(0,0,0,0) 38%, rgba(0,0,0,.16) 100%); }
+    .rc-shade { position: absolute; inset: 0; pointer-events: none; background: #0B0C0E; }
+    .rc-ring { position: absolute; left: 0; top: 0; overflow: visible; }
+    .rc-ring ellipse { fill: none; stroke: #F0A23B; stroke-width: 7; stroke-linecap: round; }
+    .rc-fall { position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 120% 95% at 50% 30%, rgba(0,0,0,0) 45%, rgba(0,0,0,.42) 100%),
+                  linear-gradient(to bottom, rgba(6,7,8,0) 56%, rgba(6,7,8,.62) 78%, rgba(6,7,8,.9) 100%); }
+    .rc-gloss { position: absolute; left: 50%; top: 786px; transform: translateX(-50%); white-space: nowrap;
+      padding: 12px 32px 15px 30px; background: rgba(12,13,15,.84); border-left: 8px solid #E9E5DD;
+      font-size: 44px; line-height: 1.25; color: #F3F0EA; }
+    .rc-credit { position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.8);
+      text-shadow: 0 0 3px #000, 0 2px 8px #000; }
+    .rc-map { position: absolute; inset: 0; }
+    .rc-map img { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: block; }
+    .rc-place { position: absolute; transform: translate(-50%, -50%); }
+    .rc-node { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%;
+      border: 4px solid #F3F0EA; background: rgba(12,13,15,.6); box-shadow: 0 0 0 3px rgba(12,13,15,.6); }
+    .rc-name { position: absolute; white-space: nowrap; padding: 8px 20px 10px 18px; background: rgba(12,13,15,.84);
+      border-left: 8px solid #E9E5DD; font-size: 38px; line-height: 1.2; color: #F3F0EA; }
+    .rc-name small { display: block; font-size: 32px; color: rgba(243,240,234,.86); margin-top: 2px; }
+    .rc-date { position: absolute; left: 96px; top: 150px; padding: 16px 32px 20px 30px; background: rgba(12,13,15,.86);
+      border-left: 8px solid #E9E5DD; font-size: 58px; line-height: 1.1; color: #F3F0EA; }
+    .rc-date small { display: block; font-family: "Gothic A1", sans-serif; font-size: 36px; margin-top: 8px; color: rgba(243,240,234,.9); }
+    .rc-tag { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD;
+      background: rgba(20,22,25,.72); border: 2px solid #F0A23B; padding: 4px 14px 6px; }
+    .rc-ins { z-index: 20; }
   </style>
   <div id="root" data-composition-id="cloth_holes" data-width="1920" data-height="1080">
-    <div id="cloth_holes-ph" class="clip ph" data-start="0" data-duration="20.99"><b class="disp">cloth_holes</b><span>장면을 만들어 주세요</span></div>
+    <div id="cloth_holes-b0" class="clip pn" data-start="0.0" data-duration="5.19"><div class="abs" style="left:96px;top:130px;"><span class="s kd" style="font-size:54px;">피해자의 옷</span><b class="disp t ink" style="font-size:120px;margin-top:6px">옷에 남은 구멍</b></div><div class="abs" style="left:96px;top:400px;"><div style="position:relative;width:860px;height:470px;background:#77787A;border-radius:4px"><i style="position:absolute;left:320px;top:221px;width:220px;height:28px;border-radius:14px;background:#141517"></i></div></div><div id="cloth_holes-sw" class="abs" style="left:1040px;top:520px;opacity:0"><span class="s ink" style="font-size:64px;">스웨터</span><b class="disp t ink" style="font-size:124px;margin-top:6px;white-space:nowrap">15~16.6mm</b></div></div>
+    <div id="cloth_holes-b1" class="clip pn" data-start="5.19" data-duration="2.3"><div class="abs" style="left:96px;top:150px;"><div style="position:relative;width:860px;height:330px;background:#77787A;border-radius:4px"><i style="position:absolute;left:320px;top:151px;width:220px;height:28px;border-radius:14px;background:#141517"></i></div></div><div class="abs" style="left:96px;top:520px;"><div style="position:relative;width:860px;height:330px;background:#77787A;border-radius:4px"><i style="position:absolute;left:320px;top:151px;width:220px;height:28px;border-radius:14px;background:#141517"></i></div></div><div class="abs" style="left:1060px;top:200px;"><span class="s ink" style="font-size:60px;">스웨터</span><b class="disp t ink" style="font-size:120px;white-space:nowrap">15~16.6mm</b></div><div class="abs" style="left:1060px;top:570px;"><span class="s ink" style="font-size:60px;">속옷</span><b class="disp t ink" style="font-size:150px;">15mm</b></div></div>
+    <div id="cloth_holes-b2" class="clip pn" data-start="7.49" data-duration="3.14"><div class="paper" style="left:96px;top:130px;width:720px;height:740px;padding:56px 70px"><span class="s k" style="font-size:56px;">옷의 구멍</span><b class="disp t " style="font-size:100px;margin-top:20px;white-space:nowrap">15mm 안팎</b><div class="abs" style="left:0px;top:0px;position:relative;margin-top:40px"><div style="position:relative;width:560px;height:240px;background:#77787A;border-radius:4px"><i style="position:absolute;left:170px;top:106px;width:220px;height:28px;border-radius:14px;background:#141517"></i></div></div></div><div class="abs" style="left:816px;top:360px;width:288px;"><b class="disp t amt" style="font-size:280px;text-align:center;line-height:1">=</b></div><div class="paper" style="left:1104px;top:130px;width:720px;height:740px;padding:56px 70px"><span class="s k" style="font-size:56px;">상처 입구</span><b class="disp t " style="font-size:120px;margin-top:20px">약 1.5cm</b><div class="abs" style="left:0px;top:0px;position:relative;margin-top:90px"><div style="position:relative;width:560px;height:71px"><i style="position:absolute;left:0;top:25px;width:560px;height:6px;background:#1E2125"></i><i style="position:absolute;left:0;top:5px;width:6px;height:46px;background:#1E2125"></i><i style="position:absolute;right:0;top:5px;width:6px;height:46px;background:#1E2125"></i><b class="disp" style="position:absolute;left:0;right:0;top:0;text-align:center;font-size:1px;line-height:1;font-weight:400;color:#1E2125"></b></div></div></div><div class="abs" style="left:96px;top:120px;width:1px;height:1px;"></div></div>
+    <div id="cloth_holes-b3" class="clip pn" data-start="10.63" data-duration="6.15"><div class="paper" style="left:96px;top:130px;width:1728px;height:400px;padding:56px 80px"><span class="s k" style="font-size:56px;">후쿠오카고법(2017)</span><b class="disp t " style="font-size:140px;margin-top:30px;line-height:1.1">잘 드는 칼날에 찔렸다</b></div><div id="cloth_holes-old" class="abs gr" style="left:96px;top:600px;width:760px;height:240px;padding:30px 40px;opacity:0"><span class="s " style="font-size:50px;color:rgba(233,229,221,.8)">검찰</span><span class="s ink" style="font-size:54px;">피부가 눌려 입구가 좁아졌다</span></div><div id="cloth_holes-nn" class="abs" style="left:940px;top:600px;opacity:0"><b class="disp t ink" style="font-size:96px;line-height:1.12">큰 ‘눌림 현상’은<br>없었다</b></div></div>
+    <div id="cloth_holes-ins0" class="clip rc-shot rc-ins" data-start="16.78" data-duration="4.21" data-layout-allow-overlap><div id="cloth_holes-ins0-cam" class="rc-cam" data-layout-allow-overflow style="perspective:1900px;perspective-origin:960px 270px;transform-origin:960px 430px"><div class="rc-plane" data-layout-allow-overflow style="transform-origin:960px 430px;transform:rotateX(14deg) rotateZ(1.6deg)"><img class="rc-desk" data-layout-allow-overflow src="assets/kit3d/cache/textures/dark_wood/diff.jpg" alt="" data-color-grading='{"preset":"mono-fade","intensity":0.9,"adjust":{"exposure":-1.3,"contrast":0.12},"details":{"vignette":0.55,"grain":0.16,"grainSize":0.22,"grainRoughness":0.6}}'/><figure class="rc-paper" data-layout-allow-overflow style="left:80px;top:286px;width:1760px;height:287px"><div class="rc-crop" style="left:80px;top:66px;width:1600px;height:155px"><img src="assets/archive/kousai-p15-l3.png" alt="" style="left:0px;top:0;width:1600px;height:155px" data-color-grading='{"preset":"mono-fade","intensity":0.9,"adjust":{"exposure":0.0,"contrast":0.0},"details":{"vignette":0.0,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/></div><div class="rc-sheen"></div><div class="rc-shade" style="opacity:0.055"></div><svg class="rc-ring" viewBox="0 0 1760 287" width="1760" height="287"><ellipse id="cloth_holes-ins0-r0" cx="1272" cy="105" rx="161" ry="64" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100"/></svg></figure></div></div><div class="rc-fall"></div><div class="rc-gloss">「이 칼의 형상과 상당히 모순된다고 하지 않을 수 없다」</div><div class="rc-credit">후쿠오카고법 결정문(2017) · 재판소 공개본</div><div class="rc-tag">기록</div></div>
+    <div id="cloth_holes-tg0" class="clip tag-re" data-start="0.3" data-duration="16.48">도식 · 실제 옷 아님</div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#cloth_holes-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.fromTo("#cloth_holes-sw", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 2.69);
+    tl.fromTo("#cloth_holes-old", { opacity: 0 }, { opacity: 0.25, duration: 0.3 }, 13.53);
+    tl.fromTo("#cloth_holes-nn", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 14.13);
+    tl.to("#cloth_holes-ins0-r0", { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, 17.18);
+    tl.fromTo("#cloth_holes-ins0-cam", { scale: 1.0, x: 0, y: 0 }, { scale: 1.05, x: 0, y: 0, duration: 4.21, ease: "none" }, 16.78);
     window.__timelines["cloth_holes"] = tl;
   </script>
 </template>

@@ -202,8 +202,28 @@ export function createRoom(stage, opts) {
     }
 
     // ---------------------------------------------------------------- kotatsu: futon draped from under the top + wooden top
-    const futGeo = new THREE.PlaneGeometry(2.0, 2.0, 140, 140);
-    futGeo.rotateX(-Math.PI / 2);
+    // Built as square rings (Chebyshev distance d) × angle, not a square grid: on a grid the drape's edge contour crossed
+    // the grid diagonally near the corners and the silhouette came out as a staircase (review pilot-2 #27). UVs follow x/z.
+    const FR = 90, FN = 4 * 96;
+    const fpos = [], fuv = [], fidx = [];
+    for (let j = 0; j <= FR; j++) {
+      const d = j / FR;
+      for (let k = 0; k < FN; k++) {
+        const a = (2 * Math.PI * k) / FN, c = Math.cos(a), s = Math.sin(a);
+        const m = Math.max(Math.abs(c), Math.abs(s));
+        const x = (d * c) / m, z = (d * s) / m;
+        fpos.push(x, 0, z);
+        fuv.push((x + 1) / 2, (1 - z) / 2);
+      }
+    }
+    for (let j = 0; j < FR; j++) for (let k = 0; k < FN; k++) {
+      const a = j * FN + k, b = j * FN + ((k + 1) % FN), c2 = a + FN, d2 = b + FN;
+      fidx.push(a, c2, b, b, c2, d2);
+    }
+    const futGeo = new THREE.BufferGeometry();
+    futGeo.setAttribute("position", new THREE.Float32BufferAttribute(fpos, 3));
+    futGeo.setAttribute("uv", new THREE.Float32BufferAttribute(fuv, 2));
+    futGeo.setIndex(fidx);
     const fp = futGeo.attributes.position;
     const IN = 0.4, DROP = 0.4;
     for (let i = 0; i < fp.count; i++) {

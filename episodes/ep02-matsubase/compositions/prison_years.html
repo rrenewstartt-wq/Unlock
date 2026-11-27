@@ -8,15 +8,58 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    #root { background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); }
+    .pn { position: absolute; inset: 0; }
+    .h { opacity: 0; }
+    .abs { position: absolute; }
+    .paper { position: absolute; background: #D9D5CC; color: #1E2125; box-shadow: 0 24px 60px rgba(0,0,0,.5); }
+    .lab { position: absolute; background: rgba(12,13,15,.8); border-left: 8px solid #E9E5DD; color: #F3F0EA; padding: 12px 28px 14px; }
+
+    .t { display: block; font-weight: 400; line-height: 1.06; }
+    .s { display: block; line-height: 1.25; }
+    .k { display: block; font-size: 48px; line-height: 1.2; color: rgba(30,33,37,.72); }
+    .kd { display: block; font-size: 48px; line-height: 1.2; color: rgba(233,229,221,.84); }
+    .ink { color: #E9E5DD; } .amt { color: #F0A23B; } .drk { color: #1E2125; }
+    .ln { position: absolute; height: 5px; background: rgba(233,229,221,.62); border-radius: 3px; transform-origin: left center; }
+    .lv { position: absolute; width: 5px; background: rgba(233,229,221,.62); border-radius: 3px; transform-origin: center top; }
+    .ln.am, .lv.am { background: #F0A23B; }
+    .nd { position: absolute; border-radius: 50%; border: 6px solid #E9E5DD; background: #121316; }
+    .nd.on { background: #E9E5DD; }
+    .nd.am { border-color: #F0A23B; border-width: 10px; }
+    .nd.amf { border-color: #F0A23B; background: #F0A23B; }
+    .dc { position: absolute; border: 6px dashed rgba(233,229,221,.78); border-radius: 8px; }
+    .dc.am { border-color: #F0A23B; }
+    .dc.dk { border-color: rgba(30,33,37,.5); }
+    .amb { position: absolute; left: 0; top: 0; bottom: 0; width: 16px; background: #F0A23B; }
+    .dim { opacity: .25; }
+    .gr { position: absolute; border: 4px solid rgba(233,229,221,.55); border-radius: 6px; opacity: .25; }
+    .seal { position: absolute; border: 10px solid #E9E5DD; border-radius: 14px; color: #E9E5DD; text-align: center; transform: rotate(-4deg); }
+    .seal.dk { border-color: #1E2125; color: #1E2125; }
+    .pad { padding: 52px 70px; }
+    .ctr { display: flex; flex-direction: column; justify-content: center; }
+    .row { display: flex; align-items: center; }
+    .lab b { font-weight: 400; }
+    .tick { position: absolute; width: 5px; height: 34px; background: rgba(233,229,221,.7); }
+    .q { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .q i { font-style: normal; color: rgba(30,33,37,.42); }
+
+    .yc { position: absolute; top: 0; height: 260px; background: #D9D5CC; border-radius: 3px; overflow: hidden; }
+    .yc .f { position: absolute; inset: 0; background: #8E8A82; opacity: 0; }
+
   </style>
   <div id="root" data-composition-id="prison_years" data-width="1920" data-height="1080">
-    <div id="prison_years-ph" class="clip ph" data-start="0" data-duration="14.38"><b class="disp">prison_years</b><span>장면을 만들어 주세요</span></div>
+    <div id="prison_years-b0" class="clip pn" data-start="0.0" data-duration="5.45"><div class="abs" style="left:96px;top:130px;"><span class="s kd" style="font-size:52px;">1986년 판결 뒤</span><b class="disp t ink" style="font-size:130px;margin-top:10px">12년 남짓 구금</b></div><div id="prison_years-bar" class="abs" style="left:0;top:420px;width:1920px;height:260px"><i class="yc" style="left:96.0px;width:134.8px"><i class="f"></i></i><i class="yc" style="left:240.8px;width:134.8px"><i class="f"></i></i><i class="yc" style="left:385.7px;width:134.8px"><i class="f"></i></i><i class="yc sv" style="left:530.5px;width:134.8px"><i class="f"></i></i><i class="yc sv" style="left:675.3px;width:134.8px"><i class="f"></i></i><i class="yc sv" style="left:820.2px;width:134.8px"><i class="f"></i></i><i class="yc sv" style="left:965.0px;width:134.8px"><i class="f"></i></i><i class="yc sv" style="left:1109.8px;width:134.8px"><i class="f"></i></i><i class="yc sv" style="left:1254.7px;width:134.8px"><i class="f"></i></i><i class="yc sv" style="left:1399.5px;width:134.8px"><i class="f"></i></i><i class="yc sv" style="left:1544.3px;width:134.8px"><i class="f"></i></i><i class="yc sv" style="left:1689.2px;width:134.8px"><i class="f"></i></i></div><div class="abs" style="left:96px;top:700px;"><span class="s " style="font-size:46px;color:rgba(233,229,221,.72)">한 칸 = 1년</span></div><div id="prison_years-sv" class="abs" style="left:530.5px;top:700px;opacity:0"><b class="disp t ink" style="font-size:72px;">약 9년 · 형 복역</b></div></div>
+    <div id="prison_years-b1" class="clip pn" data-start="5.45" data-duration="5.24"><div class="abs" style="left:0px;top:300px;width:430px;height:200px;background:rgba(217,213,204,.55)"></div><div class="abs ln" style="left:430px;top:398px;width:1390px;height:6px;background:rgba(233,229,221,.5)"></div><div class="abs nd on" style="left:396px;top:366px;width:68px;height:68px;"></div><div id="prison_years-n2" class="abs nd" style="left:1466px;top:366px;width:68px;height:68px;"></div><div class="abs" style="left:96px;top:120px;"><span class="s kd" style="font-size:56px;">1999년</span></div><div class="paper" style="left:250px;top:500px;width:700px;height:330px;padding:40px 56px"><span class="s k" style="font-size:56px;">3월 25일</span><b class="disp t " style="font-size:150px;margin-top:4px">가석방</b></div><div id="prison_years-c2" class="paper" style="left:1050px;top:500px;width:774px;height:330px;padding:40px 56px;opacity:0"><span class="s k" style="font-size:56px;">7월 22일</span><b class="disp t " style="font-size:130px;margin-top:4px">형기 종료</b></div></div>
+    <div id="prison_years-b2" class="clip pn" data-start="10.69" data-duration="3.69"><div class="abs dc am ctr" style="left:510px;top:140px;width:900px;height:700px;"><b class="disp t amt" style="font-size:380px;text-align:center;line-height:1">?</b><span class="s ink" style="font-size:64px;text-align:center;margin-top:30px">이 판결을 흔든 것</span></div></div>
+    <div id="prison_years-tg0" class="clip tag-re" data-start="0.3" data-duration="14.08">도식</div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#prison_years-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.fromTo("#prison_years-bar .yc.sv .f", { opacity: 0 }, { opacity: 1, duration: 0.15, stagger: 0.07, ease: "none" }, 3.08);
+    tl.fromTo("#prison_years-sv", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 3.48);
+    tl.fromTo("#prison_years-n2", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 8.32);
+    tl.fromTo("#prison_years-c2", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 8.37);
     window.__timelines["prison_years"] = tl;
   </script>
 </template>

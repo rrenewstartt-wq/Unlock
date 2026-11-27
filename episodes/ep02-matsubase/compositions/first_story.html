@@ -8,15 +8,53 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    #root { background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); }
+    .pn { position: absolute; inset: 0; }
+    .h { opacity: 0; }
+    .abs { position: absolute; }
+    .paper { position: absolute; background: #D9D5CC; color: #1E2125; box-shadow: 0 24px 60px rgba(0,0,0,.5); }
+    .lab { position: absolute; background: rgba(12,13,15,.8); border-left: 8px solid #E9E5DD; color: #F3F0EA; padding: 12px 28px 14px; }
+
+    .t { display: block; font-weight: 400; line-height: 1.06; }
+    .s { display: block; line-height: 1.25; }
+    .k { display: block; font-size: 48px; line-height: 1.2; color: rgba(30,33,37,.72); }
+    .kd { display: block; font-size: 48px; line-height: 1.2; color: rgba(233,229,221,.84); }
+    .ink { color: #E9E5DD; } .amt { color: #F0A23B; } .drk { color: #1E2125; }
+    .ln { position: absolute; height: 5px; background: rgba(233,229,221,.62); border-radius: 3px; transform-origin: left center; }
+    .lv { position: absolute; width: 5px; background: rgba(233,229,221,.62); border-radius: 3px; transform-origin: center top; }
+    .ln.am, .lv.am { background: #F0A23B; }
+    .nd { position: absolute; border-radius: 50%; border: 6px solid #E9E5DD; background: #121316; }
+    .nd.on { background: #E9E5DD; }
+    .nd.am { border-color: #F0A23B; border-width: 10px; }
+    .nd.amf { border-color: #F0A23B; background: #F0A23B; }
+    .dc { position: absolute; border: 6px dashed rgba(233,229,221,.78); border-radius: 8px; }
+    .dc.am { border-color: #F0A23B; }
+    .dc.dk { border-color: rgba(30,33,37,.5); }
+    .amb { position: absolute; left: 0; top: 0; bottom: 0; width: 16px; background: #F0A23B; }
+    .dim { opacity: .25; }
+    .gr { position: absolute; border: 4px solid rgba(233,229,221,.55); border-radius: 6px; opacity: .25; }
+    .seal { position: absolute; border: 10px solid #E9E5DD; border-radius: 14px; color: #E9E5DD; text-align: center; transform: rotate(-4deg); }
+    .seal.dk { border-color: #1E2125; color: #1E2125; }
+    .pad { padding: 52px 70px; }
+    .ctr { display: flex; flex-direction: column; justify-content: center; }
+    .row { display: flex; align-items: center; }
+    .lab b { font-weight: 400; }
+    .tick { position: absolute; width: 5px; height: 34px; background: rgba(233,229,221,.7); }
+    .q { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .q i { font-style: normal; color: rgba(30,33,37,.42); }
+
   </style>
   <div id="root" data-composition-id="first_story" data-width="1920" data-height="1080">
-    <div id="first_story-ph" class="clip ph" data-start="0" data-duration="14.84"><b class="disp">first_story</b><span>장면을 만들어 주세요</span></div>
+    <div id="first_story-b0" class="clip pn" data-start="0.0" data-duration="5.26"><div class="paper" style="left:96px;top:110px;width:1728px;height:780px;padding:52px 70px"><span class="s k" style="font-size:48px;">경찰 조서</span><b class="disp t " style="font-size:104px;margin-top:8px">1월 20일 · 첫 자백 조서</b></div><div class="abs row" style="left:166px;top:400px;width:1588px;height:190px;padding-left:52px;border-top:4px solid rgba(30,33,37,.35)"><i class="amb"></i><b class="disp t " style="font-size:84px;width:330px;flex:none">① 장갑</b><b id="first_story-r1" class="disp t h" style="font-size:92px;">다리에서 강에 던져 버림</b></div><div class="abs row" style="left:166px;top:600px;width:1588px;height:190px;padding-left:52px;border-top:4px solid rgba(30,33,37,.35)"><b class="disp t " style="font-size:84px;width:330px;flex:none;color:rgba(30,33,37,.5)">② 칼</b></div></div>
+    <div id="first_story-b1" class="clip pn" data-start="5.26" data-duration="3.14"><div class="paper row dim" style="left:96px;top:120px;width:1728px;height:110px;padding-left:50px;box-shadow:none"><i class="amb" style="width:12px"></i><b class="disp t " style="font-size:56px;width:300px">① 장갑</b><span class="s " style="font-size:52px;">다리에서 강에 던져 버림</span></div><div class="paper" style="left:96px;top:270px;width:1728px;height:620px;padding:46px 70px"><span class="s k" style="font-size:48px;">1월 20일 · 첫 자백 조서</span><b class="disp t " style="font-size:150px;margin-top:6px">② 칼</b><b class="disp t " style="font-size:96px;margin-top:28px">씻은 뒤,</b><b class="disp t " style="font-size:96px;margin-top:6px">이 빠진 세 곳을 숫돌로 갈았다</b></div></div>
+    <div id="first_story-b2" class="clip pn" data-start="8.4" data-duration="6.44"><div class="abs lv" style="left:214px;top:230px;height:470px;background:rgba(233,229,221,.4)"></div><div class="abs nd dim" style="left:194px;top:208px;width:44px;height:44px;"></div><div class="abs dim" style="left:120px;top:140px;"><span class="s ink" style="font-size:50px;">1월 20일</span></div><div class="abs nd on" style="left:186px;top:670px;width:60px;height:60px;"></div><div class="abs" style="left:270px;top:676px;"><b class="disp t ink" style="font-size:60px;">1월 31일</b></div><div class="paper" style="left:620px;top:110px;width:1204px;height:780px;padding:52px 66px"><span class="s k" style="font-size:48px;">경찰 조서</span><b class="disp t " style="font-size:120px;margin-top:8px">1월 31일 조서</b><div id="first_story-qt" class="abs dc dk" style="left:0px;top:0px;position:relative;margin-top:50px;padding:34px 44px"><b class="disp t " style="font-size:96px;line-height:1.16">수세미로 칼자루와<br>날의 피를 씻어 냈다</b></div></div></div>
+    <div id="first_story-tg0" class="clip tag-re" data-start="0.3" data-duration="14.54">도식 · 실제 조서 아님</div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#first_story-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.fromTo("#first_story-r1", { opacity: 0, x: -36 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 3.26);
+    tl.fromTo("#first_story-qt b", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 11.4);
     window.__timelines["first_story"] = tl;
   </script>
 </template>

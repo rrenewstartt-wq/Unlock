@@ -8,15 +8,56 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    #root { background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); }
+    .pn { position: absolute; inset: 0; }
+    .h { opacity: 0; }
+    .abs { position: absolute; }
+    .paper { position: absolute; background: #D9D5CC; color: #1E2125; box-shadow: 0 24px 60px rgba(0,0,0,.5); }
+    .lab { position: absolute; background: rgba(12,13,15,.8); border-left: 8px solid #E9E5DD; color: #F3F0EA; padding: 12px 28px 14px; }
+
+    .t { display: block; font-weight: 400; line-height: 1.06; }
+    .s { display: block; line-height: 1.25; }
+    .k { display: block; font-size: 48px; line-height: 1.2; color: rgba(30,33,37,.72); }
+    .kd { display: block; font-size: 48px; line-height: 1.2; color: rgba(233,229,221,.84); }
+    .ink { color: #E9E5DD; } .amt { color: #F0A23B; } .drk { color: #1E2125; }
+    .ln { position: absolute; height: 5px; background: rgba(233,229,221,.62); border-radius: 3px; transform-origin: left center; }
+    .lv { position: absolute; width: 5px; background: rgba(233,229,221,.62); border-radius: 3px; transform-origin: center top; }
+    .ln.am, .lv.am { background: #F0A23B; }
+    .nd { position: absolute; border-radius: 50%; border: 6px solid #E9E5DD; background: #121316; }
+    .nd.on { background: #E9E5DD; }
+    .nd.am { border-color: #F0A23B; border-width: 10px; }
+    .nd.amf { border-color: #F0A23B; background: #F0A23B; }
+    .dc { position: absolute; border: 6px dashed rgba(233,229,221,.78); border-radius: 8px; }
+    .dc.am { border-color: #F0A23B; }
+    .dc.dk { border-color: rgba(30,33,37,.5); }
+    .amb { position: absolute; left: 0; top: 0; bottom: 0; width: 16px; background: #F0A23B; }
+    .dim { opacity: .25; }
+    .gr { position: absolute; border: 4px solid rgba(233,229,221,.55); border-radius: 6px; opacity: .25; }
+    .seal { position: absolute; border: 10px solid #E9E5DD; border-radius: 14px; color: #E9E5DD; text-align: center; transform: rotate(-4deg); }
+    .seal.dk { border-color: #1E2125; color: #1E2125; }
+    .pad { padding: 52px 70px; }
+    .ctr { display: flex; flex-direction: column; justify-content: center; }
+    .row { display: flex; align-items: center; }
+    .lab b { font-weight: 400; }
+    .tick { position: absolute; width: 5px; height: 34px; background: rgba(233,229,221,.7); }
+    .q { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .q i { font-style: normal; color: rgba(30,33,37,.42); }
+
   </style>
   <div id="root" data-composition-id="seizure_dates" data-width="1920" data-height="1080">
-    <div id="seizure_dates-ph" class="clip ph" data-start="0" data-duration="20.12"><b class="disp">seizure_dates</b><span>장면을 만들어 주세요</span></div>
+    <div id="seizure_dates-b0" class="clip pn" data-start="0.0" data-duration="3.22"><div class="abs" style="left:140px;top:140px;"><span class="s kd" style="font-size:52px;">1985년</span><b class="disp t ink" style="font-size:96px;margin-top:6px">셔츠 천이 압수된 날</b></div><div class="abs ln" style="left:140px;top:520px;width:960px;height:6px;background:rgba(233,229,221,.5)"></div><div class="abs nd" style="left:118px;top:501px;width:44px;height:44px;"></div><div class="abs nd" style="left:718px;top:501px;width:44px;height:44px;"></div><div class="abs nd" style="left:758px;top:501px;width:44px;height:44px;"></div><div class="abs nd" style="left:1078px;top:501px;width:44px;height:44px;"></div><div class="abs" style="left:80px;top:570px;"><b class="disp t ink" style="font-size:60px;white-space:nowrap">1/21</b></div><div class="abs" style="left:630px;top:570px;"><b class="disp t ink" style="font-size:60px;white-space:nowrap">2/5</b></div><div class="abs" style="left:780px;top:570px;"><b class="disp t ink" style="font-size:60px;white-space:nowrap">2/6</b></div><div class="abs" style="left:1040px;top:570px;"><b class="disp t ink" style="font-size:60px;white-space:nowrap">2/14</b></div><div class="abs" style="left:1220px;top:230px;"><svg width="600" height="560" viewBox="0 0 600 560"><path d="M200,60 L262,40 Q300,78 338,40 L400,60 L430,110 L430,540 L170,540 L170,110 Z" fill="none" stroke="rgba(233,229,221,.7)" stroke-width="5" stroke-linejoin="round"/><path d="M200,60 L170,110 L170,218 L122,292 L52,246 Z" fill="none" stroke="rgba(233,229,221,.7)" stroke-width="5" stroke-linejoin="round"/><path d="M400,60 L430,110 L430,218 L478,292 L548,246 Z" fill="none" stroke="rgba(233,229,221,.7)" stroke-width="5" stroke-linejoin="round"/></svg></div><div class="abs" style="left:1220px;top:820px;"><span class="s " style="font-size:46px;color:rgba(233,229,221,.75);text-align:center;width:600px">셔츠 한 벌 · 그의 작업장</span></div></div>
+    <div id="seizure_dates-b1" class="clip pn" data-start="3.22" data-duration="3.27"><div class="paper" style="left:96px;top:130px;width:1100px;height:740px;padding:60px 70px"><b class="disp t " style="font-size:150px;">1월 21일</b><span class="s " style="font-size:60px;margin-top:30px">가족이 냄 · 작업장에 있던 셔츠 천</span></div><div class="abs" style="left:1290px;top:150px;width:520px;"><b class="disp t ink" style="font-size:520px;line-height:1;text-align:center">3</b><b class="disp t ink" style="font-size:110px;text-align:center">조각</b></div></div>
+    <div id="seizure_dates-b2" class="clip pn" data-start="6.49" data-duration="3.27"><div class="abs" style="left:96px;top:130px;width:900px;"><span class="s kd" style="font-size:60px;">2월 5일 · 수색</span><b class="disp t ink" style="font-size:200px;margin-top:10px">1조각</b><span class="s " style="font-size:50px;margin-top:30px;color:rgba(233,229,221,.8)">살색 바탕 · 빨강·갈색 체크(기록)</span></div><div class="abs" style="left:1180px;top:150px;width:540px;height:680px;background:#D9D5CC"></div><div class="abs ln" style="left:1180px;top:870px;width:540px;height:4px;top:866px"></div><div class="abs" style="left:1340px;top:878px;"><b class="disp t ink" style="font-size:56px;white-space:nowrap">약 27cm</b></div><div class="abs lv" style="left:1756px;top:150px;height:680px;width:4px"></div><div class="abs" style="left:1776px;top:450px;"><b class="disp t ink" style="font-size:52px;">약<br>34cm</b></div></div>
+    <div id="seizure_dates-b3" class="clip pn" data-start="9.76" data-duration="3.4"><div class="abs" style="left:96px;top:120px;"><span class="s kd" style="font-size:56px;">2월 6일 · 4조각을 맞춰 보니</span></div><div class="abs" style="left:260px;top:200px;"><svg width="700" height="653" viewBox="0 0 600 560"><path d="M200,60 L262,40 Q300,78 338,40 L400,60 L430,110 L430,540 L170,540 L170,110 Z" fill="#D9D5CC" stroke="#0E0F11" stroke-width="5" stroke-linejoin="round"/><path d="M200,60 L170,110 L170,218 L122,292 L52,246 Z" fill="#D9D5CC" stroke="#0E0F11" stroke-width="5" stroke-linejoin="round"/><path d="M400,60 L430,110 L430,218 L478,292 L548,246 Z" fill="none" stroke="#F0A23B" stroke-width="7" stroke-dasharray="20 14" stroke-linejoin="round" stroke-linecap="round"/></svg></div><div class="abs" style="left:1100px;top:300px;"><span class="s ink" style="font-size:64px;">왼소매</span><b class="disp t ink" style="font-size:190px;margin-top:8px;line-height:1.05">어깨부터<br>없음</b></div></div>
+    <div id="seizure_dates-b4" class="clip pn" data-start="13.16" data-duration="3.14"><div class="paper" style="left:96px;top:130px;width:1728px;height:740px;padding:64px 80px"><span class="s k" style="font-size:52px;">2월 6일 경찰 조서 · 그의 진술</span><b class="disp t " style="font-size:170px;margin-top:40px;line-height:1.1">그 왼소매를<br>칼에 감았다</b></div></div>
+    <div id="seizure_dates-b5" class="clip pn" data-start="16.3" data-duration="3.82"><div class="paper row dim" style="left:96px;top:120px;width:1728px;height:130px;padding-left:60px;box-shadow:none"><b class="disp t " style="font-size:72px;">그 왼소매를 칼에 감았다</b></div><div class="paper" style="left:96px;top:300px;width:1728px;height:580px;padding:56px 80px"><span class="s k" style="font-size:54px;">같은 날 · 2월 6일 경찰 조서</span><b class="disp t " style="font-size:128px;margin-top:30px;line-height:1.12">“범행 뒤 목욕 아궁이에서<br>태워 버렸다”</b></div></div>
+    <div id="seizure_dates-tg0" class="clip tag-re" data-start="0.3" data-duration="12.86">도식</div>
+    <div id="seizure_dates-tg1" class="clip tag-re" data-start="13.16" data-duration="6.96">도식 · 실제 조서 아님</div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#seizure_dates-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+
     window.__timelines["seizure_dates"] = tl;
   </script>
 </template>

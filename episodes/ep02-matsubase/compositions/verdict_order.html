@@ -8,15 +8,56 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    #root { background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); }
+    .pn { position: absolute; inset: 0; }
+    .h { opacity: 0; }
+    .abs { position: absolute; }
+    .paper { position: absolute; background: #D9D5CC; color: #1E2125; box-shadow: 0 24px 60px rgba(0,0,0,.5); }
+    .lab { position: absolute; background: rgba(12,13,15,.8); border-left: 8px solid #E9E5DD; color: #F3F0EA; padding: 12px 28px 14px; }
+
+    .t { display: block; font-weight: 400; line-height: 1.06; }
+    .s { display: block; line-height: 1.25; }
+    .k { display: block; font-size: 48px; line-height: 1.2; color: rgba(30,33,37,.72); }
+    .kd { display: block; font-size: 48px; line-height: 1.2; color: rgba(233,229,221,.84); }
+    .ink { color: #E9E5DD; } .amt { color: #F0A23B; } .drk { color: #1E2125; }
+    .ln { position: absolute; height: 5px; background: rgba(233,229,221,.62); border-radius: 3px; transform-origin: left center; }
+    .lv { position: absolute; width: 5px; background: rgba(233,229,221,.62); border-radius: 3px; transform-origin: center top; }
+    .ln.am, .lv.am { background: #F0A23B; }
+    .nd { position: absolute; border-radius: 50%; border: 6px solid #E9E5DD; background: #121316; }
+    .nd.on { background: #E9E5DD; }
+    .nd.am { border-color: #F0A23B; border-width: 10px; }
+    .nd.amf { border-color: #F0A23B; background: #F0A23B; }
+    .dc { position: absolute; border: 6px dashed rgba(233,229,221,.78); border-radius: 8px; }
+    .dc.am { border-color: #F0A23B; }
+    .dc.dk { border-color: rgba(30,33,37,.5); }
+    .amb { position: absolute; left: 0; top: 0; bottom: 0; width: 16px; background: #F0A23B; }
+    .dim { opacity: .25; }
+    .gr { position: absolute; border: 4px solid rgba(233,229,221,.55); border-radius: 6px; opacity: .25; }
+    .seal { position: absolute; border: 10px solid #E9E5DD; border-radius: 14px; color: #E9E5DD; text-align: center; transform: rotate(-4deg); }
+    .seal.dk { border-color: #1E2125; color: #1E2125; }
+    .pad { padding: 52px 70px; }
+    .ctr { display: flex; flex-direction: column; justify-content: center; }
+    .row { display: flex; align-items: center; }
+    .lab b { font-weight: 400; }
+    .tick { position: absolute; width: 5px; height: 34px; background: rgba(233,229,221,.7); }
+    .q { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
+    .q i { font-style: normal; color: rgba(30,33,37,.42); }
+
   </style>
   <div id="root" data-composition-id="verdict_order" data-width="1920" data-height="1080">
-    <div id="verdict_order-ph" class="clip ph" data-start="0" data-duration="21.7"><b class="disp">verdict_order</b><span>장면을 만들어 주세요</span></div>
+    <div id="verdict_order-b0" class="clip pn" data-start="0.0" data-duration="5.97"><div class="abs" style="left:96px;top:130px;"><span class="s kd" style="font-size:54px;">2019년 3월 28일 · 재심 판결 주문</span></div><div class="paper row dim" style="left:96px;top:230px;width:1728px;height:220px;padding-left:70px;box-shadow:none"><span class="s " style="font-size:60px;width:300px">살인</span><b class="disp t " style="font-size:110px;">무죄</b></div><div class="abs dc row" style="left:96px;top:490px;width:1728px;height:360px;padding-left:70px"><div id="verdict_order-e" class="abs" style="left:0px;top:0px;position:relative"><span class="s " style="font-size:60px;color:rgba(233,229,221,.75)">한 줄 더</span></div><div id="verdict_order-r2" class="paper row" style="left:0px;top:0px;position:absolute;inset:0;padding-left:70px;opacity:0"><span class="s " style="font-size:60px;width:300px;flex:none">별건</span><b class="disp t " style="font-size:104px;">집에 권총 1정 · 실탄 10발</b></div></div></div>
+    <div id="verdict_order-b1" class="clip pn" data-start="5.97" data-duration="5.5"><div class="paper row dim" style="left:96px;top:120px;width:1728px;height:100px;padding-left:50px;box-shadow:none"><span class="s " style="font-size:46px;width:200px">살인</span><span class="s " style="font-size:54px;">무죄</span></div><div class="abs" style="left:96px;top:250px;"><span class="s kd" style="font-size:56px;">별건 · 권총 1정·실탄 10발을 갖고 있던 죄</span></div><div class="paper" style="left:96px;top:350px;width:820px;height:500px;padding:56px 64px"><span class="s k" style="font-size:60px;">검찰 구형</span><b class="disp t " style="font-size:170px;margin-top:20px">징역 2년</b></div><div id="verdict_order-y1" class="paper" style="left:1004px;top:350px;width:820px;height:500px;padding:56px 64px;opacity:0;box-shadow:0 0 0 10px #F0A23B, 0 24px 60px rgba(0,0,0,.5)"><span class="s k" style="font-size:60px;">판결</span><b class="disp t " style="font-size:170px;margin-top:20px">징역 1년</b></div></div>
+    <div id="verdict_order-b2" class="clip pn" data-start="11.47" data-duration="6.41"><div class="paper row dim" style="left:96px;top:120px;width:1728px;height:100px;padding-left:50px;box-shadow:none"><span class="s " style="font-size:46px;width:200px">별건</span><span class="s " style="font-size:54px;">징역 1년</span></div><div class="paper" style="left:96px;top:260px;width:1728px;height:360px;padding:50px 80px"><b class="disp t " style="font-size:110px;">그 1년은</b><b class="disp t " style="font-size:110px;margin-top:12px">이미 구금된 날수로 채움</b></div><div id="verdict_order-sl" class="abs seal ctr" style="left:1060px;top:650px;width:640px;height:230px;opacity:0;align-items:center"><b class="disp t " style="font-size:104px;line-height:1">그날 확정</b><span class="s " style="font-size:54px;margin-top:14px">양쪽 상소권 포기</span></div></div>
+    <div id="verdict_order-b3" class="clip pn" data-start="17.88" data-duration="3.82"><div class="abs" style="left:150px;top:150px;"><svg class="pcard" width="520" height="650" viewBox="0 0 520 650"><rect x="2.0" y="2.0" width="516" height="646" rx="6" fill="#0E0F11" stroke="#E9E5DD" stroke-width="4"/><circle cx="260.0" cy="240.5" r="83.2" fill="none" stroke="#E9E5DD" stroke-width="4"/><path d="M 104.0 546.0 Q 104.0 377.0 260.0 377.0 Q 416.0 377.0 416.0 546.0" fill="none" stroke="#E9E5DD" stroke-width="4" stroke-linecap="round"/></svg></div><div class="abs lab" style="left:150px;top:818px;padding:6px 26px 8px"><b class="disp" style="font-size:52px">미야타 씨 · 그날</b></div><div class="abs" style="left:800px;top:170px;"><b class="disp t ink" style="font-size:230px;line-height:1">85세</b><b class="disp t ink" style="font-size:120px;margin-top:40px">치매</b><b class="disp t ink" style="font-size:120px;margin-top:20px">요양 시설에</b></div></div>
+    <div id="verdict_order-tg0" class="clip tag-re" data-start="0.3" data-duration="21.4">도식</div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#verdict_order-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.to("#verdict_order-e", { opacity: 0, duration: 0.15 }, 3.29);
+    tl.fromTo("#verdict_order-r2", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 3.34);
+    tl.fromTo("#verdict_order-y1", { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, 8.76);
+    tl.fromTo("#verdict_order-sl", { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power3.out" }, 14.8);
     window.__timelines["verdict_order"] = tl;
   </script>
 </template>
