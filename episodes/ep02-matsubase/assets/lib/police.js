@@ -675,7 +675,12 @@ export function createPolice(stage, opts) {
     }
     // Desk inserts (insert_mikan): one mikan on the desk, a soft daylight key from the window side, the man hidden.
     if (M.day) {
-      mikan = buildMikan([-0.08, 0.741, -0.36]);
+      // stand it on the desk's real top (the model's top is not exactly 0.74)
+      const ray = new THREE.Raycaster(new THREE.Vector3(-0.08, 2, -0.36), new THREE.Vector3(0, -1, 0));
+      desk.updateMatrixWorld(true);
+      const hit = ray.intersectObject(desk, true)[0];
+      mikan = buildMikan([-0.08, hit ? hit.point.y : 0.741, -0.36]);
+      console.log("desk top at mikan", hit && hit.point.y);
       S.add(mikan);
       const day = new THREE.SpotLight("#f1ede4", 22, 7, 0.6, 1, 1.4);
       day.position.set(-0.6, 2.3, -2.0);
