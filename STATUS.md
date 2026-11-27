@@ -29,7 +29,9 @@
 새 환경은 먼저 `bash scripts/setup.sh`(자산 캐시 없으면 check·렌더가 missing asset 으로 실패).
 1. **파일럿 지적 등록:** 25개를 `gates.py episodes/ep02-matsubase todo pilot P0|P1 "<항목>" --owner <담당> --src data/review-pilot-1.md` 로 넣고,
    이미 고친 것은 visual-critic 이 확인한 뒤 `done`. 중간 저장 커밋에는 열린 todo 번호를 적는다.
-2. **파일럿 2차:** 0~137초 + 시험 컷 6개 다시 렌더(`render_chunks.py episodes/ep02-matsubase range pilot2 ...`, 구간 check 는 `render_chunks.py ... check`)
+2. **사람 결정(2026-11-27): 파일럿은 30초만(0~30초) 렌더한다.** 2차 렌더 `renders/pilot2/p30.mp4` 완료(CPU 1시간 50분) → visual-critic 검수 중.
+   (아래 원래 계획의 0~137초 렌더는 하지 않는다.)
+   **파일럿 2차(원래 계획):** 0~137초 + 시험 컷 6개 다시 렌더(`render_chunks.py episodes/ep02-matsubase range pilot2 ...`, 구간 check 는 `render_chunks.py ... check`)
    → visual-critic 렌더 검수 → `scripts/blind_sheet.py` → parity-judge. 동급이면 `pass pilot`, 아니면 `fail pilot` + todo.
 3. scenes 전: archive-researcher 가 Commons 장소 사진 재조회, 없으면 `shots.json` `no_photo_reason` 확정. film 키트에 옷 입은 인물 기본 자산.
 4. **내레이션 — 사람 결정(2026-11-21): 맨 마지막 작업.** 그때까지 시각은 읽기 속도 기준.
