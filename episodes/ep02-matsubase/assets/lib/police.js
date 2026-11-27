@@ -335,7 +335,7 @@ function buildMikan(pos) {
   const skin = new THREE.MeshStandardMaterial({ color: "#d8701c", roughness: 0.8, bumpMap: dimples(), bumpScale: 2.0, envMapIntensity: 0.5 });
   const fruit = new THREE.Mesh(new THREE.SphereGeometry(R, 48, 32), skin);
   fruit.scale.set(1, K, 1);
-  fruit.position.y = R * K - 0.0006;
+  fruit.position.y = R * K - 0.0035;   // sunk a little: the soft fruit sits flat on the desk (no lit gap under it)
   fruit.castShadow = fruit.receiveShadow = true;
   g.add(fruit);
   const shape = new THREE.Shape();
@@ -346,10 +346,10 @@ function buildMikan(pos) {
   const cg = new THREE.ExtrudeGeometry(shape, { depth: 0.0012, bevelEnabled: false });
   cg.rotateX(-Math.PI / 2);
   const calyx = new THREE.Mesh(cg, new THREE.MeshStandardMaterial({ color: "#4a4a26", roughness: 0.85 }));
-  calyx.position.y = 2 * R * K - 0.0012;
+  calyx.position.y = 2 * R * K - 0.0041;
   const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.0011, 0.0016, 0.004, 6), calyx.material);
-  stem.position.y = 2 * R * K + 0.0015;
-  g.add(calyx, stem, contactDisc(R * 1.1, 0, 0.95));
+  stem.position.y = 2 * R * K - 0.0014;
+  g.add(calyx, stem, contactDisc(R * 1.25, 0.0012, 1.0));
   g.position.set(...pos);
   g.rotation.set(0, 0.6, 0);
   return g;
@@ -682,8 +682,10 @@ export function createPolice(stage, opts) {
       day.target.position.set(0, 0.74, -0.45);
       day.castShadow = true;
       day.shadow.mapSize.set(2048, 2048);
-      day.shadow.bias = -0.0003;
-      day.shadow.radius = 8;
+      day.shadow.bias = -0.00005;
+      day.shadow.normalBias = 0.0;
+      day.shadow.radius = 3;
+      Object.assign(day.shadow.camera, { near: 1.0, far: 4.5 });
       S.add(day, day.target);
       const warmSpot = new THREE.SpotLight("#f3c68c", 5, 1.6, 0.12, 0.9, 1.6);
       warmSpot.position.set(0.25, 1.55, -0.1);

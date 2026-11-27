@@ -32,6 +32,14 @@
 2. **pilot 통과(2026-11-27).** 사람 결정: 파일럿은 30초만(0~30초), ep02 는 옛 룩이라 블라인드 점수만으로 판정, 30초 밖 고칠 것 22개(P0 4)는 scenes 단계로.
    30초 렌더(CPU 1시간 50분) 검수 P0 0(`data/review-pilot-2.md`), 블라인드 92.1점(기록 88·지도 91.7·3D 96.7, `data/blind-pilot-2.md`).
    **다음: scenes** — 장부의 열린 고칠 것(`gates.py episodes/ep02-matsubase`)부터, 나머지 세트·장면 짓기. 가장 약한 영역은 기록 문서 지면(88점: 조명 평평·글자 대비 낮음).
+   **scenes 진행(2026-11-27, 사용량 한도로 04:00 UTC 쯤 담당 셋이 멈춤):** 장면 52개 중 함수 있음 32개(도식 17개 새로 지음, 검수 대기).
+   - 끝남: police·vault·knife 결함 확인(7개 중 6개 이미 고쳐짐, dress.js 옷깃 수정) · 도식 17장면(c0bf067).
+   - 멈춤(이어서): ① room·outside·home 결함(#1 #2 #7 #8 #14~#19 #27) — room.js 수정 일부 커밋됨
+     ② police·vault·knife 새 장면 7개(polygraph, mikan_table, polygraph_again, golf_wear, ending, knife_insert, handle_wood) — 일부 커밋됨, 상태 확인 필요
+     ③ 기록 장면 4개(polygraph_ruling, kaishi_2016, verdict_2019, damages) + 기록 문서 지면 빛·대비 보강(블라인드 88점) + #26 — 거의 시작 전
+   - 아직 안 맡김: 3D home(tv_day, other_rags), outside(river_search), room(room_dusk), 새 세트 yard(shoe_can, feb14)·court(trial_1986, sentence, retrial_court).
+   - 다 지으면: visual-critic 이 고쳐졌다는 todo 와 새 장면을 함께 검수 → 장부 done.
+   - 주의: 구간 렌더·check 는 한 번에 하나(render_chunks 잠금). 커밋 전에 index.html 장면 수(53) 확인, 줄어 있으면 build.py.
    (아래 원래 계획의 0~137초 렌더는 하지 않는다.)
    **파일럿 2차(원래 계획):** 0~137초 + 시험 컷 6개 다시 렌더(`render_chunks.py episodes/ep02-matsubase range pilot2 ...`, 구간 check 는 `render_chunks.py ... check`)
    → visual-critic 렌더 검수 → `scripts/blind_sheet.py` → parity-judge. 동급이면 `pass pilot`, 아니면 `fail pilot` + todo.
