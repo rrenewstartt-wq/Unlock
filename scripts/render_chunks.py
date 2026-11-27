@@ -11,7 +11,7 @@
 16~20분 편은 10시간 가까이 걸리고, 클라우드 세션의 명령 하나는 2시간까지만 돈다. 구간마다 따로 렌더하고 끊겨도 이어서 한다.
 구간 경계는 장면 경계(장면 시작 0.4초 전, 효과음이 걸치지 않는 곳). 목표 구간 길이 기본 90초(--max 초).
 메모리: 전체 index.html 은 3D 세트를 모두 한 페이지에 지어서 14GB 컨테이너에서 브라우저가 메모리 부족으로 죽는다
-(2026-11-24 ep02, check 도 같은 이유로 "Page crashed"). 그래서 렌더하는 동안만 index.html 을 그 구간에 걸치는
+(2026-11-24 ep02, check 도 같은 이유로 "Page crashed"). 한 에피소드에서 구간 렌더·check 는 한 번에 하나만 돈다(index.full.html.bak 가 잠금). 그래서 렌더하는 동안만 index.html 을 그 구간에 걸치는
 장면(앞뒤 1초 여유)만 남긴 판으로 바꾸고, 끝나면(실패·중단해도) 원래 파일로 되돌린다. 되돌리지 못했으면 build.py 를 다시 돌린다.
 """
 import contextlib
@@ -50,8 +50,13 @@ def dur(p):
 def windowed(ep, s, e, pad=1.0):
     """index.html 을 [s-pad, e+pad] 와 겹치는 장면·효과음만 남긴 판으로 잠시 바꾼다(시각은 그대로)."""
     idx = ep / "index.html"
-    orig = idx.read_text(encoding="utf-8")
     bak = ep / "index.full.html.bak"
+    if bak.exists():
+        # 다른 render/check 가 index.html 을 줄여 둔 중이다. 겹쳐 돌면 줄인 판을 "원래 파일"로 잡아 되돌려서 장면이 사라진다
+        # (2026-11-27 ep02: 담당 둘이 동시에 check 를 돌려 index.html 이 장면 9개짜리로 남음).
+        raise SystemExit(f"{bak} 가 있다 — 다른 구간 렌더·check 가 도는 중이다. 끝난 뒤 다시 돌리거나, 아무것도 안 돌면 "
+                         f"그 파일을 지우고 build.py 로 index.html 을 다시 만든다.")
+    orig = idx.read_text(encoding="utf-8")
     bak.write_text(orig, encoding="utf-8")
 
     def keep(line):
