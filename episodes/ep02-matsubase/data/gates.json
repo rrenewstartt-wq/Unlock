@@ -141,7 +141,10 @@
    "what": "귤이 귤로 안 읽힘(양파·달걀) + 망 한 겹·채도 낮게 + 껍질 바깥 주황면",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "done": "2026-11-27",
+   "by": "visual-critic",
+   "evidence": "data/review-pilot-2.md (p30.mp4 렌더 프레임): 무광 주황·꼭지, 망 한 겹, 껍질 바깥 주황"
   },
   {
    "stage": "pilot",
@@ -149,7 +152,10 @@
    "what": "room_morning c2·c3 껍질 위 붉은 웅덩이가 핏자국처럼 → 덜 붉은 나무, 웅덩이 작게, 노란 쪽",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "done": "2026-11-27",
+   "by": "visual-critic",
+   "evidence": "data/review-pilot-2.md (p30.mp4 렌더 프레임): c1·c2 웅덩이 없음 (c3 31.8초~는 범위 밖)"
   },
   {
    "stage": "pilot",
@@ -181,7 +187,10 @@
    "what": "place c1~c3 지도 전환이 컷으로 안 잡혀 한 컷 8.6초 → c3 확실히 다른 컷, 지도 대비, 역 사진 재조회",
    "owner": "archive-researcher",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "done": "2026-11-27",
+   "by": "visual-critic",
+   "evidence": "data/review-pilot-2.md (p30.mp4 렌더 프레임): 지도 세 컷 실측 10.60/13.70/16.83초, 대비 높음"
   },
   {
    "stage": "pilot",
@@ -189,7 +198,10 @@
    "what": "place c5 종이 띠에 빨간(앰버) 동그라미 없음",
    "owner": "motion-designer",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "done": "2026-11-27",
+   "by": "visual-critic",
+   "evidence": "data/review-pilot-2.md (p30.mp4 렌더 프레임): 昭和60年1月8日午前 동그라미 컷 뒤 0.3초"
   },
   {
    "stage": "pilot",
@@ -205,7 +217,10 @@
    "what": "hook·place 한국어 풀이 줄이 휴대폰 폭에서 약 7px → 34px 이상",
    "owner": "motion-designer",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "done": "2026-11-27",
+   "by": "visual-critic",
+   "evidence": "data/review-pilot-2.md (p30.mp4 렌더 프레임): 풀이 줄 44px, 휴대폰 폭에서 자막과 같은 크기"
   },
   {
    "stage": "pilot",
@@ -302,6 +317,22 @@
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
    "date": "2026-11-26"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "place c1 규슈 지도가 화면 위를 다 못 덮어 맨 위 어두운 띠(38→4px) → 시작 배율 약 4% 키우거나 아래로",
+   "owner": "motion-designer",
+   "src": "data/review-pilot-2.md",
+   "date": "2026-11-27"
+  },
+  {
+   "stage": "pilot",
+   "prio": "P1",
+   "what": "room_morning c2 귤 클로즈업에서 고타츠 이불 윗단이 톱니처럼 계단짐 → 매끈하게 또는 구도에서 빼기",
+   "owner": "set-builder",
+   "src": "data/review-pilot-2.md",
+   "date": "2026-11-27"
   }
  ]
 }
