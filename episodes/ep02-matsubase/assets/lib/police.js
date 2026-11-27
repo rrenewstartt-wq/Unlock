@@ -680,7 +680,14 @@ export function createPolice(stage, opts) {
       desk.updateMatrixWorld(true);
       const hit = ray.intersectObject(desk, true)[0];
       mikan = buildMikan([-0.08, hit ? hit.point.y : 0.741, -0.36]);
-      console.log("desk top at mikan", hit && hit.point.y);
+      // a soft contact shadow stretched toward where the daylight throws its shadow (+z): the fruit meets its shadow
+      const cy = hit ? hit.point.y : 0.741;
+      const cs = contactDisc(0.03, cy + 0.0008, 0.9);
+      cs.scale.set(1.15, 1.9, 1);
+      cs.position.set(-0.075, cy + 0.0008, -0.338);
+      mikan.add(cs);
+      mikan.worldToLocal(cs.position);
+      cs.rotation.z = 0.6;
       S.add(mikan);
       const day = new THREE.SpotLight("#f1ede4", 22, 7, 0.6, 1, 1.4);
       day.position.set(-0.6, 2.3, -2.0);
