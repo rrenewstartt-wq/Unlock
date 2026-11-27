@@ -327,8 +327,8 @@ export async function dress(fig, { suit = "#2b2a28", trousers = null, shirt = "#
   {
     const nAxis = B("Head").sub(neck).normalize();
     const ref = new THREE.Vector3(1, 0, 0);
-    const wv = new THREE.Vector3().crossVectors(nAxis, ref).normalize();     // ~ +z (front)
-    const uv = new THREE.Vector3().crossVectors(wv, nAxis).normalize();      // ~ +x
+    const wv = new THREE.Vector3().crossVectors(ref, nAxis).normalize();     // +z (front): x × up (was up × x = back, which put the shirt-collar gap at the nape)
+    const uv = new THREE.Vector3().crossVectors(wv, nAxis).normalize();      // ~ -x (the bands are symmetric)
     const SEC = 48;
     const surf = (y0, y1) => {               // max radius per angle for points between heights y0..y1 along the neck axis
       const R = new Float32Array(SEC);
@@ -380,9 +380,13 @@ export async function dress(fig, { suit = "#2b2a28", trousers = null, shirt = "#
       if (Z(i) !== 0 && Z(i) !== 5) continue;
       const c = canon[i];
       dd.set(P[c * 3], P[c * 3 + 1], P[c * 3 + 2]).sub(neck);
-      if (dd.dot(nAxis) > 0.004) continue;
-      const fr = dd.dot(wv) > 0.55 * Math.hypot(dd.dot(uv), dd.dot(wv));
-      zone.setX(i, fr ? 5 : 2);
+      // behind the neck the skin is shirt up to the collar top: a bowed head stretches the nape out through the
+      // rigid collar band, and what pokes through must read as collar, not as a skin patch
+      const hh = dd.dot(nAxis), rr = Math.hypot(dd.dot(uv), dd.dot(wv));
+      const nape = dd.dot(wv) < 0.2 * rr;
+      if (hh > (nape ? 0.046 : 0.004)) continue;
+      const fr = dd.dot(wv) > 0.55 * rr;
+      zone.setX(i, fr || hh > 0.004 ? 5 : 2);
       const cc = fr ? csh : cs2; col.setXYZ(i, cc.r, cc.g, cc.b);
     }
     zone.needsUpdate = true; col.needsUpdate = true;
