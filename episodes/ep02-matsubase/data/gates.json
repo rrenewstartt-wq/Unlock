@@ -29,10 +29,10 @@
    "script": "84474e766cfa"
   },
   "pilot": {
-   "status": "fail",
-   "by": "parity-judge",
-   "evidence": "수정 전 1차 미달: 화면 미달(P0 4: 귤 망·가로등 머리·vault 인물 옷 없음·칼 금속; 블라인드 정답표 대조 확정 3D 2/3·도식 3/4·기록 3/3 우리 두 칸 모두 싸 보임), 대본·사실 동급, 소리 미달(사람 결정 대기)",
-   "date": "2026-11-22",
+   "status": "pass",
+   "by": "visual-critic + parity-judge(블라인드)",
+   "evidence": "사람 결정 2026-11-27: 파일럿 0~30초, 옛 룩 편이라 블라인드만으로 판정. 30초 렌더(renders/pilot.mp4 = pilot2/p30.mp4) 검수 P0 0(data/review-pilot-2.md), 블라인드 92.1점(기록 88·지도 91.7·3D 96.7, data/blind-pilot-2.md). 30초 밖 고칠 것은 scenes 로 옮김",
+   "date": "2026-11-27",
    "script": "84474e766cfa"
   },
   "archive": {
@@ -100,40 +100,51 @@
    "by": "risk-reviewer",
    "evidence": "위험 검토 합격(이미지 40장 전부 Read): 실명 0, 띠 잔흔 0, 상해 문구에 앰버 원 0, 지도 집 위치·핀 없음, 근거 저작권법 13조 3호·지리원 申請不要+출처·가공 표기. P2 4건 처리. Commons 장소 사진은 미도착 — 들어오면 추가 검토 전 사용 금지",
    "date": "2026-11-22"
+  },
+  {
+   "stage": "pilot",
+   "status": "pass",
+   "by": "visual-critic + parity-judge(블라인드)",
+   "evidence": "사람 결정 2026-11-27: 파일럿 0~30초, 옛 룩 편이라 블라인드만으로 판정. 30초 렌더(renders/pilot.mp4 = pilot2/p30.mp4) 검수 P0 0(data/review-pilot-2.md), 블라인드 92.1점(기록 88·지도 91.7·3D 96.7, data/blind-pilot-2.md). 30초 밖 고칠 것은 scenes 로 옮김",
+   "date": "2026-11-27"
   }
  ],
  "todos": [
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P0",
    "what": "room_morning c3 귤 망 뭉치가 상판 위에 떠 보임 → 밑면 접지 + AO",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P0",
    "what": "night_road c3 가로등 머리가 팔에서 떨어져 뜸·발광면 평면 사각형 → 팔 끝에 붙이고 렌즈·반사판",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P0",
    "what": "vault_open c1 서 있는 인물이 옷 없는 몸·민머리·정면 → 옷·머리카락 있는 film 인물, 뒷모습·3/4 뒤",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P0",
    "what": "blade_width c6 칼날 금속 UV 늘어남·경사면 없음·노란 반사 → UV 펴기, 재질 분리, 중성 회색 반사",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
    "stage": "pilot",
@@ -158,28 +169,31 @@
    "evidence": "data/review-pilot-2.md (p30.mp4 렌더 프레임): c1·c2 웅덩이 없음 (c3 31.8초~는 범위 밖)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "night_road c1 먼 건물 창 격자 상자 → 낮은 흐린 실루엣, 창빛 빼기",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "rewind_party 방 전체 주황·갈색, c3 전등갓 날아간 평면 타원 → 차갑고 어둡게, 갓 질감·두께",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "counter34 c3 2019 카드 글자가 컷보다 약 1초 늦음",
    "owner": "diagram-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
    "stage": "pilot",
@@ -204,12 +218,13 @@
    "evidence": "data/review-pilot-2.md (p30.mp4 렌더 프레임): 昭和60年1月8日午前 동그라미 컷 뒤 0.3초"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "empty_room c5 기록 띠 폭 45%·풀이 줄 없음 → hook 과 같은 폭 + 풀이 줄",
    "owner": "motion-designer",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
    "stage": "pilot",
@@ -223,116 +238,130 @@
    "evidence": "data/review-pilot-2.md (p30.mp4 렌더 프레임): 풀이 줄 44px, 휴대폰 폭에서 자막과 같은 크기"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "room_morning c1 / empty_room c1 같은 구도 반복 → empty_room c1 문지방 높이 낮은 각도, 창 빼기",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "empty_room c3 오른쪽 아래 정체불명 검은 덩어리",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "workshop_intro c1 흰 대리석 같은 빈 선반이 화면 1/3",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "workshop_intro c2·c5 작업대 광택 마호가니·하이라이트 날아감 → 무광 거친 나무",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "workshop 창밖이 피해자 방과 같은 과수원 → 낮은 지붕 동네",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "workshop 맑은 해·선명한 창틀 그림자 → 흐린 확산광",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "calendar 칸 안 글자 24~30px → 32px 이상",
    "owner": "diagram-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "interrogation c1 민머리 회색 피부·흰 장갑 손, 스탠드가 머리 뒤 뿔, 창 날아감·조명 평평",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "arrest_wish c5 민머리·옷깃 없는 몸통·가슴 붉은 림, 인용 이름표가 자막과 같은 문장",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "five_pieces c5 천 채도 높아 화면 전체 주황 → 채도 낮추고 플란넬 보풀, 강조는 왼소매 한 곳",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "vault_open c1 철제 선반이 선명한 주인공 → 초점 밖·어둡게",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "interrogation c1 플라스틱 학교 의자 → 철제 프레임 + 나무 좌판",
    "owner": "set-builder",
    "src": "data/review-pilot-1.md",
-   "date": "2026-11-26"
+   "date": "2026-11-26",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "place c1 규슈 지도가 화면 위를 다 못 덮어 맨 위 어두운 띠(38→4px) → 시작 배율 약 4% 키우거나 아래로",
    "owner": "motion-designer",
    "src": "data/review-pilot-2.md",
-   "date": "2026-11-27"
+   "date": "2026-11-27",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   },
   {
-   "stage": "pilot",
+   "stage": "scenes",
    "prio": "P1",
    "what": "room_morning c2 귤 클로즈업에서 고타츠 이불 윗단이 톱니처럼 계단짐 → 매끈하게 또는 구도에서 빼기",
    "owner": "set-builder",
    "src": "data/review-pilot-2.md",
-   "date": "2026-11-27"
+   "date": "2026-11-27",
+   "moved_from": "pilot (사람 결정 2026-11-27: 파일럿 30초, 범위 밖은 scenes 로)"
   }
  ]
 }
