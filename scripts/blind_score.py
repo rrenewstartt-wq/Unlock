@@ -8,7 +8,7 @@ key.json — kept by the showrunner, never shown to the judge:
     {"sheet1": {"종류": "부감", "A": "레퍼런스", "B": "우리"}, ...}
 --look — look_check frames in range / frames counted (intentional fades left out), e.g. --look 21/23
 
-Score per shot = min(100, 100 * ours / reference). Blind score = mean of shots.
+Score per shot = min(100, 100 * ours / reference); on a 2x2 sheet (2 ours + 2 reference) the two means are used. Blind score = mean of shots.
 Total = 0.7 * blind + 0.3 * look (look = 100 * in/total). Without --look the total is the blind score alone.
 Pass = total >= 90. The rule is in docs/quality-bar.md §0.
 """
@@ -30,10 +30,14 @@ def main():
     rows = []
     for sheet, k in key.items():
         s = scores[sheet]
-        ours_p = "A" if k["A"] == "우리" else "B"
-        ref_p = "B" if ours_p == "A" else "A"
-        shot = min(100.0, 100 * s[ours_p] / max(s[ref_p], 1))
-        rows.append((sheet, k.get("종류", ""), s[ours_p], s[ref_p], shot))
+        # 칸 수는 2(A/B) 또는 2×2(A~D, 우리 2 + 레퍼런스 2). 여러 칸이면 양쪽 평균끼리 나눈다.
+        ours = [s[p] for p, v in k.items() if v == "우리"]
+        ref = [s[p] for p, v in k.items() if v == "레퍼런스"]
+        if not ours or not ref:
+            raise SystemExit(f"{sheet}: 정답표에 우리·레퍼런스 칸이 모두 있어야 한다")
+        o, r = sum(ours) / len(ours), sum(ref) / len(ref)
+        shot = min(100.0, 100 * o / max(r, 1))
+        rows.append((sheet, k.get("종류", ""), round(o, 1), round(r, 1), shot))
     blind = sum(r[4] for r in rows) / len(rows)
     total = blind if look is None else 0.7 * blind + 0.3 * look
     print("| 시트 | 종류 | 우리 | 레퍼런스 | 컷 점수 |\n|---|---|---|---|---|")
