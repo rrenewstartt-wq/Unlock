@@ -1,4 +1,6 @@
-"""ep02 diagram scenes (diagram-builder): counter34, calendar, feb5_change.
+"""ep02 diagram scenes (diagram-builder): counter34, calendar, feb5_change + mikan_question, confession_day, first_story,
+cloth_story, verdict_basis, prison_years, seizure_dates, no_blood, cloth_origin, autopsy_memo, second_wound, cloth_holes,
+not_requested, verdict_order, after, appeal, open_ledger (same board grammar: _cuts/_board/_tag, ▶ = 0-frame hard cut).
 
 Board rules (SPEC "▶ 큰 변화 규칙", review-design-2 P0-1):
 - every ▶ is a 0-frame hard cut: each board ("판") or re-framing is its own clip, the next one starts on the frame the
@@ -676,8 +678,8 @@ def confession_day(sid, dur, q):
          + _node(ax(23, 3), 703, 20) + _d(ax(23, 3) - 190, 600, _s("23:03", 50, "text-align:right;width:190px", cls="ink"), ""))
     A2 = (_d(96, 130, '<b class="disp" style="font-size:56px">10:40 자백</b> 그날', "lab", st="font-size:50px")
           + _d(130, 330, _knife(1660), "", w=1660)
-          + _d(96, 640, _t("칼 한 자루 제출", 120, cls="ink") + _s("그가 흉기라며 경찰에 · 작업장에 있던 기리다시 고가타나", 50,
-               "margin-top:18px;color:rgba(233,229,221,.86)"), "", w=1728))
+          + _d(96, 600, _t("칼 한 자루 제출", 120) + _s("그가 흉기라며 경찰에 · 작업장에 있던 기리다시 고가타나", 50,
+               "margin-top:14px;color:rgba(30,33,37,.8)"), "paper", w=1728, h=290, st="padding:34px 64px"))
     B = (f'<div class="hd" style="top:200px">1985년 1월 20일</div>' + axis
          + _node(ax(10, 0), 703, 20, "dim") + _node(ax(10, 40), 703, 34, "amf")
          + _d(ax(10, 40) - 60, 770, '<b class="disp" style="font-size:52px">10:40 자백</b>', "lab", st="padding:6px 24px 8px")
@@ -743,9 +745,9 @@ def first_story(sid, dur, q):
               "row", w=1588, h=190, st="padding-left:52px;border-top:4px solid rgba(30,33,37,.35)"))
     A2 = (_d(96, 120, '<i class="amb" style="width:12px"></i>' + _t("① 장갑", 56, "width:300px") + _s("다리에서 강에 던져 버림", 52),
              "paper row dim", w=1728, h=110, st="padding-left:50px;box-shadow:none")
-          + _d(96, 270, _s("1월 20일 · 첫 자백 조서", 48, cls="k") + _t("② 칼", 150, "margin-top:6px")
-               + _t("씻은 뒤,", 96, "margin-top:28px") + _t("이 빠진 세 곳을 숫돌로 갈았다", 96, "margin-top:6px"),
-               "paper", w=1728, h=620, st="padding:46px 70px"))
+          + _d(96, 270, _s("1월 20일 · 첫 자백 조서", 48, cls="kd") + _t("② 칼", 150, "margin-top:6px", cls="ink")
+               + _t("씻은 뒤,", 96, "margin-top:28px", cls="ink") + _t("이 빠진 세 곳을 숫돌로 갈았다", 96, "margin-top:6px", cls="ink"),
+               "", w=1728, h=620, st=f"padding:46px 70px;border-left:8px solid {INK};background:rgba(12,13,15,.6)"))
     B = (_lv(214, 230, 470, st="background:rgba(233,229,221,.4)")
          + _node(216, 230, 22, "dim") + _d(120, 140, _s("1월 20일", 50, cls="ink"), "dim")
          + _node(216, 700, 30, "on") + _d(270, 676, _t("1월 31일", 60, cls="ink"), "")
@@ -836,10 +838,11 @@ def verdict_basis(sid, dur, q):
           + _d(96, 300, _t("수사관도 몰랐던 사실을", 112) + _t("그가 먼저 말했다", 112, "margin-top:20px")
                + _s("판결의 설명 · ② 거실 불빛을 두고", 50, "margin-top:40px;color:rgba(30,33,37,.75)"),
                "paper", w=1728, h=560, st="padding:62px 80px"))
-    D = (_d(96, 120, _t("①", 56, "width:110px") + _s("구두의 금속 부품", 52), "paper row dim", w=1728, h=110, st="padding-left:50px;box-shadow:none")
-         + _d(96, 250, _t("②", 56, "width:110px") + _s("거실의 불빛(진술)", 52), "paper row dim", w=1728, h=110, st="padding-left:50px;box-shadow:none")
-         + _d(96, 410, _t("③", 130, "width:200px;flex:none") + _d(0, 0, _t("폴리그래프", 120) + _t("특이 반응", 120, "margin-top:6px"), "", st="position:relative"),
-              "paper row", w=1728, h=470, st="padding-left:70px"))
+    D = (_d(96, 250, _t("①", 56, "width:90px") + _s("구두의 금속 부품", 50), "paper row dim", w=600, h=130, st="padding-left:40px;box-shadow:none")
+         + _d(96, 410, _t("②", 56, "width:90px") + _s("거실의 불빛", 50), "paper row dim", w=600, h=130, st="padding-left:40px;box-shadow:none")
+         + _d(96, 570, _t("‘비밀의 폭로’", 60, cls="amt"), "dim")
+         + _d(800, 120, _t("③", 150, "line-height:1") + _t("폴리그래프", 140, "margin-top:40px") + _t("특이 반응", 140, "margin-top:6px"),
+              "paper", w=1024, h=760, st="padding:60px 70px"))
     tw = [_fade(f"#{p}-f1", q[2] + 0.2, 0.3), _grow(f"#{p}-fa", q[2] + 0.6, 0.4, "X", "power2.out"),
           _fade(f"#{p}-f2", q[2] + 1.0, 0.3), _fade(f"#{p}-f3", q[2] + 1.4, 0.3)]
     return _scene(sid, dur, [(c[0], c[1], A), (c[1], c[2], B), (c[2], c[3], B2), (c[3], c[4], C), (c[4], c[5], C2), (c[5], c[6], D)],
@@ -909,9 +912,9 @@ def seizure_dates(sid, dur, q):
           + _d(1290, 150, _t("3", 520, "line-height:1;text-align:center", cls="ink") + _t("조각", 110, "text-align:center", cls="ink"), "", w=520))
     A3 = (_d(96, 130, _s("2월 5일 · 수색", 60, cls="kd") + _t("1조각", 200, "margin-top:10px", cls="ink")
              + _s("살색 바탕 · 빨강·갈색 체크(기록)", 50, "margin-top:30px;color:rgba(233,229,221,.8)"), "", w=900)
-          + _d(1060, 150, "", "", w=540, h=680, st=f"background:{PAPER}")
-          + _ln(1060, 866, 540, st="height:4px") + _d(1230, 880, _t("약 27cm", 56, "white-space:nowrap", cls="ink"), "")
-          + _lv(1636, 150, 680, st="width:4px") + _d(1664, 440, _t("약<br>34cm", 60, cls="ink"), ""))
+          + _d(1100, 140, "", "", w=508, h=640, st=f"background:{PAPER}")
+          + _ln(1100, 806, 508, st="height:4px") + _d(1250, 822, _t("약 27cm", 56, "white-space:nowrap", cls="ink"), "")
+          + _lv(1636, 140, 640, st="width:4px") + _d(1664, 410, _t("약<br>34cm", 60, cls="ink"), ""))
     B = (_d(96, 120, _s("2월 6일 · 4조각을 맞춰 보니", 56, cls="kd"), "")
          + _d(260, 200, _shirt(700, "dash", "solid", amber_left=True), "")
          + _d(1100, 300, _s("왼소매", 64, cls="ink") + _t("어깨부터<br>없음", 190, "margin-top:8px;line-height:1.05", cls="ink"), ""))
@@ -1132,9 +1135,9 @@ def cloth_holes(sid, dur, q):
          + _d(96, 400, _cloth(860, 470, [(0.5, "")]), "")
          + _d(1040, 520, _s("스웨터", 64, cls="ink") + _t("15~16.6mm", 124, "margin-top:6px;white-space:nowrap", cls="ink"), "", id=f"{p}-sw",
               st="opacity:0"))
-    A2 = (_d(96, 150, _cloth(860, 330, [(0.5, "")]), "") + _d(96, 520, _cloth(860, 330, [(0.5, "")]), "")
-          + _d(1060, 200, _s("스웨터", 60, cls="ink") + _t("15~16.6mm", 120, "white-space:nowrap", cls="ink"), "")
-          + _d(1060, 570, _s("속옷", 60, cls="ink") + _t("15mm", 150, "", cls="ink"), ""))
+    A2 = (_d(964, 130, _cloth(860, 360, [(0.5, "")]), "") + _d(964, 520, _cloth(860, 360, [(0.5, "")]), "")
+          + _d(96, 200, _s("위 · 스웨터", 60, cls="ink") + _t("15~16.6mm", 120, "white-space:nowrap", cls="ink"), "")
+          + _d(96, 590, _s("아래 · 속옷", 60, cls="ink") + _t("15mm", 150, "", cls="ink"), ""))
     B = (_d(96, 130, _s("옷의 구멍", 56, cls="k") + _t("15mm 안팎", 100, "margin-top:20px;white-space:nowrap")
             + _d(0, 0, _cloth(560, 240, [(0.5, "")]), "", st="position:relative;margin-top:40px"),
             "paper", w=720, h=740, st="padding:56px 70px")
@@ -1173,8 +1176,8 @@ def not_requested(sid, dur, q):
            "paper", w=1728, h=740, st="padding:60px 90px")
     B = (_d(96, 130, _s("재심 공판 · 검찰의 증거 신청", 54, cls="kd"), "")
          + _d(96, 230, _s("신청한 것", 54, "width:420px;flex:none") + _t("자백 등 많은 증거", 104), "paper row", w=1728, h=260, st="padding-left:70px")
-         + _d(96, 530, '<i class="amb"></i>' + _s("신청하지 않은 것", 54, "width:420px;flex:none") + _t("?", 200, "line-height:1"),
-              "paper row", w=1728, h=330, st="padding-left:70px"))
+         + _d(96, 530, '<i class="amb"></i>' + _s("신청하지 않은 것", 54, "width:420px;flex:none", cls="ink") + _t("?", 200, "line-height:1", cls="ink"),
+              "row", w=1728, h=330, st="padding-left:70px;border:6px solid rgba(233,229,221,.7);border-radius:8px"))
     B2 = (_d(96, 120, _s("신청한 것", 46, "width:300px") + _s("자백 등 많은 증거", 54), "paper row dim", w=1728, h=110,
              st="padding-left:50px;box-shadow:none")
           + _d(96, 270, '<i class="amb"></i>' + _s("신청하지 않은 것", 60, cls="k") + _t("조서에서 ‘태웠다’던<br>바로 그 천", 140, "margin-top:20px;line-height:1.1"),
@@ -1245,12 +1248,13 @@ def after(sid, dur, q):
                "paper", w=1728, h=460, st="padding:50px 80px"))
     B = (_d(96, 140, _s("판결문에 적힌 청구액 · 모두", 60, cls="kd"), "")
          + _d(96, 260, _t("약 8,481만 엔", 250, "line-height:1.1;white-space:nowrap", cls="amt"), "")
-         + _d(96, 620, _s("원고 두 사람 몫의 합", 54, "color:rgba(233,229,221,.8)"), ""))
+         + _d(96, 620, _s("국가와 현에 청구한 금액 · 1심 판결문", 54, "color:rgba(233,229,221,.8)"), ""))
     C = (_person(150, 150, 520, 650, dim=True)
          + _d(150, 818, '<b class="disp" style="font-size:52px">미야타 씨</b>', "lab dim", st="padding:6px 26px 8px")
-         + _d(760, 170, _s("소송을 낸 다음 달", 64, cls="ink") + _t("세상을 떠남", 150, "margin-top:10px", cls="ink"), "")
-         + _ln(690, 640, 220, id=f"{p}-lk")
-         + _d(910, 520, _s("상속인들", 60, cls="k") + _t("소송을 이어받음", 110, "margin-top:10px"), "paper", w=914, h=300,
+         + _d(760, 130, _s("소송을 낸 다음 달", 60, cls="k") + _t("세상을 떠남", 140, "margin-top:10px"), "paper", w=1064, h=340,
+              st="padding:44px 60px")
+         + _ln(690, 680, 220, id=f"{p}-lk")
+         + _d(910, 540, _s("상속인들", 60, cls="k") + _t("소송을 이어받음", 110, "margin-top:10px"), "paper", w=914, h=300,
               id=f"{p}-hr", st="padding:44px 60px;opacity:0"))
     tw = [_grow(f"#{p}-lk", q[4] + 0.1, 0.4, "X", "power2.out"), _slide(f"#{p}-hr", q[4] + 0.4, -30)]
     return _scene(sid, dur, [(c[0], c[1], A), (c[1], c[2], A2), (c[2], c[3], B), (c[3], c[4], C)], [(0, dur, "도식")], tw)
@@ -1272,18 +1276,20 @@ def appeal(sid, dur, q):
                  "", id=f"{p}-r1", st="position:relative;margin-top:44px;padding-top:24px;border-top:4px solid rgba(30,33,37,.4);opacity:0"),
             "paper", w=1728, h=740, st="padding:56px 80px"))
     A2 = (_d(96, 120, _s("검사는 공소를 취소하거나 무죄 논고를 했어야", 52), "paper row dim", w=1728, h=110, st="padding-left:50px;box-shadow:none")
-          + _d(96, 290, _s("2심 판결문 · 그 천을 두고", 56, cls="k") + _t("천을 다룬 방식", 150, "margin-top:20px")
-               + _d(0, 0, "", "", st="position:relative;margin-top:60px;width:1200px;height:10px;background:rgba(30,33,37,.5)"),
-               "paper", w=1728, h=580, st="padding:56px 80px"))
+          + _d(96, 280, _s("2심 판결문 · 그 천을 두고", 56, cls="kd") + _t("천을 다룬 방식", 150, "margin-top:16px", cls="ink"), "")
+          + _d(96, 590, _d(0, 0, "", "", st="position:relative;width:1300px;height:10px;background:rgba(30,33,37,.5)"),
+               "paper ctr", w=1728, h=280, st="padding:0 80px"))
     B = (_d(96, 330, _s("2심 판결", 54, cls="k") + _t("2026.7.27", 80, "margin-top:8px"), "paper", w=520, h=260, st="padding:40px 50px")
          + _ln(616, 460, 180) + _lv(796, 250, 420)
          + _ln(796, 250, 130) + _ln(796, 665, 130)
          + _d(950, 150, _s("현", 64, cls="ink") + _t("상고 안 함", 130, "margin-top:4px", cls="ink"), "")
-         + _d(950, 560, _s("국가", 64, cls="ink") + _t("8월 7일 · 최고재판소에 상고", 96, "margin-top:4px;white-space:nowrap", cls="ink"), "",
+         + _d(950, 540, _s("국가", 64, cls="ink") + _t("8월 7일<br>최고재판소에 상고", 110, "margin-top:4px;line-height:1.1;white-space:nowrap", cls="ink"), "",
               id=f"{p}-gk", st="opacity:0"))
-    C = _d(460, 140, _t("?", 300, "text-align:center;line-height:1", cls="amt") + _s("최고재판소의 판단", 64, "text-align:center;margin-top:24px", cls="ink")
-           + _s("2026년 11월 기준 · 알려지지 않음", 54, "text-align:center;margin-top:16px;color:rgba(233,229,221,.8)"),
-           "dc am ctr", w=1000, h=700)
+    C = (_d(96, 230, _s("국가의 상고", 54, cls="k") + _t("2026.8.7", 96, "margin-top:10px") + _t("→ 최고재판소", 80, "margin-top:30px"),
+            "paper", w=700, h=480, st="padding:50px 56px")
+         + _d(900, 140, _t("?", 300, "text-align:center;line-height:1", cls="amt") + _s("최고재판소의 판단", 64, "text-align:center;margin-top:24px", cls="ink")
+              + _s("2026년 11월 기준 · 알려지지 않음", 50, "text-align:center;margin-top:16px;color:rgba(233,229,221,.8)"),
+              "dc am ctr", w=924, h=700))
     im, icss, itw = record_insert(p, t3, 3.0, "assets/archive/kokubai2-p14-l13.png", (2453, 122),
                                   focus=(0.37, 0.5, 0.16), lean=10, tilt=1.4,
                                   caption="「이른바 묵살한 형태가 되어 있어」 — 천을 다룬 방식을 두고",
@@ -1305,8 +1311,9 @@ def open_ledger(sid, dur, q):
     A = _d(96, 150, _s("1985 → 2019", 60, cls="k") + _t("34년 만에<br>확정된 것", 210, "margin-top:30px;line-height:1.05"),
            "paper", w=1728, h=720, st="padding:64px 84px")
     A2 = (_d(96, 130, _s("풀린 것 · 확정", 56, cls="kd"), "")
-          + _d(96, 230, _t("그를 범인으로<br>인정할 수 없다", 140, "line-height:1.1") + _t("— 무죄", 120, "margin-top:30px"),
-               "paper", w=1728, h=640, st="padding:60px 80px"))
+          + _d(96, 260, _t("그를 범인으로<br>인정할 수 없다", 140, "line-height:1.1", cls="ink"), "", w=1100)
+          + _d(1290, 250, _t("무죄", 170, "line-height:1") + _s("확정", 64, "margin-top:20px"), "paper ctr", w=534, h=560,
+               st="align-items:center"))
     B = _d(96, 130, _s("2019년 재심 판결 · 피해자에 대해", 54, cls="k") + _t("“‘누군가에게’<br>살해됐다”", 200, "margin-top:40px;line-height:1.1")
            + _s("판결이 적은 것은 여기까지", 56, "margin-top:40px"), "paper", w=1728, h=740, st="padding:60px 84px")
     B2 = (_d(560, 130, _s("범인", 70, "text-align:center", cls="ink") + _t("이름 없음", 170, "text-align:center;margin-top:30px", cls="ink")

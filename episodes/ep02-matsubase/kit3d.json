@@ -38,6 +38,7 @@
   "model:bench_vice_01",
   "model:Shelf_01",
   "model:metal_toolbox",
-  "texture:poly_wool_herringbone"
+  "texture:poly_wool_herringbone",
+  "texture:jersey_melange"
  ]
 }

@@ -4,12 +4,17 @@
 //   width 2.1 cm at 4.7 cm from the tip ([2] 9쪽 21~22행, F137), 1.5 cm at about 3.2 cm from the tip (F138).
 // The shape between those stations is a plain straight slant (kiridashi = "끝이 비스듬"), the handle a plain wooden
 // handle (its length is not shown or measured). No body, no wound, no cloth around the knife (BANNED).
-// Modes: blade_macro → blade_width (gauges, amber = ONLY the 0.6 cm overflow), insert / handle → (later) knife_insert,
-//        handle_wood (no gauges; handle mode keeps the background soft for a quote board in front).
+// Modes: blade_macro → blade_width (gauges, amber = ONLY the 0.6 cm overflow)
+//        insert → knife_insert   neutral light, a larger bench and a blurred workshop behind (HDRI carpentry_shop_01 as a
+//                                soft background only); amber = a warm glint on the slanted tip; from cue c3 to c4 one
+//                                dimension line along the back: "약 11cm" (the blade length only — the handle has no number)
+//        handle → handle_wood    evening light (low, warmer key from the side), the same bench and background, darker;
+//                                amber = a warm pool on the wooden handle. Quote boards are HTML in front (scenes_knife.py).
 // Coordinates: bench top y = 0; blade lying flat, back (spine) along +x at z = 0, tip at x = 0, edge side toward +z
 // (so in a top view with the camera's up = -z the spine is the top edge and the tip the left end). 1 unit = 1 m.
 // opts: { mode, camera, cues: { c: [t1, ..., t7] } }  — caption starts for the gauge states.
 import { film, THREE, ease, clamp01 } from "../kit3d/film.js";
+import { CACHE } from "../kit3d/thumbkit.js";
 
 const AMBER = "#F0A23B";
 const INK = "#E9E5DD";
@@ -145,6 +150,18 @@ function studioEnv(renderer) {
   return pm.fromScene(sc, 0.02).texture;
 }
 
+// Pull a texture material toward grey in the shader (sat 0 = grey, 1 = as is).
+function desat(mat, sat) {
+  mat.onBeforeCompile = (sh) => {
+    sh.uniforms.uSat = { value: sat };
+    sh.fragmentShader = "uniform float uSat;\n" + sh.fragmentShader.replace("#include <map_fragment>",
+      "#include <map_fragment>\n  diffuseColor.rgb = mix(vec3(dot(diffuseColor.rgb, vec3(0.299, 0.587, 0.114))), diffuseColor.rgb, uSat);");
+  };
+  mat.customProgramCacheKey = () => `desat-${sat}`;
+  mat.needsUpdate = true;
+  return mat;
+}
+
 // Number plate: dark plate + ink numerals (canvas), lying flat on the bench, readable from the top-view camera.
 async function plate(text, { w = 1.5, h = 0.62, color = INK } = {}) {
   try { await document.fonts.load('500 120px "Gothic A1"'); } catch (e) { /* preview pages have no web font */ }
@@ -196,10 +213,13 @@ export function createKnife(stage, opts) {
     const S = f.scene;
     const [benchTex, hinoki] = await Promise.all([f.material("dark_wood", { normalScale: 0.8 }), f.material("hinoki_planks", { normalScale: 0.6 })]);
 
-    // Bench: dark wood, grain along x.
-    const benchMat = f.tiled(benchTex, 1.2, 0.8);
-    benchMat.color = new THREE.Color("#8c8580");
-    const bench = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.8), benchMat);
+    // Bench: dark wood, grain along x. insert / handle: a larger bench and a soft workshop background.
+    const wide = mode !== "blade_macro";
+    const BW = wide ? 6.0 : 1.2, BD = wide ? 4.0 : 0.8;
+    const benchMat = f.tiled(benchTex, BW, BD);
+    benchMat.color = new THREE.Color(mode === "handle" ? "#7d7570" : "#8c8580");
+    if (wide) desat(benchMat, 0.4);   // the dark_wood scan is orange-red; the wide shots must not turn the frame orange
+    const bench = new THREE.Mesh(new THREE.PlaneGeometry(BW, BD), benchMat);
     bench.rotation.x = -Math.PI / 2;
     bench.position.set(0.1, 0, 0.05);
     bench.receiveShadow = true;
@@ -221,14 +241,47 @@ export function createKnife(stage, opts) {
       m.castShadow = true; m.receiveShadow = true;
       S.add(m);
     }
-    const handleMat = f.tiled(hinoki, 0.4, 0.15);
-    handleMat.color = new THREE.Color("#d8c3a3");
+    // wide modes look at the handle up close: a window inside ONE plank of the scan (no plank seams on the handle)
+    const handleMat = wide ? f.tiled(hinoki, 0.11, 0.03) : f.tiled(hinoki, 0.4, 0.15);
+    if (wide) for (const k of ["map", "normalMap", "roughnessMap"]) if (handleMat[k]) { handleMat[k].offset.set(0.31, 0.12); handleMat[k].anisotropy = 8; }
+    handleMat.color = new THREE.Color(wide ? "#c9b291" : "#d8c3a3");
+    if (wide && handleMat.normalScale) handleMat.normalScale.set(1.2, 1.2);
     const HL = 9.5, HW = 2.6, HT = 1.4;
     f.box({ size: [HL * CM, HT * CM, HW * CM], radius: 0.45 * CM, material: handleMat, pos: [(L + HL / 2 - 0.2) * CM, (HT / 2) * CM, (WMAX / 2) * CM] });
 
     // Lights: key from the upper left (soft spot), a low grazing strip from the edge side (rim on the bevel and back),
     // the HDRI for the steel's reflections. Amber is not a light here — only the overflow bar.
-    f.key({ pos: [-0.25, 0.55, -0.22], target: [0.05, 0, 0.01], intensity: 9, angle: 0.5, penumbra: 0.9, color: "#f1f0ec" });
+    if (wide) {
+      const { HDRLoader } = await import("../kit3d/addons/loaders/HDRLoader.js");
+      const hdr = await new HDRLoader().loadAsync(`${CACHE}/hdris/carpentry_shop_01.hdr`);
+      hdr.mapping = THREE.EquirectangularReflectionMapping;
+      S.background = hdr;
+      S.backgroundBlurriness = 0.3;
+      S.backgroundIntensity = mode === "handle" ? 0.06 : 0.11;
+      S.fog = new THREE.Fog("#0d0e0f", 0.45, 1.6);   // the far bench falls into the dark before the background
+    }
+    if (mode === "handle") {
+      // evening: a low, warmer key from the handle side, the bench mostly dark
+      f.key({ pos: [0.5, 0.22, -0.3], target: [0.08, 0, 0.01], intensity: 6, angle: 0.45, penumbra: 0.9, color: "#e9d9c2" });
+    } else {
+      f.key({ pos: [-0.25, 0.55, -0.22], target: [0.05, 0, 0.01], intensity: 9, angle: 0.5, penumbra: 0.9, color: "#f1f0ec" });
+    }
+    if (mode === "insert") {
+      // amber: a warm glint on the slanted tip (a small light in the bevel's mirror direction)
+      const tipGlint = new THREE.SpotLight(AMBER, 2.2, 0.8, 0.2, 0.8, 1.5);
+      tipGlint.position.set(-0.08, 0.16, 0.14);
+      tipGlint.target.position.set(0.01, 0, 0.012);
+      S.add(tipGlint, tipGlint.target);
+    }
+    if (mode === "handle") {
+      const pool = new THREE.SpotLight(AMBER, 2.6, 0.9, 0.16, 0.85, 1.5);
+      pool.position.set(0.2, 0.3, 0.12);
+      pool.target.position.set((L + 4.5) * CM, 0, (WMAX / 2) * CM);
+      pool.castShadow = true;
+      pool.shadow.mapSize.set(1024, 1024);
+      pool.shadow.bias = -0.0003;
+      S.add(pool, pool.target);
+    }
     const rim = new THREE.SpotLight("#dfe8ee", 6, 1.5, 0.6, 0.9, 1.5);
     rim.position.set(0.06, 0.05, 0.4);
     rim.target.position.set(0.05, 0, 0);
@@ -246,6 +299,7 @@ export function createKnife(stage, opts) {
     const P = {
       p15: await plate("1.5cm"), p47: await plate("4.7cm"), p32: await plate("3.2cm"), p21: await plate("2.1cm"),
       p06: await plate("0.6cm"), le15: await plate("≤1.5cm", { w: 1.8 }),
+      p11: await plate("약 11cm", { w: 2.6 }),
     };
     for (const o of [...Object.values(G), ...Object.values(P)]) { o.visible = false; S.add(o); }
     const at = (o, u, w) => { o.position.set(u * CM, (T + 0.08) * CM, w * CM); o.visible = true; };
@@ -284,6 +338,12 @@ export function createKnife(stage, opts) {
             P.p06.scale.setScalar(2.2);
           }
         }
+      }
+      if (mode === "insert" && t >= c(3) && t < c(4)) {   // c3: the blade length along the back (tip to the handle)
+        const k = ease.out(clamp01((t - c(3)) / 0.6));
+        G.along.set(0, -0.6, L * k, -0.6); G.along.visible = true;
+        G.along.userData.t1.visible = k > 0.98;
+        if (k > 0.6) at(P.p11, L / 2, -1.35);
       }
       f.shot(opts.camera, t);
     };

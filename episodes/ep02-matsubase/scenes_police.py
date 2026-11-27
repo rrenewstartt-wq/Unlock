@@ -83,3 +83,109 @@ def arrest_wish(sid, dur, q):
         set_label(sid, 5, q[6], dur, "그날 밤", "1월 19일"),
     ])
     return scene3d(sid, dur, "police", "createPolice", opts, m, t, SET_CSS)
+
+
+def cam_moves(shots, end, push=0.06):
+    """cam_shots with an optional end framing per shot: (t, pos, look, fov[, pos_end[, look_end]]). Shots with an end
+    framing move there over the shot (sine ease — a pull-back); the others push `push` toward the look point (linear)."""
+    keys = []
+    for i, s in enumerate(shots):
+        t, pos, look, fov = s[:4]
+        t_end = shots[i + 1][0] - 0.02 if i + 1 < len(shots) else end
+        if len(s) > 4:
+            p2, l2, ez = list(s[4]), list(s[5] if len(s) > 5 else look), ""
+        else:
+            p2, l2, ez = [round(p + (l - p) * push, 3) for p, l in zip(pos, look)], list(look), ', ease: "linear"'
+        cut = ", cut: true" if i else ""
+        keys.append(f"{{ t: {round(t, 2)}, pos: {list(pos)}, look: {list(look)}, fov: {fov}{cut} }}")
+        keys.append(f"{{ t: {round(t_end, 2)}, pos: {p2}, look: {l2}, fov: {fov}{ez} }}")
+    return "[\n      " + ",\n      ".join(keys) + "\n    ]"
+
+
+KOUSAI_P20 = "후쿠오카고법 결정문(2017) · 20쪽 · 재판소 공개본"
+
+
+def polygraph(sid, dur, q):
+    """SHOTS 11 (police/polygraph, daytime fluorescent, amber = a warm lamp on the pens). The man and the machine are never
+    in the same cut: the machine stands on a side table in the south-west corner, behind him.
+    c1 W the machine alone (bright: lit chart paper, centre) / c2 W the man seated, 3/4 back, machine off-frame (bright:
+    window, top) / c3 D paper roll and pens (bright: paper, centre) / c4 D the pens swinging — symbolic traces (bright:
+    paper under the warm lamp) / c5 record cut @c5 [2] p.20 l.12-13 / c6 M papers on the desk (bright: desk top, centre) /
+    c7 W his back, pulling back, machine off-frame (bright: window + desk, centre)."""
+    from scenes_kit import archive_insert
+    ins_at = q[4] - 0.05
+    ins_dur = round(min(4.0, max(2.5, q[5] - 0.05 - ins_at)), 2)
+    cam = cam_moves([
+        (0, [-1.05, 1.5, 1.25], [-2.45, 0.85, 2.1], 42),
+        (q[1] - 0.05, [-1.2, 1.6, 2.3], [0.05, 0.9, -0.2], 40),
+        (q[2] - 0.05, [-2.1, 1.08, 2.0], [-2.4, 0.86, 2.03], 34),
+        (q[3] - 0.05, [-2.27, 0.98, 1.97], [-2.47, 0.865, 2.04], 30),
+        (q[4] - 0.05, [-2.27, 0.98, 1.97], [-2.47, 0.865, 2.04], 30),
+        (q[5] - 0.05, [1.25, 1.2, -0.3], [0.35, 0.74, -0.62], 36),
+        (q[6] - 0.05, [0.4, 1.45, 2.2], [0.0, 0.9, -0.6], 44, [0.6, 1.65, 2.9]),
+    ], dur)
+    opts = f'{{ mode: "polygraph", camera: {cam} }}'
+    im, icss, itw = archive_insert(sid, ins_at, "assets/archive/kousai-p20-l12.png", (2720, 264), dur=ins_dur,
+                                   focus=(0.377, 0.25, 0.085), credit=KOUSAI_P20, tilt=0)
+    m, t = _join([
+        set_label(sid, 0, 0.3, q[1] - 0.1, "오전 9:10 ~ 11:37", "1월 18일 · 폴리그래프 검사"),
+        set_label(sid, 1, q[1], q[2] - 0.1, "경찰의 요구에 응해", right=True),
+        set_label(sid, 2, q[2], q[3] - 0.1, "담당 경찰관", "원 재판 증언"),
+        set_label(sid, 3, q[3], ins_at - 0.05, "질문: 범인이 자전거를 버렸다", "경찰관 증언 · 반응했다"),
+        set_label(sid, 4, q[5], q[6] - 0.1, "결과와 말이 다르다", "검사 뒤 추궁"),
+        set_label(sid, 5, q[6], dur, "그날 진술은 바꾸지 않았다", "1월 18일"),
+    ])
+    return scene3d(sid, dur, "police", "createPolice", opts, m + "\n" + im, t + "\n" + itw, SET_CSS + icss)
+
+
+def mikan_table(sid, dur, q):
+    """SHOTS 13 (police/insert_mikan: desk inserts only, diffuse daylight — clearly not the fluorescent room of SHOTS 10).
+    His own account (2/8 and 2/9 statements, F48~F50), so the tag reads `재현 · 본인 진술`. Amber = the one mikan, then its
+    empty place. c1 M daylight desk corner (bright: desk top, left-centre) / c2 D the empty top (bright: top, centre) /
+    c3 D desk end + the quoted question (bright: top, right) / c4 D one mikan (bright: the mikan, centre) / c5 D same
+    framing, hard cut, the mikan gone / c6 M the stack of statement papers (bright: papers, lower right)."""
+    cam = cam_shots([
+        (0, [0.95, 1.15, 0.2], [0.1, 0.74, -0.5], 40),
+        (q[1] - 0.05, [-0.35, 0.98, 0.05], [-0.05, 0.74, -0.45], 34),
+        (q[2] - 0.05, [0.55, 0.86, -0.05], [0.2, 0.75, -0.5], 32),
+        (q[3] - 0.05, [0.12, 0.9, -0.12], [-0.08, 0.76, -0.36], 30),
+        (q[4] - 0.05, [0.12, 0.9, -0.12], [-0.08, 0.76, -0.36], 30),
+        (q[5] - 0.05, [0.75, 1.2, -0.15], [0.4, 0.74, -0.62], 34),
+    ], dur)
+    opts = f'{{ mode: "insert_mikan", camera: {cam}, cues: {{ mikan: [{round(q[3] - 0.05, 2)}, {round(q[4] - 0.05, 2)}] }} }}'
+    m, t = _join([
+        set_label(sid, 0, 0.3, q[1] - 0.1, "그의 진술"),
+        set_label(sid, 1, q[1], q[2] - 0.1, "검사 전 · 서너 번"),
+        set_label(sid, 2, q[2], q[3] - 0.1, "“귤 먹지 않았느냐”", "경찰관의 질문 · 그의 진술", quote=True),
+        set_label(sid, 3, q[3], q[4] - 0.1, "1월 9일 무렵", "조사 때 귤이 나왔다"),
+        set_label(sid, 4, q[4], q[5] - 0.1, "화장실에 다녀오니", "귤이 없어졌다"),
+        set_label(sid, 5, q[5], dur, "2월 8일 · 9일 조서", "그의 진술"),
+    ])
+    html = scene3d(sid, dur, "police", "createPolice", opts, m, t, SET_CSS)
+    return html.replace(">재현</div>", ">재현 · 본인 진술</div>", 1)
+
+
+def polygraph_again(sid, dur, q):
+    """SHOTS 40 (police/again: the SHOTS 11 room, the machine switched off; amber = the paper roll's curled end).
+    The man and the machine are never in the same cut. c1 W his back from the south, low (bright: window, top centre) /
+    c2 M the empty desk (bright: desk top, centre) / c3 D the still pens and paper (bright: paper) / c4 M the door side, no
+    one (bright: door gap, right) / c5 W high-angle long shot of him from the south-east corner (bright: desk, centre) /
+    c6 D the curled end of the chart paper (bright: paper under the warm light)."""
+    cam = cam_shots([
+        (0, [0.3, 1.25, 2.8], [0.05, 0.95, -0.6], 40),
+        (q[1] - 0.05, [1.3, 1.3, 0.9], [0.0, 0.74, -0.55], 38),
+        (q[2] - 0.05, [-2.15, 1.05, 1.95], [-2.42, 0.86, 2.03], 32),
+        (q[3] - 0.05, [-0.8, 1.5, 0.4], [3.1, 1.0, 2.0], 40),
+        (q[4] - 0.05, [2.6, 2.35, 2.6], [0.05, 0.6, -0.1], 40),
+        (q[5] - 0.05, [-1.95, 0.95, 2.2], [-2.27, 0.8, 2.05], 32),
+    ], dur)
+    opts = f'{{ mode: "again", camera: {cam}, cues: {{ empty: [{round(q[1] - 0.05, 2)}, {round(q[4] - 0.05, 2)}] }} }}'
+    m, t = _join([
+        set_label(sid, 0, 0.3, q[1] - 0.1, "재판에서 그의 설명"),
+        set_label(sid, 1, q[1], q[2] - 0.1, "1월 8일", "장기 친구에게 현장 이야기(증언)"),
+        set_label(sid, 2, q[2], q[3] - 0.1, "사진도 봤다", "그의 증언"),
+        set_label(sid, 3, q[3], q[4] - 0.1, "자전거 이야기", "경찰의 귓속말(증언)"),
+        set_label(sid, 4, q[4], q[5] - 0.1, "1월 10일 무렵부터", "보고 들은 것으로"),
+        set_label(sid, 5, q[5], dur, "줄거리를 짜 맞췄다", "그의 증언"),
+    ])
+    return scene3d(sid, dur, "police", "createPolice", opts, m, t, SET_CSS)
