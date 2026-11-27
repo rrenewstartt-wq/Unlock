@@ -7,8 +7,8 @@ sleeve at +x ≈ 0.3~0.7. The cloth is one material for all five pieces (assets/
 No record photo of the place is usable (SOURCES.md R6 보류), so vault_open c2 stays 3D.
 """
 from scenes_kit import *  # noqa: F401,F403
-from scenes_kit import cam_shots, scene3d, archive_insert
-from scenes_police import set_label, SET_CSS
+from scenes_kit import cam_shots, scene3d, archive_insert, clip
+from scenes_police import set_label, SET_CSS, cam_moves
 
 KOUSAI_NEW = "후쿠오카고법 결정문(2017) · 새 증거"
 
@@ -69,3 +69,68 @@ def five_pieces(sid, dur, q):
         set_label(sid, 3, q[5], dur, "조서: “태웠다”"),
     ])
     return scene3d(sid, dur, "vault", "createVault", opts, m + "\n" + im, t + "\n" + itw, SET_CSS + icss)
+
+
+KOUSAI_SUM = "후쿠오카고법 결정문(2017) · 조서 요약 부분 · 재판소 공개본"
+
+
+def golf_wear(sid, dur, q):
+    """SHOTS 39 (vault/golf, amber = the fingertip-size gauge only). The garment's cut is not recorded: a folded grey knit
+    bundle with a paper tag; no stain is drawn. c1 W the bundle + tag on the table (bright: table + bundle, centre) /
+    c2 D the tag (bright: tag, right) / c3 M the cloth from the other side (bright: cloth top, centre) / c4 D the dotted
+    fingertip-size circle on the EMPTY table beside it (bright: table, centre) / c5 M bundle and gauge (bright: centre-left)
+    / c6 W pull back (bright: the lit table in the dark, centre). F150~F154."""
+    cam = cam_moves([
+        (0, [0.55, 1.35, 1.25], [-0.1, 0.78, 0.0], 38),
+        (q[1] - 0.05, [0.16, 0.95, 0.42], [0.06, 0.745, 0.21], 30),
+        (q[2] - 0.05, [-0.75, 1.05, 0.6], [-0.2, 0.79, 0.02], 36),
+        (q[3] - 0.05, [0.21, 0.88, 0.25], [0.1, 0.745, 0.05], 30),
+        (q[4] - 0.05, [0.75, 1.1, 0.55], [-0.08, 0.76, 0.02], 34),
+        (q[5] - 0.05, [-0.25, 1.75, 2.1], [-0.05, 0.74, 0.0], 38, [-0.3, 2.15, 3.0]),
+    ], dur)
+    opts = f'{{ mode: "golf", camera: {cam}, cues: {{ gauge: {round(q[3] - 0.05, 2)} }} }}'
+    m, t = _join([
+        set_label(sid, 0, 0.3, q[1] - 0.1, "검찰이 내놓은 물건"),
+        set_label(sid, 1, q[1], q[2] - 0.1, "1월 9일 압수", "그의 회색 골프웨어", right=True),
+        set_label(sid, 2, q[2], q[3] - 0.1, "혈흔 예비 검사 · 양성 부분", "검찰 주장"),
+        set_label(sid, 3, q[3], q[4] - 0.1, "손가락 끝만 한 아주 적은 양", "결정문 9쪽", amber=True),
+        set_label(sid, 4, q[4], q[5] - 0.1, "혈액형 검사 안 함"),
+        set_label(sid, 5, q[5], dur, "고법: 사건과 관련 인정 안 됨", "후쿠오카고법 (2017)"),
+    ])
+    return scene3d(sid, dur, "vault", "createVault", opts, m, t, SET_CSS)
+
+
+def ending(sid, dur, q):
+    """SHOTS 52 (vault/ending, amber = the left sleeve, light only). The shirt already laid out; close → wide pull-back.
+    c1 D left-sleeve macro from the shoulder side (bright: warm cloth, centre) / c2 M sleeve + paper tag (bright: sleeve,
+    left) / c3 D the check in low light (table light dimmed) / c4 D light on the body cloth, no stain (bright: centre) /
+    c5 W top view, the whole shirt (bright: table, centre) / c6 record cut @c6 [2] p.16 l.6 / c7 W pull back to the end,
+    the sleeve alone warm → title card. F207 F111 F114 F01 F117."""
+    ins_at = q[5] - 0.05
+    ins_dur = round(min(4.0, max(2.5, q[6] - 0.05 - ins_at)), 2)
+    cam = cam_moves([
+        (0, [0.62, 0.9, -0.32], [0.42, 0.745, -0.2], 30),
+        (q[1] - 0.05, [1.0, 1.15, 0.6], [0.6, 0.74, 0.0], 34),
+        (q[2] - 0.05, [-0.22, 0.95, 0.55], [-0.1, 0.74, 0.2], 30),
+        (q[3] - 0.05, [0.12, 1.0, 0.05], [0.0, 0.745, -0.2], 30),
+        (q[4] - 0.05, [0.0, 2.5, 0.3], [0.0, 0.74, -0.02], 40),
+        (q[5] - 0.05, [0.0, 2.5, 0.3], [0.0, 0.74, -0.02], 40),
+        (q[6] - 0.05, [0.0, 2.3, 0.75], [0.0, 0.74, -0.02], 40, [0.0, 4.4, 2.7], [0.0, 0.74, -0.05]),
+    ], dur)
+    opts = (f'{{ mode: "ending", camera: {cam}, cues: {{ drops: [-1, -1, -1, -1, -1], sleeve: -1, '
+            f'low: [{round(q[2] - 0.05, 2)}, {round(q[3] - 0.05, 2)}] }} }}')
+    im, icss, itw = archive_insert(sid, ins_at, "assets/archive/kousai-p16-l6.png", (2651, 122), dur=ins_dur,
+                                   focus=(0.49, 0.5, 0.045), credit=KOUSAI_SUM, tilt=0)
+    t_title = round(q[6] + 1.6, 2)
+    title = ("    " + clip(f"{sid}-title", t_title, round(dur - t_title, 2), "etitle disp", "마쓰바세 사건"))
+    m, t = _join([
+        set_label(sid, 0, q[1], q[2] - 0.1, "1985. 2. 14", "창고와 살림집 경계 모퉁이"),
+        set_label(sid, 1, q[2], q[3] - 0.1, "조서대로라면", "아궁이에서 탔어야 할 천"),
+        set_label(sid, 2, q[3], q[4] - 0.1, "혈액 확인 안 됨"),
+        set_label(sid, 3, q[4], ins_at - 0.05, "재심 개시의 근거 가운데 하나", "2016 재심 개시 결정"),
+    ])
+    t += (f'\n    tl.fromTo("#{sid}-title", {{ opacity: 0, y: 18 }}, {{ opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }}, {t_title});')
+    css = SET_CSS + icss + """
+    .etitle { position: absolute; left: 0; right: 0; top: 452px; text-align: center; font-size: 150px; line-height: 1;
+      color: #F3F0EA; letter-spacing: 0.04em; text-shadow: 0 4px 30px rgba(0,0,0,.8); }"""
+    return scene3d(sid, dur, "vault", "createVault", opts, m + "\n" + im + "\n" + title, t + "\n" + itw, css)

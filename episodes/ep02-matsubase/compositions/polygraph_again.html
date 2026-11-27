@@ -8,15 +8,57 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    .slabel { position: absolute; left: 96px; top: 150px; padding: 16px 30px 18px 30px; background: rgba(16,18,21,.76);
+      border-left: 8px solid #E9E5DD; font-size: 46px; line-height: 1.15; color: #F3F0EA; max-width: 1100px; }
+    .slabel small { display: block; font-family: "Gothic A1", sans-serif; font-size: 34px; margin-top: 8px; color: rgba(243,240,234,.9); }
+    .slabel.quote { font-family: "Gothic A1", sans-serif; font-size: 42px; line-height: 1.3; }
+    .slabel.quote small { font-size: 30px; color: rgba(243,240,234,.82); }
+    .slabel.amber { border-left-color: #F0A23B; }
+    .slabel.right { left: auto; right: 96px; }
   </style>
   <div id="root" data-composition-id="polygraph_again" data-width="1920" data-height="1080">
-    <div id="polygraph_again-ph" class="clip ph" data-start="0" data-duration="18.24"><b class="disp">polygraph_again</b><span>장면을 만들어 주세요</span></div>
+    <div id="polygraph_again-stage" class="clip" data-start="0" data-duration="18.24" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="polygraph_again-re" class="clip tag-re" data-start="0.3" data-duration="17.94">재현</div>
+    <div id="polygraph_again-lb0" class="clip slabel disp" data-start="0.3" data-duration="3.0">재판에서 그의 설명</div>
+    <div id="polygraph_again-lb1" class="clip slabel disp" data-start="3.4" data-duration="3.3">1월 8일<small>장기 친구에게 현장 이야기(증언)</small></div>
+    <div id="polygraph_again-lb2" class="clip slabel disp" data-start="6.8" data-duration="2.2">사진도 봤다<small>그의 증언</small></div>
+    <div id="polygraph_again-lb3" class="clip slabel disp" data-start="9.1" data-duration="3.17">자전거 이야기<small>경찰의 귓속말(증언)</small></div>
+    <div id="polygraph_again-lb4" class="clip slabel disp" data-start="12.37" data-duration="2.78">1월 10일 무렵부터<small>보고 들은 것으로</small></div>
+    <div id="polygraph_again-lb5" class="clip slabel disp" data-start="15.25" data-duration="2.99">줄거리를 짜 맞췄다<small>그의 증언</small></div>
   </div>
-  <script>
+  <script type="module">
+    import { createPolice } from "./assets/lib/police.js";
+    const render = createPolice(document.getElementById("polygraph_again-stage"), { mode: "again", camera: [
+      { t: 0, pos: [0.3, 1.25, 2.8], look: [0.05, 0.95, -0.6], fov: 40 },
+      { t: 3.33, pos: [0.285, 1.232, 2.596], look: [0.05, 0.95, -0.6], fov: 40, ease: "linear" },
+      { t: 3.35, pos: [1.3, 1.3, 0.9], look: [0.0, 0.74, -0.55], fov: 38, cut: true },
+      { t: 6.73, pos: [1.222, 1.266, 0.813], look: [0.0, 0.74, -0.55], fov: 38, ease: "linear" },
+      { t: 6.75, pos: [-2.15, 1.05, 1.95], look: [-2.42, 0.86, 2.03], fov: 32, cut: true },
+      { t: 9.03, pos: [-2.166, 1.039, 1.955], look: [-2.42, 0.86, 2.03], fov: 32, ease: "linear" },
+      { t: 9.05, pos: [-0.8, 1.5, 0.4], look: [3.1, 1.0, 2.0], fov: 40, cut: true },
+      { t: 12.3, pos: [-0.566, 1.47, 0.496], look: [3.1, 1.0, 2.0], fov: 40, ease: "linear" },
+      { t: 12.32, pos: [2.6, 2.35, 2.6], look: [0.05, 0.6, -0.1], fov: 40, cut: true },
+      { t: 15.18, pos: [2.447, 2.245, 2.438], look: [0.05, 0.6, -0.1], fov: 40, ease: "linear" },
+      { t: 15.2, pos: [-1.95, 0.95, 2.2], look: [-2.27, 0.8, 2.05], fov: 32, cut: true },
+      { t: 18.24, pos: [-1.969, 0.941, 2.191], look: [-2.27, 0.8, 2.05], fov: 32, ease: "linear" }
+    ], cues: { empty: [3.35, 12.32] } });
+    const st = { t: 0 };
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#polygraph_again-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.to(st, { t: 18.24, duration: 18.24, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.fromTo("#polygraph_again-lb0", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 0.35);
+    tl.to("#polygraph_again-lb0", { opacity: 0, duration: 0.3, ease: "power2.in" }, 2.95);
+    tl.fromTo("#polygraph_again-lb1", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 3.45);
+    tl.to("#polygraph_again-lb1", { opacity: 0, duration: 0.3, ease: "power2.in" }, 6.35);
+    tl.fromTo("#polygraph_again-lb2", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 6.85);
+    tl.to("#polygraph_again-lb2", { opacity: 0, duration: 0.3, ease: "power2.in" }, 8.65);
+    tl.fromTo("#polygraph_again-lb3", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 9.15);
+    tl.to("#polygraph_again-lb3", { opacity: 0, duration: 0.3, ease: "power2.in" }, 11.92);
+    tl.fromTo("#polygraph_again-lb4", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 12.42);
+    tl.to("#polygraph_again-lb4", { opacity: 0, duration: 0.3, ease: "power2.in" }, 14.8);
+    tl.fromTo("#polygraph_again-lb5", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 15.3);
+    tl.to("#polygraph_again-lb5", { opacity: 0, duration: 0.3, ease: "power2.in" }, 17.89);
+    render(0);
     window.__timelines["polygraph_again"] = tl;
   </script>
 </template>

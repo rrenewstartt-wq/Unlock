@@ -1246,9 +1246,9 @@ def after(sid, dur, q):
     A2 = (_d(96, 130, _t("2020", 260, "line-height:1", cls="ink"), "")
           + _d(96, 420, _s("그가 낸 소송", 58, cls="k") + _t("국가·현 상대<br>배상 소송", 150, "margin-top:16px;line-height:1.08"),
                "paper", w=1728, h=460, st="padding:50px 80px"))
-    B = (_d(96, 140, _s("판결문에 적힌 청구액 · 모두", 60, cls="kd"), "")
-         + _d(96, 260, _t("약 8,481만 엔", 250, "line-height:1.1;white-space:nowrap", cls="amt"), "")
-         + _d(96, 620, _s("국가와 현에 청구한 금액 · 1심 판결문", 54, "color:rgba(233,229,221,.8)"), ""))
+    B = (_d(96, 330, _s("판결문에 적힌 청구액 · 모두", 60, cls="kd"), "")
+         + _d(96, 440, _t("약 8,481만 엔", 250, "line-height:1.1;white-space:nowrap", cls="amt"), "")
+         + _d(96, 780, _s("국가와 현에 청구한 금액 · 1심 판결문", 54, "color:rgba(233,229,221,.8)"), ""))
     C = (_person(150, 150, 520, 650, dim=True)
          + _d(150, 818, '<b class="disp" style="font-size:52px">미야타 씨</b>', "lab dim", st="padding:6px 26px 8px")
          + _d(760, 130, _s("소송을 낸 다음 달", 60, cls="k") + _t("세상을 떠남", 140, "margin-top:10px"), "paper", w=1064, h=340,
@@ -1285,9 +1285,9 @@ def appeal(sid, dur, q):
          + _d(950, 150, _s("현", 64, cls="ink") + _t("상고 안 함", 130, "margin-top:4px", cls="ink"), "")
          + _d(950, 540, _s("국가", 64, cls="ink") + _t("8월 7일<br>최고재판소에 상고", 110, "margin-top:4px;line-height:1.1;white-space:nowrap", cls="ink"), "",
               id=f"{p}-gk", st="opacity:0"))
-    C = (_d(96, 230, _s("국가의 상고", 54, cls="k") + _t("2026.8.7", 96, "margin-top:10px") + _t("→ 최고재판소", 80, "margin-top:30px"),
+    C = (_d(1124, 230, _s("국가의 상고", 54, cls="k") + _t("2026.8.7", 96, "margin-top:10px") + _t("→ 최고재판소", 80, "margin-top:30px"),
             "paper", w=700, h=480, st="padding:50px 56px")
-         + _d(900, 140, _t("?", 300, "text-align:center;line-height:1", cls="amt") + _s("최고재판소의 판단", 64, "text-align:center;margin-top:24px", cls="ink")
+         + _d(96, 140, _t("?", 300, "text-align:center;line-height:1", cls="amt") + _s("최고재판소의 판단", 64, "text-align:center;margin-top:24px", cls="ink")
               + _s("2026년 11월 기준 · 알려지지 않음", 50, "text-align:center;margin-top:16px;color:rgba(233,229,221,.8)"),
               "dc am ctr", w=924, h=700))
     im, icss, itw = record_insert(p, t3, 3.0, "assets/archive/kokubai2-p14-l13.png", (2453, 122),

@@ -8,15 +8,70 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    .slabel { position: absolute; left: 96px; top: 150px; padding: 16px 30px 18px 30px; background: rgba(16,18,21,.76);
+      border-left: 8px solid #E9E5DD; font-size: 46px; line-height: 1.15; color: #F3F0EA; max-width: 1100px; }
+    .slabel small { display: block; font-family: "Gothic A1", sans-serif; font-size: 34px; margin-top: 8px; color: rgba(243,240,234,.9); }
+    .slabel.quote { font-family: "Gothic A1", sans-serif; font-size: 42px; line-height: 1.3; }
+    .slabel.quote small { font-size: 30px; color: rgba(243,240,234,.82); }
+    .slabel.amber { border-left-color: #F0A23B; }
+    .slabel.right { left: auto; right: 96px; }
+    .qb { position: absolute; left: 200px; top: 300px; width: 1520px; padding: 58px 80px 64px; background: rgba(14,15,17,.9);
+      border-left: 10px solid #E9E5DD; color: #F3F0EA; box-shadow: 0 30px 80px rgba(0,0,0,.55); }
+    .qb small { display: block; font-size: 40px; color: rgba(243,240,234,.8); }
+    .qb b { display: block; font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: 96px; line-height: 1.2; margin-top: 26px; }
+    .qb.amber { border-left-color: #F0A23B; }
   </style>
   <div id="root" data-composition-id="handle_wood" data-width="1920" data-height="1080">
-    <div id="handle_wood-ph" class="clip ph" data-start="0" data-duration="20.79"><b class="disp">handle_wood</b><span>장면을 만들어 주세요</span></div>
+    <div id="handle_wood-stage" class="clip" data-start="0" data-duration="20.79" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="handle_wood-re" class="clip tag-re" data-start="0.3" data-duration="20.49">재현</div>
+    <div id="handle_wood-lb0" class="clip slabel disp" data-start="0.3" data-duration="2.09">그의 증언: 칼자루</div>
+    <div id="handle_wood-lb1" class="clip slabel disp" data-start="2.49" data-duration="2.52">후박나무 · 구멍이 많다<small>그의 증언 (원 재판)</small></div>
+    <div id="handle_wood-qb0" class="clip qb" data-start="5.06" data-duration="2.62"><small>그의 증언 · 원 재판</small><b>“물이나 피를<br>잘 빨아들인다”</b></div>
+    <div id="handle_wood-lb2" class="clip slabel disp" data-start="7.73" data-duration="3.04">자루: 혈액 확인 안 됨<small>나무 자루 포함</small></div>
+    <div id="handle_wood-qb1" class="clip qb" data-start="10.82" data-duration="3.27"><small>후쿠오카고법 결정문(2017) · 19쪽</small><b>수사관에게 맞춘,<br>사실과 다른 진술일 가능성</b></div>
+    <div id="handle_wood-qb2" class="clip qb amber" data-start="14.09" data-duration="3.53"><small>고법 (2017) · 천 이야기를 두고</small><b>부정하지 못한 가능성</b></div>
+    <div id="handle_wood-lb3" class="clip slabel disp" data-start="17.67" data-duration="3.12">이 칼은 정말 흉기였을까</div>
   </div>
-  <script>
+  <script type="module">
+    import { createKnife } from "./assets/lib/knife.js";
+    const render = createKnife(document.getElementById("handle_wood-stage"), { mode: "handle", camera: [
+      { t: 0, pos: [0.3, 0.16, 0.24], look: [0.1, 0.0, 0.01], fov: 34 },
+      { t: 2.42, pos: [0.288, 0.15, 0.226], look: [0.1, 0.0, 0.01], fov: 34, ease: "linear" },
+      { t: 2.44, pos: [0.12, 0.045, 0.06], look: [0.15, 0.007, 0.012], fov: 30, cut: true },
+      { t: 5.04, pos: [0.122, 0.043, 0.057], look: [0.15, 0.007, 0.012], fov: 30, ease: "linear" },
+      { t: 5.06, pos: [0.2, 0.12, 0.16], look: [0.12, 0.0, 0.01], fov: 34, cut: true },
+      { t: 7.66, pos: [0.195, 0.113, 0.151], look: [0.12, 0.0, 0.01], fov: 34, ease: "linear" },
+      { t: 7.68, pos: [0.1, 0.25, 0.12], look: [0.1, 0.0, 0.01], fov: 34, cut: true },
+      { t: 10.8, pos: [0.1, 0.235, 0.113], look: [0.1, 0.0, 0.01], fov: 34, ease: "linear" },
+      { t: 10.82, pos: [0.24, 0.1, -0.12], look: [0.1, 0.0, 0.01], fov: 34, cut: true },
+      { t: 14.07, pos: [0.232, 0.094, -0.112], look: [0.1, 0.0, 0.01], fov: 34, ease: "linear" },
+      { t: 14.09, pos: [0.24, 0.1, -0.12], look: [0.1, 0.0, 0.01], fov: 34, cut: true },
+      { t: 17.6, pos: [0.232, 0.094, -0.112], look: [0.1, 0.0, 0.01], fov: 34, ease: "linear" },
+      { t: 17.62, pos: [-0.05, 0.06, 0.07], look: [0.02, 0.0, 0.008], fov: 30, cut: true },
+      { t: 20.79, pos: [-0.046, 0.056, 0.066], look: [0.02, 0.0, 0.008], fov: 30, ease: "linear" }
+    ] });
+    const st = { t: 0 };
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#handle_wood-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.to(st, { t: 20.79, duration: 20.79, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.fromTo("#handle_wood-lb0", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 0.35);
+    tl.to("#handle_wood-lb0", { opacity: 0, duration: 0.3, ease: "power2.in" }, 2.04);
+    tl.fromTo("#handle_wood-lb1", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 2.54);
+    tl.to("#handle_wood-lb1", { opacity: 0, duration: 0.3, ease: "power2.in" }, 4.66);
+    tl.fromTo("#handle_wood-qb0", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 5.11);
+    tl.set("#handle_wood-stage", { filter: "blur(14px) brightness(0.45)" }, 5.06);
+    tl.set("#handle_wood-stage", { filter: "blur(0px) brightness(1)" }, 7.68);
+    tl.fromTo("#handle_wood-lb2", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 7.78);
+    tl.to("#handle_wood-lb2", { opacity: 0, duration: 0.3, ease: "power2.in" }, 10.42);
+    tl.fromTo("#handle_wood-qb1", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 10.87);
+    tl.set("#handle_wood-stage", { filter: "blur(14px) brightness(0.45)" }, 10.82);
+    tl.set("#handle_wood-stage", { filter: "blur(0px) brightness(1)" }, 14.09);
+    tl.fromTo("#handle_wood-qb2", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 14.14);
+    tl.set("#handle_wood-stage", { filter: "blur(14px) brightness(0.45)" }, 14.09);
+    tl.set("#handle_wood-stage", { filter: "blur(0px) brightness(1)" }, 17.62);
+    tl.fromTo("#handle_wood-lb3", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 17.72);
+    tl.to("#handle_wood-lb3", { opacity: 0, duration: 0.3, ease: "power2.in" }, 20.44);
+    render(0);
     window.__timelines["handle_wood"] = tl;
   </script>
 </template>

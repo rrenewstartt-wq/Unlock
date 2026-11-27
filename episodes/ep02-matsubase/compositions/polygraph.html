@@ -8,15 +8,74 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    .slabel { position: absolute; left: 96px; top: 150px; padding: 16px 30px 18px 30px; background: rgba(16,18,21,.76);
+      border-left: 8px solid #E9E5DD; font-size: 46px; line-height: 1.15; color: #F3F0EA; max-width: 1100px; }
+    .slabel small { display: block; font-family: "Gothic A1", sans-serif; font-size: 34px; margin-top: 8px; color: rgba(243,240,234,.9); }
+    .slabel.quote { font-family: "Gothic A1", sans-serif; font-size: 42px; line-height: 1.3; }
+    .slabel.quote small { font-size: 30px; color: rgba(243,240,234,.82); }
+    .slabel.amber { border-left-color: #F0A23B; }
+    .slabel.right { left: auto; right: 96px; }
+    .ar-shot { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, #1D1F22 0%, #0E0F11 78%); overflow: hidden; }
+    .ar-ins { z-index: 20; }
+    .ar-cam { position: absolute; inset: 0; transform-origin: 50% 43%; }
+    .ar-print { position: absolute; left: 50%; top: 43%; margin: 0; padding: 0; background: #EDE8DE;
+      outline: 18px solid #EDE8DE; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5); }
+    .ar-img { display: block; }
+    .ar-ring { position: absolute; left: 0; top: 0; overflow: visible; }
+    .ar-ring ellipse { fill: none; stroke: #F0A23B; stroke-width: 7; stroke-linecap: round; }
+    .ar-cap { position: absolute; left: 0; right: 0; top: 806px; text-align: center; font-size: 44px; color: rgba(243,240,234,.95);
+      text-shadow: 0 0 3px #000, 0 2px 10px #000; }
+    .ar-credit { position: absolute; right: 64px; bottom: 30px; font-size: 28px; color: rgba(233,229,221,.78); }
+    .tag-ar { border-color: #F0A23B; }
   </style>
   <div id="root" data-composition-id="polygraph" data-width="1920" data-height="1080">
-    <div id="polygraph-ph" class="clip ph" data-start="0" data-duration="22.87"><b class="disp">polygraph</b><span>장면을 만들어 주세요</span></div>
+    <div id="polygraph-stage" class="clip" data-start="0" data-duration="22.87" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="polygraph-re" class="clip tag-re" data-start="0.3" data-duration="22.57">재현</div>
+    <div id="polygraph-lb0" class="clip slabel disp" data-start="0.3" data-duration="3.0">오전 9:10 ~ 11:37<small>1월 18일 · 폴리그래프 검사</small></div>
+    <div id="polygraph-lb1" class="clip slabel disp right" data-start="3.4" data-duration="2.52">경찰의 요구에 응해</div>
+    <div id="polygraph-lb2" class="clip slabel disp" data-start="6.02" data-duration="3.43">담당 경찰관<small>원 재판 증언</small></div>
+    <div id="polygraph-lb3" class="clip slabel disp" data-start="9.55" data-duration="3.04">질문: 범인이 자전거를 버렸다<small>경찰관 증언 · 반응했다</small></div>
+    <div id="polygraph-lb4" class="clip slabel disp" data-start="16.22" data-duration="3.17">결과와 말이 다르다<small>검사 뒤 추궁</small></div>
+    <div id="polygraph-lb5" class="clip slabel disp" data-start="19.49" data-duration="3.38">그날 진술은 바꾸지 않았다<small>1월 18일</small></div>
+    <div id="polygraph-ins0" class="clip ar-shot ar-ins" data-start="12.64" data-duration="3.53" data-layout-allow-overlap><div id="polygraph-ins0-cam" class="ar-cam"><figure class="ar-print" style="width:1240px;height:120px;transform:translate(-50%,-50%) rotate(0deg)"><img class="ar-img" src="assets/archive/kousai-p20-l12.png" alt="" style="width:1240px;height:120px" data-color-grading='{"preset":"mono-fade","intensity":0.85,"details":{"vignette":0.18,"grain":0.12,"grainSize":0.22,"grainRoughness":0.6}}'/><svg class="ar-ring" viewBox="0 0 1240 120" width="1240" height="120"><ellipse id="polygraph-ins0-r" cx="527" cy="30" rx="87" ry="71" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100"/></svg></figure></div><div class="ar-credit">후쿠오카고법 결정문(2017) · 20쪽 · 재판소 공개본</div><div class="tag-re tag-ar">기록</div></div>
   </div>
-  <script>
+  <script type="module">
+    import { createPolice } from "./assets/lib/police.js";
+    const render = createPolice(document.getElementById("polygraph-stage"), { mode: "polygraph", camera: [
+      { t: 0, pos: [-1.05, 1.5, 1.25], look: [-2.45, 0.85, 2.1], fov: 42 },
+      { t: 3.33, pos: [-1.134, 1.461, 1.301], look: [-2.45, 0.85, 2.1], fov: 42, ease: "linear" },
+      { t: 3.35, pos: [-1.2, 1.6, 2.3], look: [0.05, 0.9, -0.2], fov: 40, cut: true },
+      { t: 5.95, pos: [-1.125, 1.558, 2.15], look: [0.05, 0.9, -0.2], fov: 40, ease: "linear" },
+      { t: 5.97, pos: [-2.1, 1.08, 2.0], look: [-2.4, 0.86, 2.03], fov: 34, cut: true },
+      { t: 9.48, pos: [-2.118, 1.067, 2.002], look: [-2.4, 0.86, 2.03], fov: 34, ease: "linear" },
+      { t: 9.5, pos: [-2.27, 0.98, 1.97], look: [-2.47, 0.865, 2.04], fov: 30, cut: true },
+      { t: 12.62, pos: [-2.282, 0.973, 1.974], look: [-2.47, 0.865, 2.04], fov: 30, ease: "linear" },
+      { t: 12.64, pos: [-2.27, 0.98, 1.97], look: [-2.47, 0.865, 2.04], fov: 30, cut: true },
+      { t: 16.15, pos: [-2.282, 0.973, 1.974], look: [-2.47, 0.865, 2.04], fov: 30, ease: "linear" },
+      { t: 16.17, pos: [0.62, 1.5, -0.42], look: [0.42, 0.74, -0.64], fov: 34, cut: true },
+      { t: 19.42, pos: [0.608, 1.454, -0.433], look: [0.42, 0.74, -0.64], fov: 34, ease: "linear" },
+      { t: 19.44, pos: [0.4, 1.45, 2.2], look: [0.0, 0.9, -0.6], fov: 44, cut: true },
+      { t: 22.87, pos: [0.6, 1.65, 2.9], look: [0.0, 0.9, -0.6], fov: 44 }
+    ] });
+    const st = { t: 0 };
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#polygraph-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.to(st, { t: 22.87, duration: 22.87, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.fromTo("#polygraph-lb0", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 0.35);
+    tl.to("#polygraph-lb0", { opacity: 0, duration: 0.3, ease: "power2.in" }, 2.95);
+    tl.fromTo("#polygraph-lb1", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 3.45);
+    tl.to("#polygraph-lb1", { opacity: 0, duration: 0.3, ease: "power2.in" }, 5.57);
+    tl.fromTo("#polygraph-lb2", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 6.07);
+    tl.to("#polygraph-lb2", { opacity: 0, duration: 0.3, ease: "power2.in" }, 9.1);
+    tl.fromTo("#polygraph-lb3", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 9.6);
+    tl.to("#polygraph-lb3", { opacity: 0, duration: 0.3, ease: "power2.in" }, 12.24);
+    tl.fromTo("#polygraph-lb4", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 16.27);
+    tl.to("#polygraph-lb4", { opacity: 0, duration: 0.3, ease: "power2.in" }, 19.04);
+    tl.fromTo("#polygraph-lb5", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 19.54);
+    tl.to("#polygraph-lb5", { opacity: 0, duration: 0.3, ease: "power2.in" }, 22.52);
+    tl.to("#polygraph-ins0-r", { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, 13.04);
+    tl.fromTo("#polygraph-ins0-cam", { scale: 1.0 }, { scale: 1.06, duration: 3.53, ease: "none" }, 12.64);
+    render(0);
     window.__timelines["polygraph"] = tl;
   </script>
 </template>

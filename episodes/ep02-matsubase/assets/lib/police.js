@@ -349,7 +349,7 @@ function buildMikan(pos) {
   calyx.position.y = 2 * R * K - 0.0012;
   const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.0011, 0.0016, 0.004, 6), calyx.material);
   stem.position.y = 2 * R * K + 0.0015;
-  g.add(calyx, stem, contactDisc(R * 1.35, 0, 0.8));
+  g.add(calyx, stem, contactDisc(R * 1.1, 0, 0.95));
   g.position.set(...pos);
   g.rotation.set(0, 0.6, 0);
   return g;
@@ -531,7 +531,7 @@ export function createPolice(stage, opts) {
     const desk = await f.model("metal_office_desk", { pos: [DESK[0], 0, DESK[1]], rot: [0, 0, 0], height: 0.74 });
     desk.traverse((o) => { if (o.isMesh) grade(o.material, 0.5, "#9da3a0"); });
     // daylight inserts look at the top from close: a satin (not mirror) top so the window does not blow it out
-    if (M.day) desk.traverse((o) => { if (o.isMesh) { o.material.roughnessMap = null; o.material.roughness = 0.62; o.material.envMapIntensity = 0.5; } });
+    if (M.day) desk.traverse((o) => { if (o.isMesh) { o.material.roughnessMap = null; o.material.roughness = 0.62; o.material.envMapIntensity = 0.5; o.material.color.multiplyScalar(0.86); } });
     // Office chairs: steel tube frame + wooden seat and back (generic 1980s office chair, built here).
     const seatWood = f.tiled(wood, 0.5, 0.5);
     seatWood.color = new THREE.Color("#a08c78");
@@ -677,7 +677,7 @@ export function createPolice(stage, opts) {
     if (M.day) {
       mikan = buildMikan([-0.08, 0.741, -0.36]);
       S.add(mikan);
-      const day = new THREE.SpotLight("#f1ede4", 26, 7, 0.6, 1, 1.4);
+      const day = new THREE.SpotLight("#f1ede4", 22, 7, 0.6, 1, 1.4);
       day.position.set(-0.6, 2.3, -2.0);
       day.target.position.set(0, 0.74, -0.45);
       day.castShadow = true;
@@ -685,7 +685,7 @@ export function createPolice(stage, opts) {
       day.shadow.bias = -0.0003;
       day.shadow.radius = 8;
       S.add(day, day.target);
-      const warmSpot = new THREE.SpotLight("#f3c68c", 2.4, 1.6, 0.16, 0.9, 1.6);
+      const warmSpot = new THREE.SpotLight("#f3c68c", 5, 1.6, 0.12, 0.9, 1.6);
       warmSpot.position.set(0.25, 1.55, -0.1);
       warmSpot.target.position.set(-0.08, 0.74, -0.36);
       S.add(warmSpot, warmSpot.target);

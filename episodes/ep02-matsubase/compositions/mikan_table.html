@@ -8,15 +8,57 @@
     .disp { font-family: "Black Han Sans", sans-serif; font-weight: 400; }
     .tag-re { position: absolute; left: 96px; top: 72px; font-size: 28px; letter-spacing: 0.08em; color: #E9E5DD; background: rgba(20,22,25,0.62);
       border: 2px solid rgba(233,229,221,0.6); padding: 4px 14px 6px; }
-    .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ph b { font-size: 120px; font-weight: 400; color: #F0A23B; } .ph span { font-size: 40px; margin-top: 16px; }
+
+    .slabel { position: absolute; left: 96px; top: 150px; padding: 16px 30px 18px 30px; background: rgba(16,18,21,.76);
+      border-left: 8px solid #E9E5DD; font-size: 46px; line-height: 1.15; color: #F3F0EA; max-width: 1100px; }
+    .slabel small { display: block; font-family: "Gothic A1", sans-serif; font-size: 34px; margin-top: 8px; color: rgba(243,240,234,.9); }
+    .slabel.quote { font-family: "Gothic A1", sans-serif; font-size: 42px; line-height: 1.3; }
+    .slabel.quote small { font-size: 30px; color: rgba(243,240,234,.82); }
+    .slabel.amber { border-left-color: #F0A23B; }
+    .slabel.right { left: auto; right: 96px; }
   </style>
   <div id="root" data-composition-id="mikan_table" data-width="1920" data-height="1080">
-    <div id="mikan_table-ph" class="clip ph" data-start="0" data-duration="18.63"><b class="disp">mikan_table</b><span>장면을 만들어 주세요</span></div>
+    <div id="mikan_table-stage" class="clip" data-start="0" data-duration="18.63" style="position:absolute;inset:0" data-layout-ignore></div>
+    <div id="mikan_table-re" class="clip tag-re" data-start="0.3" data-duration="18.33">재현 · 본인 진술</div>
+    <div id="mikan_table-lb0" class="clip slabel disp" data-start="0.3" data-duration="2.87">그의 진술</div>
+    <div id="mikan_table-lb1" class="clip slabel disp" data-start="3.27" data-duration="2.91">검사 전 · 서너 번</div>
+    <div id="mikan_table-lb2" class="clip slabel quote" data-start="6.28" data-duration="2.2">“귤 먹지 않았느냐”<small>경찰관의 질문 · 그의 진술</small></div>
+    <div id="mikan_table-lb3" class="clip slabel disp" data-start="8.58" data-duration="2.78">1월 9일 무렵<small>조사 때 귤이 나왔다</small></div>
+    <div id="mikan_table-lb4" class="clip slabel disp" data-start="11.46" data-duration="3.3">화장실에 다녀오니<small>귤이 없어졌다</small></div>
+    <div id="mikan_table-lb5" class="clip slabel disp" data-start="14.86" data-duration="3.77">2월 8일 · 9일 조서<small>그의 진술</small></div>
   </div>
-  <script>
+  <script type="module">
+    import { createPolice } from "./assets/lib/police.js";
+    const render = createPolice(document.getElementById("mikan_table-stage"), { mode: "insert_mikan", camera: [
+      { t: 0, pos: [0.95, 1.15, 0.2], look: [0.1, 0.74, -0.5], fov: 40 },
+      { t: 3.2, pos: [0.899, 1.125, 0.158], look: [0.1, 0.74, -0.5], fov: 40, ease: "linear" },
+      { t: 3.22, pos: [-0.35, 0.98, 0.05], look: [-0.05, 0.74, -0.45], fov: 34, cut: true },
+      { t: 6.21, pos: [-0.332, 0.966, 0.02], look: [-0.05, 0.74, -0.45], fov: 34, ease: "linear" },
+      { t: 6.23, pos: [0.55, 0.86, -0.05], look: [0.2, 0.75, -0.5], fov: 32, cut: true },
+      { t: 8.51, pos: [0.529, 0.853, -0.077], look: [0.2, 0.75, -0.5], fov: 32, ease: "linear" },
+      { t: 8.53, pos: [0.12, 0.9, -0.12], look: [-0.08, 0.76, -0.36], fov: 30, cut: true },
+      { t: 11.39, pos: [0.108, 0.892, -0.134], look: [-0.08, 0.76, -0.36], fov: 30, ease: "linear" },
+      { t: 11.41, pos: [0.12, 0.9, -0.12], look: [-0.08, 0.76, -0.36], fov: 30, cut: true },
+      { t: 14.79, pos: [0.108, 0.892, -0.134], look: [-0.08, 0.76, -0.36], fov: 30, ease: "linear" },
+      { t: 14.81, pos: [0.75, 1.2, -0.15], look: [0.4, 0.74, -0.62], fov: 34, cut: true },
+      { t: 18.63, pos: [0.729, 1.172, -0.178], look: [0.4, 0.74, -0.62], fov: 34, ease: "linear" }
+    ], cues: { mikan: [8.53, 11.41] } });
+    const st = { t: 0 };
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#mikan_table-ph b", { opacity: 0.4 }, { opacity: 1, duration: 0.4 }, 0);
+    tl.to(st, { t: 18.63, duration: 18.63, ease: "none", onUpdate: () => render(st.t) }, 0);
+    tl.fromTo("#mikan_table-lb0", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 0.35);
+    tl.to("#mikan_table-lb0", { opacity: 0, duration: 0.3, ease: "power2.in" }, 2.82);
+    tl.fromTo("#mikan_table-lb1", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 3.32);
+    tl.to("#mikan_table-lb1", { opacity: 0, duration: 0.3, ease: "power2.in" }, 5.83);
+    tl.fromTo("#mikan_table-lb2", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 6.33);
+    tl.to("#mikan_table-lb2", { opacity: 0, duration: 0.3, ease: "power2.in" }, 8.13);
+    tl.fromTo("#mikan_table-lb3", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 8.63);
+    tl.to("#mikan_table-lb3", { opacity: 0, duration: 0.3, ease: "power2.in" }, 11.01);
+    tl.fromTo("#mikan_table-lb4", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 11.51);
+    tl.to("#mikan_table-lb4", { opacity: 0, duration: 0.3, ease: "power2.in" }, 14.41);
+    tl.fromTo("#mikan_table-lb5", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 14.91);
+    tl.to("#mikan_table-lb5", { opacity: 0, duration: 0.3, ease: "power2.in" }, 18.28);
+    render(0);
     window.__timelines["mikan_table"] = tl;
   </script>
 </template>
